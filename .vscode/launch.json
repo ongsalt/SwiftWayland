@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SwiftWayland}",
+            "name": "Debug WaylandScanner",
+            "target": "WaylandScanner",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug WaylandScanner"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SwiftWayland}",
+            "name": "Release WaylandScanner",
+            "target": "WaylandScanner",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release WaylandScanner"
+        }
+    ]
+}

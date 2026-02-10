@@ -3,7 +3,7 @@
 
 import ArgumentParser
 import Foundation
-import FoundationXML
+import XMLCoder
 
 enum Mode: String {
     case server
@@ -17,16 +17,25 @@ extension Mode: ExpressibleByArgument {
 }
 
 @main
-struct SwiftWayland: ParsableCommand {
-    @Argument(help: "server | client", completion: .list(["server", "client"]))
+struct WaylandScanner: ParsableCommand {
+    @ArgumentParser.Argument(help: "server | client", completion: .list(["server", "client"]))
     var mode: Mode
 
-    @Argument()
+    @ArgumentParser.Argument()
     var inputFile: String
-    @Argument()
-    var outputFile: String
+    @ArgumentParser.Argument()
+    var outputPackage: String
 
     mutating func run() throws {
-        print("Run")
+        if mode == .server {
+            print("Server code is not yet support")
+            return
+        }
+        let inputUrl = URL(filePath: inputFile)
+        let decoder = XMLDecoder()
+
+        let aProtocol = try decoder.decode(Protocol.self, from: Data(contentsOf: inputUrl))
+
+        dump(aProtocol)
     }
 }
