@@ -1,15 +1,6 @@
 {
-  "originHash" : "68112bd664b91337a6d0343bb9b525fb0f332dacd729c7160590fe131989161a",
+  "originHash" : "341b18f3f674a2ef34766670009142764de3af8d08961bf0cd68c26f41abfe4b",
   "pins" : [
-    {
-      "identity" : "socket",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/PureSwift/Socket.git",
-      "state" : {
-        "revision" : "9d27d8b6619e80f4e7966acd23bf3663f1374f64",
-        "version" : "0.5.1"
-      }
-    },
     {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
@@ -26,15 +17,6 @@
       "state" : {
         "revision" : "4799286537280063c85a32f09884cfbca301b1a1",
         "version" : "602.0.0"
-      }
-    },
-    {
-      "identity" : "swift-system",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-system",
-      "state" : {
-        "revision" : "7c6ad0fc39d0763e0b699210e4124afd5041c5df",
-        "version" : "1.6.4"
       }
     },
     {

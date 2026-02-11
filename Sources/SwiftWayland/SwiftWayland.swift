@@ -25,7 +25,7 @@ public struct SwiftWayland {
             data.append(u32: currentId)
         }
 
-        let sent = try await connection.wire.socket.sendMessage(Data(message))
+        let sent = try await connection.wire.send(message: message)
         print("Send: \(sent), \(message)")
     }
 }

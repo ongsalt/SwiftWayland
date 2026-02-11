@@ -1,16 +1,17 @@
 import Foundation
-import Socket
-import SystemPackage
+import Glibc
 
 public class Wire {
     let socket: Socket
-    public init(socket: Socket) {
+    init(socket: Socket) {
         self.socket = socket
         startProcessingEvent()
     }
 
     func send(message: Message) async throws -> Int {
-        try await socket.sendMessage(Data(message))
+        let data = Data(message)
+        try await socket.write(data)
+        return data.count
     }
 
     func startProcessingEvent() {
@@ -33,8 +34,6 @@ public class Wire {
                     // tell everyone its close
                     print("closing")
                     break
-                default:
-                    continue
                 }
             }
         }
@@ -81,6 +80,6 @@ public class Wire {
             throw .cannotConnect
         }
 
-        return await Socket(fileDescriptor: SocketDescriptor(rawValue: fd))
+        return Socket(fileDescriptor: fd)
     }
 }

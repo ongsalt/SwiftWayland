@@ -1,5 +1,4 @@
 import Foundation
-import Socket
 
 struct Message {
     let objectId: ObjectId

@@ -16,15 +16,15 @@ let package = Package(
             url: "https://github.com/swiftlang/swift-syntax.git",
             from: "602.0.0"
         ),
-        .package(url: "https://github.com/PureSwift/Socket.git", from: "0.5.0"),
-        .package(url: "https://github.com/apple/swift-system", from: "1.6.1"),
+        // .package(url: "https://github.com/PureSwift/Socket.git", from: "0.5.0"),
+        // .package(url: "https://github.com/apple/swift-system", from: "1.6.1"),
     ],
     targets: [
         .executableTarget(
             name: "SwiftWayland",
             dependencies: [
-                "Socket",
-                .product(name: "SystemPackage", package: "swift-system"),
+                // "Socket",
+                // .product(name: "SystemPackage", package: "swift-system"),
             ],
         ),
         // .target(name: "WaylandScanner"),

@@ -1,6 +1,4 @@
 import Foundation
-import Socket
-import SystemPackage
 
 public enum InitWaylandError: Error {
     case noXdgRuntimeDirectory
@@ -8,12 +6,11 @@ public enum InitWaylandError: Error {
     case cannotConnect
 }
 
-public class Connection {
+public class Connection: @unchecked Sendable {
     let wire: Wire
     public init(wire: Wire) {
         self.wire = wire
     }
-
 
     public static func fromEnv() async throws -> Connection {
         Connection(wire: try await Wire.fromEnv())
