@@ -16,12 +16,16 @@ let package = Package(
             url: "https://github.com/swiftlang/swift-syntax.git",
             from: "602.0.0"
         ),
+        .package(url: "https://github.com/PureSwift/Socket.git", from: "0.5.0"),
+        .package(url: "https://github.com/apple/swift-system", from: "1.6.1"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "SwiftWayland"
+        .executableTarget(
+            name: "SwiftWayland",
+            dependencies: [
+                "Socket",
+                .product(name: "SystemPackage", package: "swift-system"),
+            ],
         ),
         // .target(name: "WaylandScanner"),
         .executableTarget(
@@ -29,7 +33,7 @@ let package = Package(
             dependencies: [
                 .product(name: "XMLCoder", package: "XMLCoder"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "SwiftSyntax", package: "swift-syntax")
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
             ]
         ),
         .testTarget(
