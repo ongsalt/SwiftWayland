@@ -2,6 +2,7 @@
 - fd transport is not yet implemented
 - programmatic rename id to the instance or any better name
 - make Event decode failable 
+- bitfield
 - Codegen
     - multiple new_id handling
     - destructor

@@ -28,7 +28,7 @@ public final class WlSubcompositor: WlProxyBase, WlProxy {
         
     
         public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+            
             switch message.opcode {
             
             default:

@@ -12,7 +12,7 @@ public final class WlBuffer: WlProxyBase, WlProxy {
         case release
     
         public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+            
             switch message.opcode {
             case 0:
                 return Self.release
