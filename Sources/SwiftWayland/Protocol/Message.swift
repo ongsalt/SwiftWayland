@@ -1,19 +1,19 @@
 import Foundation
 
 public struct Message {
-    let objectId: ObjectId
-    let opcode: UInt16
-    let size: UInt16
-    let arguments: Data
+    public let objectId: ObjectId
+    public let opcode: UInt16
+    public let size: UInt16
+    public let arguments: Data
 
-    init(objectId: ObjectId, opcode: UInt16, size: UInt16, arguments: Data) {
+    public init(objectId: ObjectId, opcode: UInt16, size: UInt16, arguments: Data) {
         self.objectId = objectId
         self.opcode = opcode
         self.size = size
         self.arguments = arguments
     }
 
-    init(objectId: ObjectId, opcode: UInt16, buildArguments: (inout Data) -> Void) {
+    public init(objectId: ObjectId, opcode: UInt16, buildArguments: (inout Data) -> Void) {
         self.objectId = objectId
         self.opcode = opcode
 
@@ -24,7 +24,7 @@ public struct Message {
         self.size = Self.HEADER_SIZE + UInt16(arguments.count)
     }
 
-    init(objectId: ObjectId, opcode: UInt16, contents: [WaylandData]) {
+    public init(objectId: ObjectId, opcode: UInt16, contents: [WaylandData]) {
         self.objectId = objectId
         self.opcode = opcode
         

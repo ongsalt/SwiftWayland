@@ -1,36 +1,36 @@
 import Foundation
 import Glibc
 
-class WLReader {
+public class WLReader {
     var data: Data
     unowned let connection: Connection
     private(set) var cursor: Int = 0
 
-    init(data: Data, connection: Connection) {
+    public init(data: Data, connection: Connection) {
         self.connection = connection
         self.data = data
     }
 
-    func readInt() -> Int32 {
+    public func readInt() -> Int32 {
         Int32(bitPattern: readUInt32Raw())
     }
 
-    func readFixed() -> Double {
+    public func readFixed() -> Double {
         // its 24.8
         let raw = readInt()
         return Double(raw) / 256.0
     }
 
-    func readUInt() -> UInt32 {
+    public func readUInt() -> UInt32 {
         readUInt32Raw()
     }
 
-    func readFd() -> FileHandle {
+    public func readFd() -> FileHandle {
         // FileHandle()
         fatalError("WlReader: readFd is not implemented")
     }
 
-    func readArray() -> Data {
+    public func readArray() -> Data {
         // array: A blob of arbitrary data, prefixed with a 32-bit integer specifying its length (in bytes), then the verbatim contents of the array, padded to 32 bits with undefined data.
         let length = Int(readUInt())
         guard length > 0 else { return Data() }
@@ -43,11 +43,11 @@ class WLReader {
         return arrayData
     }
 
-    func readObjectId() -> UInt32 {
+    public func readObjectId() -> UInt32 {
         self.readUInt()
     }
 
-    func readString() -> String {
+    public func readString() -> String {
         // size: u32
         // string: [u8] (utf8, 32bit aligned, can put any garbag there preferable UInt16(1002))
         let length = Int(readUInt())
@@ -64,11 +64,11 @@ class WLReader {
         return String(decoding: stringSlice, as: UTF8.self)
     }
 
-    func readEnum() -> UInt32 {
+    public func readEnum() -> UInt32 {
         self.readUInt()
     }
 
-    func readNewId() -> UInt32 {
+    public func readNewId() -> UInt32 {
         self.readUInt()
     }
 

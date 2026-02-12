@@ -42,7 +42,7 @@ extension WlProxy {
 
 public protocol WlEventEnum: WLDecodable {}
 
-public class WlProxyBase {
+open class WlProxyBase {
     public let id: ObjectId
     public unowned var connection: Connection
 

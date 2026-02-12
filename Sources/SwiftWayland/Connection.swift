@@ -64,7 +64,7 @@ public final class Connection: @unchecked Sendable {
         return currentId
     }
 
-    func createProxy<T>(type: T.Type, id: ObjectId? = nil) -> T where T: WlProxy {
+    public func createProxy<T>(type: T.Type, id: ObjectId? = nil) -> T where T: WlProxy {
         let id = id ?? nextId()
         let obj = T(connection: self, id: id)
         proxies[obj.id] = obj
@@ -134,7 +134,7 @@ public final class Connection: @unchecked Sendable {
         return data.count
     }
 
-    func queueSend(message: Message) {
+    public func queueSend(message: Message) {
         pendingMessages.append(message)
     }
 
