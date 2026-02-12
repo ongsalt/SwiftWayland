@@ -13,6 +13,7 @@ func buildInterfaceClass(interface: Interface) -> String {
 
         \(body.joined(separator: "\n\n").indent(space: 4))
         }
+
         """
 }
 
@@ -160,22 +161,12 @@ func buildEnum(_ enumm: Enum) -> String {
 
 }
 
-func buildArgs(_ args: [Argument]) -> (returnType: String?, args: String) {
-    let newIdArg = args.first { $0.type == .newId }
-    let returnType = newIdArg?.interface
-    let newIdCount = args.count { $0.type == .newId }
-    if newIdCount > 1 {
-        fatalError("new_id > 1 is not support")
-    }
-    let list =
-        args
-        .filter { $0.type != .newId }
+func buildEnumArgs(_ event: Event) -> String {
+    event.arguments
         .map { a in
             "\(a.name.lowerCamel): \(getSwiftArgType(a))"
         }
         .joined(separator: ", ")
-
-    return (returnType, list)
 }
 
 func getSwiftArgType(_ arg: Argument) -> String {
@@ -191,14 +182,15 @@ func getSwiftArgType(_ arg: Argument) -> String {
     // case .object: arg.interface.expect("Invalid xml: interface must not be nil: \(arg)").camel
     case .object: arg.interface?.camel ?? "any WlProxy"
 
-    case .newId: fatalError("Impossible (newId)")
+    // case .newId: fatalError("Impossible (newId)")
+    case .newId: arg.interface?.camel ?? "any WlProxy"
     case .array: fatalError("Not implemented (array)")
     }
 }
 
 func buildEventEnum(events: [Event]) -> String {
     let cases = events.map { e in
-        let args = buildArgs(e.arguments).args
+        let args = buildEnumArgs(e)
         let enumBody = e.arguments.count == 0 ? "" : "(\(args))"
 
         return "case \(e.name.lowerCamel.gravedIfNeeded)\(enumBody)"
@@ -220,13 +212,25 @@ func getArgDecodingExpr(_ arg: Argument) -> String {
     case .fixed: "r.readFixed()"
     case .string: "r.readString()"
 
-    case .fd: fatalError("fd event param is not implemented")
+    case .fd: "r.readFd()"
 
     case .enum: "r.readEnum()"
     // case .object: "r.readObjectId()"
-    case .object: "connection.get(id: r.readObjectId())!"
+    case .object:
+        if let interface = arg.interface {
+            "connection.get(as: \(interface.camel).self, id: r.readObjectId())!"
+        } else {
+            "connection.get(id: r.readObjectId())!"
+        }
 
-    case .newId: fatalError("Impossible (newId)")
+    // case .newId: fatalError("Impossible (newId)")
+    case .newId:
+        if let interface = arg.interface {
+            "connection.createProxy(type: \(interface.camel).self, id: r.readNewId())!"
+        } else {
+            fatalError("wtf, how can you have newId without a type: \(arg)")
+        }
+
     case .array: fatalError("Not implemented (array)")
     }
 }
@@ -234,7 +238,7 @@ func getArgDecodingExpr(_ arg: Argument) -> String {
 func buildDecodeFunction(_ events: [Event]) -> String {
     func buildCallingArgs(_ args: [Argument]) -> String {
         if args.contains(where: { $0.type == .newId }) {
-            fatalError("new_id in event is not support")
+            // fatalError("new_id in event is not support")
         }
 
         return args.map { a in

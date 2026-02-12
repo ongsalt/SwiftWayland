@@ -1,5 +1,7 @@
 # Todos
 - fd transport
+- programmatic rename id to the instance
+- make Event decode failable 
 - Codegen
     - multiple new_id handling
     - destructor

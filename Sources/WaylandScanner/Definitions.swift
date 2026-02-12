@@ -88,6 +88,10 @@ struct Argument: Codable {
     let interface: String?
     let `enum`: String?
     let summary: String?
+
+    var interfaceOrAny: String {
+        interface?.camel ?? "any WlProxy"
+    }
 }
 
 // https://wayland-book.com/protocol-design/wire-protocol.html

@@ -40,6 +40,10 @@ struct WaylandScanner: ParsableCommand {
 
         // let interface = aProtocol.interfaces.first { $0.name == "wl_display" }
         for interface in aProtocol.interfaces {
+            // if interface.name != "wl_data_device" {
+            //     continue
+            // }
+            
             var url = URL(filePath: outputDirectory)
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
 

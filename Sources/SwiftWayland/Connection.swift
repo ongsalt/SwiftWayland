@@ -25,10 +25,6 @@ public final class Connection: @unchecked Sendable {
         startProcessingEvent()
     }
 
-    func get(id: ObjectId) -> (any WlProxy)? {
-        proxies[id]
-    }
-
     // public func roundtrip() async {
     //     if pendingMessages.count == 0 {
     //         return
@@ -37,7 +33,7 @@ public final class Connection: @unchecked Sendable {
     //     if self.roundtripping {
     //         print("what")
     //         return
-    //     } 
+    //     }
 
     //     // async make this hard tho
     //     await withUnsafeContinuation { (continuation: UnsafeContinuation<(), Never>) in
@@ -45,17 +41,32 @@ public final class Connection: @unchecked Sendable {
     //     }
 
     //     roundtrippingContinuation = nil
-        
-    //     // we should record message 
+
+    //     // we should record message
     // }
 
+    func get(id: ObjectId) -> (any WlProxy)? {
+        proxies[id]
+    }
+
+    func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
+        if let obj = proxies[id] {
+            (obj as! T)
+        } else {
+            nil
+        }
+    }
+
     func nextId() -> ObjectId {
-        currentId += 1
+        while proxies.keys.contains(currentId) {
+            currentId += 1
+        }
         return currentId
     }
 
-    func createProxy<T>(type: T.Type) -> T where T: WlProxy {
-        let obj = T(connection: self, id: nextId())
+    func createProxy<T>(type: T.Type, id: ObjectId? = nil) -> T where T: WlProxy {
+        let id = id ?? nextId()
+        let obj = T(connection: self, id: id)
         proxies[obj.id] = obj
         return obj
     }
@@ -74,12 +85,12 @@ public final class Connection: @unchecked Sendable {
                         try await send(message: m)
                     }
 
-                    // if let c = roundtrippingContinuation {
-                    //     c.resume()
-                    //     // will this be run immediately or in next run loop pass
-                    //     // if first (js like) this gonna be fine
-                    //     // but if its second -> fuck
-                    // }
+                // if let c = roundtrippingContinuation {
+                //     c.resume()
+                //     // will this be run immediately or in next run loop pass
+                //     // if first (js like) this gonna be fine
+                //     // but if its second -> fuck
+                // }
 
                 case .read:
                     let message = try await Message(readFrom: socket)
