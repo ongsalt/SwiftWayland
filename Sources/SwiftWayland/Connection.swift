@@ -7,10 +7,14 @@ public enum InitWaylandError: Error {
 }
 
 public final class Connection: @unchecked Sendable {
-    var proxies: [ObjectId: WlProxyProtocol] = [:]
+    var proxies: [ObjectId: any WlProxy] = [:]
     private(set) var currentId: ObjectId = 0
     let socket: Socket
 
+    // var roundtripping: Bool {
+    //     roundtrippingContinuation != nil
+    // }
+    // var roundtrippingContinuation: UnsafeContinuation<(), Never>? = nil
     var pendingMessages: [Message] = []
 
     private(set) public var display: WlDisplay!  // id 1
@@ -21,12 +25,32 @@ public final class Connection: @unchecked Sendable {
         startProcessingEvent()
     }
 
+    // public func roundtrip() async {
+    //     if pendingMessages.count == 0 {
+    //         return
+    //     }
+
+    //     if self.roundtripping {
+    //         print("what")
+    //         return
+    //     } 
+
+    //     // async make this hard tho
+    //     await withUnsafeContinuation { (continuation: UnsafeContinuation<(), Never>) in
+    //         roundtrippingContinuation = continuation
+    //     }
+
+    //     roundtrippingContinuation = nil
+        
+    //     // we should record message 
+    // }
+
     func nextId() -> ObjectId {
         currentId += 1
         return currentId
     }
 
-    func createProxy<T>(type: T.Type) -> T where T: WlProxyProtocol {
+    func createProxy<T>(type: T.Type) -> T where T: WlProxy {
         let obj = T(connection: self, id: nextId())
         proxies[obj.id] = obj
         return obj
@@ -45,6 +69,13 @@ public final class Connection: @unchecked Sendable {
                     for m in pendingMessages {
                         try await send(message: m)
                     }
+
+                    // if let c = roundtrippingContinuation {
+                    //     c.resume()
+                    //     // will this be run immediately or in next run loop pass
+                    //     // if first (js like) this gonna be fine
+                    //     // but if its second -> fuck
+                    // }
 
                 case .read:
                     let message = try await Message(readFrom: socket)

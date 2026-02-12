@@ -31,7 +31,7 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
 
 private nonisolated(unsafe) var currentId: ObjectId = 1  // wl_display is always 1
 
-protocol WlProxyProtocol: Identifiable {
+protocol WlProxy: Identifiable {
     associatedtype Event: WlEventEnum
     var id: ObjectId {
         get
@@ -45,18 +45,12 @@ protocol WlProxyProtocol: Identifiable {
     init(connection: Connection, id: ObjectId)
 }
 
-extension WlProxyProtocol {
+extension WlProxy {
     func parseAndDispatch(message: Message) {
         let event = Event.decode(message: message)
         self.onEvent(event)
     }
 }
-
-// extension WlProxy {
-//     func decodeEvent(message: Message) -> Event? {
-//         Event.decode(message: message)
-//     }
-// }
 
 internal protocol WlEventEnum: WLDecodable {}
 
@@ -81,93 +75,5 @@ extension WlProxyBase: Hashable {
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-    }
-}
-
-// typealias Test = WlProxy & _WlProxy
-
-public final class WlDisplay: WlProxyBase, WlProxyProtocol {
-    var onEvent: (Event) -> Void = { _ in }
-
-    // objectId -> connection search for that object -> Dispatch<WlDisplay> -> WlDisplay -> translateEvent -> Self.Event
-    //
-
-    // TODO: make wl_callback a callback
-    // special case of type="new_id" interface="wl_callback"
-    func sync(_ callback: @Sendable () -> Void) {
-        // connection.registerCallback(callback)
-    }
-
-    func getRegistry() async throws -> WlRegistry {
-        let registry = connection.createProxy(type: WlRegistry.self)
-        let message = Message(objectId: 1, opcode: 1) { data in
-            data.append(u32: registry.id) // newId
-        }
-
-        // this should not immediately fire, must schedule
-        try await connection.send(message: message)
-
-        return registry
-    }
-
-    public enum Event: WlEventEnum {
-        case error(objectId: ObjectId, code: UInt32, message: String)
-        case deleteId(id: UInt32)
-
-        static func decode(message: Message) -> Self {
-            let r = WLReader(data: message.arguments)
-            return switch message.opcode {
-            case 0:
-                Self.error(objectId: r.readObjectId(), code: r.readUInt(), message: r.readString())
-            case 1:
-                Self.deleteId(id: r.readObjectId())
-            default:
-                fatalError("bad wayland server")
-            }
-        }
-    }
-
-    public enum Error: UInt32, WlEnum {  // : WaylandEnum
-        case invalidObject
-        case invalidMethod
-        case noMemory
-        case implementation
-
-        // private static func decode() -> Error {
-
-        // }
-
-        // private func encode() {
-
-        // }
-    }
-}
-
-final class WlRegistry: WlProxyBase, WlProxyProtocol {
-    var onEvent: (Event) -> Void = { _ in }
-
-    // this must be custom code
-
-    /// Deal with this wisely
-    func bind<T>(name: UInt, type: T.Type) -> T where T: WlProxyProtocol {
-        connection.createProxy(type: T.self)
-    }
-
-    public enum Event: WlEventEnum {
-        case global(name: UInt32, interface: String, version: UInt32)
-        case globalRemove(name: UInt32)
-
-        static func decode(message: Message) -> Self {
-            let r = WLReader(data: message.arguments)
-            return switch message.opcode {
-            case 0:
-                Self.global(name: r.readUInt(), interface: r.readString(), version: r.readUInt())
-            case 1:
-                Self.globalRemove(name: r.readUInt())
-            default:
-                fatalError("bad wayland server")
-            }
-        }
-
     }
 }
