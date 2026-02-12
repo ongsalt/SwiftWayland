@@ -27,11 +27,13 @@ public final class WlSurface: WlProxyBase, WlProxy {
         connection.queueSend(message: message)
     }
     
-    public func frame(callback: WlCallback) {
+    public func frame() -> WlCallback {
+        let callback = connection.createProxy(type: WlCallback.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(callback.id)
         ])
         connection.queueSend(message: message)
+        return callback
     }
     
     public func setOpaqueRegion(region: WlRegion) {

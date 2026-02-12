@@ -11,10 +11,10 @@ public final class Connection: @unchecked Sendable {
     private(set) var currentId: ObjectId = 1  // must be 1 becuase wldisplay is special case
     let socket: Socket
 
-    // var roundtripping: Bool {
-    //     roundtrippingContinuation != nil
-    // }
-    // var roundtrippingContinuation: UnsafeContinuation<(), Never>? = nil
+    var roundtripping: Bool {
+        roundtrippingContinuation != nil
+    }
+    var roundtrippingContinuation: UnsafeContinuation<(), Never>? = nil
     var pendingMessages: [Message] = []
 
     private(set) public var display: WlDisplay!  // id 1
@@ -25,25 +25,24 @@ public final class Connection: @unchecked Sendable {
         startProcessingEvent()
     }
 
-    // public func roundtrip() async {
-    //     if pendingMessages.count == 0 {
-    //         return
-    //     }
+    // how does this work
+    public func roundtrip() async throws {
 
-    //     if self.roundtripping {
-    //         print("what")
-    //         return
-    //     }
+        let callback = display.sync()
+        try await flush()
 
-    //     // async make this hard tho
-    //     await withUnsafeContinuation { (continuation: UnsafeContinuation<(), Never>) in
-    //         roundtrippingContinuation = continuation
-    //     }
+        await withUnsafeContinuation { continuation in
+            callback.onEvent = { _ in
+                print("-- Callback")
+                continuation.resume()
+            }
+        }
+        
 
-    //     roundtrippingContinuation = nil
-
-    //     // we should record message
-    // }
+        // how do i wait for
+        // block until there is an event
+        // try await socket.done
+    }
 
     public func get(id: ObjectId) -> (any WlProxy)? {
         proxies[id]
@@ -81,11 +80,7 @@ public final class Connection: @unchecked Sendable {
                 switch event {
                 case .write:
                     // print("write")
-                    let msgs = pendingMessages
-                    pendingMessages = []
-                    for m in msgs {
-                        try await send(message: m)
-                    }
+                    try await flush()
 
                 // if let c = roundtrippingContinuation {
                 //     c.resume()
@@ -106,6 +101,7 @@ public final class Connection: @unchecked Sendable {
                     }
 
                     receiver.parseAndDispatch(message: message, connection: self)
+                    // print("done")
 
                 // receiver.onEvent()
 
@@ -138,7 +134,7 @@ public final class Connection: @unchecked Sendable {
         pendingMessages.append(message)
     }
 
-    public func flush() async throws  {
+    public func flush() async throws {
         let msgs = pendingMessages
         pendingMessages = []
         for m in msgs {

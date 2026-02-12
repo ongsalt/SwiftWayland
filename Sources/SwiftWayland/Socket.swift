@@ -22,6 +22,13 @@ final class Socket: @unchecked Sendable {
     private let eventStream: AsyncStream<SocketEvent>
     private let continuation: AsyncStream<SocketEvent>.Continuation
 
+    var canRead: Bool {
+        var pfd = pollfd(fd: fileDescriptor, events: Int16(POLLIN), revents: 0)
+        poll(&pfd, 1, 0)
+        let res = pfd.revents & Int16(POLLIN)
+        return res != 0
+    }
+
     var event: AsyncStream<SocketEvent> { eventStream }
 
     init(fileDescriptor: Int32) {
@@ -51,7 +58,7 @@ final class Socket: @unchecked Sendable {
     }
 
     func read(_ count: Int) async throws -> Data {
-        try await withCheckedThrowingContinuation { continuation in
+        let res = try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global().async { [fileDescriptor] in
                 do {
                     let data = try Socket.readBlocking(fd: fileDescriptor, count: count)
@@ -61,6 +68,12 @@ final class Socket: @unchecked Sendable {
                 }
             }
         }
+
+        return res
+    }
+
+    func readBlocking(count: Int) throws -> Data {
+        try Socket.readBlocking(fd: fileDescriptor, count: count)
     }
 
     func write(_ data: Data) async throws {

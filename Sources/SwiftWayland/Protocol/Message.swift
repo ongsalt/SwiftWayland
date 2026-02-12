@@ -27,12 +27,12 @@ public struct Message {
     public init(objectId: ObjectId, opcode: UInt16, contents: [WaylandData]) {
         self.objectId = objectId
         self.opcode = opcode
-        
+
         var data = Data()
         for c in contents {
             c.encode(into: &data)
         }
-    
+
         self.arguments = data
         self.size = Self.HEADER_SIZE + UInt16(arguments.count)
     }
@@ -50,6 +50,15 @@ public struct Message {
         size = Self.readUInt16(header, offset: 6)
 
         arguments = try await socket.read(Int(size - Self.HEADER_SIZE))
+    }
+
+    init(readBlocking socket: Socket) throws {
+        let header = try socket.readBlocking(count: Int(Self.HEADER_SIZE))
+        objectId = Self.readUInt32(header, offset: 0)
+        opcode = Self.readUInt16(header, offset: 4)
+        size = Self.readUInt16(header, offset: 6)
+
+        arguments = try socket.readBlocking(count: Int(size - Self.HEADER_SIZE))
     }
 
     private static func readUInt32(_ data: Data, offset: Int) -> UInt32 {

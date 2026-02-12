@@ -73,11 +73,11 @@ func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature? {
         let argType: String
         if arg.type == .newId {
             // TODO: There is also a case where there is .newId without any type
-            if arg.interface == "wl_callback" {
+            // if arg.interface == "wl_callback" {
                 // argType = "() -> Void"
                 // or just leave it as is and process it later
-                argType = "WlCallback"
-            } else {
+                // argType = "WlCallback"
+            // } else {
                 if let interface = arg.interface {
                     returnType.append(
                         SwiftFnSignature.ReturnType(
@@ -88,7 +88,7 @@ func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature? {
                     return nil
                 }
                 continue
-            }
+            // }
         } else {
             argType = getSwiftArgType(arg)
         }

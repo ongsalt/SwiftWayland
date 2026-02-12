@@ -3,11 +3,13 @@ import Foundation
 public final class WlDisplay: WlProxyBase, WlProxy {
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func sync(callback: WlCallback) {
+    public func sync() -> WlCallback {
+        let callback = connection.createProxy(type: WlCallback.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(callback.id)
         ])
         connection.queueSend(message: message)
+        return callback
     }
     
     public func getRegistry() -> WlRegistry {
