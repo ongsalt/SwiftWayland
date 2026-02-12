@@ -31,7 +31,7 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
 
 private nonisolated(unsafe) var currentId: ObjectId = 1  // wl_display is always 1
 
-protocol WlProxy: Identifiable {
+public protocol WlProxy: Identifiable {
     associatedtype Event: WlEventEnum
     var id: ObjectId {
         get
@@ -56,7 +56,7 @@ extension WlProxy {
     }
 }
 
-internal protocol WlEventEnum: WLDecodable {}
+public protocol WlEventEnum: WLDecodable {}
 
 public class WlProxyBase {
     public let id: ObjectId

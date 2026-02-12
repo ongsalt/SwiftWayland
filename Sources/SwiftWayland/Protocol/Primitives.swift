@@ -14,7 +14,7 @@ public enum WaylandData {
     case int(Int32)
     case uint(UInt32)
     case fixed(Double)
-    case object(ObjectId)
+    case object(any WlProxy)
     case string(String)
     case array(Data)
     case fd // unimplemented, passed via msg_control
@@ -36,8 +36,8 @@ public enum WaylandData {
             var v = Int32(value * 256.0)
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
             
-        case .object(let objectId):
-            var v = objectId
+        case .object(let object):
+            var v = object.id
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
             
         case .string(let string):

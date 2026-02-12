@@ -15,14 +15,23 @@ func buildInterfaceClass(interface: Interface) -> String {
 
 func buildMethods(_ requests: [Request]) -> String {
     // TODO: transform
+    func getPrimitiveType() {
 
-    requests.enumerated().map { (reqId, r) in
+    }
+
+    return requests.enumerated().map { (reqId, r) in
         let (ret, args) = buildArgs(r.arguments)
         let retString = ret != nil ? "-> \(ret!) " : ""
+        let arguments = r.arguments.filter({ $0.type != .newId }).map { a in
+            "WaylandData.\(a.type)(`\(a.name.lowerCamel)`)"
+        }.joined(separator: ",\n")
 
         return """
             public func \(r.name.lowerCamel)(\(args)) \(retString){
-            \(reqId)
+                let message = Message(objectId: id, opcode: \(reqId), contents: [
+            \(arguments.indent(space: 8))
+                ])
+                connection.queueSend(message: message)
             }
             """
     }.joined(separator: "\n\n")
@@ -122,7 +131,7 @@ func buildDecodeFunction(_ events: [Event]) -> String {
     }.joined(separator: "\n")
 
     return """
-        static func decode(message: Message) -> Self {
+        public static func decode(message: Message) -> Self {
             let r = WLReader(data: message.arguments)
             return switch message.opcode {
         \(cases.indent(space: 4))
