@@ -1,17 +1,26 @@
+# SwiftWayland
+Wayland scanner and Wayland client library for swift 
+
+# WARNING: fd transport is not yet implemented
+
+# What's not in there
+- Server code generation
+
 # Todos
-- fd transport is not yet implemented
-- programmatic rename id to the instance or any better name
+- think about queue and concurrency
 - make Event decode failable 
+- programmatic rename id to the instance or any better name
 - bitfield
 - Codegen
-    - multiple new_id handling
     - destructor
-    - wl_callback handling
-    - event `since`
+    - wl_callback special handling
+    - parse event `since`
     - generate documentation
 - test
 
-# See Scripts/generate.py
+
+# Code generation
+See Scripts/generate.py
 
 ```bash
 # swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml
