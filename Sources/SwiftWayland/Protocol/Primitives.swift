@@ -17,7 +17,7 @@ public enum WaylandData {
     case object(any WlProxy)
     case string(String)
     case array(Data)
-    case fd // unimplemented, passed via msg_control
+    case fd(FileHandle) 
     case `enum`(any WlEnum)
     case newId(ObjectId)
 

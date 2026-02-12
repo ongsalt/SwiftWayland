@@ -3,11 +3,11 @@
 
 //     public required init(connection: Connection, id: ObjectId) {
 //         super.init(connection: connection, id: id)
-//         self.onEvent = { _ in 
+//         self.onEvent = { _ in
 //             self.callback?()
 //         }
 //     }
-    
+
 //     public var callback: (() -> Void)? = nil
 
 //     public enum Event: WlEventEnum {
@@ -24,3 +24,18 @@
 //         }
 //     }
 // }
+
+extension WlRegistry {
+    func bind<T>(name: UInt32, type: T.Type) -> T where T: WlProxy {
+        let obj = connection.createProxy(type: T.self)
+        let message = Message(
+            objectId: self.id, opcode: 0,
+            contents: [
+                .uint(name),
+                .newId(obj.id),
+            ])
+        connection.queueSend(message: message)
+
+        return obj
+    }
+}

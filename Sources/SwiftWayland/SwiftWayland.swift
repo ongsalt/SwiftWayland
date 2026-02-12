@@ -20,18 +20,14 @@ public struct SwiftWayland {
     static func bruh() async throws {
         connection = try await Connection.fromEnv()
 
-        let registry = try await connection.display.getRegistry()
+        let registry = connection.display.getRegistry()
         print(registry.id)
 
         registry.onEvent = { event in 
             print(event)
         }
 
-        // await connection.roundtrip()
-        // print("Roundtripped")
-        Task {
-            try await connection.socket.readControlMessage()
-        }
-
+        // connection.queueSend(message: Message)
+        try await connection.flush()
     }
 }

@@ -76,13 +76,26 @@ final class Socket: @unchecked Sendable {
         }
     }
 
-    func readControlMessage() async throws {
+    func readControlMessage() async throws -> [cmsghdr] {
         try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global().async { [fileDescriptor] in
                 do {
                     let data: [cmsghdr] = try Socket.readControlMessageBlocking(fd: fileDescriptor)
                     print("cmsghdr: \(data)")
                     continuation.resume(returning: data)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    func writeControlMessage(_ data: Data) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global().async { [fileDescriptor] in
+                do {
+                    try Socket.writeControlMessageBlocking(fd: fileDescriptor, data: data)
+                    continuation.resume()
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -161,4 +174,9 @@ final class Socket: @unchecked Sendable {
 
         return messages
     }
+
+    private static func writeControlMessageBlocking(fd: Int32, data: Data) throws {
+        fatalError("msg_control is not implemented")
+    }
+
 }

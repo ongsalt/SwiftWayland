@@ -21,7 +21,7 @@ public final class Connection: @unchecked Sendable {
 
     init(socket: Socket) {
         self.socket = socket
-        display = createProxy(type: WlDisplay.self)
+        display = createProxy(type: WlDisplay.self, id: 1)
         startProcessingEvent()
     }
 
@@ -80,8 +80,10 @@ public final class Connection: @unchecked Sendable {
             for await event in socket.event {
                 switch event {
                 case .write:
-                    print("write")
-                    for m in pendingMessages {
+                    // print("write")
+                    let msgs = pendingMessages
+                    pendingMessages = []
+                    for m in msgs {
                         try await send(message: m)
                     }
 
@@ -93,6 +95,7 @@ public final class Connection: @unchecked Sendable {
                 // }
 
                 case .read:
+                    // print("read")
                     let message = try await Message(readFrom: socket)
 
                     guard let receiver = self.proxies[message.objectId] else {
@@ -133,6 +136,14 @@ public final class Connection: @unchecked Sendable {
 
     func queueSend(message: Message) {
         pendingMessages.append(message)
+    }
+
+    public func flush() async throws  {
+        let msgs = pendingMessages
+        pendingMessages = []
+        for m in msgs {
+            try await send(message: m)
+        }
     }
 
     deinit {

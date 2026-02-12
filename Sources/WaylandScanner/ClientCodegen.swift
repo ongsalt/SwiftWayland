@@ -8,6 +8,8 @@ func buildInterfaceClass(interface: Interface) -> String {
     ].filter { !$0.isEmpty }
 
     return """
+        import Foundation
+
         public final class \(interface.name.camel): WlProxyBase, WlProxy {
             public var onEvent: (Event) -> Void = { _ in }
 
@@ -51,10 +53,9 @@ struct SwiftFnSignature {
             "(\(returnType.map {"\($0.name.lowerCamel): \($0.swiftType)"}.joined(separator: ", ")))"
         }
     }
-
 }
 
-func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature {
+func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature? {
     // we return tuple when multiple newIds is founded
     var returnType: [SwiftFnSignature.ReturnType] = []
     var swiftArgs: [(String, String)] = []
@@ -70,10 +71,15 @@ func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature {
                 // or just leave it as is and process it later
                 argType = "WlCallback"
             } else {
-                returnType.append(
-                    SwiftFnSignature.ReturnType(
-                        swiftType: arg.interface?.camel ?? "any WlProxy", name: arg.name.lowerCamel)
-                )
+                if let interface = arg.interface {
+                    returnType.append(
+                        SwiftFnSignature.ReturnType(
+                            swiftType: interface.camel,
+                            name: arg.name.lowerCamel)
+                    )
+                } else {
+                    return nil
+                }
                 continue
             }
         } else {
@@ -90,7 +96,17 @@ func buildMethods(_ requests: [Request]) -> String {
     // TODO: transform
     requests.enumerated().map { (reqId, r) in
         // TODO: just return multiple value for multiple newId
-        let signature = makeSwiftFnSignature(r)
+        guard let signature = makeSwiftFnSignature(r) else {
+            // its newId arg without a type
+            // found in wl_registry::bind
+            // im gonna skip this
+            // well, we can, but it took too long
+
+            return """
+            // request `\(r.name)` can not (yet) be generated 
+            // \(r.arguments)
+            """
+        }
         var statements: [String] = []
 
         // create any thing involving newId
@@ -258,7 +274,7 @@ func buildDecodeFunction(_ events: [Event]) -> String {
 
     return """
         public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments)
+            let r = WLReader(data: message.arguments, connection: connection)
             switch message.opcode {
         \(cases.indent(space: 4))
             default:

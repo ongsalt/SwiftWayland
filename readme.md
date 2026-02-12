@@ -1,6 +1,6 @@
 # Todos
-- fd transport
-- programmatic rename id to the instance
+- fd transport is not yet implemented
+- programmatic rename id to the instance or any better name
 - make Event decode failable 
 - Codegen
     - multiple new_id handling

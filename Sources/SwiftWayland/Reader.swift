@@ -25,6 +25,11 @@ class WLReader {
         readUInt32Raw()
     }
 
+    func readFd() -> FileHandle {
+        // FileHandle()
+        fatalError("WlReader: readFd is not implemented")
+    }
+
     func readArray() -> Data {
         // array: A blob of arbitrary data, prefixed with a 32-bit integer specifying its length (in bytes), then the verbatim contents of the array, padded to 32 bits with undefined data.
         let length = Int(readUInt())
