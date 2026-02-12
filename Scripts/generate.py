@@ -13,7 +13,7 @@ def kebab_to_camel(kebab_str):
     parts = kebab_str.split('-')
     return ''.join(word.title() for word in parts)
 
-def generate(protocols_dir: Path, target_dir: Path, import_name: str | None = None):
+def generate(protocols_dir: Path | [Path], target_dir: Path, import_name: str | None = None):
     files = list_files_recursive(protocols_dir)
 
     for file in files:
@@ -24,13 +24,14 @@ def generate(protocols_dir: Path, target_dir: Path, import_name: str | None = No
         if import_name != None:
             args += ["--import", import_name]
         subprocess.run(args)
+        # print(args)
     
 binary = ".build/x86_64-unknown-linux-gnu/release/WaylandScanner"
-protocols_dir = "/usr/share/wayland/"
-protocols_dir = "/usr/share/wayland-protocols/"
+protocols_dir = Path("/usr/share/wayland-protocols/")
 
-generate(Path("/usr/share/wayland/"), Path.cwd() / Path("Sources/SwiftWayland/Generated"))
 
-# generate(protocols_dir / "stable", Path.cwd() / Path("Sources/SwiftWayland/Generated"), import_name="SwiftWaylandCore")
-# generate(protocols_dir / "staging", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWaylandCore")
-# generate(protocols_dir / "unstable", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWaylandCore")
+subprocess.run([binary, "client", "/usr/share/wayland/wayland.xml", "Sources/SwiftWayland/Generated/Wayland"])
+generate(protocols_dir / "stable", Path.cwd() / Path("Sources/SwiftWayland/Generated"))
+
+# generate(protocols_dir / "staging", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
+# generate(protocols_dir / "unstable", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
