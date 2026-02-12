@@ -1,5 +1,5 @@
-import Foundation
 import Dispatch
+import Foundation
 import Glibc
 
 enum SocketEvent {
@@ -33,7 +33,8 @@ final class Socket: @unchecked Sendable {
         }
         self.continuation = streamContinuation
 
-        self.readSource = DispatchSource.makeReadSource(fileDescriptor: fileDescriptor, queue: queue)
+        self.readSource = DispatchSource.makeReadSource(
+            fileDescriptor: fileDescriptor, queue: queue)
         self.readSource.setEventHandler { [weak self] in
             self?.continuation.yield(.read)
         }
@@ -68,6 +69,20 @@ final class Socket: @unchecked Sendable {
                 do {
                     try Socket.writeBlocking(fd: fileDescriptor, data: data)
                     continuation.resume()
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    func readControlMessage() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global().async { [fileDescriptor] in
+                do {
+                    let data: [cmsghdr] = try Socket.readControlMessageBlocking(fd: fileDescriptor)
+                    print("cmsghdr: \(data)")
+                    continuation.resume(returning: data)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -119,5 +134,31 @@ final class Socket: @unchecked Sendable {
                 bytesWritten += result
             }
         }
+    }
+
+    private static func readControlMessageBlocking(fd: Int32) throws -> [cmsghdr] {
+        var controlBuffer = [UInt8](repeating: 0, count: 1024)  // no c macro
+        let messages = try controlBuffer.withUnsafeMutableBufferPointer { ptr in
+            var msg = msghdr()
+            msg.msg_control = UnsafeMutableRawPointer(ptr.baseAddress)
+            msg.msg_controllen = ptr.count
+
+            let result = Glibc.recvmsg(fd, &msg, 0)
+
+            if result < 0 {
+                throw SocketError.readFailed(errno: errno)
+            }
+
+            let messages: [cmsghdr] = Array(
+                UnsafeBufferPointer(
+                    start: UnsafeRawPointer(ptr.baseAddress)?.assumingMemoryBound(to: cmsghdr.self),
+                    count: Int(msg.msg_controllen)
+                )
+            )
+
+            return messages
+        }
+
+        return messages
     }
 }

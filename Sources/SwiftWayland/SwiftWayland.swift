@@ -29,6 +29,9 @@ public struct SwiftWayland {
 
         // await connection.roundtrip()
         // print("Roundtripped")
+        Task {
+            try await connection.socket.readControlMessage()
+        }
 
     }
 }

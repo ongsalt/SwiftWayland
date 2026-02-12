@@ -184,7 +184,7 @@ func getSwiftArgType(_ arg: Argument) -> String {
 
     // case .newId: fatalError("Impossible (newId)")
     case .newId: arg.interface?.camel ?? "any WlProxy"
-    case .array: fatalError("Not implemented (array)")
+    case .array: "Data"
     }
 }
 
@@ -231,7 +231,7 @@ func getArgDecodingExpr(_ arg: Argument) -> String {
             fatalError("wtf, how can you have newId without a type: \(arg)")
         }
 
-    case .array: fatalError("Not implemented (array)")
+    case .array: "r.readArray()"
     }
 }
 
