@@ -1,20 +1,6 @@
-/// what if we allow you to create an obejct without
-/// display.createSurface -> Surface() ???
-/// this is probably pain, in the end we need still to do display.attach(surface)
-///
-/// then protocol Dispatch<T: WlEvent> or just protocol DisplayListener
-/// WlSurfaceDelegate ???
-
 import Foundation
 
-typealias WaylandInterface = Any
-
-// // Later:
-// func laterOn(connection: Connection)  {
-//     // connection.register(object: Dispatch())
-// }
-
-typealias WLCallback = () -> Void
+// typealias WLCallback = () -> Void
 
 // TODO: see swift Decodable
 public protocol WLDecodable {
@@ -28,8 +14,6 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
         Self(rawValue: 0)!
     }
 }
-
-private nonisolated(unsafe) var currentId: ObjectId = 1  // wl_display is always 1
 
 public protocol WlProxy: Identifiable {
     associatedtype Event: WlEventEnum
