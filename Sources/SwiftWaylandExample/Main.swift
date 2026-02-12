@@ -35,11 +35,11 @@ public struct SwiftWayland {
                 print(interface)
                 switch interface {
                 case "wl_compositor":
-                    state.compositor = registry.bind(name: name, type: WlCompositor.self)
+                    state.compositor = registry.bind(name: name, version: version, interfaceName: "wl_compositor", type: WlCompositor.self)
                 case "wl_shm":
-                    state.shm = registry.bind(name: name, type: WlShm.self)
+                    state.shm = registry.bind(name: name, version: version, interfaceName: "wl_shm", type: WlShm.self)
                 case "xdg_wm_base":
-                    state.xdgWmBase = registry.bind(name: name, type: XdgWmBase.self)
+                    state.xdgWmBase = registry.bind(name: name, version: version, interfaceName: "xdg_wm_base", type: XdgWmBase.self)
                     state.xdgWmBase?.onEvent = { ev in
                         if case .ping(let serial) = ev {
                             state.xdgWmBase?.pong(serial: serial)
@@ -56,30 +56,30 @@ public struct SwiftWayland {
         // try await connection.flush()
         try await connection.roundtrip()
 
-        // guard
-        //     let compositor = state.compositor,
-        //     let xdgWmBase = state.xdgWmBase
-        // else {
-        //     fatalError("Missing required globals")
-        // }
+        guard
+            let compositor = state.compositor,
+            let xdgWmBase = state.xdgWmBase
+        else {
+            fatalError("Missing required globals")
+        }
 
-        // let surface = compositor.createSurface()
-        // let xdgSurface = xdgWmBase.getXdgSurface(surface: surface)
-        // let toplevel = xdgSurface.getToplevel()
-        // toplevel.setTitle(title: "SwiftWayland")
+        let surface = compositor.createSurface()
+        let xdgSurface = xdgWmBase.getXdgSurface(surface: surface)
+        let toplevel = xdgSurface.getToplevel()
+        toplevel.setTitle(title: "SwiftWayland")
 
-        // xdgSurface.onEvent = { ev in
-        //     if case .configure(let serial) = ev {
-        //         xdgSurface.ackConfigure(serial: serial)
-        //         // TODO: attach a wl_buffer here and commit again after buffer setup
-        //     }
-        // }
+        xdgSurface.onEvent = { ev in
+            if case .configure(let serial) = ev {
+                xdgSurface.ackConfigure(serial: serial)
+                // TODO: attach a wl_buffer here and commit again after buffer setup
+            }
+        }
 
-        // state.surface = surface
-        // state.xdgSurface = xdgSurface
-        // state.toplevel = toplevel
+        state.surface = surface
+        state.xdgSurface = xdgSurface
+        state.toplevel = toplevel
 
-        // surface.commit()
+        surface.commit()
         try await connection.flush()
     }
 }
