@@ -36,6 +36,8 @@ struct WaylandScanner: ParsableCommand {
 
         let aProtocol = try decoder.decode(Protocol.self, from: Data(contentsOf: inputUrl))
 
-        dump(aProtocol)
+        let wl_shell_surface = aProtocol.interfaces.first { $0.name == "wl_shell_surface" }
+
+        print(wl_shell_surface)
     }
 }

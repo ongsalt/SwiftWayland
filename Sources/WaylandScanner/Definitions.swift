@@ -53,7 +53,10 @@ struct Enum: Codable {
 
 struct EnumEntry: Codable {
     let name: String
-    let value: UInt
+    let value: String // this may be hex
+    var intValue: UInt? {
+        UInt(value, radix: value.starts(with: "0x") ? 16 : 10)
+    }
     let summary: String?
 }
 
