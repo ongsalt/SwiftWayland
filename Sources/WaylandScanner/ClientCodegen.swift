@@ -3,7 +3,7 @@ import SwiftSyntax
 func buildInterfaceClass(interface: Interface) -> String {
     return """
         public final class \(interface.name.camel): WlProxyBase, WlProxy {
-            var onEvent: (Event) -> Void = { _ in }
+            public var onEvent: (Event) -> Void = { _ in }
         \(buildMethods(interface.requests).indent(space: 4))
 
         \(buildEnums(interface.enums).indent(space: 4))

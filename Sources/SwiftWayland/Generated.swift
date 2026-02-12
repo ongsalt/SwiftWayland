@@ -1,5 +1,5 @@
 public final class WlShellSurface: WlProxyBase, WlProxy {
-    var onEvent: (Event) -> Void = { _ in }
+    public var onEvent: (Event) -> Void = { _ in }
     public func pong(serial: UInt32) {
         let message = Message(objectId: id, opcode: 0, contents: [
             WaylandData.uint(`serial`)

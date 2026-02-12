@@ -60,9 +60,9 @@ public protocol WlEventEnum: WLDecodable {}
 
 public class WlProxyBase {
     public let id: ObjectId
-    unowned var connection: Connection
+    public unowned var connection: Connection
 
-    required init(connection: Connection, id: ObjectId) {
+    public required init(connection: Connection, id: ObjectId) {
         self.connection = connection
         self.id = id
     }
