@@ -3,7 +3,7 @@ import XMLCoder
 
 struct Protocol: Codable {
     let name: String
-    let copyright: String
+    let copyright: String?
     let interfaces: [Interface]
 
     enum CodingKeys: String, CodingKey {
