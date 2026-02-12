@@ -40,6 +40,7 @@ struct WaylandScanner: ParsableCommand {
         let decoder = XMLDecoder()
 
         let aProtocol = try decoder.decode(Protocol.self, from: Data(contentsOf: inputUrl))
+        print("Protocol: \(aProtocol.name)")
 
         // let interface = aProtocol.interfaces.first { $0.name == "wl_display" }
         for interface in aProtocol.interfaces {
@@ -52,7 +53,7 @@ struct WaylandScanner: ParsableCommand {
 
             url.append(path: "\(interface.name.camel).swift")
 
-            print("Writing \(url.lastPathComponent)")
+            print(" - Writing \(url.lastPathComponent)")
             let out = buildInterfaceClass(interface: interface, importName: self.`import`)
             try out.write(to: url, atomically: true, encoding: .utf8)
 
