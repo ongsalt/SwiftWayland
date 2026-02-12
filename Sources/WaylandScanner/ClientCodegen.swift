@@ -3,13 +3,33 @@ import SwiftSyntax
 func buildInterfaceClass(interface: Interface) -> String {
     return """
         public final class \(interface.name.camel): WlProxyBase, WlProxy {
+            var onEvent: (Event) -> Void = { _ in }
+        \(buildMethods(interface.requests).indent(space: 4))
+
+        \(buildEnums(interface.enums).indent(space: 4))
+
         \(buildEventEnum(events: interface.events).indent(space: 4))
         }
         """
 }
 
-func buildEnum(enumeration: Enum) -> String {
-    ""
+func buildMethods(_ requests: [Request]) -> String {
+    // TODO: transform
+
+    requests.enumerated().map { (reqId, r) in
+        let (ret, args) = buildArgs(r.arguments)
+        let retString = ret != nil ? "-> \(ret!) " : ""
+
+        return """
+            public func \(r.name.lowerCamel)(\(args)) \(retString){
+            \(reqId)
+            }
+            """
+    }.joined(separator: "\n\n")
+}
+
+func buildEnums(_ enums: [Enum]) -> String {
+    "[enum hereeee]"
 }
 
 func buildArgs(_ args: [Argument]) -> (returnType: String?, args: String) {
@@ -48,14 +68,16 @@ func getArgType(_ arg: Argument) -> String {
 
 func buildEventEnum(events: [Event]) -> String {
     let cases = events.map { e in
-        "case \(e.name.lowerCamel)(\(buildArgs(e.arguments).args))"
-    }.joined(separator: "\n")
+        let args = buildArgs(e.arguments).args
+        let enumBody = e.arguments.count == 0 ? "" : "(\(args))"
 
+        return "case \(e.name.lowerCamel)\(enumBody)"
+    }.joined(separator: "\n")
 
     return """
         public enum Event: WlEventEnum {
         \(cases.indent(space: 4))
-        
+
         \(buildDecodeFunction(events).indent(space: 4))
         }
         """
@@ -63,8 +85,8 @@ func buildEventEnum(events: [Event]) -> String {
 
 func getArgDecoding(_ arg: Argument) -> String {
     switch arg.type {
-    case .int: "readUInt"
-    case .uint: "readUInt32"
+    case .int: "readInt"
+    case .uint: "readUInt"
     case .fixed: "readFixed"
     case .string: "readString"
 
@@ -79,7 +101,7 @@ func getArgDecoding(_ arg: Argument) -> String {
 }
 
 func buildDecodeFunction(_ events: [Event]) -> String {
-    func buildArgs(_ args: [Argument]) -> String {
+    func buildCallingArgs(_ args: [Argument]) -> String {
         if args.contains(where: { $0.type == .newId }) {
             fatalError("new_id in event is not support")
         }
@@ -90,10 +112,13 @@ func buildDecodeFunction(_ events: [Event]) -> String {
     }
 
     let cases = events.enumerated().map { (index, e) in
-        """
-        case \(index):
-            Self.\(e.name.lowerCamel)()
-        """
+        let args = buildCallingArgs(e.arguments)
+        let enumBody = e.arguments.count == 0 ? "" : "(\(args))"
+
+        return """
+            case \(index):
+                Self.\(e.name.lowerCamel)\(enumBody)
+            """
     }.joined(separator: "\n")
 
     return """
@@ -101,7 +126,6 @@ func buildDecodeFunction(_ events: [Event]) -> String {
             let r = WLReader(data: message.arguments)
             return switch message.opcode {
         \(cases.indent(space: 4))
-
             default:
                 fatalError("Unknown message")
             }

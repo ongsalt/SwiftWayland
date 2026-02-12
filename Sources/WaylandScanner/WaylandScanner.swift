@@ -42,6 +42,7 @@ struct WaylandScanner: ParsableCommand {
 
         
         let out = buildInterfaceClass(interface: wl_shell_surface!)
-        print(out)
+        // print(out)
+        try out.write(to: URL(filePath: outputDirectory), atomically: true, encoding: .utf8)
     }
 }

@@ -17,14 +17,14 @@ typealias WaylandInterface = Any
 typealias WLCallback = () -> Void
 
 // TODO: see swift Decodable
-protocol WLDecodable {
+public protocol WLDecodable {
     static func decode(message: Message) -> Self
 }
 
-protocol WlEnum: WLDecodable {}
+public protocol WlEnum: WLDecodable {}
 
 extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
-    static func decode(message: Message) -> Self {
+    public static func decode(message: Message) -> Self {
         Self(rawValue: 0)!
     }
 }
@@ -34,6 +34,10 @@ private nonisolated(unsafe) var currentId: ObjectId = 1  // wl_display is always
 protocol WlProxy: Identifiable {
     associatedtype Event: WlEventEnum
     var id: ObjectId {
+        get
+    }
+
+    var connection: Connection {
         get
     }
 
@@ -54,7 +58,7 @@ extension WlProxy {
 
 internal protocol WlEventEnum: WLDecodable {}
 
-public class WlProxyBase {    
+public class WlProxyBase {
     public let id: ObjectId
     unowned var connection: Connection
 

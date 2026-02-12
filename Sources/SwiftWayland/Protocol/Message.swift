@@ -1,6 +1,6 @@
 import Foundation
 
-struct Message {
+public struct Message {
     let objectId: ObjectId
     let opcode: UInt16
     let size: UInt16
@@ -19,11 +19,23 @@ struct Message {
 
         var data = Data()
         buildArguments(&data)
-        
+
         self.arguments = data
         self.size = Self.HEADER_SIZE + UInt16(arguments.count)
     }
 
+    init(objectId: ObjectId, opcode: UInt16, contents: [WaylandData]) {
+        self.objectId = objectId
+        self.opcode = opcode
+        
+        var data = Data()
+        for c in contents {
+            c.encode(into: &data)
+        }
+    
+        self.arguments = data
+        self.size = Self.HEADER_SIZE + UInt16(arguments.count)
+    }
 
     // var argumentSize: UInt16 {
     //     size - Message.HEADER_SIZE

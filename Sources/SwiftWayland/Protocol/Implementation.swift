@@ -12,9 +12,13 @@ public final class WlDisplay: WlProxyBase, WlProxy {
 
     func getRegistry() async throws -> WlRegistry {
         let registry = connection.createProxy(type: WlRegistry.self)
-        let message = Message(objectId: 1, opcode: 1) { data in
-            data.append(u32: registry.id) // newId
-        }
+        // let message = Message(objectId: 1, opcode: 1) { data in
+        //     data.append(u32: registry.id) // newId
+        // }
+
+        let message = Message(objectId: 1, opcode: 1, contents: [
+            .newId(registry.id)
+        ])
 
         // this should not immediately fire, must schedule
         try await connection.send(message: message)
@@ -26,7 +30,7 @@ public final class WlDisplay: WlProxyBase, WlProxy {
         case error(objectId: ObjectId, code: UInt32, message: String)
         case deleteId(id: UInt32)
 
-        static func decode(message: Message) -> Self {
+        public static func decode(message: Message) -> Self {
             let r = WLReader(data: message.arguments)
             return switch message.opcode {
             case 0:
