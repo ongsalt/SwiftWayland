@@ -1,0 +1,56 @@
+import Foundation
+import SwiftWayland
+
+public final class XdgActivationTokenV1: WlProxyBase, WlProxy {
+    public var onEvent: (Event) -> Void = { _ in }
+
+    public func setSerial(serial: UInt32, seat: WlSeat) {
+        let message = Message(objectId: self.id, opcode: 0, contents: [
+            .uint(serial),
+            .object(seat)
+        ])
+        connection.queueSend(message: message)
+    }
+    
+    public func setAppId(appId: String) {
+        let message = Message(objectId: self.id, opcode: 1, contents: [
+            .string(appId)
+        ])
+        connection.queueSend(message: message)
+    }
+    
+    public func setSurface(surface: WlSurface) {
+        let message = Message(objectId: self.id, opcode: 2, contents: [
+            .object(surface)
+        ])
+        connection.queueSend(message: message)
+    }
+    
+    public func commit() {
+        let message = Message(objectId: self.id, opcode: 3, contents: [])
+        connection.queueSend(message: message)
+    }
+    
+    public func destroy() {
+        let message = Message(objectId: self.id, opcode: 4, contents: [])
+        connection.queueSend(message: message)
+    }
+    
+    public enum Error: UInt32, WlEnum {
+        case alreadyUsed = 0
+    }
+    
+    public enum Event: WlEventEnum {
+        case done(token: String)
+    
+        public static func decode(message: Message, connection: Connection) -> Self {
+            let r = WLReader(data: message.arguments, connection: connection)
+            switch message.opcode {
+            case 0:
+                return Self.done(token: r.readString())
+            default:
+                fatalError("Unknown message")
+            }
+        }
+    }
+}

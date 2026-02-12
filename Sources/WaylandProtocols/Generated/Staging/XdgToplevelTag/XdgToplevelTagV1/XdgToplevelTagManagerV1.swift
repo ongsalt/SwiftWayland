@@ -1,0 +1,40 @@
+import Foundation
+import SwiftWayland
+
+public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy {
+    public var onEvent: (Event) -> Void = { _ in }
+
+    public func destroy() {
+        let message = Message(objectId: self.id, opcode: 0, contents: [])
+        connection.queueSend(message: message)
+    }
+    
+    public func setToplevelTag(toplevel: XdgToplevel, tag: String) {
+        let message = Message(objectId: self.id, opcode: 1, contents: [
+            .object(toplevel),
+            .string(tag)
+        ])
+        connection.queueSend(message: message)
+    }
+    
+    public func setToplevelDescription(toplevel: XdgToplevel, description: String) {
+        let message = Message(objectId: self.id, opcode: 2, contents: [
+            .object(toplevel),
+            .string(description)
+        ])
+        connection.queueSend(message: message)
+    }
+    
+    public enum Event: WlEventEnum {
+        
+    
+        public static func decode(message: Message, connection: Connection) -> Self {
+            
+            switch message.opcode {
+            
+            default:
+                fatalError("Unknown message")
+            }
+        }
+    }
+}
