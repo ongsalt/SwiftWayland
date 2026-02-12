@@ -19,12 +19,14 @@ struct Interface: Codable {
     let description: Description
     let enums: [Enum]
     let requests: [Request]
+    let events: [Event]
 
     enum CodingKeys: String, CodingKey {
         case name, version
         case enums = "enum"
         case requests = "request"
         case description = "description"
+        case events = "event"
     }
 }
 
@@ -89,6 +91,7 @@ struct Argument: Codable {
 enum Primitive: String, Codable {
     case int, uint, fixed, object, string, array, fd, `enum`
     case newId = "new_id"
+
 }
 
 struct Event: Codable {

@@ -21,16 +21,18 @@ struct WaylandScanner: ParsableCommand {
     @ArgumentParser.Argument(help: "server | client", completion: .list(["server", "client"]))
     var mode: Mode
 
-    @ArgumentParser.Argument()
+    @ArgumentParser.Argument(help: "Protocol XML", completion: .file())
     var inputFile: String
-    @ArgumentParser.Argument()
-    var outputPackage: String
+
+    @ArgumentParser.Argument(help: "Output directory", completion: .directory)
+    var outputDirectory: String
 
     mutating func run() throws {
         if mode == .server {
             print("Server code is not yet support")
             return
         }
+
         let inputUrl = URL(filePath: inputFile)
         let decoder = XMLDecoder()
 
@@ -38,6 +40,8 @@ struct WaylandScanner: ParsableCommand {
 
         let wl_shell_surface = aProtocol.interfaces.first { $0.name == "wl_shell_surface" }
 
-        print(wl_shell_surface)
+        
+        let out = buildInterfaceClass(interface: wl_shell_surface!)
+        print(out)
     }
 }
