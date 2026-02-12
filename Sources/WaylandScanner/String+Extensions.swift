@@ -1,6 +1,7 @@
 extension String {
     func snakeToLowerCamel() -> String {
-        let parts = self
+        let parts =
+            self
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .split(separator: "_", omittingEmptySubsequences: true)
 
@@ -29,9 +30,20 @@ extension String {
 
     func indent(space: UInt) -> String {
         let indentation = String(repeating: " ", count: Int(space))
-        return self
+        return
+            self
             .split(separator: "\n", omittingEmptySubsequences: false)
             .map { indentation + $0 }
             .joined(separator: "\n")
+    }
+
+    var graved: String {
+        "`\(self)`"
+    }
+
+    var gravedIfNeeded: String {
+        // TODO: gravedIfNeeded
+        // "`\(self)`"
+        self
     }
 }

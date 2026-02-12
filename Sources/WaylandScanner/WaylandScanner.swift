@@ -38,11 +38,18 @@ struct WaylandScanner: ParsableCommand {
 
         let aProtocol = try decoder.decode(Protocol.self, from: Data(contentsOf: inputUrl))
 
-        let wl_shell_surface = aProtocol.interfaces.first { $0.name == "wl_shell_surface" }
+        // let interface = aProtocol.interfaces.first { $0.name == "wl_display" }
+        for interface in aProtocol.interfaces {
+            var url = URL(filePath: outputDirectory)
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
 
-        
-        let out = buildInterfaceClass(interface: wl_shell_surface!)
-        // print(out)
-        try out.write(to: URL(filePath: outputDirectory), atomically: true, encoding: .utf8)
+            url.append(path: "\(interface.name.camel).swift")
+            
+            print("Writing \(url.lastPathComponent)")
+            let out = buildInterfaceClass(interface: interface)
+            try out.write(to: url, atomically: true, encoding: .utf8)
+
+            // break
+        }
     }
 }

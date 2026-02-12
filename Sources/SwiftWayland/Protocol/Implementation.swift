@@ -1,5 +1,5 @@
 public final class WlDisplay: WlProxyBase, WlProxy {
-    var onEvent: (Event) -> Void = { _ in }
+    public var onEvent: (Event) -> Void = { _ in }
 
     // objectId -> connection search for that object -> Dispatch<WlDisplay> -> WlDisplay -> translateEvent -> Self.Event
     //
@@ -30,7 +30,7 @@ public final class WlDisplay: WlProxyBase, WlProxy {
         case error(objectId: ObjectId, code: UInt32, message: String)
         case deleteId(id: UInt32)
 
-        public static func decode(message: Message) -> Self {
+        public static func decode(message: Message, connection: Connection) -> Self {
             let r = WLReader(data: message.arguments)
             return switch message.opcode {
             case 0:
@@ -59,8 +59,8 @@ public final class WlDisplay: WlProxyBase, WlProxy {
     }
 }
 
-final class WlRegistry: WlProxyBase, WlProxy {
-    var onEvent: (Event) -> Void = { _ in }
+public final class WlRegistry: WlProxyBase, WlProxy {
+    public var onEvent: (Event) -> Void = { _ in }
 
     // this must be custom code
 
@@ -73,7 +73,7 @@ final class WlRegistry: WlProxyBase, WlProxy {
         case global(name: UInt32, interface: String, version: UInt32)
         case globalRemove(name: UInt32)
 
-        static func decode(message: Message) -> Self {
+        public static func decode(message: Message, connection: Connection) -> Self {
             let r = WLReader(data: message.arguments)
             return switch message.opcode {
             case 0:

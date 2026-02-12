@@ -40,11 +40,10 @@ struct Description: Codable {
     }
 }
 
-
 struct Enum: Codable {
     let name: String
     let entries: [EnumEntry]
-    // TODO: MARKER: bitfield handling 
+    // TODO: MARKER: bitfield handling
     let bitfield: Bool = false
 
     enum CodingKeys: String, CodingKey {
@@ -55,9 +54,13 @@ struct Enum: Codable {
 
 struct EnumEntry: Codable {
     let name: String
-    let value: String // this may be hex
+    let value: String  // this may be hex
     var intValue: UInt? {
-        UInt(value, radix: value.starts(with: "0x") ? 16 : 10)
+        if value.starts(with: "0x") {
+            UInt(value.trimmingPrefix("0x"), radix: 16)
+        } else {
+            UInt(value)
+        }
     }
     let summary: String?
 }

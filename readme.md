@@ -1,8 +1,9 @@
 # Todos
 - fd transport
 - Codegen
+    - multiple new_id handling
     - destructor
-    - new_id handling
+    - wl_callback handling
     - event `since`
     - generate documentation
 - test

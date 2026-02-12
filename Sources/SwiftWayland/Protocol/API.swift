@@ -18,13 +18,13 @@ typealias WLCallback = () -> Void
 
 // TODO: see swift Decodable
 public protocol WLDecodable {
-    static func decode(message: Message) -> Self
+    static func decode(message: Message, connection: Connection) -> Self
 }
 
 public protocol WlEnum: WLDecodable {}
 
 extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
-    public static func decode(message: Message) -> Self {
+    public static func decode(message: Message, connection: Connection) -> Self {
         Self(rawValue: 0)!
     }
 }
@@ -50,8 +50,8 @@ public protocol WlProxy: Identifiable {
 }
 
 extension WlProxy {
-    func parseAndDispatch(message: Message) {
-        let event = Event.decode(message: message)
+    func parseAndDispatch(message: Message, connection: Connection) {
+        let event = Event.decode(message: message, connection: connection)
         self.onEvent(event)
     }
 }

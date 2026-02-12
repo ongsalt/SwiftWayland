@@ -25,6 +25,10 @@ public final class Connection: @unchecked Sendable {
         startProcessingEvent()
     }
 
+    func get(id: ObjectId) -> (any WlProxy)? {
+        proxies[id]
+    }
+
     // public func roundtrip() async {
     //     if pendingMessages.count == 0 {
     //         return
