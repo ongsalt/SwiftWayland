@@ -14,7 +14,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy {
             .newId(paramsId.id)
         ])
         connection.queueSend(message: message)
-        return paramsid
+        return paramsId
     }
     
     public func getDefaultFeedback() -> ZwpLinuxDmabufFeedbackV1 {

@@ -153,7 +153,7 @@ func buildMethods(_ requests: [Request]) -> String {
 
         // Return Expression
         if !signature.returnType.isEmpty {
-            let finalTuple = signature.returnType.map { "\($0.name.lowerCamel)" }.joined(
+            let finalTuple = signature.returnType.map { "\($0.name.gravedIfNeeded)" }.joined(
                 separator: ", ")
             statements.append("return \(finalTuple)")
         }
@@ -177,7 +177,7 @@ func buildEnum(_ enumm: Enum) -> String {
     }.joined(separator: "\n")
 
     return """
-        public enum \(enumm.name.camel): UInt32, WlEnum {
+        public enum \(enumm.name.camel.gravedIfNeeded): UInt32, WlEnum {
         \(cases.indent(space: 4))
         }
         """

@@ -10,7 +10,7 @@ public final class ZwpTabletManagerV2: WlProxyBase, WlProxy {
             .object(seat)
         ])
         connection.queueSend(message: message)
-        return tabletseat
+        return tabletSeat
     }
     
     public func destroy() {

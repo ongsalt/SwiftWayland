@@ -18,7 +18,7 @@ public final class ZwpTabletToolV2: WlProxyBase, WlProxy {
         connection.queueSend(message: message)
     }
     
-    public enum Type: UInt32, WlEnum {
+    public enum `Type`: UInt32, WlEnum {
         case pen = 320
         case eraser = 321
         case brush = 322

@@ -16,7 +16,7 @@ struct Protocol: Codable {
 struct Interface: Codable {
     let name: String
     let version: UInt
-    let description: Description
+    let description: Description?
     let enums: [Enum]
     let requests: [Request]
     let events: [Event]
@@ -68,7 +68,7 @@ struct EnumEntry: Codable {
 struct Request: Codable {
     let name: String
     let `type`: RequestType?
-    let description: Description
+    let description: Description?
 
     let arguments: [Argument]
 
@@ -103,7 +103,7 @@ enum Primitive: String, Codable {
 
 struct Event: Codable {
     let name: String
-    let description: Description
+    let description: Description?
     let arguments: [Argument]
 
     enum CodingKeys: String, CodingKey {

@@ -40,7 +40,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy {
             .uint(flags)
         ])
         connection.queueSend(message: message)
-        return bufferid
+        return bufferId
     }
     
     public enum Error: UInt32, WlEnum {
