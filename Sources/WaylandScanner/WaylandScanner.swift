@@ -27,6 +27,9 @@ struct WaylandScanner: ParsableCommand {
     @ArgumentParser.Argument(help: "Output directory", completion: .directory)
     var outputDirectory: String
 
+    @Option(name: .long, help: "import name")
+    var `import`: String? = nil
+
     mutating func run() throws {
         if mode == .server {
             print("Server code is not yet support")
@@ -43,14 +46,14 @@ struct WaylandScanner: ParsableCommand {
             // if interface.name != "wl_data_device" {
             //     continue
             // }
-            
+
             var url = URL(filePath: outputDirectory)
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
 
             url.append(path: "\(interface.name.camel).swift")
-            
+
             print("Writing \(url.lastPathComponent)")
-            let out = buildInterfaceClass(interface: interface)
+            let out = buildInterfaceClass(interface: interface, importName: self.`import`)
             try out.write(to: url, atomically: true, encoding: .utf8)
 
             // break

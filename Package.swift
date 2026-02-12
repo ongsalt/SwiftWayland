@@ -7,7 +7,8 @@ let package = Package(
     name: "SwiftWayland",
     products: [
         .executable(name: "WaylandScanner", targets: ["WaylandScanner"]),
-        .library(name: "SwiftWayland", targets: ["SwiftWayland"])
+        .library(name: "SwiftWayland", targets: ["SwiftWayland", "WaylandProtocols"]),
+        // .library(name: "WaylandProtocols", targets: ["WaylandProtocols"]),
     ],
     dependencies: [
         // other dependencies
@@ -23,11 +24,15 @@ let package = Package(
     targets: [
         .target(
             name: "SwiftWayland",
+        ),
+
+        .target(
+            name: "WaylandProtocols",
             dependencies: [
-                // "Socket",
-                // .product(name: "SystemPackage", package: "swift-system"),
+                "SwiftWayland",
             ],
         ),
+
         .executableTarget(
             name: "WaylandScanner",
             dependencies: [

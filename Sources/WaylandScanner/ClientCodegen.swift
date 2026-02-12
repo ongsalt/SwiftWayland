@@ -1,14 +1,21 @@
 // import SwiftSyntax
 
-func buildInterfaceClass(interface: Interface) -> String {
+func buildInterfaceClass(interface: Interface, importName: String? = nil) -> String {
     let body: [String] = [
         buildMethods(interface.requests),
         buildEnums(interface.enums),
         buildEventEnum(events: interface.events),
     ].filter { !$0.isEmpty }
 
+    var imports = ["Foundation"]
+    if let importName {
+        imports.append(importName)
+    }
+
+    let importString = imports.map { "import \($0)"}.joined(separator: "\n")
+
     return """
-        import Foundation
+        \(importString)
 
         public final class \(interface.name.camel): WlProxyBase, WlProxy {
             public var onEvent: (Event) -> Void = { _ in }
