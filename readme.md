@@ -12,6 +12,7 @@
 
 ```bash
 # swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml
-swift run WaylandScanner client /usr/share/wayland/wayland.xml Sources/SwiftWayland/Generated.swift
+swift run WaylandScanner client /usr/share/wayland/wayland.xml Sources/SwiftWayland/Generated/Wayland
+swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml Sources/SwiftWayland/Generated/XdgShell
 ```
 

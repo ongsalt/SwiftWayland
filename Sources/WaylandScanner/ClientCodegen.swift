@@ -1,4 +1,4 @@
-import SwiftSyntax
+// import SwiftSyntax
 
 func buildInterfaceClass(interface: Interface) -> String {
     let body: [String] = [
