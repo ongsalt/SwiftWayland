@@ -1,5 +1,19 @@
 import Foundation
 
+class WLDecoder {
+
+}
+
+// TODO: fd is on msg_conrol tho
+enum WaylandPrimitive {
+    case int, uint, fixed, object, string, array, fd, `enum`, newId
+
+    var decoder: WLDecoder {
+        WLDecoder()
+    }
+}
+
+
 typealias ObjectId = UInt32
 typealias NewId = UInt32
 typealias EnumValue = UInt32

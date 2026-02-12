@@ -1,11 +1,30 @@
 import Foundation
 
+
+
+class App {
+    
+}
+
+extension App: WlDisplayDelegate {
+    func event(interface: WlDisplay, event: WlDisplay.Event) {
+        print(event)
+    }
+}
+
+extension App: WlRegistryDelegate {
+    func event(interface: WlRegistry, event: WlRegistry.Event) {
+        print(event)
+    }
+}
+
 @main
 @MainActor
 public struct SwiftWayland {
     public static var connection: Connection! = nil
     public static func main() throws {
         Task { try await bruh() }
+
         RunLoop.main.run()
     }
 
@@ -25,7 +44,10 @@ public struct SwiftWayland {
             data.append(u32: currentId)
         }
 
-        let sent = try await connection.wire.send(message: message)
+        let app = App()
+        connection.register(object: app)
+
+        let sent = try await connection.send(message: message)
         print("Send: \(sent), \(message)")
     }
 }

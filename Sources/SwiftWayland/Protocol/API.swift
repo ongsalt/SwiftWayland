@@ -9,14 +9,14 @@ import Foundation
 
 typealias WaylandInterface = Any
 
-// we cant do this tho
-protocol Dispatch<Interface> {
-    associatedtype Interface: WlProxy
+protocol WLDelegate: Identifiable, AnyObject {}
 
+protocol WlDisplayDelegate: WLDelegate {
+    func event(interface: WlDisplay, event: WlDisplay.Event)
 }
 
-protocol WlDisplayDelegate {
-    func event(interface: WlDisplay, event: WlDisplay.Event)
+protocol WlRegistryDelegate: WLDelegate {
+    func event(interface: WlRegistry, event: WlRegistry.Event)
 }
 
 // // Later:
@@ -39,17 +39,25 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
     }
 }
 
-protocol WlProxy {
+protocol WlProxy: Identifiable {
     associatedtype Event: WlEventEnum
+
+    init()
+}
+
+extension WlProxy {
+    init() {
+        self.init()
+    }
 }
 
 internal protocol WlEventEnum {
 
 }
 
-class WlDisplay: WlProxy {
+final class WlDisplay: WlProxy {
     // objectId -> connection search for that object -> Dispatch<WlDisplay> -> WlDisplay -> translateEvent -> Self.Event
-    // 
+    //
 
     // TODO: make wl_callback a callback
     // special case of type="new_id" interface="wl_callback"
@@ -57,12 +65,24 @@ class WlDisplay: WlProxy {
         // connection.registerCallback(callback)
     }
 
-    public enum Event: WlEventEnum { 
+    func getRegistry() -> WlRegistry {
+        WlRegistry()
+    }
+
+    public enum Event: WlEventEnum {
         case error(objectId: ObjectId, code: UInt32, message: String)
         case deleteId(id: UInt32)
 
         static func decode(message: Message) -> Self {
-            .deleteId(id: 0)
+            let r = WLReader(data: message.arguments)
+            return switch message.opcode {
+            case 0:
+                Self.error(objectId: r.readObjectId(), code: r.readUInt(), message: r.readString())
+            case 1:
+                Self.deleteId(id: r.readObjectId())
+            default:
+                fatalError("bad wayland server")
+            }
         }
     }
 
@@ -82,13 +102,29 @@ class WlDisplay: WlProxy {
     }
 }
 
+final class WlRegistry: WlProxy {
+    // this must be custom code
 
-class App {
-    
-}
+    /// Deal with this wisely
+    func bind<T: WlProxy>(name: UInt, type: T.Type) -> T {
+        T()
+    }
 
-extension App: WlDisplayDelegate {
-    func event(interface: WlDisplay, event: WlDisplay.Event) {
-        
+    public enum Event: WlEventEnum {
+        case global(name: UInt32, interface: String, version: UInt32)
+        case globalRemove(name: UInt32)
+
+        static func decode(message: Message) -> Self {
+            let r = WLReader(data: message.arguments)
+            return switch message.opcode {
+            case 0:
+                Self.global(name: r.readUInt(), interface: r.readString(), version: r.readUInt())
+            case 1:
+                Self.globalRemove(name: r.readUInt())
+            default:
+                fatalError("bad wayland server")
+            }
+        }
+
     }
 }
