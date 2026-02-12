@@ -36,6 +36,7 @@ public protocol WlProxy: Identifiable {
 extension WlProxy {
     func parseAndDispatch(message: Message, connection: Connection) {
         let event = Event.decode(message: message, connection: connection)
+        // print("dispatch: \(event) to \(self)")
         self.onEvent(event)
     }
 }

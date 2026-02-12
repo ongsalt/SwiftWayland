@@ -1,5 +1,5 @@
-import SwiftWayland
 import Foundation
+import SwiftWayland
 
 @main
 @MainActor
@@ -16,15 +16,26 @@ public struct SwiftWayland {
         var toplevel: XdgToplevel?
     }
 
-    public static func main() throws {
-        Task { try await start() }
+    public static func main() {
+        // Task { try await start() }
+        try! start()
+       
         RunLoop.main.run()
     }
 
-    static func start() async throws {
-        connection = try await Connection.fromEnv()
+    static func start() throws {
+        connection = try Connection.fromEnv()
 
         let display = connection.display!
+        display.onEvent = { event in
+            switch event {
+                case .deleteId(let id):
+                    print("___---- Delete id \(id)")
+                default:
+                    break
+            }
+        }
+
         let registry = display.getRegistry()
 
         var state = State()
@@ -32,7 +43,7 @@ public struct SwiftWayland {
         registry.onEvent = { event in
             switch event {
             case .global(let name, let interface, let version):
-                print(interface)
+                // print(interface)
                 switch interface {
                 case "wl_compositor":
                     state.compositor = registry.bind(name: name, version: version, interfaceName: "wl_compositor", type: WlCompositor.self)
@@ -54,7 +65,12 @@ public struct SwiftWayland {
         }
 
         // try await connection.flush()
-        try await connection.roundtrip()
+        try connection.roundtrip()
+        print(connection.pendingMessages)
+        print(connection.proxies)
+
+        try connection.roundtrip()
+
 
         guard
             let compositor = state.compositor,
@@ -80,6 +96,6 @@ public struct SwiftWayland {
         state.toplevel = toplevel
 
         surface.commit()
-        try await connection.flush()
+        try connection.flush()
     }
 }

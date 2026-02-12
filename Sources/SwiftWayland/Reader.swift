@@ -27,6 +27,8 @@ public class WLReader {
 
     public func readFd() -> FileHandle {
         // FileHandle()
+        print("WlReader: readFd is not implemented")
+
         fatalError("WlReader: readFd is not implemented")
     }
 

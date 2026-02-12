@@ -7,7 +7,7 @@ public enum InitWaylandError: Error {
 }
 
 public final class Connection: @unchecked Sendable {
-    var proxies: [ObjectId: any WlProxy] = [:]
+    public var proxies: [ObjectId: any WlProxy] = [:]
     private(set) var currentId: ObjectId = 1  // must be 1 becuase wldisplay is special case
     let socket: Socket
 
@@ -15,33 +15,55 @@ public final class Connection: @unchecked Sendable {
         roundtrippingContinuation != nil
     }
     var roundtrippingContinuation: UnsafeContinuation<(), Never>? = nil
-    var pendingMessages: [Message] = []
+    public var pendingMessages: [Message] = []
 
     private(set) public var display: WlDisplay!  // id 1
 
     init(socket: Socket) {
         self.socket = socket
         display = createProxy(type: WlDisplay.self, id: 1)
-        startProcessingEvent()
+        // startProcessingEvent()
+    }
+
+    public func flush() throws {
+        // print("Start flush")
+        let msgs = pendingMessages
+        pendingMessages = []
+        for m in msgs {
+            // let p = proxies[m.objectId]
+            // print("Sending \(m) (\(p!))")
+            try sendBlocking(message: m)
+            // print(" - Sent")
+        }
+        // print("Done flush")
+        // flushing = false
+    }
+
+    public func dispatch(force: Bool = false) throws {
+        // print("Start dispatch")
+        var didRun = !force
+        while socket.canRead || !didRun {
+            didRun = true
+            let message = try Message(readBlocking: socket)
+
+            guard let receiver = self.proxies[message.objectId] else {
+                print("Bad wayland message: unknown receiver")
+                print(message)
+                print(message.arguments as NSData)
+                break
+            }
+
+            receiver.parseAndDispatch(message: message, connection: self)
+        }
+        // print("Done dispatch")
     }
 
     // how does this work
-    public func roundtrip() async throws {
-
-        let callback = display.sync()
-        try await flush()
-
-        await withUnsafeContinuation { continuation in
-            callback.onEvent = { _ in
-                print("-- Callback")
-                continuation.resume()
-            }
-        }
-        
-
-        // how do i wait for
-        // block until there is an event
-        // try await socket.done
+    public func roundtrip() throws {
+        // print("Start roundtrip")
+        try flush()
+        try dispatch(force: true)
+        // print("Resumed")
     }
 
     public func get(id: ObjectId) -> (any WlProxy)? {
@@ -59,6 +81,7 @@ public final class Connection: @unchecked Sendable {
     func nextId() -> ObjectId {
         while proxies.keys.contains(currentId) {
             currentId += 1
+            // currentId += numericCast(rand())
         }
         return currentId
     }
@@ -74,82 +97,72 @@ public final class Connection: @unchecked Sendable {
         proxies.removeValue(forKey: id)
     }
 
-    func startProcessingEvent() {
-        Task {
-            for await event in socket.event {
-                switch event {
-                case .write:
-                    // print("write")
-                    try await flush()
+    // func startProcessingEvent() {
+    //     Task {
+    //         for await event in socket.event {
+    //             switch event {
+    //             case .write:
+    //                 // print("write")
+    //                 try await flush()
+    //             // if let c = roundtrippingContinuation {
+    //             //     c.resume()
+    //             //     // will this be run immediately or in next run loop pass
+    //             //     // if first (js like) this gonna be fine
+    //             //     // but if its second -> fuck
+    //             // }
+    //             case .read:
+    //                 // print("read")
+    //                 let message = try await Message(readFrom: socket)
+    //                 guard let receiver = self.proxies[message.objectId] else {
+    //                     print("Bad wayland message: unknown receiver")
+    //                     print(message)
+    //                     print(message.arguments as NSData)
+    //                     break
+    //                 }
+    //                 receiver.parseAndDispatch(message: message, connection: self)
+    //             // print("done")
+    //             // receiver.onEvent()
+    //             // dispatch(receiver)
+    //             //
+    //             // read it, put it to proper queue
+    //             // each queue must call dispatch
+    //             // or just ignore this and let swift do its thing
+    //             case .error(let error):
+    //                 print("error: \(error)")
+    //             case .close:
+    //                 // tell everyone its close
+    //                 print("closing")
+    //                 break
+    //             }
+    //         }
+    //     }
+    // }
 
-                // if let c = roundtrippingContinuation {
-                //     c.resume()
-                //     // will this be run immediately or in next run loop pass
-                //     // if first (js like) this gonna be fine
-                //     // but if its second -> fuck
-                // }
-
-                case .read:
-                    // print("read")
-                    let message = try await Message(readFrom: socket)
-
-                    guard let receiver = self.proxies[message.objectId] else {
-                        print("Bad wayland message: unknown receiver")
-                        print(message)
-                        print(message.arguments as NSData)
-                        break
-                    }
-
-                    receiver.parseAndDispatch(message: message, connection: self)
-                    // print("done")
-
-                // receiver.onEvent()
-
-                // dispatch(receiver)
-
-                //
-
-                // read it, put it to proper queue
-                // each queue must call dispatch
-                // or just ignore this and let swift do its thing
-                case .error(let error):
-                    print("error: \(error)")
-                case .close:
-                    // tell everyone its close
-                    print("closing")
-                    break
-                }
-            }
-        }
-    }
+    // @discardableResult
+    // public func send(message: Message) async throws -> Int {
+    //     let data = Data(message)
+    //     try await socket.write(data)
+    //     return data.count
+    // }
 
     @discardableResult
-    public func send(message: Message) async throws -> Int {
+    public func sendBlocking(message: Message) throws -> Int {
         let data = Data(message)
-        try await socket.write(data)
+        try socket.writeBlocking(data: data)
         return data.count
     }
 
     public func queueSend(message: Message) {
+        // let p = proxies[message.objectId]
+        // print("queued: \(message) \(p!)")
         pendingMessages.append(message)
-    }
-
-    public func flush() async throws {
-        let msgs = pendingMessages
-        pendingMessages = []
-        for m in msgs {
-            try await send(message: m)
-        }
     }
 
     deinit {
         print("Closing because refcounted")
-        Task { [socket] in
-            await socket.close()
-        }
     }
 
-    public static func fromEnv() async throws(InitWaylandError) -> Self {
+    public static func fromEnv() throws(InitWaylandError) -> Self {
         guard let xdgRuntimeDirectory = ProcessInfo.processInfo.environment["XDG_RUNTIME_DIR"]
         else {
             throw .noXdgRuntimeDirectory
@@ -158,10 +171,10 @@ public final class Connection: @unchecked Sendable {
         let waylandDisplay = ProcessInfo.processInfo.environment["WAYLAND_DISPLAY"] ?? "wayland-0"
         let waylandPath = "\(xdgRuntimeDirectory)/\(waylandDisplay)"
 
-        return try await Self(socket: connectToSocket(path: waylandPath))
+        return try Self(socket: connectToSocket(path: waylandPath))
     }
 
-    private static func connectToSocket(path: String) async throws(InitWaylandError) -> Socket {
+    private static func connectToSocket(path: String) throws(InitWaylandError) -> Socket {
         var addr = sockaddr_un()
         addr.sun_family = UInt16(AF_UNIX)
         withUnsafeMutableBytes(of: &addr.sun_path) { ptr in

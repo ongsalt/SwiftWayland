@@ -18,9 +18,6 @@ enum SocketError: Error {
 final class Socket: @unchecked Sendable {
     private let fileDescriptor: Int32
     private let queue = DispatchQueue(label: "SwiftWayland.Socket")
-    private let readSource: DispatchSourceRead
-    private let eventStream: AsyncStream<SocketEvent>
-    private let continuation: AsyncStream<SocketEvent>.Continuation
 
     var canRead: Bool {
         var pfd = pollfd(fd: fileDescriptor, events: Int16(POLLIN), revents: 0)
@@ -29,65 +26,50 @@ final class Socket: @unchecked Sendable {
         return res != 0
     }
 
-    var event: AsyncStream<SocketEvent> { eventStream }
-
     init(fileDescriptor: Int32) {
         self.fileDescriptor = fileDescriptor
 
-        var streamContinuation: AsyncStream<SocketEvent>.Continuation!
-        self.eventStream = AsyncStream { continuation in
-            streamContinuation = continuation
-        }
-        self.continuation = streamContinuation
-
-        self.readSource = DispatchSource.makeReadSource(
-            fileDescriptor: fileDescriptor, queue: queue)
-        self.readSource.setEventHandler { [weak self] in
-            self?.continuation.yield(.read)
-        }
-        self.readSource.setCancelHandler { [weak self] in
-            self?.continuation.yield(.close)
-            self?.continuation.finish()
-        }
-        self.readSource.resume()
     }
 
     deinit {
-        readSource.cancel()
         _ = Glibc.close(fileDescriptor)
     }
 
-    func read(_ count: Int) async throws -> Data {
-        let res = try await withCheckedThrowingContinuation { continuation in
-            DispatchQueue.global().async { [fileDescriptor] in
-                do {
-                    let data = try Socket.readBlocking(fd: fileDescriptor, count: count)
-                    continuation.resume(returning: data)
-                } catch {
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
+    // func read(_ count: Int) async throws -> Data {
+    //     let res = try await withCheckedThrowingContinuation { continuation in
+    //         DispatchQueue.global().async { [fileDescriptor] in
+    //             do {
+    //                 let data = try Socket.readBlocking(fd: fileDescriptor, count: count)
+    //                 continuation.resume(returning: data)
+    //             } catch {
+    //                 continuation.resume(throwing: error)
+    //             }
+    //         }
+    //     }
 
-        return res
+    //     return res
+    // }
+
+    func writeBlocking(data: Data) throws {
+        try Socket.writeBlocking(fd: fileDescriptor, data: data)
     }
 
     func readBlocking(count: Int) throws -> Data {
         try Socket.readBlocking(fd: fileDescriptor, count: count)
     }
 
-    func write(_ data: Data) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            DispatchQueue.global().async { [fileDescriptor] in
-                do {
-                    try Socket.writeBlocking(fd: fileDescriptor, data: data)
-                    continuation.resume()
-                } catch {
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
-    }
+    // func write(_ data: Data) async throws {
+    //     try await withCheckedThrowingContinuation { continuation in
+    //         DispatchQueue.global().async { [fileDescriptor] in
+    //             do {
+    //                 try Socket.writeBlocking(fd: fileDescriptor, data: data)
+    //                 continuation.resume()
+    //             } catch {
+    //                 continuation.resume(throwing: error)
+    //             }
+    //         }
+    //     }
+    // }
 
     func readControlMessage() async throws -> [cmsghdr] {
         try await withCheckedThrowingContinuation { continuation in
@@ -114,11 +96,6 @@ final class Socket: @unchecked Sendable {
                 }
             }
         }
-    }
-
-    func close() async {
-        readSource.cancel()
-        _ = Glibc.close(fileDescriptor)
     }
 
     private static func readBlocking(fd: Int32, count: Int) throws -> Data {
