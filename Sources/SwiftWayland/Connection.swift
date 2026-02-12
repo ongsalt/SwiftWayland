@@ -45,11 +45,11 @@ public final class Connection: @unchecked Sendable {
     //     // we should record message
     // }
 
-    func get(id: ObjectId) -> (any WlProxy)? {
+    public func get(id: ObjectId) -> (any WlProxy)? {
         proxies[id]
     }
 
-    func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
+    public func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
         if let obj = proxies[id] {
             (obj as! T)
         } else {
@@ -128,7 +128,7 @@ public final class Connection: @unchecked Sendable {
     }
 
     @discardableResult
-    func send(message: Message) async throws -> Int {
+    public func send(message: Message) async throws -> Int {
         let data = Data(message)
         try await socket.write(data)
         return data.count

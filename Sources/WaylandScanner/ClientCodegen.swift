@@ -159,7 +159,7 @@ func buildMethods(_ requests: [Request]) -> String {
         }
 
         return """
-            public func \(r.name.lowerCamel)\(signature.withOutBracket) {
+            public func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket) {
             \(statements.joined(separator: "\n").indent(space: 4))
             }
             """
@@ -279,9 +279,11 @@ func buildDecodeFunction(_ events: [Event]) -> String {
             """
     }.joined(separator: "\n")
 
+    let readerNeeded  = cases.contains("r.read")
+    let readerString = !readerNeeded ? "" : "let r = WLReader(data: message.arguments, connection: connection)"
     return """
         public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+            \(readerString)
             switch message.opcode {
         \(cases.indent(space: 4))
             default:
