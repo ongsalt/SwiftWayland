@@ -3,9 +3,11 @@ import Glibc
 
 class WLReader {
     var data: Data
+    unowned let connection: Connection
     private(set) var cursor: Int = 0
 
-    init(data: Data) {
+    init(data: Data, connection: Connection) {
+        self.connection = connection
         self.data = data
     }
 

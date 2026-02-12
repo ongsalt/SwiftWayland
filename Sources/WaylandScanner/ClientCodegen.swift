@@ -226,7 +226,7 @@ func getArgDecodingExpr(_ arg: Argument) -> String {
     // case .newId: fatalError("Impossible (newId)")
     case .newId:
         if let interface = arg.interface {
-            "connection.createProxy(type: \(interface.camel).self, id: r.readNewId())!"
+            "connection.createProxy(type: \(interface.camel).self, id: r.readNewId())"
         } else {
             fatalError("wtf, how can you have newId without a type: \(arg)")
         }

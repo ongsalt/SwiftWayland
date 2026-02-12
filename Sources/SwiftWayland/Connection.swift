@@ -8,7 +8,7 @@ public enum InitWaylandError: Error {
 
 public final class Connection: @unchecked Sendable {
     var proxies: [ObjectId: any WlProxy] = [:]
-    private(set) var currentId: ObjectId = 0
+    private(set) var currentId: ObjectId = 1  // must be 1 becuase wldisplay is special case
     let socket: Socket
 
     // var roundtripping: Bool {
@@ -102,7 +102,7 @@ public final class Connection: @unchecked Sendable {
                         break
                     }
 
-                    receiver.parseAndDispatch(message: message)
+                    receiver.parseAndDispatch(message: message, connection: self)
 
                 // receiver.onEvent()
 

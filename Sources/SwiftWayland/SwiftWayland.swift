@@ -30,6 +30,5 @@ public struct SwiftWayland {
         // await connection.roundtrip()
         // print("Roundtripped")
 
-        // registry.bind(name: 1, type: WlDisplay.self)
     }
 }
