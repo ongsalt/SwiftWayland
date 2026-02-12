@@ -7,33 +7,62 @@ public enum InitWaylandError: Error {
 }
 
 public final class Connection: @unchecked Sendable {
-    var delegates: [any WLDelegate] = []  // TODO: make this safe
-    var proxies: [any WlProxy] = []
-
+    var proxies: [ObjectId: WlProxyProtocol] = [:]
+    private(set) var currentId: ObjectId = 0
     let socket: Socket
+
+    var pendingMessages: [Message] = []
+
+    private(set) public var display: WlDisplay!  // id 1
+
     init(socket: Socket) {
         self.socket = socket
+        display = createProxy(type: WlDisplay.self)
         startProcessingEvent()
     }
 
+    func nextId() -> ObjectId {
+        currentId += 1
+        return currentId
+    }
+
+    func createProxy<T>(type: T.Type) -> T where T: WlProxyProtocol {
+        let obj = T(connection: self, id: nextId())
+        proxies[obj.id] = obj
+        return obj
+    }
+
+    func removeObject(id: ObjectId) {
+        proxies.removeValue(forKey: id)
+    }
+
     func startProcessingEvent() {
-        Task { [] in
+        Task {
             for await event in socket.event {
                 switch event {
                 case .write:
                     print("write")
+                    for m in pendingMessages {
+                        try await send(message: m)
+                    }
+
                 case .read:
                     let message = try await Message(readFrom: socket)
-                    print(message)
-                    print(message.arguments as NSData)
-                    
-                    // let receiver = self.proxies.first { UInt32($0.id.hashValue) == message.objectId }
-                    
-                    // dispatch(receiver)
 
-                    // 
+                    guard let receiver = self.proxies[message.objectId] else {
+                        print("Bad wayland message: unknown receiver")
+                        print(message)
+                        print(message.arguments as NSData)
+                        break
+                    }
 
-                    
+                    receiver.parseAndDispatch(message: message)
+
+                // receiver.onEvent()
+
+                // dispatch(receiver)
+
+                //
 
                 // read it, put it to proper queue
                 // each queue must call dispatch
@@ -49,18 +78,15 @@ public final class Connection: @unchecked Sendable {
         }
     }
 
-    func register(object: any WLDelegate) {
-        self.delegates.append(object)
-    }
-
-    func unregister(object: any WLDelegate) {
-        self.delegates.removeAll { $0.id == object.id }
-    }
-
+    @discardableResult
     func send(message: Message) async throws -> Int {
         let data = Data(message)
         try await socket.write(data)
         return data.count
+    }
+
+    func queueSend(message: Message) {
+        pendingMessages.append(message)
     }
 
     deinit {

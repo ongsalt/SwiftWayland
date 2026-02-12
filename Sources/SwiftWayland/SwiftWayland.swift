@@ -6,17 +6,6 @@ class App {
     
 }
 
-extension App: WlDisplayDelegate {
-    func event(interface: WlDisplay, event: WlDisplay.Event) {
-        print(event)
-    }
-}
-
-extension App: WlRegistryDelegate {
-    func event(interface: WlRegistry, event: WlRegistry.Event) {
-        print(event)
-    }
-}
 
 @main
 @MainActor
@@ -31,8 +20,6 @@ public struct SwiftWayland {
     static func bruh() async throws {
         connection = try await Connection.fromEnv()
 
-        var currentId: UInt32 = 1
-        currentId += 1
         
         // var msg = Data()
         // msg.append(u32: 1)  // wl_display id
@@ -40,14 +27,13 @@ public struct SwiftWayland {
         // msg.append(u16: Message.HEADER_SIZE + 4)  // size
         // msg.append(u32: currentId)  // ???
 
-        let message = Message(objectId: 1, opcode: 1) { data in
-            data.append(u32: currentId)
+        // wl_display::get_registry
+
+        let registry = try await connection.display.getRegistry()
+        print(registry.id)
+
+        registry.onEvent = { event in 
+            print(event)
         }
-
-        let app = App()
-        connection.register(object: app)
-
-        let sent = try await connection.send(message: message)
-        print("Send: \(sent), \(message)")
     }
 }

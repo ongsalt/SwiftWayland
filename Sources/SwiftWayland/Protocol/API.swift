@@ -9,16 +9,6 @@ import Foundation
 
 typealias WaylandInterface = Any
 
-protocol WLDelegate: Identifiable, AnyObject {}
-
-protocol WlDisplayDelegate: WLDelegate {
-    func event(interface: WlDisplay, event: WlDisplay.Event)
-}
-
-protocol WlRegistryDelegate: WLDelegate {
-    func event(interface: WlRegistry, event: WlRegistry.Event)
-}
-
 // // Later:
 // func laterOn(connection: Connection)  {
 //     // connection.register(object: Dispatch())
@@ -39,23 +29,66 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
     }
 }
 
-protocol WlProxy: Identifiable {
-    associatedtype Event: WlEventEnum
+private nonisolated(unsafe) var currentId: ObjectId = 1  // wl_display is always 1
 
-    init()
+protocol WlProxyProtocol: Identifiable {
+    associatedtype Event: WlEventEnum
+    var id: ObjectId {
+        get
+    }
+
+    var onEvent: ((Event) -> Void) {
+        get
+        set
+    }
+
+    init(connection: Connection, id: ObjectId)
 }
 
-extension WlProxy {
-    init() {
-        self.init()
+extension WlProxyProtocol {
+    func parseAndDispatch(message: Message) {
+        let event = Event.decode(message: message)
+        self.onEvent(event)
     }
 }
 
-internal protocol WlEventEnum {
+// extension WlProxy {
+//     func decodeEvent(message: Message) -> Event? {
+//         Event.decode(message: message)
+//     }
+// }
 
+internal protocol WlEventEnum: WLDecodable {}
+
+public class WlProxyBase {    
+    public let id: ObjectId
+    unowned var connection: Connection
+
+    required init(connection: Connection, id: ObjectId) {
+        self.connection = connection
+        self.id = id
+    }
+
+    deinit {
+        connection.removeObject(id: id)
+    }
 }
 
-final class WlDisplay: WlProxy {
+extension WlProxyBase: Hashable {
+    public static func == (lhs: WlProxyBase, rhs: WlProxyBase) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+// typealias Test = WlProxy & _WlProxy
+
+public final class WlDisplay: WlProxyBase, WlProxyProtocol {
+    var onEvent: (Event) -> Void = { _ in }
+
     // objectId -> connection search for that object -> Dispatch<WlDisplay> -> WlDisplay -> translateEvent -> Self.Event
     //
 
@@ -65,8 +98,16 @@ final class WlDisplay: WlProxy {
         // connection.registerCallback(callback)
     }
 
-    func getRegistry() -> WlRegistry {
-        WlRegistry()
+    func getRegistry() async throws -> WlRegistry {
+        let registry = connection.createProxy(type: WlRegistry.self)
+        let message = Message(objectId: 1, opcode: 1) { data in
+            data.append(u32: registry.id) // newId
+        }
+
+        // this should not immediately fire, must schedule
+        try await connection.send(message: message)
+
+        return registry
     }
 
     public enum Event: WlEventEnum {
@@ -102,12 +143,14 @@ final class WlDisplay: WlProxy {
     }
 }
 
-final class WlRegistry: WlProxy {
+final class WlRegistry: WlProxyBase, WlProxyProtocol {
+    var onEvent: (Event) -> Void = { _ in }
+
     // this must be custom code
 
     /// Deal with this wisely
-    func bind<T: WlProxy>(name: UInt, type: T.Type) -> T {
-        T()
+    func bind<T>(name: UInt, type: T.Type) -> T where T: WlProxyProtocol {
+        connection.createProxy(type: T.self)
     }
 
     public enum Event: WlEventEnum {

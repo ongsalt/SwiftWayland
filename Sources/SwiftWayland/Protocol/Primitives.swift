@@ -14,9 +14,9 @@ enum WaylandPrimitive {
 }
 
 
-typealias ObjectId = UInt32
-typealias NewId = UInt32
-typealias EnumValue = UInt32
+public typealias ObjectId = UInt32
+public typealias NewId = UInt32
+public typealias EnumValue = UInt32
 
 struct WaylandString {
     let str: String
