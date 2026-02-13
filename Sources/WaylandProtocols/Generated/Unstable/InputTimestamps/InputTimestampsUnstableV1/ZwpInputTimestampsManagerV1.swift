@@ -5,12 +5,13 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
     public static let name: String = "zwp_input_timestamps_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getKeyboardTimestamps(keyboard: WlKeyboard) -> ZwpInputTimestampsV1 {
+    public func getKeyboardTimestamps(keyboard: WlKeyboard) throws(WaylandProxyError)  -> ZwpInputTimestampsV1 {
         let id = connection.createProxy(type: ZwpInputTimestampsV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -20,7 +21,7 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
         return id
     }
     
-    public func getPointerTimestamps(pointer: WlPointer) -> ZwpInputTimestampsV1 {
+    public func getPointerTimestamps(pointer: WlPointer) throws(WaylandProxyError)  -> ZwpInputTimestampsV1 {
         let id = connection.createProxy(type: ZwpInputTimestampsV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
@@ -30,7 +31,7 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
         return id
     }
     
-    public func getTouchTimestamps(touch: WlTouch) -> ZwpInputTimestampsV1 {
+    public func getTouchTimestamps(touch: WlTouch) throws(WaylandProxyError)  -> ZwpInputTimestampsV1 {
         let id = connection.createProxy(type: ZwpInputTimestampsV1.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(id.id),
@@ -38,6 +39,10 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

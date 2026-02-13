@@ -5,7 +5,7 @@ public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_drm_lease_device_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createLeaseRequest() -> WpDrmLeaseRequestV1 {
+    public func createLeaseRequest() throws(WaylandProxyError)  -> WpDrmLeaseRequestV1 {
         let id = connection.createProxy(type: WpDrmLeaseRequestV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
@@ -14,7 +14,7 @@ public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func release() {
+    public func release() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
     }

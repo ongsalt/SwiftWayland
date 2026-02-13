@@ -5,12 +5,13 @@ public final class ExtBackgroundEffectManagerV1: WlProxyBase, WlProxy, WlInterfa
     public static let name: String = "ext_background_effect_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getBackgroundEffect(surface: WlSurface) -> ExtBackgroundEffectSurfaceV1 {
+    public func getBackgroundEffect(surface: WlSurface) throws(WaylandProxyError)  -> ExtBackgroundEffectSurfaceV1 {
         let id = connection.createProxy(type: ExtBackgroundEffectSurfaceV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -18,6 +19,10 @@ public final class ExtBackgroundEffectManagerV1: WlProxyBase, WlProxy, WlInterfa
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -5,19 +5,20 @@ public final class WpColorRepresentationSurfaceV1: WlProxyBase, WlProxy, WlInter
     public static let name: String = "wp_color_representation_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setAlphaMode(alphaMode: UInt32) {
+    public func setAlphaMode(alphaMode: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(alphaMode)
         ])
         connection.send(message: message)
     }
     
-    public func setCoefficientsAndRange(coefficients: UInt32, range: UInt32) {
+    public func setCoefficientsAndRange(coefficients: UInt32, range: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .uint(coefficients),
             .uint(range)
@@ -25,11 +26,15 @@ public final class WpColorRepresentationSurfaceV1: WlProxyBase, WlProxy, WlInter
         connection.send(message: message)
     }
     
-    public func setChromaLocation(chromaLocation: UInt32) {
+    public func setChromaLocation(chromaLocation: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(chromaLocation)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -4,7 +4,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_seat"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func getPointer() -> WlPointer {
+    public func getPointer() throws(WaylandProxyError)  -> WlPointer {
         let id = connection.createProxy(type: WlPointer.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
@@ -13,7 +13,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getKeyboard() -> WlKeyboard {
+    public func getKeyboard() throws(WaylandProxyError)  -> WlKeyboard {
         let id = connection.createProxy(type: WlKeyboard.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
@@ -22,7 +22,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getTouch() -> WlTouch {
+    public func getTouch() throws(WaylandProxyError)  -> WlTouch {
         let id = connection.createProxy(type: WlTouch.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
@@ -31,9 +31,14 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func release() {
+    public consuming func release() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.release()
     }
     
     public enum Capability: UInt32, WlEnum {

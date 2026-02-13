@@ -5,12 +5,13 @@ public final class XdgToplevelIconManagerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "xdg_toplevel_icon_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func createIcon() -> XdgToplevelIconV1 {
+    public func createIcon() throws(WaylandProxyError)  -> XdgToplevelIconV1 {
         let id = connection.createProxy(type: XdgToplevelIconV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
@@ -19,12 +20,16 @@ public final class XdgToplevelIconManagerV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func setIcon(toplevel: XdgToplevel, icon: XdgToplevelIconV1) {
+    public func setIcon(toplevel: XdgToplevel, icon: XdgToplevelIconV1) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(toplevel),
             .object(icon)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

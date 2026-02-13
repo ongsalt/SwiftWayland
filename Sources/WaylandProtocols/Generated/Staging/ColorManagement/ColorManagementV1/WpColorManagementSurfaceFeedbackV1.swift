@@ -5,12 +5,13 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
     public static let name: String = "wp_color_management_surface_feedback_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getPreferred() -> WpImageDescriptionV1 {
+    public func getPreferred() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(imageDescription.id)
@@ -19,13 +20,17 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
         return imageDescription
     }
     
-    public func getPreferredParametric() -> WpImageDescriptionV1 {
+    public func getPreferredParametric() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(imageDescription.id)
         ])
         connection.send(message: message)
         return imageDescription
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -4,7 +4,7 @@ public final class WlDataDeviceManager: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_data_device_manager"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createDataSource() -> WlDataSource {
+    public func createDataSource() throws(WaylandProxyError)  -> WlDataSource {
         let id = connection.createProxy(type: WlDataSource.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
@@ -13,7 +13,7 @@ public final class WlDataDeviceManager: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getDataDevice(seat: WlSeat) -> WlDataDevice {
+    public func getDataDevice(seat: WlSeat) throws(WaylandProxyError)  -> WlDataDevice {
         let id = connection.createProxy(type: WlDataDevice.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),

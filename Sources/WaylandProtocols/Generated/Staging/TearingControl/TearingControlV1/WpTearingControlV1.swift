@@ -5,16 +5,21 @@ public final class WpTearingControlV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_tearing_control_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func setPresentationHint(hint: UInt32) {
+    public func setPresentationHint(hint: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(hint)
         ])
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum PresentationHint: UInt32, WlEnum {

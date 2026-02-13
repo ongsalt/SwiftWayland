@@ -4,12 +4,13 @@ public final class WpViewporter: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_viewporter"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getViewport(surface: WlSurface) -> WpViewport {
+    public func getViewport(surface: WlSurface) throws(WaylandProxyError)  -> WpViewport {
         let id = connection.createProxy(type: WpViewport.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -17,6 +18,10 @@ public final class WpViewporter: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

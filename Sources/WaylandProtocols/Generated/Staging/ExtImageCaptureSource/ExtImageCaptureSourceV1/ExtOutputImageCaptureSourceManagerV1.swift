@@ -5,7 +5,7 @@ public final class ExtOutputImageCaptureSourceManagerV1: WlProxyBase, WlProxy, W
     public static let name: String = "ext_output_image_capture_source_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createSource(output: WlOutput) -> ExtImageCaptureSourceV1 {
+    public func createSource(output: WlOutput) throws(WaylandProxyError)  -> ExtImageCaptureSourceV1 {
         let source = connection.createProxy(type: ExtImageCaptureSourceV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(source.id),
@@ -15,9 +15,14 @@ public final class ExtOutputImageCaptureSourceManagerV1: WlProxyBase, WlProxy, W
         return source
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

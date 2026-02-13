@@ -5,12 +5,13 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_input_method_context_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func commitString(serial: UInt32, text: String) {
+    public func commitString(serial: UInt32, text: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(serial),
             .string(text)
@@ -18,7 +19,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func preeditString(serial: UInt32, text: String, commit: String) {
+    public func preeditString(serial: UInt32, text: String, commit: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .uint(serial),
             .string(text),
@@ -27,7 +28,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func preeditStyling(index: UInt32, length: UInt32, style: UInt32) {
+    public func preeditStyling(index: UInt32, length: UInt32, style: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(index),
             .uint(length),
@@ -36,14 +37,14 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func preeditCursor(index: Int32) {
+    public func preeditCursor(index: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .int(index)
         ])
         connection.send(message: message)
     }
     
-    public func deleteSurroundingText(index: Int32, length: UInt32) {
+    public func deleteSurroundingText(index: Int32, length: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .int(index),
             .uint(length)
@@ -51,7 +52,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func cursorPosition(index: Int32, anchor: Int32) {
+    public func cursorPosition(index: Int32, anchor: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .int(index),
             .int(anchor)
@@ -59,14 +60,14 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func modifiersMap(map: Data) {
+    public func modifiersMap(map: Data) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .array(map)
         ])
         connection.send(message: message)
     }
     
-    public func keysym(serial: UInt32, time: UInt32, sym: UInt32, state: UInt32, modifiers: UInt32) {
+    public func keysym(serial: UInt32, time: UInt32, sym: UInt32, state: UInt32, modifiers: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .uint(serial),
             .uint(time),
@@ -77,7 +78,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func grabKeyboard() -> WlKeyboard {
+    public func grabKeyboard() throws(WaylandProxyError)  -> WlKeyboard {
         let keyboard = connection.createProxy(type: WlKeyboard.self)
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .newId(keyboard.id)
@@ -86,7 +87,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         return keyboard
     }
     
-    public func key(serial: UInt32, time: UInt32, key: UInt32, state: UInt32) {
+    public func key(serial: UInt32, time: UInt32, key: UInt32, state: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 10, contents: [
             .uint(serial),
             .uint(time),
@@ -96,7 +97,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func modifiers(serial: UInt32, modsDepressed: UInt32, modsLatched: UInt32, modsLocked: UInt32, group: UInt32) {
+    public func modifiers(serial: UInt32, modsDepressed: UInt32, modsLatched: UInt32, modsLocked: UInt32, group: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 11, contents: [
             .uint(serial),
             .uint(modsDepressed),
@@ -107,7 +108,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func language(serial: UInt32, language: String) {
+    public func language(serial: UInt32, language: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 12, contents: [
             .uint(serial),
             .string(language)
@@ -115,12 +116,16 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func textDirection(serial: UInt32, direction: UInt32) {
+    public func textDirection(serial: UInt32, direction: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 13, contents: [
             .uint(serial),
             .uint(direction)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

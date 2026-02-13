@@ -4,7 +4,7 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_compositor"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createSurface() -> WlSurface {
+    public func createSurface() throws(WaylandProxyError)  -> WlSurface {
         let id = connection.createProxy(type: WlSurface.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
@@ -13,7 +13,7 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func createRegion() -> WlRegion {
+    public func createRegion() throws(WaylandProxyError)  -> WlRegion {
         let id = connection.createProxy(type: WlRegion.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)

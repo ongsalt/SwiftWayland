@@ -5,7 +5,7 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
     public static let name: String = "ext_image_copy_capture_session_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createFrame() -> ExtImageCopyCaptureFrameV1 {
+    public func createFrame() throws(WaylandProxyError)  -> ExtImageCopyCaptureFrameV1 {
         let frame = connection.createProxy(type: ExtImageCopyCaptureFrameV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(frame.id)
@@ -14,9 +14,14 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
         return frame
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

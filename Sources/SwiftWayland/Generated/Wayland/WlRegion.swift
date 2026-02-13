@@ -4,12 +4,13 @@ public final class WlRegion: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_region"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func add(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func add(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .int(x),
             .int(y),
@@ -19,7 +20,7 @@ public final class WlRegion: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func subtract(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func subtract(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(x),
             .int(y),
@@ -27,6 +28,10 @@ public final class WlRegion: WlProxyBase, WlProxy, WlInterface {
             .int(height)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

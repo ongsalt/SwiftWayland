@@ -5,12 +5,13 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_cursor_shape_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getPointer(pointer: WlPointer) -> WpCursorShapeDeviceV1 {
+    public func getPointer(pointer: WlPointer) throws(WaylandProxyError)  -> WpCursorShapeDeviceV1 {
         let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(cursorShapeDevice.id),
@@ -20,7 +21,7 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
         return cursorShapeDevice
     }
     
-    public func getTabletToolV2(tabletTool: ZwpTabletToolV2) -> WpCursorShapeDeviceV1 {
+    public func getTabletToolV2(tabletTool: ZwpTabletToolV2) throws(WaylandProxyError)  -> WpCursorShapeDeviceV1 {
         let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(cursorShapeDevice.id),
@@ -28,6 +29,10 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return cursorShapeDevice
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

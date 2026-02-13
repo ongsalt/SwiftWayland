@@ -5,12 +5,13 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
     public static let name: String = "wp_linux_drm_syncobj_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getSurface(surface: WlSurface) -> WpLinuxDrmSyncobjSurfaceV1 {
+    public func getSurface(surface: WlSurface) throws(WaylandProxyError)  -> WpLinuxDrmSyncobjSurfaceV1 {
         let id = connection.createProxy(type: WpLinuxDrmSyncobjSurfaceV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -20,7 +21,7 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
         return id
     }
     
-    public func importTimeline(fd: FileHandle) -> WpLinuxDrmSyncobjTimelineV1 {
+    public func importTimeline(fd: FileHandle) throws(WaylandProxyError)  -> WpLinuxDrmSyncobjTimelineV1 {
         let id = connection.createProxy(type: WpLinuxDrmSyncobjTimelineV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
@@ -28,6 +29,10 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

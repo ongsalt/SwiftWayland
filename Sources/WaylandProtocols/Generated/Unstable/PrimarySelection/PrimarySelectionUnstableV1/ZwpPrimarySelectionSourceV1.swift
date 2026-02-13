@@ -5,16 +5,21 @@ public final class ZwpPrimarySelectionSourceV1: WlProxyBase, WlProxy, WlInterfac
     public static let name: String = "zwp_primary_selection_source_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func offer(mimeType: String) {
+    public func offer(mimeType: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .string(mimeType)
         ])
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

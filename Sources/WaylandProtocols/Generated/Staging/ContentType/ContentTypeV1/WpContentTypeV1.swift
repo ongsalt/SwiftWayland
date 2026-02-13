@@ -5,16 +5,21 @@ public final class WpContentTypeV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_content_type_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setContentType(contentType: UInt32) {
+    public func setContentType(contentType: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(contentType)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum `Type`: UInt32, WlEnum {

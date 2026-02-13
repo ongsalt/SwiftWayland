@@ -5,9 +5,14 @@ public final class WpImageDescriptionReferenceV1: WlProxyBase, WlProxy, WlInterf
     public static let name: String = "wp_image_description_reference_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

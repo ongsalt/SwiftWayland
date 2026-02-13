@@ -5,17 +5,22 @@ public final class WpCursorShapeDeviceV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_cursor_shape_device_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setShape(serial: UInt32, shape: UInt32) {
+    public func setShape(serial: UInt32, shape: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(serial),
             .uint(shape)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Shape: UInt32, WlEnum {

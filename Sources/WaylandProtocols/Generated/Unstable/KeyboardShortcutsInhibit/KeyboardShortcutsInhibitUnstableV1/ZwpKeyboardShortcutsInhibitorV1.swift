@@ -5,9 +5,14 @@ public final class ZwpKeyboardShortcutsInhibitorV1: WlProxyBase, WlProxy, WlInte
     public static let name: String = "zwp_keyboard_shortcuts_inhibitor_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

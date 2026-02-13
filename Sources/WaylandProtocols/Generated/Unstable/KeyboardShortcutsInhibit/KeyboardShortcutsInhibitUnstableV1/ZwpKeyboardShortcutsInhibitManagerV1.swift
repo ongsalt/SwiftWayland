@@ -5,12 +5,13 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
     public static let name: String = "zwp_keyboard_shortcuts_inhibit_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func inhibitShortcuts(surface: WlSurface, seat: WlSeat) -> ZwpKeyboardShortcutsInhibitorV1 {
+    public func inhibitShortcuts(surface: WlSurface, seat: WlSeat) throws(WaylandProxyError)  -> ZwpKeyboardShortcutsInhibitorV1 {
         let id = connection.createProxy(type: ZwpKeyboardShortcutsInhibitorV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -19,6 +20,10 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

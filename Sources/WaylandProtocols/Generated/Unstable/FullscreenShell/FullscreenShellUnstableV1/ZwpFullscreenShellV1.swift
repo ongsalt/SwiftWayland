@@ -5,12 +5,13 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_fullscreen_shell_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func release() {
+    public consuming func release() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func presentSurface(surface: WlSurface, method: UInt32, output: WlOutput) {
+    public func presentSurface(surface: WlSurface, method: UInt32, output: WlOutput) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(surface),
             .uint(method),
@@ -19,7 +20,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32) -> ZwpFullscreenShellModeFeedbackV1 {
+    public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32) throws(WaylandProxyError)  -> ZwpFullscreenShellModeFeedbackV1 {
         let feedback = connection.createProxy(type: ZwpFullscreenShellModeFeedbackV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(surface),
@@ -29,6 +30,10 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return feedback
+    }
+    
+    deinit {
+        try! self.release()
     }
     
     public enum Capability: UInt32, WlEnum {

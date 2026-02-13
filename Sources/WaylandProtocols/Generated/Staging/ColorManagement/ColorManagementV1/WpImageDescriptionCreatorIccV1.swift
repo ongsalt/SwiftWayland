@@ -5,16 +5,17 @@ public final class WpImageDescriptionCreatorIccV1: WlProxyBase, WlProxy, WlInter
     public static let name: String = "wp_image_description_creator_icc_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func create() -> WpImageDescriptionV1 {
+    public consuming func create() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(imageDescription.id)
         ])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
         return imageDescription
     }
     
-    public func setIccFile(iccProfile: FileHandle, offset: UInt32, length: UInt32) {
+    public func setIccFile(iccProfile: FileHandle, offset: UInt32, length: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fd(iccProfile),
             .uint(offset),

@@ -5,17 +5,22 @@ public final class ZxdgPopupV6: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zxdg_popup_v6"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func grab(seat: WlSeat, serial: UInt32) {
+    public func grab(seat: WlSeat, serial: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(seat),
             .uint(serial)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

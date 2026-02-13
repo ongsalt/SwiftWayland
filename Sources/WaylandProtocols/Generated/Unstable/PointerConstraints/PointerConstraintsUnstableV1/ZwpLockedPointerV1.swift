@@ -5,12 +5,13 @@ public final class ZwpLockedPointerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_locked_pointer_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setCursorPositionHint(surfaceX: Double, surfaceY: Double) {
+    public func setCursorPositionHint(surfaceX: Double, surfaceY: Double) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fixed(surfaceX),
             .fixed(surfaceY)
@@ -18,11 +19,15 @@ public final class ZwpLockedPointerV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setRegion(region: WlRegion) {
+    public func setRegion(region: WlRegion) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(region)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

@@ -5,19 +5,24 @@ public final class WpFifoV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_fifo_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func setBarrier() {
+    public func setBarrier() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
     }
     
-    public func waitBarrier() {
+    public func waitBarrier() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

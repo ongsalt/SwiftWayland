@@ -4,12 +4,13 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "xdg_positioner"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setSize(width: Int32, height: Int32) {
+    public func setSize(width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .int(width),
             .int(height)
@@ -17,7 +18,7 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setAnchorRect(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func setAnchorRect(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(x),
             .int(y),
@@ -27,28 +28,28 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setAnchor(anchor: UInt32) {
+    public func setAnchor(anchor: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(anchor)
         ])
         connection.send(message: message)
     }
     
-    public func setGravity(gravity: UInt32) {
+    public func setGravity(gravity: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(gravity)
         ])
         connection.send(message: message)
     }
     
-    public func setConstraintAdjustment(constraintAdjustment: UInt32) {
+    public func setConstraintAdjustment(constraintAdjustment: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .uint(constraintAdjustment)
         ])
         connection.send(message: message)
     }
     
-    public func setOffset(x: Int32, y: Int32) {
+    public func setOffset(x: Int32, y: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .int(x),
             .int(y)
@@ -56,12 +57,12 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setReactive() {
+    public func setReactive() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 7, contents: [])
         connection.send(message: message)
     }
     
-    public func setParentSize(parentWidth: Int32, parentHeight: Int32) {
+    public func setParentSize(parentWidth: Int32, parentHeight: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .int(parentWidth),
             .int(parentHeight)
@@ -69,11 +70,15 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setParentConfigure(serial: UInt32) {
+    public func setParentConfigure(serial: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .uint(serial)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

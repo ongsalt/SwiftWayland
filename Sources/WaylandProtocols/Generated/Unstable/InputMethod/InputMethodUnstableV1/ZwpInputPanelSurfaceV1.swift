@@ -5,7 +5,7 @@ public final class ZwpInputPanelSurfaceV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_input_panel_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func setToplevel(output: WlOutput, position: UInt32) {
+    public func setToplevel(output: WlOutput, position: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .object(output),
             .uint(position)
@@ -13,7 +13,7 @@ public final class ZwpInputPanelSurfaceV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setOverlayPanel() {
+    public func setOverlayPanel() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
     }

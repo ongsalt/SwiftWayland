@@ -5,12 +5,13 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_pointer_constraints_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) -> ZwpLockedPointerV1 {
+    public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) throws(WaylandProxyError)  -> ZwpLockedPointerV1 {
         let id = connection.createProxy(type: ZwpLockedPointerV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -23,7 +24,7 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) -> ZwpConfinedPointerV1 {
+    public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) throws(WaylandProxyError)  -> ZwpConfinedPointerV1 {
         let id = connection.createProxy(type: ZwpConfinedPointerV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
@@ -34,6 +35,10 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

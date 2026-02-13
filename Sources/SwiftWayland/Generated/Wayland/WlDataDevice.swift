@@ -4,7 +4,7 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_data_device"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func startDrag(source: WlDataSource, origin: WlSurface, icon: WlSurface, serial: UInt32) {
+    public func startDrag(source: WlDataSource, origin: WlSurface, icon: WlSurface, serial: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .object(source),
             .object(origin),
@@ -14,7 +14,7 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setSelection(source: WlDataSource, serial: UInt32) {
+    public func setSelection(source: WlDataSource, serial: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(source),
             .uint(serial)
@@ -22,9 +22,14 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func release() {
+    public consuming func release() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.release()
     }
     
     public enum Error: UInt32, WlEnum {

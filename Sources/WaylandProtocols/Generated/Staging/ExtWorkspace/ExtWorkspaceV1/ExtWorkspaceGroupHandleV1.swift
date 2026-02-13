@@ -5,16 +5,21 @@ public final class ExtWorkspaceGroupHandleV1: WlProxyBase, WlProxy, WlInterface 
     public static let name: String = "ext_workspace_group_handle_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createWorkspace(workspace: String) {
+    public func createWorkspace(workspace: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .string(workspace)
         ])
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum GroupCapabilities: UInt32, WlEnum {

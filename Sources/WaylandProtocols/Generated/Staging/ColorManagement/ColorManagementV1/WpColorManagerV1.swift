@@ -5,12 +5,13 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_color_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getOutput(output: WlOutput) -> WpColorManagementOutputV1 {
+    public func getOutput(output: WlOutput) throws(WaylandProxyError)  -> WpColorManagementOutputV1 {
         let id = connection.createProxy(type: WpColorManagementOutputV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -20,7 +21,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getSurface(surface: WlSurface) -> WpColorManagementSurfaceV1 {
+    public func getSurface(surface: WlSurface) throws(WaylandProxyError)  -> WpColorManagementSurfaceV1 {
         let id = connection.createProxy(type: WpColorManagementSurfaceV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
@@ -30,7 +31,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getSurfaceFeedback(surface: WlSurface) -> WpColorManagementSurfaceFeedbackV1 {
+    public func getSurfaceFeedback(surface: WlSurface) throws(WaylandProxyError)  -> WpColorManagementSurfaceFeedbackV1 {
         let id = connection.createProxy(type: WpColorManagementSurfaceFeedbackV1.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(id.id),
@@ -40,7 +41,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func createIccCreator() -> WpImageDescriptionCreatorIccV1 {
+    public func createIccCreator() throws(WaylandProxyError)  -> WpImageDescriptionCreatorIccV1 {
         let obj = connection.createProxy(type: WpImageDescriptionCreatorIccV1.self)
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .newId(obj.id)
@@ -49,7 +50,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         return obj
     }
     
-    public func createParametricCreator() -> WpImageDescriptionCreatorParamsV1 {
+    public func createParametricCreator() throws(WaylandProxyError)  -> WpImageDescriptionCreatorParamsV1 {
         let obj = connection.createProxy(type: WpImageDescriptionCreatorParamsV1.self)
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .newId(obj.id)
@@ -58,7 +59,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         return obj
     }
     
-    public func createWindowsScrgb() -> WpImageDescriptionV1 {
+    public func createWindowsScrgb() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .newId(imageDescription.id)
@@ -67,7 +68,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         return imageDescription
     }
     
-    public func getImageDescription(reference: WpImageDescriptionReferenceV1) -> WpImageDescriptionV1 {
+    public func getImageDescription(reference: WpImageDescriptionReferenceV1) throws(WaylandProxyError)  -> WpImageDescriptionV1 {
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .newId(imageDescription.id),
@@ -75,6 +76,10 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return imageDescription
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

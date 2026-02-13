@@ -5,37 +5,38 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
     public static let name: String = "wp_image_description_creator_params_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func create() -> WpImageDescriptionV1 {
+    public consuming func create() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(imageDescription.id)
         ])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
         return imageDescription
     }
     
-    public func setTfNamed(tf: UInt32) {
+    public func setTfNamed(tf: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(tf)
         ])
         connection.send(message: message)
     }
     
-    public func setTfPower(eexp: UInt32) {
+    public func setTfPower(eexp: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .uint(eexp)
         ])
         connection.send(message: message)
     }
     
-    public func setPrimariesNamed(primaries: UInt32) {
+    public func setPrimariesNamed(primaries: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(primaries)
         ])
         connection.send(message: message)
     }
     
-    public func setPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) {
+    public func setPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .int(rX),
             .int(rY),
@@ -49,7 +50,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
         connection.send(message: message)
     }
     
-    public func setLuminances(minLum: UInt32, maxLum: UInt32, referenceLum: UInt32) {
+    public func setLuminances(minLum: UInt32, maxLum: UInt32, referenceLum: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .uint(minLum),
             .uint(maxLum),
@@ -58,7 +59,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
         connection.send(message: message)
     }
     
-    public func setMasteringDisplayPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) {
+    public func setMasteringDisplayPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .int(rX),
             .int(rY),
@@ -72,7 +73,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
         connection.send(message: message)
     }
     
-    public func setMasteringLuminance(minLum: UInt32, maxLum: UInt32) {
+    public func setMasteringLuminance(minLum: UInt32, maxLum: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .uint(minLum),
             .uint(maxLum)
@@ -80,14 +81,14 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
         connection.send(message: message)
     }
     
-    public func setMaxCll(maxCll: UInt32) {
+    public func setMaxCll(maxCll: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .uint(maxCll)
         ])
         connection.send(message: message)
     }
     
-    public func setMaxFall(maxFall: UInt32) {
+    public func setMaxFall(maxFall: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .uint(maxFall)
         ])

@@ -4,12 +4,13 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "xdg_surface"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getToplevel() -> XdgToplevel {
+    public func getToplevel() throws(WaylandProxyError)  -> XdgToplevel {
         let id = connection.createProxy(type: XdgToplevel.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
@@ -18,7 +19,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getPopup(parent: XdgSurface, positioner: XdgPositioner) -> XdgPopup {
+    public func getPopup(parent: XdgSurface, positioner: XdgPositioner) throws(WaylandProxyError)  -> XdgPopup {
         let id = connection.createProxy(type: XdgPopup.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
@@ -29,7 +30,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func setWindowGeometry(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func setWindowGeometry(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .int(x),
             .int(y),
@@ -39,11 +40,15 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func ackConfigure(serial: UInt32) {
+    public func ackConfigure(serial: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(serial)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

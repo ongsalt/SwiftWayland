@@ -4,12 +4,13 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_surface"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func attach(buffer: WlBuffer, x: Int32, y: Int32) {
+    public func attach(buffer: WlBuffer, x: Int32, y: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(buffer),
             .int(x),
@@ -18,7 +19,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func damage(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func damage(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(x),
             .int(y),
@@ -28,7 +29,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func frame() -> WlCallback {
+    public func frame() throws(WaylandProxyError)  -> WlCallback {
         let callback = connection.createProxy(type: WlCallback.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(callback.id)
@@ -37,40 +38,40 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
         return callback
     }
     
-    public func setOpaqueRegion(region: WlRegion) {
+    public func setOpaqueRegion(region: WlRegion) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .object(region)
         ])
         connection.send(message: message)
     }
     
-    public func setInputRegion(region: WlRegion) {
+    public func setInputRegion(region: WlRegion) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .object(region)
         ])
         connection.send(message: message)
     }
     
-    public func commit() {
+    public func commit() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 6, contents: [])
         connection.send(message: message)
     }
     
-    public func setBufferTransform(transform: Int32) {
+    public func setBufferTransform(transform: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .int(transform)
         ])
         connection.send(message: message)
     }
     
-    public func setBufferScale(scale: Int32) {
+    public func setBufferScale(scale: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .int(scale)
         ])
         connection.send(message: message)
     }
     
-    public func damageBuffer(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func damageBuffer(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .int(x),
             .int(y),
@@ -80,12 +81,16 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func offset(x: Int32, y: Int32) {
+    public func offset(x: Int32, y: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 10, contents: [
             .int(x),
             .int(y)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

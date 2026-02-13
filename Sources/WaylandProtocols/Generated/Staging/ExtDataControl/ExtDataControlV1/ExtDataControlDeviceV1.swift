@@ -5,23 +5,28 @@ public final class ExtDataControlDeviceV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "ext_data_control_device_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func setSelection(source: ExtDataControlSourceV1) {
+    public func setSelection(source: ExtDataControlSourceV1) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .object(source)
         ])
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setPrimarySelection(source: ExtDataControlSourceV1) {
+    public func setPrimarySelection(source: ExtDataControlSourceV1) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(source)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

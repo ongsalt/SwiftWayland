@@ -4,7 +4,7 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_data_offer"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func accept(serial: UInt32, mimeType: String) {
+    public func accept(serial: UInt32, mimeType: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial),
             .string(mimeType)
@@ -12,7 +12,7 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func receive(mimeType: String, fd: FileHandle) {
+    public func receive(mimeType: String, fd: FileHandle) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(mimeType),
             .fd(fd)
@@ -20,22 +20,27 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func finish() {
+    public func finish() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
-    public func setActions(dndActions: UInt32, preferredAction: UInt32) {
+    public func setActions(dndActions: UInt32, preferredAction: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(dndActions),
             .uint(preferredAction)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -5,35 +5,40 @@ public final class WpSecurityContextV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_security_context_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setSandboxEngine(name: String) {
+    public func setSandboxEngine(name: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(name)
         ])
         connection.send(message: message)
     }
     
-    public func setAppId(appId: String) {
+    public func setAppId(appId: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .string(appId)
         ])
         connection.send(message: message)
     }
     
-    public func setInstanceId(instanceId: String) {
+    public func setInstanceId(instanceId: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .string(instanceId)
         ])
         connection.send(message: message)
     }
     
-    public func commit() {
+    public func commit() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

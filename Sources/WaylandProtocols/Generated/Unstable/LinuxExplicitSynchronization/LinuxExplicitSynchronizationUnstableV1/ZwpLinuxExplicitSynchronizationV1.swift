@@ -5,12 +5,13 @@ public final class ZwpLinuxExplicitSynchronizationV1: WlProxyBase, WlProxy, WlIn
     public static let name: String = "zwp_linux_explicit_synchronization_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getSynchronization(surface: WlSurface) -> ZwpLinuxSurfaceSynchronizationV1 {
+    public func getSynchronization(surface: WlSurface) throws(WaylandProxyError)  -> ZwpLinuxSurfaceSynchronizationV1 {
         let id = connection.createProxy(type: ZwpLinuxSurfaceSynchronizationV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -18,6 +19,10 @@ public final class ZwpLinuxExplicitSynchronizationV1: WlProxyBase, WlProxy, WlIn
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

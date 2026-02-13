@@ -5,7 +5,7 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_text_input_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func activate(seat: WlSeat, surface: WlSurface) {
+    public func activate(seat: WlSeat, surface: WlSurface) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .object(seat),
             .object(surface)
@@ -13,29 +13,29 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func deactivate(seat: WlSeat) {
+    public func deactivate(seat: WlSeat) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(seat)
         ])
         connection.send(message: message)
     }
     
-    public func showInputPanel() {
+    public func showInputPanel() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
     }
     
-    public func hideInputPanel() {
+    public func hideInputPanel() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
-    public func reset() {
+    public func reset() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
         connection.send(message: message)
     }
     
-    public func setSurroundingText(text: String, cursor: UInt32, anchor: UInt32) {
+    public func setSurroundingText(text: String, cursor: UInt32, anchor: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .string(text),
             .uint(cursor),
@@ -44,7 +44,7 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setContentType(hint: UInt32, purpose: UInt32) {
+    public func setContentType(hint: UInt32, purpose: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .uint(hint),
             .uint(purpose)
@@ -52,7 +52,7 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setCursorRectangle(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func setCursorRectangle(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .int(x),
             .int(y),
@@ -62,21 +62,21 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setPreferredLanguage(language: String) {
+    public func setPreferredLanguage(language: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .string(language)
         ])
         connection.send(message: message)
     }
     
-    public func commitState(serial: UInt32) {
+    public func commitState(serial: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .uint(serial)
         ])
         connection.send(message: message)
     }
     
-    public func invokeAction(button: UInt32, index: UInt32) {
+    public func invokeAction(button: UInt32, index: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 10, contents: [
             .uint(button),
             .uint(index)

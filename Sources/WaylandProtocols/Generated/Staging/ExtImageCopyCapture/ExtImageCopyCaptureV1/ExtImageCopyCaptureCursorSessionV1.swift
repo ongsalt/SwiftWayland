@@ -5,18 +5,23 @@ public final class ExtImageCopyCaptureCursorSessionV1: WlProxyBase, WlProxy, WlI
     public static let name: String = "ext_image_copy_capture_cursor_session_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getCaptureSession() -> ExtImageCopyCaptureSessionV1 {
+    public func getCaptureSession() throws(WaylandProxyError)  -> ExtImageCopyCaptureSessionV1 {
         let session = connection.createProxy(type: ExtImageCopyCaptureSessionV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(session.id)
         ])
         connection.send(message: message)
         return session
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -5,18 +5,23 @@ public final class XdgToplevelDragV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "xdg_toplevel_drag_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func attach(toplevel: XdgToplevel, xOffset: Int32, yOffset: Int32) {
+    public func attach(toplevel: XdgToplevel, xOffset: Int32, yOffset: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(toplevel),
             .int(xOffset),
             .int(yOffset)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

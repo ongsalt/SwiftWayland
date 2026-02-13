@@ -5,12 +5,13 @@ public final class WpFifoManagerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wp_fifo_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func getFifo(surface: WlSurface) -> WpFifoV1 {
+    public func getFifo(surface: WlSurface) throws(WaylandProxyError)  -> WpFifoV1 {
         let id = connection.createProxy(type: WpFifoV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -18,6 +19,10 @@ public final class WpFifoManagerV1: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -4,33 +4,34 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "xdg_toplevel"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setParent(parent: XdgToplevel) {
+    public func setParent(parent: XdgToplevel) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(parent)
         ])
         connection.send(message: message)
     }
     
-    public func setTitle(title: String) {
+    public func setTitle(title: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .string(title)
         ])
         connection.send(message: message)
     }
     
-    public func setAppId(appId: String) {
+    public func setAppId(appId: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .string(appId)
         ])
         connection.send(message: message)
     }
     
-    public func showWindowMenu(seat: WlSeat, serial: UInt32, x: Int32, y: Int32) {
+    public func showWindowMenu(seat: WlSeat, serial: UInt32, x: Int32, y: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .object(seat),
             .uint(serial),
@@ -40,7 +41,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func move(seat: WlSeat, serial: UInt32) {
+    public func move(seat: WlSeat, serial: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .object(seat),
             .uint(serial)
@@ -48,7 +49,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) {
+    public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .object(seat),
             .uint(serial),
@@ -57,7 +58,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setMaxSize(width: Int32, height: Int32) {
+    public func setMaxSize(width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .int(width),
             .int(height)
@@ -65,7 +66,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setMinSize(width: Int32, height: Int32) {
+    public func setMinSize(width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .int(width),
             .int(height)
@@ -73,31 +74,35 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setMaximized() {
+    public func setMaximized() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 9, contents: [])
         connection.send(message: message)
     }
     
-    public func unsetMaximized() {
+    public func unsetMaximized() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 10, contents: [])
         connection.send(message: message)
     }
     
-    public func setFullscreen(output: WlOutput) {
+    public func setFullscreen(output: WlOutput) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 11, contents: [
             .object(output)
         ])
         connection.send(message: message)
     }
     
-    public func unsetFullscreen() {
+    public func unsetFullscreen() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 12, contents: [])
         connection.send(message: message)
     }
     
-    public func setMinimized() {
+    public func setMinimized() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 13, contents: [])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

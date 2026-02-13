@@ -4,23 +4,28 @@ public final class WlDataSource: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_data_source"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func offer(mimeType: String) {
+    public func offer(mimeType: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .string(mimeType)
         ])
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setActions(dndActions: UInt32) {
+    public func setActions(dndActions: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .uint(dndActions)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

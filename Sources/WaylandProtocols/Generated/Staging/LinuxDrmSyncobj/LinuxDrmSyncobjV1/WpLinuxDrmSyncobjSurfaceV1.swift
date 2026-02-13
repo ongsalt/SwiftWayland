@@ -5,12 +5,13 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
     public static let name: String = "wp_linux_drm_syncobj_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setAcquirePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) {
+    public func setAcquirePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(timeline),
             .uint(pointHi),
@@ -19,13 +20,17 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
         connection.send(message: message)
     }
     
-    public func setReleasePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) {
+    public func setReleasePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(timeline),
             .uint(pointHi),
             .uint(pointLo)
         ])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -5,12 +5,13 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_linux_dmabuf_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func createParams() -> ZwpLinuxBufferParamsV1 {
+    public func createParams() throws(WaylandProxyError)  -> ZwpLinuxBufferParamsV1 {
         let paramsId = connection.createProxy(type: ZwpLinuxBufferParamsV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(paramsId.id)
@@ -19,7 +20,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         return paramsId
     }
     
-    public func getDefaultFeedback() -> ZwpLinuxDmabufFeedbackV1 {
+    public func getDefaultFeedback() throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
         let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
@@ -28,7 +29,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getSurfaceFeedback(surface: WlSurface) -> ZwpLinuxDmabufFeedbackV1 {
+    public func getSurfaceFeedback(surface: WlSurface) throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
         let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(id.id),
@@ -36,6 +37,10 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

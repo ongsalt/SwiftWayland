@@ -5,19 +5,20 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
     public static let name: String = "ext_image_copy_capture_frame_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func attachBuffer(buffer: WlBuffer) {
+    public func attachBuffer(buffer: WlBuffer) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(buffer)
         ])
         connection.send(message: message)
     }
     
-    public func damageBuffer(x: Int32, y: Int32, width: Int32, height: Int32) {
+    public func damageBuffer(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(x),
             .int(y),
@@ -27,9 +28,13 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
         connection.send(message: message)
     }
     
-    public func capture() {
+    public func capture() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

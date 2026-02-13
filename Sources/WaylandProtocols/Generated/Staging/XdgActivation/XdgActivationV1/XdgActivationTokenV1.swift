@@ -5,7 +5,7 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "xdg_activation_token_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func setSerial(serial: UInt32, seat: WlSeat) {
+    public func setSerial(serial: UInt32, seat: WlSeat) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial),
             .object(seat)
@@ -13,28 +13,33 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func setAppId(appId: String) {
+    public func setAppId(appId: String) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(appId)
         ])
         connection.send(message: message)
     }
     
-    public func setSurface(surface: WlSurface) {
+    public func setSurface(surface: WlSurface) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(surface)
         ])
         connection.send(message: message)
     }
     
-    public func commit() {
+    public func commit() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

@@ -5,7 +5,7 @@ public final class ExtImageCopyCaptureManagerV1: WlProxyBase, WlProxy, WlInterfa
     public static let name: String = "ext_image_copy_capture_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createSession(source: ExtImageCaptureSourceV1, options: UInt32) -> ExtImageCopyCaptureSessionV1 {
+    public func createSession(source: ExtImageCaptureSourceV1, options: UInt32) throws(WaylandProxyError)  -> ExtImageCopyCaptureSessionV1 {
         let session = connection.createProxy(type: ExtImageCopyCaptureSessionV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(session.id),
@@ -16,7 +16,7 @@ public final class ExtImageCopyCaptureManagerV1: WlProxyBase, WlProxy, WlInterfa
         return session
     }
     
-    public func createPointerCursorSession(source: ExtImageCaptureSourceV1, pointer: WlPointer) -> ExtImageCopyCaptureCursorSessionV1 {
+    public func createPointerCursorSession(source: ExtImageCaptureSourceV1, pointer: WlPointer) throws(WaylandProxyError)  -> ExtImageCopyCaptureCursorSessionV1 {
         let session = connection.createProxy(type: ExtImageCopyCaptureCursorSessionV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(session.id),
@@ -27,9 +27,14 @@ public final class ExtImageCopyCaptureManagerV1: WlProxyBase, WlProxy, WlInterfa
         return session
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

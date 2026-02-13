@@ -4,12 +4,13 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_linux_buffer_params_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func add(fd: FileHandle, planeIdx: UInt32, offset: UInt32, stride: UInt32, modifierHi: UInt32, modifierLo: UInt32) {
+    public func add(fd: FileHandle, planeIdx: UInt32, offset: UInt32, stride: UInt32, modifierHi: UInt32, modifierLo: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fd(fd),
             .uint(planeIdx),
@@ -21,7 +22,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func create(width: Int32, height: Int32, format: UInt32, flags: UInt32) {
+    public func create(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(width),
             .int(height),
@@ -31,7 +32,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) -> WlBuffer {
+    public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError)  -> WlBuffer {
         let bufferId = connection.createProxy(type: WlBuffer.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(bufferId.id),
@@ -42,6 +43,10 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return bufferId
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

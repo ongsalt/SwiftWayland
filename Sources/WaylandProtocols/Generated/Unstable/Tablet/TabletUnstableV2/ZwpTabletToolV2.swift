@@ -5,7 +5,7 @@ public final class ZwpTabletToolV2: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_tablet_tool_v2"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func setCursor(serial: UInt32, surface: WlSurface, hotspotX: Int32, hotspotY: Int32) {
+    public func setCursor(serial: UInt32, surface: WlSurface, hotspotX: Int32, hotspotY: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial),
             .object(surface),
@@ -15,9 +15,14 @@ public final class ZwpTabletToolV2: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum `Type`: UInt32, WlEnum {

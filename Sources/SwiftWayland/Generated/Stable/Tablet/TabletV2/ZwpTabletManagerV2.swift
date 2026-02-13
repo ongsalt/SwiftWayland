@@ -4,7 +4,7 @@ public final class ZwpTabletManagerV2: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_tablet_manager_v2"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func getTabletSeat(seat: WlSeat) -> ZwpTabletSeatV2 {
+    public func getTabletSeat(seat: WlSeat) throws(WaylandProxyError)  -> ZwpTabletSeatV2 {
         let tabletSeat = connection.createProxy(type: ZwpTabletSeatV2.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(tabletSeat.id),
@@ -14,9 +14,14 @@ public final class ZwpTabletManagerV2: WlProxyBase, WlProxy, WlInterface {
         return tabletSeat
     }
     
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

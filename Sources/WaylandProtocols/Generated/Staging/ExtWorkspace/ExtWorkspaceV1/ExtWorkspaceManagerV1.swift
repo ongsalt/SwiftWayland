@@ -5,12 +5,12 @@ public final class ExtWorkspaceManagerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "ext_workspace_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func commit() {
+    public func commit() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
     }
     
-    public func stop() {
+    public func stop() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
     }

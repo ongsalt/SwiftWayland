@@ -5,12 +5,13 @@ public final class ZxdgImporterV2: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zxdg_importer_v2"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func importToplevel(handle: String) -> ZxdgImportedV2 {
+    public func importToplevel(handle: String) throws(WaylandProxyError)  -> ZxdgImportedV2 {
         let id = connection.createProxy(type: ZxdgImportedV2.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -18,6 +19,10 @@ public final class ZxdgImporterV2: WlProxyBase, WlProxy, WlInterface {
         ])
         connection.send(message: message)
         return id
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Event: WlEventEnum {

@@ -4,9 +4,14 @@ public final class WlOutput: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_output"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func release() {
+    public consuming func release() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.release()
     }
     
     public enum Subpixel: UInt32, WlEnum {

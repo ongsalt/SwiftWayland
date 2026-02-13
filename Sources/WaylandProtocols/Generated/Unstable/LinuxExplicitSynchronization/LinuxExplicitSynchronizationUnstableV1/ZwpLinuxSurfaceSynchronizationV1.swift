@@ -5,25 +5,30 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     public static let name: String = "zwp_linux_surface_synchronization_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func destroy() {
+    public consuming func destroy() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
     }
     
-    public func setAcquireFence(fd: FileHandle) {
+    public func setAcquireFence(fd: FileHandle) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fd(fd)
         ])
         connection.send(message: message)
     }
     
-    public func getRelease() -> ZwpLinuxBufferReleaseV1 {
+    public func getRelease() throws(WaylandProxyError)  -> ZwpLinuxBufferReleaseV1 {
         let release = connection.createProxy(type: ZwpLinuxBufferReleaseV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(release.id)
         ])
         connection.send(message: message)
         return release
+    }
+    
+    deinit {
+        try! self.destroy()
     }
     
     public enum Error: UInt32, WlEnum {

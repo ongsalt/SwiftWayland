@@ -4,7 +4,7 @@ public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_pointer"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func setCursor(serial: UInt32, surface: WlSurface, hotspotX: Int32, hotspotY: Int32) {
+    public func setCursor(serial: UInt32, surface: WlSurface, hotspotX: Int32, hotspotY: Int32) throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial),
             .object(surface),
@@ -14,9 +14,14 @@ public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func release() {
+    public consuming func release() throws(WaylandProxyError) {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        connection.removeObject(id: self.id)
+    }
+    
+    deinit {
+        try! self.release()
     }
     
     public enum Error: UInt32, WlEnum {
