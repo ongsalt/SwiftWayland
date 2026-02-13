@@ -104,13 +104,12 @@ final class Socket {
         try Socket.readBlocking(fd: fileDescriptor, count: count)
     }
 
-    func readControlMessage() async throws -> [cmsghdr] {
+    func readControlMessage() async throws -> Int32 {
         try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global().async { [fileDescriptor] in
                 do {
-                    let data: [cmsghdr] = try Socket.readControlMessageBlocking(fd: fileDescriptor)
-                    print("cmsghdr: \(data)")
-                    continuation.resume(returning: data)
+                    let receivedFd = try Socket.readControlMessageBlocking(fd: fileDescriptor)
+                    continuation.resume(returning: receivedFd)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -172,34 +171,152 @@ final class Socket {
         }
     }
 
-    private static func readControlMessageBlocking(fd: Int32) throws -> [cmsghdr] {
-        var controlBuffer = [UInt8](repeating: 0, count: 1024)  // no c macro
-        let messages = try controlBuffer.withUnsafeMutableBufferPointer { ptr in
-            var msg = msghdr()
-            msg.msg_control = UnsafeMutableRawPointer(ptr.baseAddress)
-            msg.msg_controllen = ptr.count
+    // https://stackoverflow.com/questions/2358684/can-i-share-a-file-descriptor-to-another-process-on-linux-or-are-they-local-to-t
 
-            let result = Glibc.recvmsg(fd, &msg, 0)
+    private static func readControlMessageBlocking(fd: Int32) throws -> Int32 {
+        let dataSize = MemoryLayout<Int32>.size
+        let sharedBuffer = UnsafeMutableBufferPointer<CChar>
+            .allocate(capacity: ControlMessage.space(dataSize))
+        defer { sharedBuffer.deallocate() }
 
-            if result < 0 {
+        let iovBuffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 1)
+        defer { iovBuffer.deallocate() }
+
+        let iov = UnsafeMutablePointer<iovec>.allocate(capacity: 1)
+        defer { iov.deallocate() }
+        iov.initialize(to: iovec(iov_base: iovBuffer.baseAddress, iov_len: iovBuffer.count))
+        defer { iov.deinitialize(count: 1) }
+
+        let message: UnsafeMutablePointer<msghdr> = .allocate(capacity: 1)
+        defer { message.deallocate() }
+
+        while true {
+            message.pointee = msghdr(
+                msg_name: nil,
+                msg_namelen: 0,
+                msg_iov: iov,
+                msg_iovlen: 1,
+                msg_control: sharedBuffer.baseAddress,
+                msg_controllen: sharedBuffer.count,
+                msg_flags: 0
+            )
+
+            let res = Glibc.recvmsg(fd, message, 0)
+            if res < 0 {
+                if errno == EINTR { continue }
                 throw SocketError.readFailed(errno: errno)
             }
 
-            let messages: [cmsghdr] = Array(
-                UnsafeBufferPointer(
-                    start: UnsafeRawPointer(ptr.baseAddress)?.assumingMemoryBound(to: cmsghdr.self),
-                    count: Int(msg.msg_controllen)
-                )
-            )
+            guard let controlMessage = ControlMessage.firstHeader(message) else {
+                throw SocketError.readFailed(errno: 0)
+            }
 
-            return messages
+            guard controlMessage.pointee.cmsg_level == SOL_SOCKET,
+                  controlMessage.pointee.cmsg_type == Int32(SCM_RIGHTS),
+                  controlMessage.pointee.cmsg_len >= ControlMessage.lenght(dataSize) else {
+                throw SocketError.readFailed(errno: 0)
+            }
+
+            let dataPtr = ControlMessage.data(controlMessage)
+            return dataPtr.assumingMemoryBound(to: Int32.self).pointee
         }
+    }
 
-        return messages
+    private static func writeControlMessageBlocking(sending sendFd: FileHandle, to fd: FileHandle) throws {
+        let toSend: [Int32] = [sendFd.fileDescriptor]
+        let dataSize = MemoryLayout<Int32>.size
+        let sharedBuffer = UnsafeMutableBufferPointer<CChar>
+            .allocate(capacity: ControlMessage.space(dataSize))
+        defer { sharedBuffer.deallocate() }
+        // just leave it there????
+        let iovBuffer = UnsafeMutableBufferPointer<Int32>.allocate(capacity: 1)
+        defer { iovBuffer.deallocate() }
+
+        let iov = UnsafeMutablePointer<iovec>.allocate(capacity: 1)
+        defer { iov.deallocate() }
+        iov.initialize(
+            to: iovec(
+                iov_base: iovBuffer.baseAddress,
+                iov_len: iovBuffer.count
+            ))
+
+        let message: UnsafeMutablePointer<msghdr> = .allocate(capacity: 1)
+        defer { message.deallocate() }
+        message.pointee = msghdr(
+            msg_name: nil,
+            msg_namelen: 0,
+            msg_iov: iov,
+            msg_iovlen: 1,
+            msg_control: sharedBuffer.baseAddress,
+            msg_controllen: 1,
+            msg_flags: 0
+        )
+
+        let controlMessage: UnsafeMutablePointer<cmsghdr> = ControlMessage.firstHeader(message)!
+        defer { controlMessage.deallocate() }
+        controlMessage.pointee.cmsg_level = SOL_SOCKET
+        controlMessage.pointee.cmsg_type = Int32(SCM_RIGHTS)
+        controlMessage.pointee.cmsg_len = ControlMessage.lenght(dataSize)
+
+        let dataPtr = ControlMessage.data(controlMessage)
+        dataPtr.copyMemory(from: toSend, byteCount: dataSize)
+
+        let res = Glibc.sendmsg(fd.fileDescriptor, message, 0)
+        if res < 0 {
+            throw SocketError.writeFailed(errno: errno)
+        }
     }
 
     private static func writeControlMessageBlocking(fd: Int32, data: Data) throws {
         fatalError("msg_control is not implemented")
     }
 
+}
+
+// see socket.h
+// __glibc_c99_flexarr_available is not defined for some reason
+// swift wont see so __cmsg_data
+struct ControlMessage {
+    // CMSG_DATA
+    static func data(_ cmsg: UnsafeMutableRawPointer) -> UnsafeMutableRawPointer {
+        let dataPtr: UnsafeMutableRawPointer = cmsg.advanced(
+            by: MemoryLayout<Int>.size + MemoryLayout<Int32>.size * 2)
+        return dataPtr
+    }
+
+    // CMSG_ALIGN
+    @inlinable
+    static func align(_ len: Int) -> Int {
+        (len + MemoryLayout<Int>.size - 1) & ~(MemoryLayout<Int>.size - 1)
+    }
+
+    // CMSG_SPACE
+    @inlinable
+    static func space(_ len: Int) -> Int {
+        align(len) + align(MemoryLayout<ControlMessageHeader>.size)
+    }
+
+    // CMSG_LEN
+    @inlinable
+    static func lenght(_ len: Int) -> Int {
+        align(MemoryLayout<ControlMessageHeader>.size) + (len)
+    }
+
+    // CMSG_FIRSTHDR
+    @inlinable
+    static func firstHeader(_ msg: UnsafeMutablePointer<msghdr>) -> UnsafeMutablePointer<cmsghdr>? {
+        guard msg.pointee.msg_controllen >= MemoryLayout<cmsghdr>.size else { return nil }
+        return msg.pointee.msg_control?.assumingMemoryBound(to: cmsghdr.self)
+    }
+}
+
+struct ControlMessageHeader {
+    public var lenght: Int
+    public var level: Int32
+    public var type: Int32
+    // public var data: UInt
+    // init(ptr: UnsafeRawPointer) {
+    //     let buffer = UnsafeRawBufferPointer(start: ptr, count: MemoryLayout<Self>.size)
+    //     self = buffer.assumingMemoryBound(to: Self.self)[0]
+    // }
 }
