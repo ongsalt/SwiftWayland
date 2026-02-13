@@ -35,6 +35,7 @@ public final class Connection: @unchecked Sendable {
         //     error = e
         // }
 
+
         while socket.dataAvailable || shouldRun {
             shouldRun = false
             let message = try Message(readBlocking: socket)

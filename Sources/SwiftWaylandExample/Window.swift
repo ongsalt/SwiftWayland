@@ -114,7 +114,8 @@ public final class Window {
 
         surface.commit()
 
-        try await connection.roundtrip()
+        print(connection.proxies)
+        try connection.roundtrip()
     }
 
     private func makeShmBuffer(shm: WlShm, width: Int, height: Int) throws -> (buffer: WlBuffer, pool: WlShmPool, data: UnsafeMutableRawPointer, size: Int) {

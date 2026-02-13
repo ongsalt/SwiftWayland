@@ -60,9 +60,8 @@ class Socket2 {
             if !fds.isEmpty {
                 let ancillaryData = UnsafeMutableRawBufferPointer.allocate(
                     byteCount: ControlMessage.space(fdSize),
-                    alignment: MemoryLayout<cmsghdr>.alignment
+                    alignment: MemoryLayout<cmsghdr>.alignment  // 8
                 )
-                defer { ancillaryData.deallocate() }
 
                 message.pointee.msg_control = UnsafeMutableRawPointer(ancillaryData.baseAddress)
                 message.pointee.msg_controllen = ancillaryData.count
@@ -72,10 +71,11 @@ class Socket2 {
                 controlMessage.pointee.cmsg_type = Int32(SCM_RIGHTS)
                 controlMessage.pointee.cmsg_len = ControlMessage.lenght(fdSize)
 
-                // fds.cop
                 let dataPtr: UnsafeMutableRawPointer = ControlMessage.data(controlMessage)
                 dataPtr.copyMemory(from: fds, byteCount: fdSize)
             }
+
+            defer { message.pointee.msg_control?.deallocate() }
 
             // print("start")
             return sendmsg(target.fileDescriptor, message.ptr, flags)

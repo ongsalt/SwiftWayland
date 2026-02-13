@@ -8,9 +8,9 @@ public struct SwiftWayland {
     public static func main() {
         Task {
             do {
-                // let w = Window(connection: try! Connection.fromEnv())
-                // try await w.start()
-                await testConnection()
+                let w = Window(connection: try! Connection.fromEnv())
+                try await w.start()
+                // await testConnection()
             } catch {
                 print("Error: \(error)")
             }
