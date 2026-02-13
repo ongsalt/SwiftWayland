@@ -48,15 +48,15 @@ internal extension WlProxy {
 public protocol WlEventEnum: WLDecodable {}
 
 public enum WaylandProxyState {
+    // case beforeBound
     case alive
     case dropped
-    case consumed
 }
 
 open class WlProxyBase {
     public let id: ObjectId
     public var connection: Connection
-    private var _state: WaylandProxyState = .alive
+    public var _state: WaylandProxyState = .alive
 
     public required init(connection: Connection, id: ObjectId) {
         self.connection = connection
