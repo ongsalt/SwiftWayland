@@ -112,7 +112,7 @@ public final class Connection: @unchecked Sendable {
     where T: WlProxy {
         let id = id ?? nextId()
         let obj = T(connection: self, id: id, version: version)
-        print("[Wayland] create \(obj) with id: \(id)")
+        // print("[Wayland] create \(obj) with id: \(id)")
         // dump(obj)
         proxies[obj.id] = Weak(obj)
         return obj
@@ -207,7 +207,6 @@ public final class AutoFlusher {
         observer = CFRunLoopObserverCreateWithHandler(
             nil, CFRunLoopActivity.beforeWaiting.rawValue, true, priority
         ) { observer, activity in
-            print("Will sleep")
             // if !connection.pendingMessages.isEmpty {
             //     print("> Cant")
             //     try! connection.flush()
@@ -226,9 +225,5 @@ public final class AutoFlusher {
 
     public func stop() {
         CFRunLoopRemoveObserver(runLoop, observer, kCFRunLoopDefaultMode)
-    }
-
-    deinit {
-        print("AutoFlusher: deinit")
     }
 }

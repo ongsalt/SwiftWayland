@@ -32,10 +32,7 @@ public class BufferedSocket {
         let out = Data(self.data[0..<bytes])
 
         if consume {
-            print("[buffer] readOut: \(out as NSData)")
-            let before = data.count
             self.data = Data(self.data[bytes..<data.count])
-            print("[buffer] Size \(before) -> \(data.count)")
         }
 
         return out
@@ -57,10 +54,9 @@ public class BufferedSocket {
         let flushed = outData
         outData = []
 
-        print("[Wayland] Flush \(outData) \(flushed)")
         for (data, fds) in flushed {
             #if DEBUG
-                print("[Wayland] sending: \(data as NSData)")
+                // print("[Wayland] sending: \(data as NSData)")
             #endif
 
             let bytes = UnsafeMutableRawBufferPointer.allocate(

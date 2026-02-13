@@ -56,10 +56,8 @@ public struct Message {
         objectId = Self.readUInt32(header, offset: 0)
         opcode = Self.readUInt16(header, offset: 4)
         size = Self.readUInt16(header, offset: 6)
-        // print("objectId: \(objectId), opcode: \(opcode), size: \(size)")
 
         guard socket.data.count >= size else {
-            // print(BufferedSocketError.notEnoughBytes(requested: Int(size), left: socket.data.count))
             throw .notEnoughBytes(requested: Int(size), left: socket.data.count)
         }
 

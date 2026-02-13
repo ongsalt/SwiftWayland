@@ -40,7 +40,7 @@ class Socket2 {
 
         let message = Box(msghdr())
         if data.count == 0 {
-            print("duck: \(data)")
+            // print("duck: \(data)")
         }
 
         // Actual data: iov
@@ -83,7 +83,6 @@ class Socket2 {
             throw SocketError.writeFailed(errno: errno)
         }
 
-        print("Sent: \(res) of \(data.count)")
         return res
     }
 
@@ -126,11 +125,8 @@ class Socket2 {
         let bytesRead = recvmsg(fd.fileDescriptor, message.ptr, flags)
 
         if bytesRead < 0 {
-            print(SocketError.readFailed(errno: errno))
             throw SocketError.readFailed(errno: errno)
         }
-
-        print("[socket] Read: \(bytesRead)")
 
         defer {
             message.pointee.msg_control.deallocate()

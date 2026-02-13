@@ -26,7 +26,6 @@ some design decision
 - programmatic rename id to the instance or any better name
 - bitfield
 - Codegen
-    - wl_callback special handling
     - generate documentation
 - test
 

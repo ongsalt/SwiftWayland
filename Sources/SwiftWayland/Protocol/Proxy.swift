@@ -44,7 +44,7 @@ extension WlProxy {
     func parseAndDispatch(message: Message, connection: Connection, fdSource: BufferedSocket) {
         let event = Event.decode(message: message, connection: connection, fdSource: fdSource, version: self.version)
         #if DEBUG
-            print("[Wayland] dispatch \(event) to \(self)")
+            // print("[Wayland] dispatch \(event) to \(self)")
         #endif
         self.onEvent(event)
     }
