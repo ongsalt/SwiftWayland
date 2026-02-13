@@ -1,5 +1,7 @@
 // import SwiftSyntax
 
+let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
+
 func buildInterfaceClass(interface: Interface, importName: String? = nil) -> String {
     let body: [String] = [
         buildMethods(interface.requests),
@@ -48,7 +50,7 @@ struct SwiftFnSignature {
         out += argString
         out += " throws(WaylandProxyError)"
         if returnType.count > 0 {
-            out += "  -> \(returnTypeString)"
+            out += " -> \(returnTypeString)"
         }
 
         return out
@@ -69,17 +71,16 @@ func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature? {
     var returnType: [SwiftFnSignature.ReturnType] = []
     var swiftArgs: [(String, String)] = []
 
-    for arg in request.arguments {
+    let arguments = request.arguments.filter { $0.interface != "wl_callback" }
+    let callbacks = request.arguments.filter { $0.interface == "wl_callback" }
+
+    for arg in arguments {
         // newId -> return it
         // except wl_callback which we will receive a closure
         let argType: String
         if arg.type == .newId {
-            // TODO: There is also a case where there is .newId without any type
-            // if arg.interface == "wl_callback" {
-            // argType = "() -> Void"
-            // or just leave it as is and process it later
-            // argType = "WlCallback"
-            // } else {
+            // TODO: There is also a case where there is .newId without any type (i found only wl_registry::bind)
+            // we currently write this manually
             if let interface = arg.interface {
                 returnType.append(
                     SwiftFnSignature.ReturnType(
@@ -96,6 +97,10 @@ func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature? {
         }
 
         swiftArgs.append((arg.name.lowerCamel, argType))
+    }
+
+    for callback in callbacks {
+        swiftArgs.append((callback.name.lowerCamel, CALLBACK_TYPE))
     }
 
     return SwiftFnSignature(returnType: returnType, args: swiftArgs)
@@ -138,8 +143,17 @@ func buildMethod(_ r: Request, _ reqId: Int) -> String {
             let \(instance.name.gravedIfNeeded) = connection.createProxy(type: \(instance.swiftType).self, version: self.version)
             """)
     }
-    // then put that into waylandData
 
+    // Callback
+    let callbacks = signature.args.filter { $0.1 == CALLBACK_TYPE }
+    for (name, _) in callbacks {
+        statements.append(
+            """
+            let \(name.gravedIfNeeded) = connection.createCallback(fn: \(name.gravedIfNeeded))
+            """)
+    }
+
+    // then put that into waylandData
     let waylandData = r.arguments.map { a in
         if a.type == .newId {
             ".\(a.type)(\(a.name.lowerCamel.gravedIfNeeded).id)"

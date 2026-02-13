@@ -1,7 +1,7 @@
 import Foundation
 
 enum BufferedSocketError: Error {
-    case notEnoughBytes
+    case notEnoughBytes(requested: Int, left: Int)
 }
 
 public class BufferedSocket {
@@ -19,17 +19,20 @@ public class BufferedSocket {
         self.socket = socket
     }
 
-    func read(_ bytes: UInt16) throws(BufferedSocketError) -> Data {
-        try self.read(Int(bytes))
+    func read(_ bytes: UInt16, consume: Bool = true) throws(BufferedSocketError) -> Data {
+        try self.read(Int(bytes), consume: consume)
     }
 
-    func read(_ bytes: Int) throws(BufferedSocketError) -> Data {
+    func read(_ bytes: Int, consume: Bool = true) throws(BufferedSocketError) -> Data {
         guard data.count >= bytes else {
-            throw .notEnoughBytes
+            throw .notEnoughBytes(requested: bytes, left: data.count)
         }
 
         let out = Data(self.data[0..<bytes])
-        self.data = Data(self.data[bytes..<data.count])
+
+        if consume {
+            self.data = Data(self.data[bytes..<data.count])
+        }
 
         return out
     }

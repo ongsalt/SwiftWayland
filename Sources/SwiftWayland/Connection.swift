@@ -26,7 +26,7 @@ public final class Connection: @unchecked Sendable {
     }
 
     public func dispatch(force: Bool = false) throws {
-        var shouldRun = force
+        // var shouldRun = force
 
         // var error: SocketError? = nil
         // do {
@@ -35,9 +35,16 @@ public final class Connection: @unchecked Sendable {
         //     error = e
         // }
 
-        while socket.dataAvailable || shouldRun {
-            shouldRun = false
-            let message = try Message(readBlocking: socket)
+        while socket.dataAvailable {
+            // shouldRun = false
+            let result = Result(catching: {
+                try Message(readBlocking: socket)
+            }).mapError({ $0 as! BufferedSocketError })
+
+            guard case .success(let message) = result else {
+                try socket.receiveUntilDone(force: true)
+                continue
+            }
 
             guard let receiver: Weak<AnyObject> = self.proxies[message.objectId] else {
                 print("Bad wayland message: unknown receiver")
@@ -120,7 +127,7 @@ public final class Connection: @unchecked Sendable {
         }
 
         return callback
-        // we this must be alive until it got call  
+        // we this must be alive until it got call
     }
 
     // TODO: @spi for this

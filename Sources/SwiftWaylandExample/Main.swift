@@ -9,10 +9,10 @@ public struct SwiftWayland {
         Task {
             let connection = try! Connection.fromEnv()
             do {
-                let w = Window(connection: connection)
-                try await w.start()
-                Unmanaged.passRetained(w)
-                // await testConnection()
+                // let w = Window(connection: connection)
+                // try await w.start()
+                // Unmanaged.passRetained(w)
+                try await testConnection()
             } catch {
                 print("Error: \(error)")
             }
@@ -38,13 +38,21 @@ func testConnection() async throws {
         }
     }
 
+
     let registry = try display.getRegistry()
 
     registry.onEvent = { event in
         print(event)
     }
 
+    let callback = try display.sync()
+    callback.onEvent = { data in
+        print("Sync \(data)")
+    }
+
     try! connection.roundtrip()
-    try! connection.roundtrip()
+    // try! connection.roundtrip()
+    // try! connection.roundtrip()
+    // try! connection.roundtrip()
 
 }

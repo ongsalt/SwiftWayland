@@ -7,7 +7,9 @@ public struct Message {
     public let arguments: Data
     public let fds: [FileHandle]
 
-    public init(objectId: ObjectId, opcode: UInt16, size: UInt16, arguments: Data, fds: [FileHandle] = []) {
+    public init(
+        objectId: ObjectId, opcode: UInt16, size: UInt16, arguments: Data, fds: [FileHandle] = []
+    ) {
         self.objectId = objectId
         self.opcode = opcode
         self.size = size
@@ -45,14 +47,24 @@ public struct Message {
     //     arguments = try await socket.read(Int(size - Self.HEADER_SIZE))
     // }
 
-    init(readBlocking socket: BufferedSocket) throws {
-        let header = try socket.read(Self.HEADER_SIZE)
+    init(readBlocking socket: BufferedSocket) throws(BufferedSocketError) {
+        guard socket.data.count >= Self.HEADER_SIZE else {
+            throw .notEnoughBytes(requested: Int(Self.HEADER_SIZE), left: socket.data.count)
+        }
 
+        let header = try socket.read(Self.HEADER_SIZE, consume: false)
         objectId = Self.readUInt32(header, offset: 0)
         opcode = Self.readUInt16(header, offset: 4)
         size = Self.readUInt16(header, offset: 6)
+        // print("objectId: \(objectId), opcode: \(opcode), size: \(size)")
+
+        guard socket.data.count >= size else {
+            throw .notEnoughBytes(requested: Int(size), left: socket.data.count)
+        }
+
+        try! _ = socket.read(Self.HEADER_SIZE, consume: true)
         arguments = try socket.read(Int(size - Self.HEADER_SIZE))
-        self.fds = [] // this must be request later in the event parsing
+        self.fds = []  // This must be request later in the event parsing
     }
 
     private static func readUInt32(_ data: Data, offset: Int) -> UInt32 {
