@@ -12,7 +12,7 @@ func buildInterfaceClass(interface: Interface, importName: String? = nil) -> Str
         imports.append(importName)
     }
 
-    let importString = imports.map { "import \($0)"}.joined(separator: "\n")
+    let importString = imports.map { "import \($0)" }.joined(separator: "\n")
 
     return """
         \(importString)
@@ -75,20 +75,20 @@ func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature? {
         if arg.type == .newId {
             // TODO: There is also a case where there is .newId without any type
             // if arg.interface == "wl_callback" {
-                // argType = "() -> Void"
-                // or just leave it as is and process it later
-                // argType = "WlCallback"
+            // argType = "() -> Void"
+            // or just leave it as is and process it later
+            // argType = "WlCallback"
             // } else {
-                if let interface = arg.interface {
-                    returnType.append(
-                        SwiftFnSignature.ReturnType(
-                            swiftType: interface.camel,
-                            name: arg.name.lowerCamel)
-                    )
-                } else {
-                    return nil
-                }
-                continue
+            if let interface = arg.interface {
+                returnType.append(
+                    SwiftFnSignature.ReturnType(
+                        swiftType: interface.camel,
+                        name: arg.name.lowerCamel)
+                )
+            } else {
+                return nil
+            }
+            continue
             // }
         } else {
             argType = getSwiftArgType(arg)
@@ -111,10 +111,11 @@ func buildMethods(_ requests: [Request]) -> String {
             // well, we can, but it took too long
 
             return """
-            // request `\(r.name)` can not (yet) be generated 
-            // \(r.arguments)
-            """
+                // request `\(r.name)` can not (yet) be generated 
+                // \(r.arguments)
+                """
         }
+
         var statements: [String] = []
 
         // create any thing involving newId
@@ -159,8 +160,21 @@ func buildMethods(_ requests: [Request]) -> String {
             statements.append("return \(finalTuple)")
         }
 
+
+        // ok there is a wp_image_description_creator_icc_v1::create
+        // which is a consuming method
+        let blockHeader =
+            switch r.type {
+            case .destructor where signature.returnType.count != 0:
+                "public consuming func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket)"
+            case .destructor:
+                "deinit"
+            default:
+                "public func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket)"
+            }
+
         return """
-            public func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket) {
+            \(blockHeader) {
             \(statements.joined(separator: "\n").indent(space: 4))
             }
             """
@@ -282,8 +296,9 @@ func buildDecodeFunction(_ events: [Event]) -> String {
             """
     }.joined(separator: "\n")
 
-    let readerNeeded  = cases.contains("r.read")
-    let readerString = !readerNeeded ? "" : "var r = ArgumentParser(data: message.arguments, fdSource: fdSource)"
+    let readerNeeded = cases.contains("r.read")
+    let readerString =
+        !readerNeeded ? "" : "var r = ArgumentParser(data: message.arguments, fdSource: fdSource)"
     return """
         public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             \(readerString)
