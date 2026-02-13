@@ -32,7 +32,8 @@ binary = ".build/debug/WaylandScanner"
 protocols_dir = Path("/usr/share/wayland-protocols/")
 
 subprocess.run([binary, "client", "/usr/share/wayland/wayland.xml", "Sources/SwiftWayland/Generated/Wayland"])
-generate(protocols_dir / "stable", Path.cwd() / Path("Sources/SwiftWayland/Generated"))
+# generate(protocols_dir / "stable", Path.cwd() / Path("Sources/SwiftWayland/Generated"))
 
+generate(protocols_dir / "stable", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
 generate(protocols_dir / "staging", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
 generate(protocols_dir / "unstable", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")

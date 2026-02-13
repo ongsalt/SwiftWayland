@@ -28,13 +28,20 @@ extension String {
         snakeToCamel()
     }
 
-    func indent(space: UInt) -> String {
-        let indentation = String(repeating: " ", count: Int(space))
+    func indent(space: Int) -> String {
+        self.indent(String(repeating: " ", count: space))
+    }
+
+    func indent(_ indentation: String) -> String {
         return
             self
             .split(separator: "\n", omittingEmptySubsequences: false)
             .map { indentation + $0 }
             .joined(separator: "\n")
+    }
+
+    var comment: String {
+        indent("/// ")
     }
 
     var graved: String {
@@ -50,7 +57,7 @@ extension String {
     }
 }
 
-// Copied from SwiftSyntax, its private 
+// Copied from SwiftSyntax, its private
 // weak keyword is sometime allowed tho
 let swiftKeyword: Set<String> = [
     "__consuming",

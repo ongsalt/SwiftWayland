@@ -42,9 +42,9 @@ public final class Connection: @unchecked Sendable {
         // print("DataAvailable: \(socket.dataAvailable)")
         while socket.data.count >= Message.HEADER_SIZE {
             // shouldRun = false
-            let result = Result(catching: {
+            let result = Result {
                 try Message(readBlocking: socket)
-            }).mapError({ $0 as! BufferedSocketError })
+            }.mapError { $0 as! BufferedSocketError }
 
             guard case .success(let message) = result else {
                 // print("not enought data \(socket.data.count) \(socket.data as NSData)")
@@ -80,7 +80,6 @@ public final class Connection: @unchecked Sendable {
         try self.socket.flush()
     }
 
-    // how does this work
     public func roundtrip() throws {
         var shouldStop = false
         try display.sync { _ in

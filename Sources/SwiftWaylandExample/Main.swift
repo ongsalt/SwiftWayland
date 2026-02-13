@@ -18,6 +18,7 @@ public struct SwiftWaylandExample {
             }
 
             while !Task.isCancelled {
+                try await Task.sleep(for: .microseconds(16))
                 try connection.roundtrip()
             }
         }

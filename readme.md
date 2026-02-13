@@ -34,6 +34,7 @@ some design decision
     - if its wl_callback, just make it 1 or just ignore
 
 # Todos
+- async again
 - @spi export
 - nullable onEvent
 - think about queue and concurrency
