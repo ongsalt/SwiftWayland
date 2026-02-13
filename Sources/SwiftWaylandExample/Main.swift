@@ -7,7 +7,7 @@ import SwiftWayland
 public struct SwiftWayland {
     public static func main() {
         Task {
-            let connection = try! Connection.fromEnv()
+            // let connection = try! Connection.fromEnv()
             do {
                 // let w = Window(connection: connection)
                 // try await w.start()
@@ -17,9 +17,9 @@ public struct SwiftWayland {
                 print("Error: \(error)")
             }
 
-            while !Task.isCancelled {
-                try connection.roundtrip()
-            }
+            // while !Task.isCancelled {
+            //     try connection.roundtrip()
+            // }
         }
         RunLoop.main.run()
     }
@@ -32,27 +32,28 @@ func testConnection() async throws {
     display.onEvent = { event in
         switch event {
         case .deleteId(let id):
-            print("___---- Delete id \(id)")
+            print(" - Delete id \(id)")
+            // connection.removeObject(id: id)
         default:
             break
         }
     }
 
-
+    try display.sync { data in
+        print("> Callback: Sync \(data)")
+    }
     let registry = try display.getRegistry()
 
-    registry.onEvent = { event in
-        print(event)
-    }
+    // registry.onEvent = { event in
+    //     // print(event)
+    // }
 
-    let callback = try display.sync()
-    callback.onEvent = { data in
-        print("Sync \(data)")
-    }
+    print(connection.proxiesList)
+    try connection.flush()
+    try connection.dispatch(force: true)
+    // try connection.dispatch(force: true)
 
-    try! connection.roundtrip()
-    // try! connection.roundtrip()
-    // try! connection.roundtrip()
-    // try! connection.roundtrip()
+    print()
+    print("[DONE]")
 
 }

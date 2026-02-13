@@ -35,14 +35,17 @@ public final class Connection: @unchecked Sendable {
         //     error = e
         // }
 
-        while socket.dataAvailable {
+        // print("DataAvailable: \(socket.dataAvailable)")
+        while socket.data.count >= Message.HEADER_SIZE {
             // shouldRun = false
             let result = Result(catching: {
                 try Message(readBlocking: socket)
             }).mapError({ $0 as! BufferedSocketError })
 
             guard case .success(let message) = result else {
-                try socket.receiveUntilDone(force: true)
+                // print("not enought data \(socket.data.count) \(socket.data as NSData)")
+                try socket.receiveUntilDone(force: false)
+                // print("received \(socket.data.count)")
                 continue
             }
 
@@ -50,7 +53,7 @@ public final class Connection: @unchecked Sendable {
                 print("Bad wayland message: unknown receiver")
                 print(message)
                 print(message.arguments as NSData)
-                break
+                continue
             }
 
             guard let receiver = receiver.value else {
@@ -78,7 +81,6 @@ public final class Connection: @unchecked Sendable {
         try flush()
         try dispatch(force: true)
     }
-
     @discardableResult
     public func send(message: Message) -> Int {
         let data = Data(message)
@@ -110,24 +112,36 @@ public final class Connection: @unchecked Sendable {
     where T: WlProxy {
         let id = id ?? nextId()
         let obj = T(connection: self, id: id, version: version)
+        print("[Wayland] create \(obj) with id: \(id)")
+        // dump(obj)
         proxies[obj.id] = Weak(obj)
         return obj
     }
 
     public func createCallback(fn: @escaping (UInt32) -> Void) -> WlCallback {
+        // this must be alive until it got call
         let callback = WlCallback(connection: self, id: nextId(), version: 1)
         proxies[callback.id] = Weak(callback)
+
+        // lmao
+        let ref = Unmanaged.passRetained(callback)
 
         callback.onEvent = { event in
             if case .done(let callbackData) = event {
                 fn(callbackData)
+                ref.release()
             } else {
                 fatalError("wtf")
             }
         }
 
         return callback
-        // we this must be alive until it got call
+    }
+
+
+    public var proxiesList: [any WlProxy] {
+        proxies.values.filter { $0.value != nil }
+            .map { $0.value! as! (any WlProxy) }
     }
 
     // TODO: @spi for this

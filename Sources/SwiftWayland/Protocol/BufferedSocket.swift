@@ -6,7 +6,7 @@ enum BufferedSocketError: Error {
 
 public class BufferedSocket {
     let socket: Socket2
-    var data = Data()
+    var data: Data
     var fds: [FileHandle] = []
 
     var dataAvailable: Bool {
@@ -17,6 +17,7 @@ public class BufferedSocket {
 
     init(_ socket: Socket2) {
         self.socket = socket
+        data = Data()
     }
 
     func read(_ bytes: UInt16, consume: Bool = true) throws(BufferedSocketError) -> Data {
@@ -31,7 +32,10 @@ public class BufferedSocket {
         let out = Data(self.data[0..<bytes])
 
         if consume {
+            print("[buffer] readOut: \(out as NSData)")
+            let before = data.count
             self.data = Data(self.data[bytes..<data.count])
+            print("[buffer] Size \(before) -> \(data.count)")
         }
 
         return out
@@ -50,30 +54,32 @@ public class BufferedSocket {
     }
 
     func flush() throws(SocketError) {
-        // todo: batching?
         let flushed = outData
         outData = []
+
+        print("[Wayland] Flush \(outData) \(flushed)")
         for (data, fds) in flushed {
             #if DEBUG
-            // print("[Wayland] sending: \(data as NSData)")
+                print("[Wayland] sending: \(data as NSData)")
             #endif
 
-            try socket.send(data: data, fds: fds)
+            let bytes = UnsafeMutableRawBufferPointer.allocate(
+                byteCount: data.count, alignment: MemoryLayout<UInt8>.alignment)
+            data.copyBytes(to: bytes)
+
+            _ = try socket.send(data: UnsafeRawBufferPointer(bytes), fds: fds)
         }
     }
 
     func receiveUntilDone(force: Bool = false) throws(SocketError) {
         var shouldRun = force
-        var data = Data()  // pls tell me this is CoW
-        data.reserveCapacity(Int(MAX_BYTES_OUT))
+        let data = UnsafeMutableRawBufferPointer.allocate(
+            byteCount: Int(MAX_BYTES_OUT), alignment: MemoryLayout<UInt8>.alignment)
         var fds: [FileHandle] = []
 
         while socket.canRead || shouldRun {
             shouldRun = false
-            let read = try socket.receive(size: Int(MAX_BYTES_OUT), data: &data, fds: &fds)
-
-            self.data.append(data[0..<read])
-            self.fds.append(contentsOf: fds)
+            let read = try socket.receive(data: data, fds: &fds)
 
             if read <= 0 {
                 if read < 0 {
@@ -81,6 +87,9 @@ public class BufferedSocket {
                 }
                 break
             }
+
+            self.data.append(data.baseAddress!.assumingMemoryBound(to: UInt8.self), count: read)
+            self.fds.append(contentsOf: fds)
         }
     }
 }

@@ -13,16 +13,3 @@ extension WlRegistry {
         return obj
     }
 }
-
-// extension WlDisplay {
-//     public func sync(callback: @escaping (UInt32) -> Void) throws(WaylandProxyError) {
-//         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-//         let callback = connection.createCallback(fn: callback)
-//         let message = Message(
-//             objectId: self.id, opcode: 0,
-//             contents: [
-//                 .newId(callback.id)
-//             ])
-//         connection.send(message: message)
-//     }
-// }
