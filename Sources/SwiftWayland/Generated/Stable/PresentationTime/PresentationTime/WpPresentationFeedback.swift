@@ -5,10 +5,10 @@ public final class WpPresentationFeedback: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public enum Kind: UInt32, WlEnum {
-        case vsync = 1
-        case hwClock = 2
-        case hwCompletion = 4
-        case zeroCopy = 8
+        case vsync = 0x1
+        case hwClock = 0x2
+        case hwCompletion = 0x4
+        case zeroCopy = 0x8
     }
     
     public enum Event: WlEventEnum {

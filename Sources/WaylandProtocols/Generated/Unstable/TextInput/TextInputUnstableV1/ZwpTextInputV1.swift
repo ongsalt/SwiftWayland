@@ -85,19 +85,19 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public enum ContentHint: UInt32, WlEnum {
-        case `none` = 0
-        case `default` = 7
-        case password = 192
-        case autoCompletion = 1
-        case autoCorrection = 2
-        case autoCapitalization = 4
-        case lowercase = 8
-        case uppercase = 16
-        case titlecase = 32
-        case hiddenText = 64
-        case sensitiveData = 128
-        case latin = 256
-        case multiline = 512
+        case `none` = 0x0
+        case `default` = 0x7
+        case password = 0xc0
+        case autoCompletion = 0x1
+        case autoCorrection = 0x2
+        case autoCapitalization = 0x4
+        case lowercase = 0x8
+        case uppercase = 0x10
+        case titlecase = 0x20
+        case hiddenText = 0x40
+        case sensitiveData = 0x80
+        case latin = 0x100
+        case multiline = 0x200
     }
     
     public enum ContentPurpose: UInt32, WlEnum {

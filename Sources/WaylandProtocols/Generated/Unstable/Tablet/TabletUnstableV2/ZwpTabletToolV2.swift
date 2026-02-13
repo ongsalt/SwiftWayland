@@ -21,14 +21,14 @@ public final class ZwpTabletToolV2: WlProxyBase, WlProxy, WlInterface {
     }
     
     public enum `Type`: UInt32, WlEnum {
-        case pen = 320
-        case eraser = 321
-        case brush = 322
-        case pencil = 323
-        case airbrush = 324
-        case finger = 325
-        case mouse = 326
-        case lens = 327
+        case pen = 0x140
+        case eraser = 0x141
+        case brush = 0x142
+        case pencil = 0x143
+        case airbrush = 0x144
+        case finger = 0x145
+        case mouse = 0x146
+        case lens = 0x147
     }
     
     public enum Capability: UInt32, WlEnum {

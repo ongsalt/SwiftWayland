@@ -30,8 +30,8 @@ public final class WlOutput: WlProxyBase, WlProxy, WlInterface {
     }
     
     public enum Mode: UInt32, WlEnum {
-        case current = 1
-        case preferred = 2
+        case current = 0x1
+        case preferred = 0x2
     }
     
     public enum Event: WlEventEnum {

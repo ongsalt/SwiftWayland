@@ -98,7 +98,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public enum Transient: UInt32, WlEnum {
-        case inactive = 1
+        case inactive = 0x1
     }
     
     public enum FullscreenMethod: UInt32, WlEnum {
