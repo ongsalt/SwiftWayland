@@ -26,8 +26,8 @@ def generate(protocols_dir: Path | [Path], target_dir: Path, import_name: str | 
         subprocess.run(args)
         # print(args)
     
-binary = ".build/x86_64-unknown-linux-gnu/release/WaylandScanner"
-# binary = ".build/x86_64-unknown-linux-gnu/debug/WaylandScanner"
+# binary = ".build/release/WaylandScanner"
+binary = ".build/debug/WaylandScanner"
 
 protocols_dir = Path("/usr/share/wayland-protocols/")
 

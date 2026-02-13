@@ -4,18 +4,17 @@ import Foundation
 
 // TODO: see swift Decodable
 public protocol WLDecodable {
-    static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self
+    static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self
 }
 
 public protocol WlInterface {
     static var name: String { get }
-    var version: UInt32 { get }
 }
 
 public protocol WlEnum: WLDecodable {}
 
 extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
-    public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket)
+    public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32)
         -> Self
     {
         Self(rawValue: 0)!
@@ -24,6 +23,7 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
 
 public protocol WlProxy: Identifiable, WlInterface, AnyObject {
     associatedtype Event: WlEventEnum
+    var version: UInt32 { get }
     var id: ObjectId {
         get
     }
@@ -42,7 +42,7 @@ public protocol WlProxy: Identifiable, WlInterface, AnyObject {
 
 extension WlProxy {
     func parseAndDispatch(message: Message, connection: Connection, fdSource: BufferedSocket) {
-        let event = Event.decode(message: message, connection: connection, fdSource: fdSource)
+        let event = Event.decode(message: message, connection: connection, fdSource: fdSource, version: self.version)
         #if DEBUG
             print("[Wayland] dispatch \(event) to \(self)")
         #endif

@@ -305,7 +305,7 @@ func getArgDecodingExpr(_ arg: Argument) -> String {
     // case .newId: fatalError("Impossible (newId)")
     case .newId:
         if let interface = arg.interface {
-            "connection.createProxy(type: \(interface.camel).self, id: r.readNewId())"
+            "connection.createProxy(type: \(interface.camel).self, version: version, id: r.readNewId())"
         } else {
             fatalError("wtf, how can you have newId without a type: \(arg)")
         }
@@ -339,7 +339,7 @@ func buildDecodeFunction(_ events: [Event]) -> String {
     let readerString =
         !readerNeeded ? "" : "var r = ArgumentParser(data: message.arguments, fdSource: fdSource)"
     return """
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             \(readerString)
             switch message.opcode {
         \(cases.indent(space: 4))
