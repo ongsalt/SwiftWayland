@@ -7,7 +7,7 @@ extension WlRegistry {
                 .uint(name),
                 .newIdDynamic(interfaceName: interface.name, version: version, id: obj.id),
             ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
 
         return obj
     }

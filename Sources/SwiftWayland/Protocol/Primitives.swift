@@ -22,7 +22,7 @@ public enum WaylandData {
     case newId(ObjectId)
     case newIdDynamic(interfaceName: String, version: UInt32, id: ObjectId)
 
-    func encode(into data: inout Data) {
+    func encode(into data: inout Data, fds: inout [FileHandle]) {
         switch self {
         case .int(let value):
             var v = value
@@ -55,8 +55,9 @@ public enum WaylandData {
                 data.append(contentsOf: [UInt8](repeating: 0, count: padding))
             }
 
-        case .fd:
+        case .fd(let handle):
             // File descriptors are passed via ancillary data (msg_control), not in main data
+            fds.append(handle)
             break
 
         case .enum(let enumValue):
