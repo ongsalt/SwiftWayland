@@ -174,7 +174,9 @@ func buildEnums(_ enums: [Enum]) -> String {
 func buildEnum(_ enumm: Enum) -> String {
     let cases = enumm.entries.map { e in
         return
-            "case \(e.name.lowerCamel.gravedIfNeeded) = \(e.intValue.expect("invalid int value \(e)"))"
+            // TODO: might keep hex as is
+            // "case \(e.name.lowerCamel.gravedIfNeeded) = \(e.intValue.expect("invalid int value \(e)"))"
+            "case \(e.name.lowerCamel.gravedIfNeeded) = \(e.value)"
     }.joined(separator: "\n")
 
     return """
