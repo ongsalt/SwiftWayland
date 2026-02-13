@@ -56,7 +56,7 @@ public final class Connection: @unchecked Sendable {
         }
     }
 
-    public func dispatchBlocking(force: Bool = false) async throws {
+    public func dispatchBlocking(force: Bool = false) throws {
         var didRun = !force
         while socket.canRead || !didRun {
             didRun = true
@@ -134,6 +134,7 @@ public final class Connection: @unchecked Sendable {
         pendingMessages.append(message)
     }
 
+
     deinit {
         print("Closing because refcounted")
     }
@@ -173,5 +174,45 @@ public final class Connection: @unchecked Sendable {
         }
 
         return Socket(fileDescriptor: fd)
+    }
+}
+
+public final class AutoFlusher {
+    let flushQueue: DispatchQueue = DispatchQueue(label: "SwiftWayland.AutoFlusher")
+    let observer: CFRunLoopObserver
+    let runLoop: CFRunLoop
+    let connection: Connection
+
+    public init(connection: Connection) {
+        self.connection = connection
+        let priority: Int = 0
+        self.runLoop = CFRunLoopGetCurrent()
+
+        observer = CFRunLoopObserverCreateWithHandler(
+            nil, CFRunLoopActivity.beforeWaiting.rawValue, true, priority
+        ) { observer, activity in
+            print("Will sleep")
+            if !connection.pendingMessages.isEmpty {
+                print("> Cant")
+                try! connection.flushBlocking()
+            }
+
+            if !connection.socket.canRead {
+                print("> Cant (can read)")
+                try! connection.dispatchBlocking(force: true)
+            }
+        }!
+    }
+
+    public func start() {
+        CFRunLoopAddObserver(runLoop, observer, kCFRunLoopDefaultMode)
+    }
+
+    public func stop() {
+        CFRunLoopRemoveObserver(runLoop, observer, kCFRunLoopDefaultMode)
+    }
+
+    deinit {
+        print("AutoFlusher: deinit")
     }
 }
