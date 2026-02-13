@@ -13,7 +13,7 @@ public final class ZxdgDecorationManagerV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getToplevelDecoration(toplevel: XdgToplevel) throws(WaylandProxyError)  -> ZxdgToplevelDecorationV1 {
+    public func getToplevelDecoration(toplevel: XdgToplevel) throws(WaylandProxyError) -> ZxdgToplevelDecorationV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgToplevelDecorationV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

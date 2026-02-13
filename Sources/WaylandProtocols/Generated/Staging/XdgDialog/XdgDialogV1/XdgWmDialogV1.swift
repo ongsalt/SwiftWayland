@@ -13,7 +13,7 @@ public final class XdgWmDialogV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getXdgDialog(toplevel: XdgToplevel) throws(WaylandProxyError)  -> XdgDialogV1 {
+    public func getXdgDialog(toplevel: XdgToplevel) throws(WaylandProxyError) -> XdgDialogV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgDialogV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

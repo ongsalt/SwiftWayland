@@ -36,7 +36,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError)  -> WlBuffer {
+    public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError) -> WlBuffer {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let bufferId = connection.createProxy(type: WlBuffer.self, version: self.version)

@@ -5,7 +5,7 @@ public final class ExtTransientSeatManagerV1: WlProxyBase, WlProxy, WlInterface 
     public static let name: String = "ext_transient_seat_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func create() throws(WaylandProxyError)  -> ExtTransientSeatV1 {
+    public func create() throws(WaylandProxyError) -> ExtTransientSeatV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let seat = connection.createProxy(type: ExtTransientSeatV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [

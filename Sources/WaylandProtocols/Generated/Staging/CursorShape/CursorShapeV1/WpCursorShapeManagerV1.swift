@@ -13,7 +13,7 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getPointer(pointer: WlPointer) throws(WaylandProxyError)  -> WpCursorShapeDeviceV1 {
+    public func getPointer(pointer: WlPointer) throws(WaylandProxyError) -> WpCursorShapeDeviceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -24,7 +24,7 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
         return cursorShapeDevice
     }
     
-    public func getTabletToolV2(tabletTool: ZwpTabletToolV2) throws(WaylandProxyError)  -> WpCursorShapeDeviceV1 {
+    public func getTabletToolV2(tabletTool: ZwpTabletToolV2) throws(WaylandProxyError) -> WpCursorShapeDeviceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [

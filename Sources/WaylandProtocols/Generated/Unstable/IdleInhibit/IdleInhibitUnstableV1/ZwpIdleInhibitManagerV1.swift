@@ -13,7 +13,7 @@ public final class ZwpIdleInhibitManagerV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func createInhibitor(surface: WlSurface) throws(WaylandProxyError)  -> ZwpIdleInhibitorV1 {
+    public func createInhibitor(surface: WlSurface) throws(WaylandProxyError) -> ZwpIdleInhibitorV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpIdleInhibitorV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

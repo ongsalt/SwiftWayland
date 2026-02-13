@@ -4,7 +4,7 @@ public final class WlShm: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_shm"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createPool(fd: FileHandle, size: Int32) throws(WaylandProxyError)  -> WlShmPool {
+    public func createPool(fd: FileHandle, size: Int32) throws(WaylandProxyError) -> WlShmPool {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlShmPool.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [

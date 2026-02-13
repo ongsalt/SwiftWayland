@@ -13,7 +13,7 @@ public final class WpAlphaModifierV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getSurface(surface: WlSurface) throws(WaylandProxyError)  -> WpAlphaModifierSurfaceV1 {
+    public func getSurface(surface: WlSurface) throws(WaylandProxyError) -> WpAlphaModifierSurfaceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpAlphaModifierSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

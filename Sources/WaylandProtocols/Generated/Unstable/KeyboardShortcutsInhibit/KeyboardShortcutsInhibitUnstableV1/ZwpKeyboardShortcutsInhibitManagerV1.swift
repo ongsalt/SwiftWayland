@@ -13,7 +13,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
         connection.removeObject(id: self.id)
     }
     
-    public func inhibitShortcuts(surface: WlSurface, seat: WlSeat) throws(WaylandProxyError)  -> ZwpKeyboardShortcutsInhibitorV1 {
+    public func inhibitShortcuts(surface: WlSurface, seat: WlSeat) throws(WaylandProxyError) -> ZwpKeyboardShortcutsInhibitorV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpKeyboardShortcutsInhibitorV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

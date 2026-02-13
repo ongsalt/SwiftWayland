@@ -12,7 +12,7 @@ public final class WpViewporter: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getViewport(surface: WlSurface) throws(WaylandProxyError)  -> WpViewport {
+    public func getViewport(surface: WlSurface) throws(WaylandProxyError) -> WpViewport {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpViewport.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

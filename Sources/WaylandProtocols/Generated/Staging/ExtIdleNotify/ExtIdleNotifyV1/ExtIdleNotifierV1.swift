@@ -13,7 +13,7 @@ public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError)  -> ExtIdleNotificationV1 {
+    public func getIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError) -> ExtIdleNotificationV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ExtIdleNotificationV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -25,7 +25,7 @@ public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getInputIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError)  -> ExtIdleNotificationV1 {
+    public func getInputIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError) -> ExtIdleNotificationV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let id = connection.createProxy(type: ExtIdleNotificationV1.self, version: self.version)

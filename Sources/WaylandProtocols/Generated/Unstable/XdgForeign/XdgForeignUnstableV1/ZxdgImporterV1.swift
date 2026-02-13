@@ -13,7 +13,7 @@ public final class ZxdgImporterV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func `import`(handle: String) throws(WaylandProxyError)  -> ZxdgImportedV1 {
+    public func `import`(handle: String) throws(WaylandProxyError) -> ZxdgImportedV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgImportedV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

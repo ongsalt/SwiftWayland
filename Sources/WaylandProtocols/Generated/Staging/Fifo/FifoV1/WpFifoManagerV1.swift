@@ -13,7 +13,7 @@ public final class WpFifoManagerV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getFifo(surface: WlSurface) throws(WaylandProxyError)  -> WpFifoV1 {
+    public func getFifo(surface: WlSurface) throws(WaylandProxyError) -> WpFifoV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpFifoV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

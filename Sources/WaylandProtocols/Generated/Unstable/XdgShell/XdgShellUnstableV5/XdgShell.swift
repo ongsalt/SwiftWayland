@@ -21,7 +21,7 @@ public final class XdgShell: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError)  -> XdgSurface {
+    public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError) -> XdgSurface {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgSurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
@@ -32,7 +32,7 @@ public final class XdgShell: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getXdgPopup(surface: WlSurface, parent: WlSurface, seat: WlSeat, serial: UInt32, x: Int32, y: Int32) throws(WaylandProxyError)  -> XdgPopup {
+    public func getXdgPopup(surface: WlSurface, parent: WlSurface, seat: WlSeat, serial: UInt32, x: Int32, y: Int32) throws(WaylandProxyError) -> XdgPopup {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgPopup.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [

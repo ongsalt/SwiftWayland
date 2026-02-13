@@ -12,7 +12,7 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func feedback(surface: WlSurface) throws(WaylandProxyError)  -> WpPresentationFeedback {
+    public func feedback(surface: WlSurface) throws(WaylandProxyError) -> WpPresentationFeedback {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let callback = connection.createProxy(type: WpPresentationFeedback.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

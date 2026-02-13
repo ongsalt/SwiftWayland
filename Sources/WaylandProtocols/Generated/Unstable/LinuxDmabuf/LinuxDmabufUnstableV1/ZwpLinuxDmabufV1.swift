@@ -13,7 +13,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func createParams() throws(WaylandProxyError)  -> ZwpLinuxBufferParamsV1 {
+    public func createParams() throws(WaylandProxyError) -> ZwpLinuxBufferParamsV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let paramsId = connection.createProxy(type: ZwpLinuxBufferParamsV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -23,7 +23,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         return paramsId
     }
     
-    public func getDefaultFeedback() throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
+    public func getDefaultFeedback() throws(WaylandProxyError) -> ZwpLinuxDmabufFeedbackV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self, version: self.version)
@@ -34,7 +34,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getSurfaceFeedback(surface: WlSurface) throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
+    public func getSurfaceFeedback(surface: WlSurface) throws(WaylandProxyError) -> ZwpLinuxDmabufFeedbackV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self, version: self.version)

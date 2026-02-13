@@ -12,7 +12,7 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func createPositioner() throws(WaylandProxyError)  -> XdgPositioner {
+    public func createPositioner() throws(WaylandProxyError) -> XdgPositioner {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgPositioner.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -22,7 +22,7 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError)  -> XdgSurface {
+    public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError) -> XdgSurface {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgSurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [

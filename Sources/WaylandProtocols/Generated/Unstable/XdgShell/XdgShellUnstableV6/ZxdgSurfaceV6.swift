@@ -13,7 +13,7 @@ public final class ZxdgSurfaceV6: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getToplevel() throws(WaylandProxyError)  -> ZxdgToplevelV6 {
+    public func getToplevel() throws(WaylandProxyError) -> ZxdgToplevelV6 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgToplevelV6.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -23,7 +23,7 @@ public final class ZxdgSurfaceV6: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func getPopup(parent: ZxdgSurfaceV6, positioner: ZxdgPositionerV6) throws(WaylandProxyError)  -> ZxdgPopupV6 {
+    public func getPopup(parent: ZxdgSurfaceV6, positioner: ZxdgPositionerV6) throws(WaylandProxyError) -> ZxdgPopupV6 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgPopupV6.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [

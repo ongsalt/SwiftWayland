@@ -33,14 +33,13 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func frame() throws(WaylandProxyError)  -> WlCallback {
+    public func frame(callback: @escaping (UInt32) -> Void) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createProxy(type: WlCallback.self, version: self.version)
+        let callback = connection.createCallback(fn: callback)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(callback.id)
         ])
         connection.send(message: message)
-        return callback
     }
     
     public func setOpaqueRegion(region: WlRegion) throws(WaylandProxyError) {

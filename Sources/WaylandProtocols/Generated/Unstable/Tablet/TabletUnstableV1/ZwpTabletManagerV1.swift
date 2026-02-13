@@ -5,7 +5,7 @@ public final class ZwpTabletManagerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_tablet_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func getTabletSeat(seat: WlSeat) throws(WaylandProxyError)  -> ZwpTabletSeatV1 {
+    public func getTabletSeat(seat: WlSeat) throws(WaylandProxyError) -> ZwpTabletSeatV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let tabletSeat = connection.createProxy(type: ZwpTabletSeatV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [

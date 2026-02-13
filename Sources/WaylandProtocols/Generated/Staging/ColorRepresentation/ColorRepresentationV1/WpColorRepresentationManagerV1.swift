@@ -13,7 +13,7 @@ public final class WpColorRepresentationManagerV1: WlProxyBase, WlProxy, WlInter
         connection.removeObject(id: self.id)
     }
     
-    public func getSurface(surface: WlSurface) throws(WaylandProxyError)  -> WpColorRepresentationSurfaceV1 {
+    public func getSurface(surface: WlSurface) throws(WaylandProxyError) -> WpColorRepresentationSurfaceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorRepresentationSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

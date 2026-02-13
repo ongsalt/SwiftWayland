@@ -13,7 +13,7 @@ public final class WpSinglePixelBufferManagerV1: WlProxyBase, WlProxy, WlInterfa
         connection.removeObject(id: self.id)
     }
     
-    public func createU32RgbaBuffer(r: UInt32, g: UInt32, b: UInt32, a: UInt32) throws(WaylandProxyError)  -> WlBuffer {
+    public func createU32RgbaBuffer(r: UInt32, g: UInt32, b: UInt32, a: UInt32) throws(WaylandProxyError) -> WlBuffer {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlBuffer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

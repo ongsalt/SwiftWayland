@@ -21,7 +21,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
         connection.send(message: message)
     }
     
-    public func getRelease() throws(WaylandProxyError)  -> ZwpLinuxBufferReleaseV1 {
+    public func getRelease() throws(WaylandProxyError) -> ZwpLinuxBufferReleaseV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let release = connection.createProxy(type: ZwpLinuxBufferReleaseV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [

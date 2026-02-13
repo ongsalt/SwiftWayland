@@ -13,7 +13,7 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
         connection.removeObject(id: self.id)
     }
     
-    public func getPreferred() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
+    public func getPreferred() throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -23,7 +23,7 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
         return imageDescription
     }
     
-    public func getPreferredParametric() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
+    public func getPreferredParametric() throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [

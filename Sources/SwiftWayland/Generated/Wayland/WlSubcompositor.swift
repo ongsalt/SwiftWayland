@@ -12,7 +12,7 @@ public final class WlSubcompositor: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getSubsurface(surface: WlSurface, parent: WlSurface) throws(WaylandProxyError)  -> WlSubsurface {
+    public func getSubsurface(surface: WlSurface, parent: WlSurface) throws(WaylandProxyError) -> WlSubsurface {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlSubsurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

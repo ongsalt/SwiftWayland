@@ -13,7 +13,7 @@ public final class WpColorManagementOutputV1: WlProxyBase, WlProxy, WlInterface 
         connection.removeObject(id: self.id)
     }
     
-    public func getImageDescription() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
+    public func getImageDescription() throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

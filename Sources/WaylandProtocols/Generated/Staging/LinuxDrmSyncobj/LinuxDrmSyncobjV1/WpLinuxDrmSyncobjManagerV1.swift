@@ -13,7 +13,7 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
         connection.removeObject(id: self.id)
     }
     
-    public func getSurface(surface: WlSurface) throws(WaylandProxyError)  -> WpLinuxDrmSyncobjSurfaceV1 {
+    public func getSurface(surface: WlSurface) throws(WaylandProxyError) -> WpLinuxDrmSyncobjSurfaceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpLinuxDrmSyncobjSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -24,7 +24,7 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
         return id
     }
     
-    public func importTimeline(fd: FileHandle) throws(WaylandProxyError)  -> WpLinuxDrmSyncobjTimelineV1 {
+    public func importTimeline(fd: FileHandle) throws(WaylandProxyError) -> WpLinuxDrmSyncobjTimelineV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpLinuxDrmSyncobjTimelineV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [

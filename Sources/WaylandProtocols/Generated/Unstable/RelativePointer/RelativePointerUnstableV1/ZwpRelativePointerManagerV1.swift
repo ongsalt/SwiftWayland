@@ -13,7 +13,7 @@ public final class ZwpRelativePointerManagerV1: WlProxyBase, WlProxy, WlInterfac
         connection.removeObject(id: self.id)
     }
     
-    public func getRelativePointer(pointer: WlPointer) throws(WaylandProxyError)  -> ZwpRelativePointerV1 {
+    public func getRelativePointer(pointer: WlPointer) throws(WaylandProxyError) -> ZwpRelativePointerV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpRelativePointerV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

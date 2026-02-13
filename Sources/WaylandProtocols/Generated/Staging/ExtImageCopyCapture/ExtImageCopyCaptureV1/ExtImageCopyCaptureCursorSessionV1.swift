@@ -13,7 +13,7 @@ public final class ExtImageCopyCaptureCursorSessionV1: WlProxyBase, WlProxy, WlI
         connection.removeObject(id: self.id)
     }
     
-    public func getCaptureSession() throws(WaylandProxyError)  -> ExtImageCopyCaptureSessionV1 {
+    public func getCaptureSession() throws(WaylandProxyError) -> ExtImageCopyCaptureSessionV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let session = connection.createProxy(type: ExtImageCopyCaptureSessionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

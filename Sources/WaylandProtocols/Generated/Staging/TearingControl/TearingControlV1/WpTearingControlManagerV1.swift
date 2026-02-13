@@ -13,7 +13,7 @@ public final class WpTearingControlManagerV1: WlProxyBase, WlProxy, WlInterface 
         connection.removeObject(id: self.id)
     }
     
-    public func getTearingControl(surface: WlSurface) throws(WaylandProxyError)  -> WpTearingControlV1 {
+    public func getTearingControl(surface: WlSurface) throws(WaylandProxyError) -> WpTearingControlV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpTearingControlV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

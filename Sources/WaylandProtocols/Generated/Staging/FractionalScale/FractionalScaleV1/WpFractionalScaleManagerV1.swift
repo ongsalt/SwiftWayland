@@ -13,7 +13,7 @@ public final class WpFractionalScaleManagerV1: WlProxyBase, WlProxy, WlInterface
         connection.removeObject(id: self.id)
     }
     
-    public func getFractionalScale(surface: WlSurface) throws(WaylandProxyError)  -> WpFractionalScaleV1 {
+    public func getFractionalScale(surface: WlSurface) throws(WaylandProxyError) -> WpFractionalScaleV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpFractionalScaleV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

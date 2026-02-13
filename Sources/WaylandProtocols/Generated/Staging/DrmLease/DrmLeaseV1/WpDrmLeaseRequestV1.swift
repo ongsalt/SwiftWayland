@@ -13,7 +13,7 @@ public final class WpDrmLeaseRequestV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public consuming func submit() throws(WaylandProxyError)  -> WpDrmLeaseV1 {
+    public consuming func submit() throws(WaylandProxyError) -> WpDrmLeaseV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpDrmLeaseV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

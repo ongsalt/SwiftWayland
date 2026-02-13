@@ -88,7 +88,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         connection.send(message: message)
     }
     
-    public func grabKeyboard() throws(WaylandProxyError)  -> WlKeyboard {
+    public func grabKeyboard() throws(WaylandProxyError) -> WlKeyboard {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let keyboard = connection.createProxy(type: WlKeyboard.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 9, contents: [

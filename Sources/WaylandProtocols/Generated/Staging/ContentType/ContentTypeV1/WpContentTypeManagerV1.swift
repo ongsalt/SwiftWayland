@@ -13,7 +13,7 @@ public final class WpContentTypeManagerV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getSurfaceContentType(surface: WlSurface) throws(WaylandProxyError)  -> WpContentTypeV1 {
+    public func getSurfaceContentType(surface: WlSurface) throws(WaylandProxyError) -> WpContentTypeV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpContentTypeV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

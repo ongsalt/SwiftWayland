@@ -5,7 +5,7 @@ public final class ExtForeignToplevelImageCaptureSourceManagerV1: WlProxyBase, W
     public static let name: String = "ext_foreign_toplevel_image_capture_source_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public func createSource(toplevelHandle: ExtForeignToplevelHandleV1) throws(WaylandProxyError)  -> ExtImageCaptureSourceV1 {
+    public func createSource(toplevelHandle: ExtForeignToplevelHandleV1) throws(WaylandProxyError) -> ExtImageCaptureSourceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let source = connection.createProxy(type: ExtImageCaptureSourceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [

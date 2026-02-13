@@ -5,7 +5,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
     public static let name: String = "wp_image_description_creator_params_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
-    public consuming func create() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
+    public consuming func create() throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [

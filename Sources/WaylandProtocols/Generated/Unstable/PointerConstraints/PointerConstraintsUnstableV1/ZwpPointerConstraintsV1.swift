@@ -13,7 +13,7 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) throws(WaylandProxyError)  -> ZwpLockedPointerV1 {
+    public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) throws(WaylandProxyError) -> ZwpLockedPointerV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpLockedPointerV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
@@ -27,7 +27,7 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
-    public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) throws(WaylandProxyError)  -> ZwpConfinedPointerV1 {
+    public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) throws(WaylandProxyError) -> ZwpConfinedPointerV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpConfinedPointerV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [

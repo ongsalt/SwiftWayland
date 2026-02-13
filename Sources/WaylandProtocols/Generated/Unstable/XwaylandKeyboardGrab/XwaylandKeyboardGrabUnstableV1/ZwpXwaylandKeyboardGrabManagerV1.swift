@@ -13,7 +13,7 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: WlProxyBase, WlProxy, WlInt
         connection.removeObject(id: self.id)
     }
     
-    public func grabKeyboard(surface: WlSurface, seat: WlSeat) throws(WaylandProxyError)  -> ZwpXwaylandKeyboardGrabV1 {
+    public func grabKeyboard(surface: WlSurface, seat: WlSeat) throws(WaylandProxyError) -> ZwpXwaylandKeyboardGrabV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpXwaylandKeyboardGrabV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

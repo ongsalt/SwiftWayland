@@ -13,7 +13,7 @@ public final class ExtSessionLockManagerV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func lock() throws(WaylandProxyError)  -> ExtSessionLockV1 {
+    public func lock() throws(WaylandProxyError) -> ExtSessionLockV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ExtSessionLockV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

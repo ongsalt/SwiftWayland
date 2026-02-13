@@ -13,7 +13,7 @@ public final class ZwpTextInputManagerV3: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getTextInput(seat: WlSeat) throws(WaylandProxyError)  -> ZwpTextInputV3 {
+    public func getTextInput(seat: WlSeat) throws(WaylandProxyError) -> ZwpTextInputV3 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpTextInputV3.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

@@ -13,7 +13,7 @@ public final class WpSecurityContextManagerV1: WlProxyBase, WlProxy, WlInterface
         connection.removeObject(id: self.id)
     }
     
-    public func createListener(listenFd: FileHandle, closeFd: FileHandle) throws(WaylandProxyError)  -> WpSecurityContextV1 {
+    public func createListener(listenFd: FileHandle, closeFd: FileHandle) throws(WaylandProxyError) -> WpSecurityContextV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpSecurityContextV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [

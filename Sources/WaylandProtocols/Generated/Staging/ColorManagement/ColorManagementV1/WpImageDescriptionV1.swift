@@ -13,7 +13,7 @@ public final class WpImageDescriptionV1: WlProxyBase, WlProxy, WlInterface {
         connection.removeObject(id: self.id)
     }
     
-    public func getInformation() throws(WaylandProxyError)  -> WpImageDescriptionInfoV1 {
+    public func getInformation() throws(WaylandProxyError) -> WpImageDescriptionInfoV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let information = connection.createProxy(type: WpImageDescriptionInfoV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
