@@ -1,4 +1,4 @@
-public class Box<T> {
+class Box<T> {
     public let ptr: UnsafeMutablePointer<T>
     public var readonly: UnsafePointer<T> {
         UnsafePointer(ptr)
@@ -66,19 +66,13 @@ public class Box<T> {
         block(&pointee)
     }
 
-    @discardableResult
-    public func leak() -> Box<T> {
-        _ = Unmanaged.passRetained(self)
-        return self
-    }
-
     deinit {
         ptr.deinitialize(count: 1)
     }
 }
 
 // public for now
-public class Weak<T: AnyObject> {
+class Weak<T: AnyObject> {
     public weak var value: T?
     init(_ value: T) {
         self.value = value

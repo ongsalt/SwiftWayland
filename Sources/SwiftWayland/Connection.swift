@@ -9,7 +9,7 @@ public enum InitWaylandError: Error {
 
 public final class Connection: @unchecked Sendable {
     // this should be weak
-    public var proxies: [ObjectId: Weak<AnyObject>] = [:]
+    var proxies: [ObjectId: Weak<AnyObject>] = [:]
     private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1
     let socket: BufferedSocket
 
