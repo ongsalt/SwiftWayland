@@ -21,13 +21,13 @@ public final class ZwpTabletSeatV1: WlProxyBase, WlProxy, WlInterface {
         case tabletAdded(id: ZwpTabletV1)
         case toolAdded(id: ZwpTabletToolV1)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.tabletAdded(id: connection.createProxy(type: ZwpTabletV1.self, id: r.readNewId()))
+                return Self.tabletAdded(id: connection.createProxy(type: ZwpTabletV1.self, version: version, id: r.readNewId()))
             case 1:
-                return Self.toolAdded(id: connection.createProxy(type: ZwpTabletToolV1.self, id: r.readNewId()))
+                return Self.toolAdded(id: connection.createProxy(type: ZwpTabletToolV1.self, version: version, id: r.readNewId()))
             default:
                 fatalError("Unknown message")
             }

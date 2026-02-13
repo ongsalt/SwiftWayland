@@ -43,11 +43,11 @@ public final class ExtDataControlDeviceV1: WlProxyBase, WlProxy, WlInterface {
         case finished
         case primarySelection(id: ExtDataControlOfferV1)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.dataOffer(id: connection.createProxy(type: ExtDataControlOfferV1.self, id: r.readNewId()))
+                return Self.dataOffer(id: connection.createProxy(type: ExtDataControlOfferV1.self, version: version, id: r.readNewId()))
             case 1:
                 return Self.selection(id: connection.get(as: ExtDataControlOfferV1.self, id: r.readObjectId())!)
             case 2:

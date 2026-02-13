@@ -6,7 +6,7 @@ public final class WlShm: WlProxyBase, WlProxy, WlInterface {
 
     public func createPool(fd: FileHandle, size: Int32) throws(WaylandProxyError)  -> WlShmPool {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlShmPool.self)
+        let id = connection.createProxy(type: WlShmPool.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id),
             .fd(fd),
@@ -18,6 +18,7 @@ public final class WlShm: WlProxyBase, WlProxy, WlInterface {
     
     public consuming func release() throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -163,7 +164,7 @@ public final class WlShm: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case format(format: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

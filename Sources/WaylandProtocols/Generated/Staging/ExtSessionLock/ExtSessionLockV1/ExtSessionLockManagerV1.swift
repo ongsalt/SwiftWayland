@@ -15,7 +15,7 @@ public final class ExtSessionLockManagerV1: WlProxyBase, WlProxy, WlInterface {
     
     public func lock() throws(WaylandProxyError)  -> ExtSessionLockV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ExtSessionLockV1.self)
+        let id = connection.createProxy(type: ExtSessionLockV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
@@ -30,7 +30,7 @@ public final class ExtSessionLockManagerV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

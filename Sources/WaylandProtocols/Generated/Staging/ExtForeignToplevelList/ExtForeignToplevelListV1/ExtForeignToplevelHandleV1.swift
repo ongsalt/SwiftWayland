@@ -24,7 +24,7 @@ public final class ExtForeignToplevelHandleV1: WlProxyBase, WlProxy, WlInterface
         case appId(appId: String)
         case identifier(identifier: String)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

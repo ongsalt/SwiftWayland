@@ -15,7 +15,7 @@ public final class ExtImageCopyCaptureCursorSessionV1: WlProxyBase, WlProxy, WlI
     
     public func getCaptureSession() throws(WaylandProxyError)  -> ExtImageCopyCaptureSessionV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let session = connection.createProxy(type: ExtImageCopyCaptureSessionV1.self)
+        let session = connection.createProxy(type: ExtImageCopyCaptureSessionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(session.id)
         ])
@@ -37,7 +37,7 @@ public final class ExtImageCopyCaptureCursorSessionV1: WlProxyBase, WlProxy, WlI
         case position(x: Int32, y: Int32)
         case hotspot(x: Int32, y: Int32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

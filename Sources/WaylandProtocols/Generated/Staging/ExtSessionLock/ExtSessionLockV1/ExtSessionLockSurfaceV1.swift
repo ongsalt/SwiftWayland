@@ -35,7 +35,7 @@ public final class ExtSessionLockSurfaceV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case configure(serial: UInt32, width: UInt32, height: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

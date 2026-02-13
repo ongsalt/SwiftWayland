@@ -17,6 +17,7 @@ public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
     
     public consuming func release() throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -66,7 +67,7 @@ public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
         case axisValue120(axis: UInt32, value120: Int32)
         case axisRelativeDirection(axis: UInt32, direction: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

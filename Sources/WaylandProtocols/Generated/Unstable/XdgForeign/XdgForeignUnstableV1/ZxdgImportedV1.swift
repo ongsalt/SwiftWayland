@@ -28,7 +28,7 @@ public final class ZxdgImportedV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case destroyed
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             case 0:

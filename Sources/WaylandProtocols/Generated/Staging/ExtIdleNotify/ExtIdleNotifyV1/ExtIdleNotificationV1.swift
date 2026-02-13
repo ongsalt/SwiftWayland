@@ -21,7 +21,7 @@ public final class ExtIdleNotificationV1: WlProxyBase, WlProxy, WlInterface {
         case idled
         case resumed
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             case 0:

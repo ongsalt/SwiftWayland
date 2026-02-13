@@ -15,7 +15,7 @@ public final class WpSinglePixelBufferManagerV1: WlProxyBase, WlProxy, WlInterfa
     
     public func createU32RgbaBuffer(r: UInt32, g: UInt32, b: UInt32, a: UInt32) throws(WaylandProxyError)  -> WlBuffer {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlBuffer.self)
+        let id = connection.createProxy(type: WlBuffer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .uint(r),
@@ -34,7 +34,7 @@ public final class WpSinglePixelBufferManagerV1: WlProxyBase, WlProxy, WlInterfa
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

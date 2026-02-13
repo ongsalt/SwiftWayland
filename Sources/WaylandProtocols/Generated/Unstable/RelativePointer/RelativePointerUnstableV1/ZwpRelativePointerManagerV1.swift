@@ -15,7 +15,7 @@ public final class ZwpRelativePointerManagerV1: WlProxyBase, WlProxy, WlInterfac
     
     public func getRelativePointer(pointer: WlPointer) throws(WaylandProxyError)  -> ZwpRelativePointerV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpRelativePointerV1.self)
+        let id = connection.createProxy(type: ZwpRelativePointerV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(pointer)
@@ -31,7 +31,7 @@ public final class ZwpRelativePointerManagerV1: WlProxyBase, WlProxy, WlInterfac
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

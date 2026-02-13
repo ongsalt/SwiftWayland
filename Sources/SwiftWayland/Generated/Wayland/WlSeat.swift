@@ -6,7 +6,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
 
     public func getPointer() throws(WaylandProxyError)  -> WlPointer {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlPointer.self)
+        let id = connection.createProxy(type: WlPointer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
         ])
@@ -16,7 +16,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     
     public func getKeyboard() throws(WaylandProxyError)  -> WlKeyboard {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlKeyboard.self)
+        let id = connection.createProxy(type: WlKeyboard.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
@@ -26,7 +26,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     
     public func getTouch() throws(WaylandProxyError)  -> WlTouch {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlTouch.self)
+        let id = connection.createProxy(type: WlTouch.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
         ])
@@ -36,6 +36,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     
     public consuming func release() throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -60,7 +61,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         case capabilities(capabilities: UInt32)
         case name(name: String)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

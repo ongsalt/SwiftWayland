@@ -14,7 +14,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
     
     public func createParams() throws(WaylandProxyError)  -> ZwpLinuxBufferParamsV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let paramsId = connection.createProxy(type: ZwpLinuxBufferParamsV1.self)
+        let paramsId = connection.createProxy(type: ZwpLinuxBufferParamsV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(paramsId.id)
         ])
@@ -24,7 +24,8 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getDefaultFeedback() throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self)
+        guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
+        let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
         ])
@@ -34,7 +35,8 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getSurfaceFeedback(surface: WlSurface) throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self)
+        guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
+        let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(id.id),
             .object(surface)
@@ -51,7 +53,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         case format(format: UInt32)
         case modifier(format: UInt32, modifierHi: UInt32, modifierLo: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

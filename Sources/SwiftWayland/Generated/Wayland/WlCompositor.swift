@@ -6,7 +6,7 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
 
     public func createSurface() throws(WaylandProxyError)  -> WlSurface {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlSurface.self)
+        let id = connection.createProxy(type: WlSurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
         ])
@@ -16,7 +16,7 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
     
     public func createRegion() throws(WaylandProxyError)  -> WlRegion {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlRegion.self)
+        let id = connection.createProxy(type: WlRegion.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
@@ -27,7 +27,7 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

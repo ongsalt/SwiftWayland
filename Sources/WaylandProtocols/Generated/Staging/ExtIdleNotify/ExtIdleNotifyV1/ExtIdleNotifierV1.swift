@@ -15,7 +15,7 @@ public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError)  -> ExtIdleNotificationV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ExtIdleNotificationV1.self)
+        let id = connection.createProxy(type: ExtIdleNotificationV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .uint(timeout),
@@ -27,7 +27,8 @@ public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getInputIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError)  -> ExtIdleNotificationV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ExtIdleNotificationV1.self)
+        guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
+        let id = connection.createProxy(type: ExtIdleNotificationV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
             .uint(timeout),
@@ -44,7 +45,7 @@ public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

@@ -26,6 +26,7 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
     
     public consuming func release() throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -49,11 +50,11 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
         case drop
         case selection(id: WlDataOffer)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.dataOffer(id: connection.createProxy(type: WlDataOffer.self, id: r.readNewId()))
+                return Self.dataOffer(id: connection.createProxy(type: WlDataOffer.self, version: version, id: r.readNewId()))
             case 1:
                 return Self.enter(serial: r.readUInt(), surface: connection.get(as: WlSurface.self, id: r.readObjectId())!, x: r.readFixed(), y: r.readFixed(), id: connection.get(as: WlDataOffer.self, id: r.readObjectId())!)
             case 2:

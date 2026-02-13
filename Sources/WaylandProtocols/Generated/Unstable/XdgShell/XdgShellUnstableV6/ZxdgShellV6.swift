@@ -15,7 +15,7 @@ public final class ZxdgShellV6: WlProxyBase, WlProxy, WlInterface {
     
     public func createPositioner() throws(WaylandProxyError)  -> ZxdgPositionerV6 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgPositionerV6.self)
+        let id = connection.createProxy(type: ZxdgPositionerV6.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
@@ -25,7 +25,7 @@ public final class ZxdgShellV6: WlProxyBase, WlProxy, WlInterface {
     
     public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError)  -> ZxdgSurfaceV6 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgSurfaceV6.self)
+        let id = connection.createProxy(type: ZxdgSurfaceV6.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
             .object(surface)
@@ -58,7 +58,7 @@ public final class ZxdgShellV6: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case ping(serial: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

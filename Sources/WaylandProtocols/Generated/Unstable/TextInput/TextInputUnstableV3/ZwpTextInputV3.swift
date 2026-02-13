@@ -117,7 +117,7 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
         case deleteSurroundingText(beforeLength: UInt32, afterLength: UInt32)
         case done(serial: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

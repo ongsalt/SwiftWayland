@@ -30,11 +30,11 @@ public final class ZwpPrimarySelectionDeviceV1: WlProxyBase, WlProxy, WlInterfac
         case dataOffer(offer: ZwpPrimarySelectionOfferV1)
         case selection(id: ZwpPrimarySelectionOfferV1)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.dataOffer(offer: connection.createProxy(type: ZwpPrimarySelectionOfferV1.self, id: r.readNewId()))
+                return Self.dataOffer(offer: connection.createProxy(type: ZwpPrimarySelectionOfferV1.self, version: version, id: r.readNewId()))
             case 1:
                 return Self.selection(id: connection.get(as: ZwpPrimarySelectionOfferV1.self, id: r.readObjectId())!)
             default:

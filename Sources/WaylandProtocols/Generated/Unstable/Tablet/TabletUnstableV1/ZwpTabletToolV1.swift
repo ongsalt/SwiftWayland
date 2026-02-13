@@ -78,7 +78,7 @@ public final class ZwpTabletToolV1: WlProxyBase, WlProxy, WlInterface {
         case button(serial: UInt32, button: UInt32, state: UInt32)
         case frame(time: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

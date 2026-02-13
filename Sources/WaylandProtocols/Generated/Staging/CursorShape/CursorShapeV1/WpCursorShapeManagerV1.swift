@@ -15,7 +15,7 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getPointer(pointer: WlPointer) throws(WaylandProxyError)  -> WpCursorShapeDeviceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self)
+        let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(cursorShapeDevice.id),
             .object(pointer)
@@ -26,7 +26,7 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getTabletToolV2(tabletTool: ZwpTabletToolV2) throws(WaylandProxyError)  -> WpCursorShapeDeviceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self)
+        let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(cursorShapeDevice.id),
             .object(tabletTool)
@@ -42,7 +42,7 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

@@ -7,7 +7,7 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
 
     public func createFrame() throws(WaylandProxyError)  -> ExtImageCopyCaptureFrameV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let frame = connection.createProxy(type: ExtImageCopyCaptureFrameV1.self)
+        let frame = connection.createProxy(type: ExtImageCopyCaptureFrameV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(frame.id)
         ])
@@ -39,7 +39,7 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
         case done
         case stopped
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

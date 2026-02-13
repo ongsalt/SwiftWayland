@@ -35,7 +35,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
     
     public func frame() throws(WaylandProxyError)  -> WlCallback {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createProxy(type: WlCallback.self)
+        let callback = connection.createProxy(type: WlCallback.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(callback.id)
         ])
@@ -67,6 +67,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
     
     public func setBufferTransform(transform: Int32) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .int(transform)
         ])
@@ -75,6 +76,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
     
     public func setBufferScale(scale: Int32) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .int(scale)
         ])
@@ -83,6 +85,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
     
     public func damageBuffer(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .int(x),
             .int(y),
@@ -94,6 +97,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
     
     public func offset(x: Int32, y: Int32) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
         let message = Message(objectId: self.id, opcode: 10, contents: [
             .int(x),
             .int(y)
@@ -119,7 +123,7 @@ public final class WlSurface: WlProxyBase, WlProxy, WlInterface {
         case preferredBufferScale(factor: Int32)
         case preferredBufferTransform(transform: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

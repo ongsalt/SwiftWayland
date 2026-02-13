@@ -27,11 +27,11 @@ public final class ExtForeignToplevelListV1: WlProxyBase, WlProxy, WlInterface {
         case toplevel(toplevel: ExtForeignToplevelHandleV1)
         case finished
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.toplevel(toplevel: connection.createProxy(type: ExtForeignToplevelHandleV1.self, id: r.readNewId()))
+                return Self.toplevel(toplevel: connection.createProxy(type: ExtForeignToplevelHandleV1.self, version: version, id: r.readNewId()))
             case 1:
                 return Self.finished
             default:

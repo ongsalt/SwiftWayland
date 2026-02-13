@@ -14,7 +14,7 @@ public final class WpViewporter: WlProxyBase, WlProxy, WlInterface {
     
     public func getViewport(surface: WlSurface) throws(WaylandProxyError)  -> WpViewport {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WpViewport.self)
+        let id = connection.createProxy(type: WpViewport.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(surface)
@@ -34,7 +34,7 @@ public final class WpViewporter: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

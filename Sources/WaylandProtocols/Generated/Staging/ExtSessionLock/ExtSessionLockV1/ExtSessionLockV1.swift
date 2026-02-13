@@ -15,7 +15,7 @@ public final class ExtSessionLockV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getLockSurface(surface: WlSurface, output: WlOutput) throws(WaylandProxyError)  -> ExtSessionLockSurfaceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ExtSessionLockSurfaceV1.self)
+        let id = connection.createProxy(type: ExtSessionLockSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(surface),
@@ -49,7 +49,7 @@ public final class ExtSessionLockV1: WlProxyBase, WlProxy, WlInterface {
         case locked
         case finished
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             case 0:

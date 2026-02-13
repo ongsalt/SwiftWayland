@@ -14,7 +14,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     
     public func getToplevel() throws(WaylandProxyError)  -> XdgToplevel {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgToplevel.self)
+        let id = connection.createProxy(type: XdgToplevel.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
@@ -24,7 +24,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     
     public func getPopup(parent: XdgSurface, positioner: XdgPositioner) throws(WaylandProxyError)  -> XdgPopup {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgPopup.self)
+        let id = connection.createProxy(type: XdgPopup.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
             .object(parent),
@@ -69,7 +69,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case configure(serial: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

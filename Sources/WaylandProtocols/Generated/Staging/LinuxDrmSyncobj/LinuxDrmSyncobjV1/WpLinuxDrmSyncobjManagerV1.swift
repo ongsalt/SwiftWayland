@@ -15,7 +15,7 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
     
     public func getSurface(surface: WlSurface) throws(WaylandProxyError)  -> WpLinuxDrmSyncobjSurfaceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WpLinuxDrmSyncobjSurfaceV1.self)
+        let id = connection.createProxy(type: WpLinuxDrmSyncobjSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(surface)
@@ -26,7 +26,7 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
     
     public func importTimeline(fd: FileHandle) throws(WaylandProxyError)  -> WpLinuxDrmSyncobjTimelineV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WpLinuxDrmSyncobjTimelineV1.self)
+        let id = connection.createProxy(type: WpLinuxDrmSyncobjTimelineV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
             .fd(fd)
@@ -47,7 +47,7 @@ public final class WpLinuxDrmSyncobjManagerV1: WlProxyBase, WlProxy, WlInterface
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

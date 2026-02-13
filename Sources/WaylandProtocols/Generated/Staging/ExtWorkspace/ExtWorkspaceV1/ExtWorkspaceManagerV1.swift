@@ -23,13 +23,13 @@ public final class ExtWorkspaceManagerV1: WlProxyBase, WlProxy, WlInterface {
         case done
         case finished
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.workspaceGroup(workspaceGroup: connection.createProxy(type: ExtWorkspaceGroupHandleV1.self, id: r.readNewId()))
+                return Self.workspaceGroup(workspaceGroup: connection.createProxy(type: ExtWorkspaceGroupHandleV1.self, version: version, id: r.readNewId()))
             case 1:
-                return Self.workspace(workspace: connection.createProxy(type: ExtWorkspaceHandleV1.self, id: r.readNewId()))
+                return Self.workspace(workspace: connection.createProxy(type: ExtWorkspaceHandleV1.self, version: version, id: r.readNewId()))
             case 2:
                 return Self.done
             case 3:

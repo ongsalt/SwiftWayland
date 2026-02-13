@@ -22,7 +22,7 @@ public final class ZwpPointerGestureSwipeV1: WlProxyBase, WlProxy, WlInterface {
         case update(time: UInt32, dx: Double, dy: Double)
         case end(serial: UInt32, time: UInt32, cancelled: Int32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

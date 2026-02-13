@@ -64,7 +64,7 @@ public final class ExtWorkspaceHandleV1: WlProxyBase, WlProxy, WlInterface {
         case capabilities(capabilities: UInt32)
         case removed
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

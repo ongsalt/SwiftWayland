@@ -7,7 +7,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
 
     public consuming func create() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
+        let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(imageDescription.id)
         ])
@@ -118,7 +118,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

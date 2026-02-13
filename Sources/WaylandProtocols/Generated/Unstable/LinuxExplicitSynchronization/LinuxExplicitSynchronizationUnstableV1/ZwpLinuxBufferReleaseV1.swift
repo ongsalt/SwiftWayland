@@ -9,7 +9,7 @@ public final class ZwpLinuxBufferReleaseV1: WlProxyBase, WlProxy, WlInterface {
         case fencedRelease(fence: FileHandle)
         case immediateRelease
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

@@ -23,7 +23,7 @@ public final class XdgShell: WlProxyBase, WlProxy, WlInterface {
     
     public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError)  -> XdgSurface {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgSurface.self)
+        let id = connection.createProxy(type: XdgSurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
             .object(surface)
@@ -34,7 +34,7 @@ public final class XdgShell: WlProxyBase, WlProxy, WlInterface {
     
     public func getXdgPopup(surface: WlSurface, parent: WlSurface, seat: WlSeat, serial: UInt32, x: Int32, y: Int32) throws(WaylandProxyError)  -> XdgPopup {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgPopup.self)
+        let id = connection.createProxy(type: XdgPopup.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(id.id),
             .object(surface),
@@ -74,7 +74,7 @@ public final class XdgShell: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case ping(serial: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

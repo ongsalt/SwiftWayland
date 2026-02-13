@@ -23,7 +23,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     
     public func getRelease() throws(WaylandProxyError)  -> ZwpLinuxBufferReleaseV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let release = connection.createProxy(type: ZwpLinuxBufferReleaseV1.self)
+        let release = connection.createProxy(type: ZwpLinuxBufferReleaseV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(release.id)
         ])
@@ -47,7 +47,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

@@ -21,7 +21,7 @@ public final class ZwpKeyboardShortcutsInhibitorV1: WlProxyBase, WlProxy, WlInte
         case active
         case inactive
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             case 0:

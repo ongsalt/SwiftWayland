@@ -15,7 +15,7 @@ public final class ZwpTextInputManagerV3: WlProxyBase, WlProxy, WlInterface {
     
     public func getTextInput(seat: WlSeat) throws(WaylandProxyError)  -> ZwpTextInputV3 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpTextInputV3.self)
+        let id = connection.createProxy(type: ZwpTextInputV3.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(seat)
@@ -31,7 +31,7 @@ public final class ZwpTextInputManagerV3: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

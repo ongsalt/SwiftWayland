@@ -7,7 +7,7 @@ public final class ZwpInputPanelV1: WlProxyBase, WlProxy, WlInterface {
 
     public func getInputPanelSurface(surface: WlSurface) throws(WaylandProxyError)  -> ZwpInputPanelSurfaceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpInputPanelSurfaceV1.self)
+        let id = connection.createProxy(type: ZwpInputPanelSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id),
             .object(surface)
@@ -19,7 +19,7 @@ public final class ZwpInputPanelV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

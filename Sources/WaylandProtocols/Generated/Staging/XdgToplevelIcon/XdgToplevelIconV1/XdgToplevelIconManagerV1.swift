@@ -15,7 +15,7 @@ public final class XdgToplevelIconManagerV1: WlProxyBase, WlProxy, WlInterface {
     
     public func createIcon() throws(WaylandProxyError)  -> XdgToplevelIconV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgToplevelIconV1.self)
+        let id = connection.createProxy(type: XdgToplevelIconV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
@@ -40,7 +40,7 @@ public final class XdgToplevelIconManagerV1: WlProxyBase, WlProxy, WlInterface {
         case iconSize(size: Int32)
         case done
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

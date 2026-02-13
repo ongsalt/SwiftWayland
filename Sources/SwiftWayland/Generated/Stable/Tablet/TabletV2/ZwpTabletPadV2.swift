@@ -41,11 +41,11 @@ public final class ZwpTabletPadV2: WlProxyBase, WlProxy, WlInterface {
         case leave(serial: UInt32, surface: WlSurface)
         case removed
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.group(padGroup: connection.createProxy(type: ZwpTabletPadGroupV2.self, id: r.readNewId()))
+                return Self.group(padGroup: connection.createProxy(type: ZwpTabletPadGroupV2.self, version: version, id: r.readNewId()))
             case 1:
                 return Self.path(path: r.readString())
             case 2:

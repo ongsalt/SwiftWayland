@@ -6,7 +6,7 @@ public final class WlShmPool: WlProxyBase, WlProxy, WlInterface {
 
     public func createBuffer(offset: Int32, width: Int32, height: Int32, stride: Int32, format: UInt32) throws(WaylandProxyError)  -> WlBuffer {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlBuffer.self)
+        let id = connection.createProxy(type: WlBuffer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id),
             .int(offset),
@@ -42,7 +42,7 @@ public final class WlShmPool: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

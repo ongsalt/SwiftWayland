@@ -6,7 +6,7 @@ public final class WlDisplay: WlProxyBase, WlProxy, WlInterface {
 
     public func sync() throws(WaylandProxyError)  -> WlCallback {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createProxy(type: WlCallback.self)
+        let callback = connection.createProxy(type: WlCallback.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(callback.id)
         ])
@@ -16,7 +16,7 @@ public final class WlDisplay: WlProxyBase, WlProxy, WlInterface {
     
     public func getRegistry() throws(WaylandProxyError)  -> WlRegistry {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let registry = connection.createProxy(type: WlRegistry.self)
+        let registry = connection.createProxy(type: WlRegistry.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(registry.id)
         ])
@@ -35,7 +35,7 @@ public final class WlDisplay: WlProxyBase, WlProxy, WlInterface {
         case error(objectId: any WlProxy, code: UInt32, message: String)
         case deleteId(id: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

@@ -22,6 +22,7 @@ public final class WlDataSource: WlProxyBase, WlProxy, WlInterface {
     
     public func setActions(dndActions: UInt32) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .uint(dndActions)
         ])
@@ -45,7 +46,7 @@ public final class WlDataSource: WlProxyBase, WlProxy, WlInterface {
         case dndFinished
         case action(dndAction: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

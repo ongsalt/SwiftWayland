@@ -38,7 +38,8 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
     
     public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError)  -> WlBuffer {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let bufferId = connection.createProxy(type: WlBuffer.self)
+        guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
+        let bufferId = connection.createProxy(type: WlBuffer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(bufferId.id),
             .int(width),
@@ -75,11 +76,11 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
         case created(buffer: WlBuffer)
         case failed
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
-                return Self.created(buffer: connection.createProxy(type: WlBuffer.self, id: r.readNewId()))
+                return Self.created(buffer: connection.createProxy(type: WlBuffer.self, version: version, id: r.readNewId()))
             case 1:
                 return Self.failed
             default:

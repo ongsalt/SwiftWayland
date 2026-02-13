@@ -90,7 +90,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     
     public func grabKeyboard() throws(WaylandProxyError)  -> WlKeyboard {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let keyboard = connection.createProxy(type: WlKeyboard.self)
+        let keyboard = connection.createProxy(type: WlKeyboard.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .newId(keyboard.id)
         ])
@@ -151,7 +151,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         case commitState(serial: UInt32)
         case preferredLanguage(language: String)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

@@ -15,7 +15,7 @@ public final class WpColorRepresentationManagerV1: WlProxyBase, WlProxy, WlInter
     
     public func getSurface(surface: WlSurface) throws(WaylandProxyError)  -> WpColorRepresentationSurfaceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WpColorRepresentationSurfaceV1.self)
+        let id = connection.createProxy(type: WpColorRepresentationSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(surface)
@@ -37,7 +37,7 @@ public final class WpColorRepresentationManagerV1: WlProxyBase, WlProxy, WlInter
         case supportedCoefficientsAndRanges(coefficients: UInt32, range: UInt32)
         case done
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

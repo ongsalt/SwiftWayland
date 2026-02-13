@@ -15,7 +15,7 @@ public final class ZxdgExporterV2: WlProxyBase, WlProxy, WlInterface {
     
     public func exportToplevel(surface: WlSurface) throws(WaylandProxyError)  -> ZxdgExportedV2 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgExportedV2.self)
+        let id = connection.createProxy(type: ZxdgExportedV2.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(surface)
@@ -35,7 +35,7 @@ public final class ZxdgExporterV2: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

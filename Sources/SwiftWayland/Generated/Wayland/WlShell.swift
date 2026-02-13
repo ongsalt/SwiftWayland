@@ -6,7 +6,7 @@ public final class WlShell: WlProxyBase, WlProxy, WlInterface {
 
     public func getShellSurface(surface: WlSurface) throws(WaylandProxyError)  -> WlShellSurface {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlShellSurface.self)
+        let id = connection.createProxy(type: WlShellSurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id),
             .object(surface)
@@ -22,7 +22,7 @@ public final class WlShell: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

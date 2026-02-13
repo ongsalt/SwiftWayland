@@ -7,7 +7,7 @@ public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy, WlInterface {
 
     public func createLeaseRequest() throws(WaylandProxyError)  -> WpDrmLeaseRequestV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WpDrmLeaseRequestV1.self)
+        let id = connection.createProxy(type: WpDrmLeaseRequestV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
         ])
@@ -27,13 +27,13 @@ public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy, WlInterface {
         case done
         case released
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.drmFd(fd: r.readFd())
             case 1:
-                return Self.connector(id: connection.createProxy(type: WpDrmLeaseConnectorV1.self, id: r.readNewId()))
+                return Self.connector(id: connection.createProxy(type: WpDrmLeaseConnectorV1.self, version: version, id: r.readNewId()))
             case 2:
                 return Self.done
             case 3:

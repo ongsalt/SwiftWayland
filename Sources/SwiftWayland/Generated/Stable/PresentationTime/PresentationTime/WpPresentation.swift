@@ -14,7 +14,7 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
     
     public func feedback(surface: WlSurface) throws(WaylandProxyError)  -> WpPresentationFeedback {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createProxy(type: WpPresentationFeedback.self)
+        let callback = connection.createProxy(type: WpPresentationFeedback.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(surface),
             .newId(callback.id)
@@ -35,7 +35,7 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case clockId(clkId: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

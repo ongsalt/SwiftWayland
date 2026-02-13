@@ -15,7 +15,7 @@ public final class ZxdgSurfaceV6: WlProxyBase, WlProxy, WlInterface {
     
     public func getToplevel() throws(WaylandProxyError)  -> ZxdgToplevelV6 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgToplevelV6.self)
+        let id = connection.createProxy(type: ZxdgToplevelV6.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
@@ -25,7 +25,7 @@ public final class ZxdgSurfaceV6: WlProxyBase, WlProxy, WlInterface {
     
     public func getPopup(parent: ZxdgSurfaceV6, positioner: ZxdgPositionerV6) throws(WaylandProxyError)  -> ZxdgPopupV6 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgPopupV6.self)
+        let id = connection.createProxy(type: ZxdgPopupV6.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
             .object(parent),
@@ -67,7 +67,7 @@ public final class ZxdgSurfaceV6: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case configure(serial: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

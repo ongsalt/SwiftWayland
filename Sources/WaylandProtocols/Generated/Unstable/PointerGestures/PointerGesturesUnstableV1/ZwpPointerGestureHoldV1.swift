@@ -7,6 +7,7 @@ public final class ZwpPointerGestureHoldV1: WlProxyBase, WlProxy, WlInterface {
 
     public consuming func destroy() throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -21,7 +22,7 @@ public final class ZwpPointerGestureHoldV1: WlProxyBase, WlProxy, WlInterface {
         case begin(serial: UInt32, time: UInt32, surface: WlSurface, fingers: UInt32)
         case end(serial: UInt32, time: UInt32, cancelled: Int32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

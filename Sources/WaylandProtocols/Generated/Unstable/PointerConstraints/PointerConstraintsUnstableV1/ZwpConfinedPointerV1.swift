@@ -29,7 +29,7 @@ public final class ZwpConfinedPointerV1: WlProxyBase, WlProxy, WlInterface {
         case confined
         case unconfined
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             case 0:

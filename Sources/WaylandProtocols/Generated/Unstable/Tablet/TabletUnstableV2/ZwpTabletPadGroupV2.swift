@@ -25,15 +25,15 @@ public final class ZwpTabletPadGroupV2: WlProxyBase, WlProxy, WlInterface {
         case done
         case modeSwitch(time: UInt32, serial: UInt32, mode: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.buttons(buttons: r.readArray())
             case 1:
-                return Self.ring(ring: connection.createProxy(type: ZwpTabletPadRingV2.self, id: r.readNewId()))
+                return Self.ring(ring: connection.createProxy(type: ZwpTabletPadRingV2.self, version: version, id: r.readNewId()))
             case 2:
-                return Self.strip(strip: connection.createProxy(type: ZwpTabletPadStripV2.self, id: r.readNewId()))
+                return Self.strip(strip: connection.createProxy(type: ZwpTabletPadStripV2.self, version: version, id: r.readNewId()))
             case 3:
                 return Self.modes(modes: r.readUInt())
             case 4:

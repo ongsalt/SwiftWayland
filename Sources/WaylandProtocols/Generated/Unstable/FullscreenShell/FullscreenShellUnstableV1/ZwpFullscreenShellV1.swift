@@ -25,7 +25,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32) throws(WaylandProxyError)  -> ZwpFullscreenShellModeFeedbackV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let feedback = connection.createProxy(type: ZwpFullscreenShellModeFeedbackV1.self)
+        let feedback = connection.createProxy(type: ZwpFullscreenShellModeFeedbackV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(surface),
             .object(output),
@@ -61,7 +61,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case capability(capability: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

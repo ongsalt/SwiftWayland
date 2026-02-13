@@ -67,12 +67,14 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
     
     public func setReactive() throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 7, contents: [])
         connection.send(message: message)
     }
     
     public func setParentSize(parentWidth: Int32, parentHeight: Int32) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .int(parentWidth),
             .int(parentHeight)
@@ -82,6 +84,7 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
     
     public func setParentConfigure(serial: UInt32) throws(WaylandProxyError) {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .uint(serial)
         ])
@@ -133,7 +136,7 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

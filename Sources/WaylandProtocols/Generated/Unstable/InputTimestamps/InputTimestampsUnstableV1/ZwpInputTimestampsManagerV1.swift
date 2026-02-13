@@ -15,7 +15,7 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
     
     public func getKeyboardTimestamps(keyboard: WlKeyboard) throws(WaylandProxyError)  -> ZwpInputTimestampsV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpInputTimestampsV1.self)
+        let id = connection.createProxy(type: ZwpInputTimestampsV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(keyboard)
@@ -26,7 +26,7 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
     
     public func getPointerTimestamps(pointer: WlPointer) throws(WaylandProxyError)  -> ZwpInputTimestampsV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpInputTimestampsV1.self)
+        let id = connection.createProxy(type: ZwpInputTimestampsV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
             .object(pointer)
@@ -37,7 +37,7 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
     
     public func getTouchTimestamps(touch: WlTouch) throws(WaylandProxyError)  -> ZwpInputTimestampsV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpInputTimestampsV1.self)
+        let id = connection.createProxy(type: ZwpInputTimestampsV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(id.id),
             .object(touch)
@@ -53,7 +53,7 @@ public final class ZwpInputTimestampsManagerV1: WlProxyBase, WlProxy, WlInterfac
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

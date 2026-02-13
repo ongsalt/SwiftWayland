@@ -15,7 +15,7 @@ public final class WpImageDescriptionV1: WlProxyBase, WlProxy, WlInterface {
     
     public func getInformation() throws(WaylandProxyError)  -> WpImageDescriptionInfoV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let information = connection.createProxy(type: WpImageDescriptionInfoV1.self)
+        let information = connection.createProxy(type: WpImageDescriptionInfoV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(information.id)
         ])
@@ -44,7 +44,7 @@ public final class WpImageDescriptionV1: WlProxyBase, WlProxy, WlInterface {
         case ready(identity: UInt32)
         case ready2(identityHi: UInt32, identityLo: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:

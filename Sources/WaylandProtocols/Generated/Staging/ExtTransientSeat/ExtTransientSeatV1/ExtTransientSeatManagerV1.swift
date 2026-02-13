@@ -7,7 +7,7 @@ public final class ExtTransientSeatManagerV1: WlProxyBase, WlProxy, WlInterface 
 
     public func create() throws(WaylandProxyError)  -> ExtTransientSeatV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let seat = connection.createProxy(type: ExtTransientSeatV1.self)
+        let seat = connection.createProxy(type: ExtTransientSeatV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(seat.id)
         ])
@@ -30,7 +30,7 @@ public final class ExtTransientSeatManagerV1: WlProxyBase, WlProxy, WlInterface 
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

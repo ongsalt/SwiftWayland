@@ -15,7 +15,7 @@ public final class ZxdgImporterV1: WlProxyBase, WlProxy, WlInterface {
     
     public func `import`(handle: String) throws(WaylandProxyError)  -> ZxdgImportedV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgImportedV1.self)
+        let id = connection.createProxy(type: ZxdgImportedV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .string(handle)
@@ -31,7 +31,7 @@ public final class ZxdgImporterV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

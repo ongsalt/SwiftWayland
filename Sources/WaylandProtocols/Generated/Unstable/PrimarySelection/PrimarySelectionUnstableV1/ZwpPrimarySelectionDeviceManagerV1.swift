@@ -7,7 +7,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: WlProxyBase, WlProxy, WlI
 
     public func createSource() throws(WaylandProxyError)  -> ZwpPrimarySelectionSourceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpPrimarySelectionSourceV1.self)
+        let id = connection.createProxy(type: ZwpPrimarySelectionSourceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
         ])
@@ -17,7 +17,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: WlProxyBase, WlProxy, WlI
     
     public func getDevice(seat: WlSeat) throws(WaylandProxyError)  -> ZwpPrimarySelectionDeviceV1 {
         guard self._state == .alive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpPrimarySelectionDeviceV1.self)
+        let id = connection.createProxy(type: ZwpPrimarySelectionDeviceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
             .object(seat)
@@ -41,7 +41,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: WlProxyBase, WlProxy, WlI
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             
             switch message.opcode {
             

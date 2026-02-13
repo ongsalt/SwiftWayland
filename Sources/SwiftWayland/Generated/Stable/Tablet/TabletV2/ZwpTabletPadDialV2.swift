@@ -29,7 +29,7 @@ public final class ZwpTabletPadDialV2: WlProxyBase, WlProxy, WlInterface {
         case delta(value120: Int32)
         case frame(time: UInt32)
     
-        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
             var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
