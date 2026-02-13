@@ -6,6 +6,7 @@ public final class ExtTransientSeatManagerV1: WlProxyBase, WlProxy, WlInterface 
     public var onEvent: (Event) -> Void = { _ in }
 
     public func create() throws(WaylandProxyError)  -> ExtTransientSeatV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let seat = connection.createProxy(type: ExtTransientSeatV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(seat.id)
@@ -15,8 +16,10 @@ public final class ExtTransientSeatManagerV1: WlProxyBase, WlProxy, WlInterface 
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

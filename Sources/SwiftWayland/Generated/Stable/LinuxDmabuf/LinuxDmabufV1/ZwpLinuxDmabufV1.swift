@@ -5,12 +5,15 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func createParams() throws(WaylandProxyError)  -> ZwpLinuxBufferParamsV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let paramsId = connection.createProxy(type: ZwpLinuxBufferParamsV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(paramsId.id)
@@ -20,6 +23,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getDefaultFeedback() throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
@@ -29,6 +33,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getSurfaceFeedback(surface: WlSurface) throws(WaylandProxyError)  -> ZwpLinuxDmabufFeedbackV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpLinuxDmabufFeedbackV1.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(id.id),

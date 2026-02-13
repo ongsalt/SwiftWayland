@@ -5,6 +5,7 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func startDrag(source: WlDataSource, origin: WlSurface, icon: WlSurface, serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .object(source),
             .object(origin),
@@ -15,6 +16,7 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setSelection(source: WlDataSource, serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(source),
             .uint(serial)
@@ -23,8 +25,10 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
     }
     
     public consuming func release() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

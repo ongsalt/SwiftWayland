@@ -5,12 +5,15 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func setParent(parent: XdgToplevel) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(parent)
         ])
@@ -18,6 +21,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setTitle(title: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .string(title)
         ])
@@ -25,6 +29,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setAppId(appId: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .string(appId)
         ])
@@ -32,6 +37,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func showWindowMenu(seat: WlSeat, serial: UInt32, x: Int32, y: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .object(seat),
             .uint(serial),
@@ -42,6 +48,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func move(seat: WlSeat, serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .object(seat),
             .uint(serial)
@@ -50,6 +57,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .object(seat),
             .uint(serial),
@@ -59,6 +67,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setMaxSize(width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .int(width),
             .int(height)
@@ -67,6 +76,7 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setMinSize(width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .int(width),
             .int(height)
@@ -75,16 +85,19 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setMaximized() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 9, contents: [])
         connection.send(message: message)
     }
     
     public func unsetMaximized() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 10, contents: [])
         connection.send(message: message)
     }
     
     public func setFullscreen(output: WlOutput) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 11, contents: [
             .object(output)
         ])
@@ -92,11 +105,13 @@ public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func unsetFullscreen() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 12, contents: [])
         connection.send(message: message)
     }
     
     public func setMinimized() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 13, contents: [])
         connection.send(message: message)
     }

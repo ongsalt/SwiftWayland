@@ -6,6 +6,7 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setSerial(serial: UInt32, seat: WlSeat) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial),
             .object(seat)
@@ -14,6 +15,7 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setAppId(appId: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(appId)
         ])
@@ -21,6 +23,7 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setSurface(surface: WlSurface) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(surface)
         ])
@@ -28,13 +31,16 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func commit() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

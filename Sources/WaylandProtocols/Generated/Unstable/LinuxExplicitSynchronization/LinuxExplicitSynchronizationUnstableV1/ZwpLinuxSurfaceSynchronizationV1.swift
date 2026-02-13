@@ -6,12 +6,15 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func setAcquireFence(fd: FileHandle) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fd(fd)
         ])
@@ -19,6 +22,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     }
     
     public func getRelease() throws(WaylandProxyError)  -> ZwpLinuxBufferReleaseV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let release = connection.createProxy(type: ZwpLinuxBufferReleaseV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(release.id)

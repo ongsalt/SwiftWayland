@@ -6,12 +6,15 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func commitString(serial: UInt32, text: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(serial),
             .string(text)
@@ -20,6 +23,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func preeditString(serial: UInt32, text: String, commit: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .uint(serial),
             .string(text),
@@ -29,6 +33,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func preeditStyling(index: UInt32, length: UInt32, style: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(index),
             .uint(length),
@@ -38,6 +43,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func preeditCursor(index: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .int(index)
         ])
@@ -45,6 +51,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func deleteSurroundingText(index: Int32, length: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .int(index),
             .uint(length)
@@ -53,6 +60,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func cursorPosition(index: Int32, anchor: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .int(index),
             .int(anchor)
@@ -61,6 +69,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func modifiersMap(map: Data) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .array(map)
         ])
@@ -68,6 +77,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func keysym(serial: UInt32, time: UInt32, sym: UInt32, state: UInt32, modifiers: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .uint(serial),
             .uint(time),
@@ -79,6 +89,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func grabKeyboard() throws(WaylandProxyError)  -> WlKeyboard {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let keyboard = connection.createProxy(type: WlKeyboard.self)
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .newId(keyboard.id)
@@ -88,6 +99,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func key(serial: UInt32, time: UInt32, key: UInt32, state: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 10, contents: [
             .uint(serial),
             .uint(time),
@@ -98,6 +110,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func modifiers(serial: UInt32, modsDepressed: UInt32, modsLatched: UInt32, modsLocked: UInt32, group: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 11, contents: [
             .uint(serial),
             .uint(modsDepressed),
@@ -109,6 +122,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func language(serial: UInt32, language: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 12, contents: [
             .uint(serial),
             .string(language)
@@ -117,6 +131,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func textDirection(serial: UInt32, direction: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 13, contents: [
             .uint(serial),
             .uint(direction)

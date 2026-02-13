@@ -5,12 +5,15 @@ public final class XdgPopup: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func grab(seat: WlSeat, serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(seat),
             .uint(serial)
@@ -19,6 +22,7 @@ public final class XdgPopup: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func reposition(positioner: XdgPositioner, token: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(positioner),
             .uint(token)

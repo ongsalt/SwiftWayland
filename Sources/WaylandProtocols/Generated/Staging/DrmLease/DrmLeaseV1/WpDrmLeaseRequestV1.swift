@@ -6,6 +6,7 @@ public final class WpDrmLeaseRequestV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func requestConnector(connector: WpDrmLeaseConnectorV1) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .object(connector)
         ])
@@ -13,11 +14,13 @@ public final class WpDrmLeaseRequestV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public consuming func submit() throws(WaylandProxyError)  -> WpDrmLeaseV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpDrmLeaseV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
         return id
     }

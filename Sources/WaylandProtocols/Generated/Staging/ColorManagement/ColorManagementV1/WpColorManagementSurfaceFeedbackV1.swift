@@ -6,12 +6,15 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func getPreferred() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(imageDescription.id)
@@ -21,6 +24,7 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
     }
     
     public func getPreferredParametric() throws(WaylandProxyError)  -> WpImageDescriptionV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(imageDescription.id)

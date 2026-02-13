@@ -5,12 +5,15 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func add(fd: FileHandle, planeIdx: UInt32, offset: UInt32, stride: UInt32, modifierHi: UInt32, modifierLo: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fd(fd),
             .uint(planeIdx),
@@ -23,6 +26,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func create(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(width),
             .int(height),
@@ -33,6 +37,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError)  -> WlBuffer {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let bufferId = connection.createProxy(type: WlBuffer.self)
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .newId(bufferId.id),

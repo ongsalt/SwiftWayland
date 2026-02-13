@@ -5,6 +5,7 @@ public final class WlShell: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func getShellSurface(surface: WlSurface) throws(WaylandProxyError)  -> WlShellSurface {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlShellSurface.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id),

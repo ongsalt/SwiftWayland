@@ -5,6 +5,7 @@ public final class WlDisplay: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func sync() throws(WaylandProxyError)  -> WlCallback {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let callback = connection.createProxy(type: WlCallback.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(callback.id)
@@ -14,6 +15,7 @@ public final class WlDisplay: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getRegistry() throws(WaylandProxyError)  -> WlRegistry {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let registry = connection.createProxy(type: WlRegistry.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(registry.id)

@@ -6,6 +6,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: WlProxyBase, WlProxy, WlI
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createSource() throws(WaylandProxyError)  -> ZwpPrimarySelectionSourceV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpPrimarySelectionSourceV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
@@ -15,6 +16,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: WlProxyBase, WlProxy, WlI
     }
     
     public func getDevice(seat: WlSeat) throws(WaylandProxyError)  -> ZwpPrimarySelectionDeviceV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpPrimarySelectionDeviceV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),
@@ -25,8 +27,10 @@ public final class ZwpPrimarySelectionDeviceManagerV1: WlProxyBase, WlProxy, WlI
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

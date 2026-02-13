@@ -5,12 +5,15 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func getToplevel() throws(WaylandProxyError)  -> XdgToplevel {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgToplevel.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
@@ -20,6 +23,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getPopup(parent: XdgSurface, positioner: XdgPositioner) throws(WaylandProxyError)  -> XdgPopup {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgPopup.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
@@ -31,6 +35,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setWindowGeometry(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .int(x),
             .int(y),
@@ -41,6 +46,7 @@ public final class XdgSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func ackConfigure(serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(serial)
         ])

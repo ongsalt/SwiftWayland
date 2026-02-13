@@ -5,6 +5,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func getPointer() throws(WaylandProxyError)  -> WlPointer {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlPointer.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
@@ -14,6 +15,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getKeyboard() throws(WaylandProxyError)  -> WlKeyboard {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlKeyboard.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
@@ -23,6 +25,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getTouch() throws(WaylandProxyError)  -> WlTouch {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlTouch.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
@@ -32,8 +35,10 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     }
     
     public consuming func release() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

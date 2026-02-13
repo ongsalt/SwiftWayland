@@ -5,12 +5,15 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func feedback(surface: WlSurface) throws(WaylandProxyError)  -> WpPresentationFeedback {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let callback = connection.createProxy(type: WpPresentationFeedback.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(surface),

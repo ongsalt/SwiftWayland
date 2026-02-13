@@ -5,12 +5,15 @@ public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func setPosition(x: Int32, y: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .int(x),
             .int(y)
@@ -19,6 +22,7 @@ public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func placeAbove(sibling: WlSurface) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(sibling)
         ])
@@ -26,6 +30,7 @@ public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func placeBelow(sibling: WlSurface) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .object(sibling)
         ])
@@ -33,11 +38,13 @@ public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setSync() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [])
         connection.send(message: message)
     }
     
     public func setDesync() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [])
         connection.send(message: message)
     }

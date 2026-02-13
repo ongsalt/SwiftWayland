@@ -6,6 +6,7 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createFrame() throws(WaylandProxyError)  -> ExtImageCopyCaptureFrameV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let frame = connection.createProxy(type: ExtImageCopyCaptureFrameV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(frame.id)
@@ -15,8 +16,10 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

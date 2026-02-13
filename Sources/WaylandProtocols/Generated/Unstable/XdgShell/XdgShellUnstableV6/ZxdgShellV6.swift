@@ -6,12 +6,15 @@ public final class ZxdgShellV6: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func createPositioner() throws(WaylandProxyError)  -> ZxdgPositionerV6 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgPositionerV6.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
@@ -21,6 +24,7 @@ public final class ZxdgShellV6: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError)  -> ZxdgSurfaceV6 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgSurfaceV6.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id),
@@ -31,6 +35,7 @@ public final class ZxdgShellV6: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func pong(serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(serial)
         ])

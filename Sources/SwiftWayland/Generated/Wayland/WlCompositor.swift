@@ -5,6 +5,7 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createSurface() throws(WaylandProxyError)  -> WlSurface {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlSurface.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
@@ -14,6 +15,7 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func createRegion() throws(WaylandProxyError)  -> WlRegion {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlRegion.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)

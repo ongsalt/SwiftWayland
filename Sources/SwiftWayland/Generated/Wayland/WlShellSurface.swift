@@ -5,6 +5,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func pong(serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial)
         ])
@@ -12,6 +13,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func move(seat: WlSeat, serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(seat),
             .uint(serial)
@@ -20,6 +22,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(seat),
             .uint(serial),
@@ -29,11 +32,13 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setToplevel() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
     public func setTransient(parent: WlSurface, x: Int32, y: Int32, flags: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .object(parent),
             .int(x),
@@ -44,6 +49,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setFullscreen(method: UInt32, framerate: UInt32, output: WlOutput) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .uint(method),
             .uint(framerate),
@@ -53,6 +59,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setPopup(seat: WlSeat, serial: UInt32, parent: WlSurface, x: Int32, y: Int32, flags: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .object(seat),
             .uint(serial),
@@ -65,6 +72,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setMaximized(output: WlOutput) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .object(output)
         ])
@@ -72,6 +80,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setTitle(title: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .string(title)
         ])
@@ -79,6 +88,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setClass(`class`: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .string(`class`)
         ])

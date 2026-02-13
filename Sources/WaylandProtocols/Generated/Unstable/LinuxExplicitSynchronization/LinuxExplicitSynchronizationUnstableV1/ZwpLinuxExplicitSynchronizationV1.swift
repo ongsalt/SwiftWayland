@@ -6,12 +6,15 @@ public final class ZwpLinuxExplicitSynchronizationV1: WlProxyBase, WlProxy, WlIn
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func getSynchronization(surface: WlSurface) throws(WaylandProxyError)  -> ZwpLinuxSurfaceSynchronizationV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpLinuxSurfaceSynchronizationV1.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),

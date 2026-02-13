@@ -6,6 +6,7 @@ public final class ZwpInputPanelV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func getInputPanelSurface(surface: WlSurface) throws(WaylandProxyError)  -> ZwpInputPanelSurfaceV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpInputPanelSurfaceV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id),

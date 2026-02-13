@@ -5,12 +5,15 @@ public final class WpViewport: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func setSource(x: Double, y: Double, width: Double, height: Double) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fixed(x),
             .fixed(y),
@@ -21,6 +24,7 @@ public final class WpViewport: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setDestination(width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(width),
             .int(height)

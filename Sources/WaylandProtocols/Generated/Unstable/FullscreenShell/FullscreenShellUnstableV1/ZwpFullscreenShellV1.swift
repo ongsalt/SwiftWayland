@@ -6,12 +6,15 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func release() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func presentSurface(surface: WlSurface, method: UInt32, output: WlOutput) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(surface),
             .uint(method),
@@ -21,6 +24,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32) throws(WaylandProxyError)  -> ZwpFullscreenShellModeFeedbackV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let feedback = connection.createProxy(type: ZwpFullscreenShellModeFeedbackV1.self)
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(surface),

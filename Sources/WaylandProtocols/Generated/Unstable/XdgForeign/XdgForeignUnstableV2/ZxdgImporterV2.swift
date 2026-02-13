@@ -6,12 +6,15 @@ public final class ZxdgImporterV2: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func importToplevel(handle: String) throws(WaylandProxyError)  -> ZxdgImportedV2 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgImportedV2.self)
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id),

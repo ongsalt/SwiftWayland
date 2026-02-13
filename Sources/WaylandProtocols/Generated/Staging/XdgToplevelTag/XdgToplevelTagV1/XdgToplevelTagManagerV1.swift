@@ -6,12 +6,15 @@ public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func setToplevelTag(toplevel: XdgToplevel, tag: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(toplevel),
             .string(tag)
@@ -20,6 +23,7 @@ public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setToplevelDescription(toplevel: XdgToplevel, description: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(toplevel),
             .string(description)

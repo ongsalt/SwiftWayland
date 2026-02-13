@@ -6,6 +6,7 @@ public final class ExtOutputImageCaptureSourceManagerV1: WlProxyBase, WlProxy, W
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createSource(output: WlOutput) throws(WaylandProxyError)  -> ExtImageCaptureSourceV1 {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let source = connection.createProxy(type: ExtImageCaptureSourceV1.self)
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(source.id),
@@ -16,8 +17,10 @@ public final class ExtOutputImageCaptureSourceManagerV1: WlProxyBase, WlProxy, W
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

@@ -5,6 +5,7 @@ public final class ZwpTabletPadStripV2: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setFeedback(description: String, serial: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .string(description),
             .uint(serial)
@@ -13,8 +14,10 @@ public final class ZwpTabletPadStripV2: WlProxyBase, WlProxy, WlInterface {
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     

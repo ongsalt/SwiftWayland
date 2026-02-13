@@ -5,6 +5,7 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func accept(serial: UInt32, mimeType: String) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial),
             .string(mimeType)
@@ -13,6 +14,7 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func receive(mimeType: String, fd: FileHandle) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(mimeType),
             .fd(fd)
@@ -21,17 +23,21 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func finish() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
     public func setActions(dndActions: UInt32, preferredAction: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(dndActions),
             .uint(preferredAction)

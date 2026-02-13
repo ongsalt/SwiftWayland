@@ -6,22 +6,27 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func enable() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
     }
     
     public func disable() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
     }
     
     public func setSurroundingText(text: String, cursor: Int32, anchor: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .string(text),
             .int(cursor),
@@ -31,6 +36,7 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setTextChangeCause(cause: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(cause)
         ])
@@ -38,6 +44,7 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setContentType(hint: UInt32, purpose: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .uint(hint),
             .uint(purpose)
@@ -46,6 +53,7 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setCursorRectangle(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .int(x),
             .int(y),
@@ -56,6 +64,7 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func commit() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [])
         connection.send(message: message)
     }

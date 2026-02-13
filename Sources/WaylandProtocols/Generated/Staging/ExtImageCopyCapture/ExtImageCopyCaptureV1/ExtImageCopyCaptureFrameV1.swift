@@ -6,12 +6,15 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func attachBuffer(buffer: WlBuffer) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(buffer)
         ])
@@ -19,6 +22,7 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
     }
     
     public func damageBuffer(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(x),
             .int(y),
@@ -29,6 +33,7 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
     }
     
     public func capture() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }

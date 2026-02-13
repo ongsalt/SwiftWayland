@@ -6,12 +6,15 @@ public final class ZxdgPositionerV6: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
+        self._state = .dropped
         connection.removeObject(id: self.id)
     }
     
     public func setSize(width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .int(width),
             .int(height)
@@ -20,6 +23,7 @@ public final class ZxdgPositionerV6: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setAnchorRect(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(x),
             .int(y),
@@ -30,6 +34,7 @@ public final class ZxdgPositionerV6: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setAnchor(anchor: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(anchor)
         ])
@@ -37,6 +42,7 @@ public final class ZxdgPositionerV6: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setGravity(gravity: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(gravity)
         ])
@@ -44,6 +50,7 @@ public final class ZxdgPositionerV6: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setConstraintAdjustment(constraintAdjustment: UInt32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .uint(constraintAdjustment)
         ])
@@ -51,6 +58,7 @@ public final class ZxdgPositionerV6: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setOffset(x: Int32, y: Int32) throws(WaylandProxyError) {
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .int(x),
             .int(y)
