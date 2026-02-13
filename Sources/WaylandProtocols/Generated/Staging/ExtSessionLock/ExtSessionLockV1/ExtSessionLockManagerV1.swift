@@ -6,7 +6,7 @@ public final class ExtSessionLockManagerV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,10 +14,10 @@ public final class ExtSessionLockManagerV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func lock() throws(WaylandProxyError) -> ExtSessionLockV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ExtSessionLockV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id)
+            WaylandData.newId(id.id)
         ])
         connection.send(message: message)
         return id

@@ -6,7 +6,7 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,22 +14,22 @@ public final class WpCursorShapeManagerV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getPointer(pointer: WlPointer) throws(WaylandProxyError) -> WpCursorShapeDeviceV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(cursorShapeDevice.id),
-            .object(pointer)
+            WaylandData.newId(cursorShapeDevice.id),
+            WaylandData.object(pointer)
         ])
         connection.send(message: message)
         return cursorShapeDevice
     }
     
     public func getTabletToolV2(tabletTool: ZwpTabletToolV2) throws(WaylandProxyError) -> WpCursorShapeDeviceV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let cursorShapeDevice = connection.createProxy(type: WpCursorShapeDeviceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .newId(cursorShapeDevice.id),
-            .object(tabletTool)
+            WaylandData.newId(cursorShapeDevice.id),
+            WaylandData.object(tabletTool)
         ])
         connection.send(message: message)
         return cursorShapeDevice

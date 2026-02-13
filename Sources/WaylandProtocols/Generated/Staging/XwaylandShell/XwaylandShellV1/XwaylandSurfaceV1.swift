@@ -6,16 +6,16 @@ public final class XwaylandSurfaceV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setSerial(serialLo: UInt32, serialHi: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .uint(serialLo),
-            .uint(serialHi)
+            WaylandData.uint(serialLo),
+            WaylandData.uint(serialHi)
         ])
         connection.send(message: message)
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
         self._state = .dropped

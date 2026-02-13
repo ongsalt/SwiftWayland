@@ -5,22 +5,22 @@ public final class WlShmPool: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createBuffer(offset: Int32, width: Int32, height: Int32, stride: Int32, format: UInt32) throws(WaylandProxyError) -> WlBuffer {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlBuffer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .newId(id.id),
-            .int(offset),
-            .int(width),
-            .int(height),
-            .int(stride),
-            .uint(format)
+            WaylandData.newId(id.id),
+            WaylandData.int(offset),
+            WaylandData.int(width),
+            WaylandData.int(height),
+            WaylandData.int(stride),
+            WaylandData.uint(format)
         ])
         connection.send(message: message)
         return id
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -28,9 +28,9 @@ public final class WlShmPool: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func resize(size: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .int(size)
+            WaylandData.int(size)
         ])
         connection.send(message: message)
     }

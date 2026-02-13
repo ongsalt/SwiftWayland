@@ -6,7 +6,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,18 +14,18 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     }
     
     public func setAcquireFence(fd: FileHandle) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .fd(fd)
+            WaylandData.fd(fd)
         ])
         connection.send(message: message)
     }
     
     public func getRelease() throws(WaylandProxyError) -> ZwpLinuxBufferReleaseV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let release = connection.createProxy(type: ZwpLinuxBufferReleaseV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .newId(release.id)
+            WaylandData.newId(release.id)
         ])
         connection.send(message: message)
         return release

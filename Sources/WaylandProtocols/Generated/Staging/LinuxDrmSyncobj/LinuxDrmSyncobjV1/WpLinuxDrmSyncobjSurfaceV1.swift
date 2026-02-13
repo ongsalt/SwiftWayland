@@ -6,7 +6,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,21 +14,21 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
     }
     
     public func setAcquirePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(timeline),
-            .uint(pointHi),
-            .uint(pointLo)
+            WaylandData.object(timeline),
+            WaylandData.uint(pointHi),
+            WaylandData.uint(pointLo)
         ])
         connection.send(message: message)
     }
     
     public func setReleasePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .object(timeline),
-            .uint(pointHi),
-            .uint(pointLo)
+            WaylandData.object(timeline),
+            WaylandData.uint(pointHi),
+            WaylandData.uint(pointLo)
         ])
         connection.send(message: message)
     }

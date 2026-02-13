@@ -6,7 +6,7 @@ public final class WpSecurityContextV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,31 +14,31 @@ public final class WpSecurityContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setSandboxEngine(name: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .string(name)
+            WaylandData.string(name)
         ])
         connection.send(message: message)
     }
     
     public func setAppId(appId: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .string(appId)
+            WaylandData.string(appId)
         ])
         connection.send(message: message)
     }
     
     public func setInstanceId(instanceId: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .string(instanceId)
+            WaylandData.string(instanceId)
         ])
         connection.send(message: message)
     }
     
     public func commit() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [])
         connection.send(message: message)
     }

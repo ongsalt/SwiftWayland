@@ -6,17 +6,17 @@ public final class WpCommitTimerV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setTimestamp(tvSecHi: UInt32, tvSecLo: UInt32, tvNsec: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .uint(tvSecHi),
-            .uint(tvSecLo),
-            .uint(tvNsec)
+            WaylandData.uint(tvSecHi),
+            WaylandData.uint(tvSecLo),
+            WaylandData.uint(tvNsec)
         ])
         connection.send(message: message)
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
         self._state = .dropped

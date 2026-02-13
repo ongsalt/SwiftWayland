@@ -6,7 +6,7 @@ public final class XdgShell: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,44 +14,44 @@ public final class XdgShell: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func useUnstableVersion(version: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .int(version)
+            WaylandData.int(version)
         ])
         connection.send(message: message)
     }
     
     public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError) -> XdgSurface {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgSurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .newId(id.id),
-            .object(surface)
+            WaylandData.newId(id.id),
+            WaylandData.object(surface)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getXdgPopup(surface: WlSurface, parent: WlSurface, seat: WlSeat, serial: UInt32, x: Int32, y: Int32) throws(WaylandProxyError) -> XdgPopup {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgPopup.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .newId(id.id),
-            .object(surface),
-            .object(parent),
-            .object(seat),
-            .uint(serial),
-            .int(x),
-            .int(y)
+            WaylandData.newId(id.id),
+            WaylandData.object(surface),
+            WaylandData.object(parent),
+            WaylandData.object(seat),
+            WaylandData.uint(serial),
+            WaylandData.int(x),
+            WaylandData.int(y)
         ])
         connection.send(message: message)
         return id
     }
     
     public func pong(serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
-            .uint(serial)
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }

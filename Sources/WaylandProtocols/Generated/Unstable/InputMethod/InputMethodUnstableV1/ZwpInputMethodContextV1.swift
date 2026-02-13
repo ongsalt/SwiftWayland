@@ -6,7 +6,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,127 +14,127 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func commitString(serial: UInt32, text: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .uint(serial),
-            .string(text)
+            WaylandData.uint(serial),
+            WaylandData.string(text)
         ])
         connection.send(message: message)
     }
     
     public func preeditString(serial: UInt32, text: String, commit: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .uint(serial),
-            .string(text),
-            .string(commit)
+            WaylandData.uint(serial),
+            WaylandData.string(text),
+            WaylandData.string(commit)
         ])
         connection.send(message: message)
     }
     
     public func preeditStyling(index: UInt32, length: UInt32, style: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .uint(index),
-            .uint(length),
-            .uint(style)
+            WaylandData.uint(index),
+            WaylandData.uint(length),
+            WaylandData.uint(style)
         ])
         connection.send(message: message)
     }
     
     public func preeditCursor(index: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
-            .int(index)
+            WaylandData.int(index)
         ])
         connection.send(message: message)
     }
     
     public func deleteSurroundingText(index: Int32, length: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
-            .int(index),
-            .uint(length)
+            WaylandData.int(index),
+            WaylandData.uint(length)
         ])
         connection.send(message: message)
     }
     
     public func cursorPosition(index: Int32, anchor: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
-            .int(index),
-            .int(anchor)
+            WaylandData.int(index),
+            WaylandData.int(anchor)
         ])
         connection.send(message: message)
     }
     
     public func modifiersMap(map: Data) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [
-            .array(map)
+            WaylandData.array(map)
         ])
         connection.send(message: message)
     }
     
     public func keysym(serial: UInt32, time: UInt32, sym: UInt32, state: UInt32, modifiers: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 8, contents: [
-            .uint(serial),
-            .uint(time),
-            .uint(sym),
-            .uint(state),
-            .uint(modifiers)
+            WaylandData.uint(serial),
+            WaylandData.uint(time),
+            WaylandData.uint(sym),
+            WaylandData.uint(state),
+            WaylandData.uint(modifiers)
         ])
         connection.send(message: message)
     }
     
     public func grabKeyboard() throws(WaylandProxyError) -> WlKeyboard {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let keyboard = connection.createProxy(type: WlKeyboard.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 9, contents: [
-            .newId(keyboard.id)
+            WaylandData.newId(keyboard.id)
         ])
         connection.send(message: message)
         return keyboard
     }
     
     public func key(serial: UInt32, time: UInt32, key: UInt32, state: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 10, contents: [
-            .uint(serial),
-            .uint(time),
-            .uint(key),
-            .uint(state)
+            WaylandData.uint(serial),
+            WaylandData.uint(time),
+            WaylandData.uint(key),
+            WaylandData.uint(state)
         ])
         connection.send(message: message)
     }
     
     public func modifiers(serial: UInt32, modsDepressed: UInt32, modsLatched: UInt32, modsLocked: UInt32, group: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 11, contents: [
-            .uint(serial),
-            .uint(modsDepressed),
-            .uint(modsLatched),
-            .uint(modsLocked),
-            .uint(group)
+            WaylandData.uint(serial),
+            WaylandData.uint(modsDepressed),
+            WaylandData.uint(modsLatched),
+            WaylandData.uint(modsLocked),
+            WaylandData.uint(group)
         ])
         connection.send(message: message)
     }
     
     public func language(serial: UInt32, language: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 12, contents: [
-            .uint(serial),
-            .string(language)
+            WaylandData.uint(serial),
+            WaylandData.string(language)
         ])
         connection.send(message: message)
     }
     
     public func textDirection(serial: UInt32, direction: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 13, contents: [
-            .uint(serial),
-            .uint(direction)
+            WaylandData.uint(serial),
+            WaylandData.uint(direction)
         ])
         connection.send(message: message)
     }

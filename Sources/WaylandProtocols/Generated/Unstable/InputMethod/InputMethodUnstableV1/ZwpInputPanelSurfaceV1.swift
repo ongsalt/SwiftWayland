@@ -6,16 +6,16 @@ public final class ZwpInputPanelSurfaceV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setToplevel(output: WlOutput, position: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .object(output),
-            .uint(position)
+            WaylandData.object(output),
+            WaylandData.uint(position)
         ])
         connection.send(message: message)
     }
     
     public func setOverlayPanel() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
     }

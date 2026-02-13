@@ -6,7 +6,7 @@ public final class XdgToplevelIconV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,18 +14,18 @@ public final class XdgToplevelIconV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setName(iconName: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .string(iconName)
+            WaylandData.string(iconName)
         ])
         connection.send(message: message)
     }
     
     public func addBuffer(buffer: WlBuffer, scale: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .object(buffer),
-            .int(scale)
+            WaylandData.object(buffer),
+            WaylandData.int(scale)
         ])
         connection.send(message: message)
     }

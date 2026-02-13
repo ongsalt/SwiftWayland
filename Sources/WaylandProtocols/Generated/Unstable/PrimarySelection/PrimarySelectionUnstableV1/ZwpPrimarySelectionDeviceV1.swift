@@ -6,16 +6,16 @@ public final class ZwpPrimarySelectionDeviceV1: WlProxyBase, WlProxy, WlInterfac
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setSelection(source: ZwpPrimarySelectionSourceV1, serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .object(source),
-            .uint(serial)
+            WaylandData.object(source),
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
         self._state = .dropped

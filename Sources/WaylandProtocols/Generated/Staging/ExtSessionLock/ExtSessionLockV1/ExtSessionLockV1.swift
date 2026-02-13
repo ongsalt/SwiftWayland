@@ -6,7 +6,7 @@ public final class ExtSessionLockV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,19 +14,19 @@ public final class ExtSessionLockV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getLockSurface(surface: WlSurface, output: WlOutput) throws(WaylandProxyError) -> ExtSessionLockSurfaceV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ExtSessionLockSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id),
-            .object(surface),
-            .object(output)
+            WaylandData.newId(id.id),
+            WaylandData.object(surface),
+            WaylandData.object(output)
         ])
         connection.send(message: message)
         return id
     }
     
     public consuming func unlockAndDestroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
         self._state = .dropped

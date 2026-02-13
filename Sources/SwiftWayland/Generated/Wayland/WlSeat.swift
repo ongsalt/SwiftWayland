@@ -5,37 +5,37 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func getPointer() throws(WaylandProxyError) -> WlPointer {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlPointer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .newId(id.id)
+            WaylandData.newId(id.id)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getKeyboard() throws(WaylandProxyError) -> WlKeyboard {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlKeyboard.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id)
+            WaylandData.newId(id.id)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getTouch() throws(WaylandProxyError) -> WlTouch {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlTouch.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .newId(id.id)
+            WaylandData.newId(id.id)
         ])
         connection.send(message: message)
         return id
     }
     
     public consuming func release() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)

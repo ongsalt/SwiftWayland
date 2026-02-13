@@ -5,25 +5,25 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func accept(serial: UInt32, mimeType: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .uint(serial),
-            .string(mimeType)
+            WaylandData.uint(serial),
+            WaylandData.string(mimeType)
         ])
         connection.send(message: message)
     }
     
     public func receive(mimeType: String, fd: FileHandle) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .string(mimeType),
-            .fd(fd)
+            WaylandData.string(mimeType),
+            WaylandData.fd(fd)
         ])
         connection.send(message: message)
     }
     
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -31,18 +31,18 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func finish() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
     public func setActions(dndActions: UInt32, preferredAction: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 4, contents: [
-            .uint(dndActions),
-            .uint(preferredAction)
+            WaylandData.uint(dndActions),
+            WaylandData.uint(preferredAction)
         ])
         connection.send(message: message)
     }

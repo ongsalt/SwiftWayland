@@ -6,7 +6,7 @@ public final class XdgToplevelDragV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,11 +14,11 @@ public final class XdgToplevelDragV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func attach(toplevel: XdgToplevel, xOffset: Int32, yOffset: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(toplevel),
-            .int(xOffset),
-            .int(yOffset)
+            WaylandData.object(toplevel),
+            WaylandData.int(xOffset),
+            WaylandData.int(yOffset)
         ])
         connection.send(message: message)
     }

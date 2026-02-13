@@ -5,19 +5,19 @@ public final class WlShm: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createPool(fd: FileHandle, size: Int32) throws(WaylandProxyError) -> WlShmPool {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlShmPool.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .newId(id.id),
-            .fd(fd),
-            .int(size)
+            WaylandData.newId(id.id),
+            WaylandData.fd(fd),
+            WaylandData.int(size)
         ])
         connection.send(message: message)
         return id
     }
     
     public consuming func release() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)

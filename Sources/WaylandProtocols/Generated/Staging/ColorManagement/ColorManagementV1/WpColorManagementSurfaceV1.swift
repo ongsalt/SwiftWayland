@@ -6,7 +6,7 @@ public final class WpColorManagementSurfaceV1: WlProxyBase, WlProxy, WlInterface
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,16 +14,16 @@ public final class WpColorManagementSurfaceV1: WlProxyBase, WlProxy, WlInterface
     }
     
     public func setImageDescription(imageDescription: WpImageDescriptionV1, renderIntent: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(imageDescription),
-            .uint(renderIntent)
+            WaylandData.object(imageDescription),
+            WaylandData.uint(renderIntent)
         ])
         connection.send(message: message)
     }
     
     public func unsetImageDescription() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
     }

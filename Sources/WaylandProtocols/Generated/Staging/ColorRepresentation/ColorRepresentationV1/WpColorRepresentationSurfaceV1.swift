@@ -6,7 +6,7 @@ public final class WpColorRepresentationSurfaceV1: WlProxyBase, WlProxy, WlInter
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,26 +14,26 @@ public final class WpColorRepresentationSurfaceV1: WlProxyBase, WlProxy, WlInter
     }
     
     public func setAlphaMode(alphaMode: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .uint(alphaMode)
+            WaylandData.uint(alphaMode)
         ])
         connection.send(message: message)
     }
     
     public func setCoefficientsAndRange(coefficients: UInt32, range: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .uint(coefficients),
-            .uint(range)
+            WaylandData.uint(coefficients),
+            WaylandData.uint(range)
         ])
         connection.send(message: message)
     }
     
     public func setChromaLocation(chromaLocation: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .uint(chromaLocation)
+            WaylandData.uint(chromaLocation)
         ])
         connection.send(message: message)
     }

@@ -6,91 +6,91 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func activate(seat: WlSeat, surface: WlSurface) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .object(seat),
-            .object(surface)
+            WaylandData.object(seat),
+            WaylandData.object(surface)
         ])
         connection.send(message: message)
     }
     
     public func deactivate(seat: WlSeat) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(seat)
+            WaylandData.object(seat)
         ])
         connection.send(message: message)
     }
     
     public func showInputPanel() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
     }
     
     public func hideInputPanel() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
     public func reset() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [])
         connection.send(message: message)
     }
     
     public func setSurroundingText(text: String, cursor: UInt32, anchor: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
-            .string(text),
-            .uint(cursor),
-            .uint(anchor)
+            WaylandData.string(text),
+            WaylandData.uint(cursor),
+            WaylandData.uint(anchor)
         ])
         connection.send(message: message)
     }
     
     public func setContentType(hint: UInt32, purpose: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
-            .uint(hint),
-            .uint(purpose)
+            WaylandData.uint(hint),
+            WaylandData.uint(purpose)
         ])
         connection.send(message: message)
     }
     
     public func setCursorRectangle(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [
-            .int(x),
-            .int(y),
-            .int(width),
-            .int(height)
+            WaylandData.int(x),
+            WaylandData.int(y),
+            WaylandData.int(width),
+            WaylandData.int(height)
         ])
         connection.send(message: message)
     }
     
     public func setPreferredLanguage(language: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 8, contents: [
-            .string(language)
+            WaylandData.string(language)
         ])
         connection.send(message: message)
     }
     
     public func commitState(serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 9, contents: [
-            .uint(serial)
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }
     
     public func invokeAction(button: UInt32, index: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 10, contents: [
-            .uint(button),
-            .uint(index)
+            WaylandData.uint(button),
+            WaylandData.uint(index)
         ])
         connection.send(message: message)
     }

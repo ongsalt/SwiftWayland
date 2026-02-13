@@ -6,7 +6,7 @@ public final class WpPointerWarpV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,13 +14,13 @@ public final class WpPointerWarpV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func warpPointer(surface: WlSurface, pointer: WlPointer, x: Double, y: Double, serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(surface),
-            .object(pointer),
-            .fixed(x),
-            .fixed(y),
-            .uint(serial)
+            WaylandData.object(surface),
+            WaylandData.object(pointer),
+            WaylandData.fixed(x),
+            WaylandData.fixed(y),
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }

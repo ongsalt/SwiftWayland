@@ -6,7 +6,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,75 +14,75 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getOutput(output: WlOutput) throws(WaylandProxyError) -> WpColorManagementOutputV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorManagementOutputV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id),
-            .object(output)
+            WaylandData.newId(id.id),
+            WaylandData.object(output)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getSurface(surface: WlSurface) throws(WaylandProxyError) -> WpColorManagementSurfaceV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorManagementSurfaceV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .newId(id.id),
-            .object(surface)
+            WaylandData.newId(id.id),
+            WaylandData.object(surface)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getSurfaceFeedback(surface: WlSurface) throws(WaylandProxyError) -> WpColorManagementSurfaceFeedbackV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorManagementSurfaceFeedbackV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .newId(id.id),
-            .object(surface)
+            WaylandData.newId(id.id),
+            WaylandData.object(surface)
         ])
         connection.send(message: message)
         return id
     }
     
     public func createIccCreator() throws(WaylandProxyError) -> WpImageDescriptionCreatorIccV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let obj = connection.createProxy(type: WpImageDescriptionCreatorIccV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 4, contents: [
-            .newId(obj.id)
+            WaylandData.newId(obj.id)
         ])
         connection.send(message: message)
         return obj
     }
     
     public func createParametricCreator() throws(WaylandProxyError) -> WpImageDescriptionCreatorParamsV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let obj = connection.createProxy(type: WpImageDescriptionCreatorParamsV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 5, contents: [
-            .newId(obj.id)
+            WaylandData.newId(obj.id)
         ])
         connection.send(message: message)
         return obj
     }
     
     public func createWindowsScrgb() throws(WaylandProxyError) -> WpImageDescriptionV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 6, contents: [
-            .newId(imageDescription.id)
+            WaylandData.newId(imageDescription.id)
         ])
         connection.send(message: message)
         return imageDescription
     }
     
     public func getImageDescription(reference: WpImageDescriptionReferenceV1) throws(WaylandProxyError) -> WpImageDescriptionV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 7, contents: [
-            .newId(imageDescription.id),
-            .object(reference)
+            WaylandData.newId(imageDescription.id),
+            WaylandData.object(reference)
         ])
         connection.send(message: message)
         return imageDescription

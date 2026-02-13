@@ -5,18 +5,18 @@ public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setCursor(serial: UInt32, surface: WlSurface, hotspotX: Int32, hotspotY: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .uint(serial),
-            .object(surface),
-            .int(hotspotX),
-            .int(hotspotY)
+            WaylandData.uint(serial),
+            WaylandData.object(surface),
+            WaylandData.int(hotspotX),
+            WaylandData.int(hotspotY)
         ])
         connection.send(message: message)
     }
     
     public consuming func release() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)

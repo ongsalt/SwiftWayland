@@ -5,7 +5,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -13,39 +13,39 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func add(fd: FileHandle, planeIdx: UInt32, offset: UInt32, stride: UInt32, modifierHi: UInt32, modifierLo: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .fd(fd),
-            .uint(planeIdx),
-            .uint(offset),
-            .uint(stride),
-            .uint(modifierHi),
-            .uint(modifierLo)
+            WaylandData.fd(fd),
+            WaylandData.uint(planeIdx),
+            WaylandData.uint(offset),
+            WaylandData.uint(stride),
+            WaylandData.uint(modifierHi),
+            WaylandData.uint(modifierLo)
         ])
         connection.send(message: message)
     }
     
     public func create(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .int(width),
-            .int(height),
-            .uint(format),
-            .uint(flags)
+            WaylandData.int(width),
+            WaylandData.int(height),
+            WaylandData.uint(format),
+            WaylandData.uint(flags)
         ])
         connection.send(message: message)
     }
     
     public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError) -> WlBuffer {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let bufferId = connection.createProxy(type: WlBuffer.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .newId(bufferId.id),
-            .int(width),
-            .int(height),
-            .uint(format),
-            .uint(flags)
+            WaylandData.newId(bufferId.id),
+            WaylandData.int(width),
+            WaylandData.int(height),
+            WaylandData.uint(format),
+            WaylandData.uint(flags)
         ])
         connection.send(message: message)
         return bufferId

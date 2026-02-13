@@ -5,21 +5,21 @@ public final class WlDataDeviceManager: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createDataSource() throws(WaylandProxyError) -> WlDataSource {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlDataSource.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .newId(id.id)
+            WaylandData.newId(id.id)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getDataDevice(seat: WlSeat) throws(WaylandProxyError) -> WlDataDevice {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlDataDevice.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id),
-            .object(seat)
+            WaylandData.newId(id.id),
+            WaylandData.object(seat)
         ])
         connection.send(message: message)
         return id

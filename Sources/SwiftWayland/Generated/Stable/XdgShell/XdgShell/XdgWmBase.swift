@@ -5,7 +5,7 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -13,30 +13,30 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func createPositioner() throws(WaylandProxyError) -> XdgPositioner {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgPositioner.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id)
+            WaylandData.newId(id.id)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getXdgSurface(surface: WlSurface) throws(WaylandProxyError) -> XdgSurface {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgSurface.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .newId(id.id),
-            .object(surface)
+            WaylandData.newId(id.id),
+            WaylandData.object(surface)
         ])
         connection.send(message: message)
         return id
     }
     
     public func pong(serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .uint(serial)
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }

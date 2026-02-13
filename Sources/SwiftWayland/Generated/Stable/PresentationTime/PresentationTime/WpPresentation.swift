@@ -5,7 +5,7 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -13,11 +13,11 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func feedback(surface: WlSurface) throws(WaylandProxyError) -> WpPresentationFeedback {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let callback = connection.createProxy(type: WpPresentationFeedback.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(surface),
-            .newId(callback.id)
+            WaylandData.object(surface),
+            WaylandData.newId(callback.id)
         ])
         connection.send(message: message)
         return callback

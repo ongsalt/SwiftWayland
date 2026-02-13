@@ -5,27 +5,27 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func startDrag(source: WlDataSource, origin: WlSurface, icon: WlSurface, serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .object(source),
-            .object(origin),
-            .object(icon),
-            .uint(serial)
+            WaylandData.object(source),
+            WaylandData.object(origin),
+            WaylandData.object(icon),
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }
     
     public func setSelection(source: WlDataSource, serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(source),
-            .uint(serial)
+            WaylandData.object(source),
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }
     
     public consuming func release() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)

@@ -6,7 +6,7 @@ public final class ZwpLockedPointerV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,18 +14,18 @@ public final class ZwpLockedPointerV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setCursorPositionHint(surfaceX: Double, surfaceY: Double) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .fixed(surfaceX),
-            .fixed(surfaceY)
+            WaylandData.fixed(surfaceX),
+            WaylandData.fixed(surfaceY)
         ])
         connection.send(message: message)
     }
     
     public func setRegion(region: WlRegion) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .object(region)
+            WaylandData.object(region)
         ])
         connection.send(message: message)
     }

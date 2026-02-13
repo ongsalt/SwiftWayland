@@ -6,7 +6,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,12 +14,12 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
     }
     
     public func inhibitShortcuts(surface: WlSurface, seat: WlSeat) throws(WaylandProxyError) -> ZwpKeyboardShortcutsInhibitorV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpKeyboardShortcutsInhibitorV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id),
-            .object(surface),
-            .object(seat)
+            WaylandData.newId(id.id),
+            WaylandData.object(surface),
+            WaylandData.object(seat)
         ])
         connection.send(message: message)
         return id

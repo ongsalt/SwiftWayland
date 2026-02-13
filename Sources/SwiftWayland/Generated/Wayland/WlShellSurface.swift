@@ -5,92 +5,92 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public func pong(serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .uint(serial)
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }
     
     public func move(seat: WlSeat, serial: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(seat),
-            .uint(serial)
+            WaylandData.object(seat),
+            WaylandData.uint(serial)
         ])
         connection.send(message: message)
     }
     
     public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .object(seat),
-            .uint(serial),
-            .uint(edges)
+            WaylandData.object(seat),
+            WaylandData.uint(serial),
+            WaylandData.uint(edges)
         ])
         connection.send(message: message)
     }
     
     public func setToplevel() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [])
         connection.send(message: message)
     }
     
     public func setTransient(parent: WlSurface, x: Int32, y: Int32, flags: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
-            .object(parent),
-            .int(x),
-            .int(y),
-            .uint(flags)
+            WaylandData.object(parent),
+            WaylandData.int(x),
+            WaylandData.int(y),
+            WaylandData.uint(flags)
         ])
         connection.send(message: message)
     }
     
     public func setFullscreen(method: UInt32, framerate: UInt32, output: WlOutput) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
-            .uint(method),
-            .uint(framerate),
-            .object(output)
+            WaylandData.uint(method),
+            WaylandData.uint(framerate),
+            WaylandData.object(output)
         ])
         connection.send(message: message)
     }
     
     public func setPopup(seat: WlSeat, serial: UInt32, parent: WlSurface, x: Int32, y: Int32, flags: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
-            .object(seat),
-            .uint(serial),
-            .object(parent),
-            .int(x),
-            .int(y),
-            .uint(flags)
+            WaylandData.object(seat),
+            WaylandData.uint(serial),
+            WaylandData.object(parent),
+            WaylandData.int(x),
+            WaylandData.int(y),
+            WaylandData.uint(flags)
         ])
         connection.send(message: message)
     }
     
     public func setMaximized(output: WlOutput) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [
-            .object(output)
+            WaylandData.object(output)
         ])
         connection.send(message: message)
     }
     
     public func setTitle(title: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 8, contents: [
-            .string(title)
+            WaylandData.string(title)
         ])
         connection.send(message: message)
     }
     
     public func setClass(`class`: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 9, contents: [
-            .string(`class`)
+            WaylandData.string(`class`)
         ])
         connection.send(message: message)
     }

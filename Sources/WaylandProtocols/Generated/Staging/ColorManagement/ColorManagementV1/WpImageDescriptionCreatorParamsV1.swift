@@ -6,10 +6,10 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func create() throws(WaylandProxyError) -> WpImageDescriptionV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .newId(imageDescription.id)
+            WaylandData.newId(imageDescription.id)
         ])
         connection.send(message: message)
         self._state = .dropped
@@ -18,90 +18,90 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
     }
     
     public func setTfNamed(tf: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .uint(tf)
+            WaylandData.uint(tf)
         ])
         connection.send(message: message)
     }
     
     public func setTfPower(eexp: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .uint(eexp)
+            WaylandData.uint(eexp)
         ])
         connection.send(message: message)
     }
     
     public func setPrimariesNamed(primaries: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .uint(primaries)
+            WaylandData.uint(primaries)
         ])
         connection.send(message: message)
     }
     
     public func setPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
-            .int(rX),
-            .int(rY),
-            .int(gX),
-            .int(gY),
-            .int(bX),
-            .int(bY),
-            .int(wX),
-            .int(wY)
+            WaylandData.int(rX),
+            WaylandData.int(rY),
+            WaylandData.int(gX),
+            WaylandData.int(gY),
+            WaylandData.int(bX),
+            WaylandData.int(bY),
+            WaylandData.int(wX),
+            WaylandData.int(wY)
         ])
         connection.send(message: message)
     }
     
     public func setLuminances(minLum: UInt32, maxLum: UInt32, referenceLum: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
-            .uint(minLum),
-            .uint(maxLum),
-            .uint(referenceLum)
+            WaylandData.uint(minLum),
+            WaylandData.uint(maxLum),
+            WaylandData.uint(referenceLum)
         ])
         connection.send(message: message)
     }
     
     public func setMasteringDisplayPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
-            .int(rX),
-            .int(rY),
-            .int(gX),
-            .int(gY),
-            .int(bX),
-            .int(bY),
-            .int(wX),
-            .int(wY)
+            WaylandData.int(rX),
+            WaylandData.int(rY),
+            WaylandData.int(gX),
+            WaylandData.int(gY),
+            WaylandData.int(bX),
+            WaylandData.int(bY),
+            WaylandData.int(wX),
+            WaylandData.int(wY)
         ])
         connection.send(message: message)
     }
     
     public func setMasteringLuminance(minLum: UInt32, maxLum: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [
-            .uint(minLum),
-            .uint(maxLum)
+            WaylandData.uint(minLum),
+            WaylandData.uint(maxLum)
         ])
         connection.send(message: message)
     }
     
     public func setMaxCll(maxCll: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 8, contents: [
-            .uint(maxCll)
+            WaylandData.uint(maxCll)
         ])
         connection.send(message: message)
     }
     
     public func setMaxFall(maxFall: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 9, contents: [
-            .uint(maxFall)
+            WaylandData.uint(maxFall)
         ])
         connection.send(message: message)
     }

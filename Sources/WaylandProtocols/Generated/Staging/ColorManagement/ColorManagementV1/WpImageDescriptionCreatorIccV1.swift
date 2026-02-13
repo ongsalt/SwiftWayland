@@ -6,10 +6,10 @@ public final class WpImageDescriptionCreatorIccV1: WlProxyBase, WlProxy, WlInter
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func create() throws(WaylandProxyError) -> WpImageDescriptionV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 0, contents: [
-            .newId(imageDescription.id)
+            WaylandData.newId(imageDescription.id)
         ])
         connection.send(message: message)
         self._state = .dropped
@@ -18,11 +18,11 @@ public final class WpImageDescriptionCreatorIccV1: WlProxyBase, WlProxy, WlInter
     }
     
     public func setIccFile(iccProfile: FileHandle, offset: UInt32, length: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .fd(iccProfile),
-            .uint(offset),
-            .uint(length)
+            WaylandData.fd(iccProfile),
+            WaylandData.uint(offset),
+            WaylandData.uint(length)
         ])
         connection.send(message: message)
     }

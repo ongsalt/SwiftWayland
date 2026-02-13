@@ -6,7 +6,7 @@ public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,19 +14,19 @@ public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func setToplevelTag(toplevel: XdgToplevel, tag: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(toplevel),
-            .string(tag)
+            WaylandData.object(toplevel),
+            WaylandData.string(tag)
         ])
         connection.send(message: message)
     }
     
     public func setToplevelDescription(toplevel: XdgToplevel, description: String) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .object(toplevel),
-            .string(description)
+            WaylandData.object(toplevel),
+            WaylandData.string(description)
         ])
         connection.send(message: message)
     }

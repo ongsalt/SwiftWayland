@@ -6,7 +6,7 @@ public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,25 +14,25 @@ public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func getIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError) -> ExtIdleNotificationV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ExtIdleNotificationV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id),
-            .uint(timeout),
-            .object(seat)
+            WaylandData.newId(id.id),
+            WaylandData.uint(timeout),
+            WaylandData.object(seat)
         ])
         connection.send(message: message)
         return id
     }
     
     public func getInputIdleNotification(timeout: UInt32, seat: WlSeat) throws(WaylandProxyError) -> ExtIdleNotificationV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let id = connection.createProxy(type: ExtIdleNotificationV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .newId(id.id),
-            .uint(timeout),
-            .object(seat)
+            WaylandData.newId(id.id),
+            WaylandData.uint(timeout),
+            WaylandData.object(seat)
         ])
         connection.send(message: message)
         return id

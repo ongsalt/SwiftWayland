@@ -6,7 +6,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func release() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,23 +14,23 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func presentSurface(surface: WlSurface, method: UInt32, output: WlOutput) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .object(surface),
-            .uint(method),
-            .object(output)
+            WaylandData.object(surface),
+            WaylandData.uint(method),
+            WaylandData.object(output)
         ])
         connection.send(message: message)
     }
     
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32) throws(WaylandProxyError) -> ZwpFullscreenShellModeFeedbackV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let feedback = connection.createProxy(type: ZwpFullscreenShellModeFeedbackV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 2, contents: [
-            .object(surface),
-            .object(output),
-            .int(framerate),
-            .newId(feedback.id)
+            WaylandData.object(surface),
+            WaylandData.object(output),
+            WaylandData.int(framerate),
+            WaylandData.newId(feedback.id)
         ])
         connection.send(message: message)
         return feedback

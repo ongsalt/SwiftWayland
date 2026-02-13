@@ -6,7 +6,7 @@ public final class ZwpRelativePointerManagerV1: WlProxyBase, WlProxy, WlInterfac
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,11 +14,11 @@ public final class ZwpRelativePointerManagerV1: WlProxyBase, WlProxy, WlInterfac
     }
     
     public func getRelativePointer(pointer: WlPointer) throws(WaylandProxyError) -> ZwpRelativePointerV1 {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpRelativePointerV1.self, version: self.version)
         let message = Message(objectId: self.id, opcode: 1, contents: [
-            .newId(id.id),
-            .object(pointer)
+            WaylandData.newId(id.id),
+            WaylandData.object(pointer)
         ])
         connection.send(message: message)
         return id

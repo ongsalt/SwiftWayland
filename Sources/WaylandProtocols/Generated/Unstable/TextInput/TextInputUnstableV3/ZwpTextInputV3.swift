@@ -6,7 +6,7 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
     public var onEvent: (Event) -> Void = { _ in }
 
     public consuming func destroy() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
         connection.send(message: message)
         self._state = .dropped
@@ -14,57 +14,57 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
     }
     
     public func enable() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 1, contents: [])
         connection.send(message: message)
     }
     
     public func disable() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 2, contents: [])
         connection.send(message: message)
     }
     
     public func setSurroundingText(text: String, cursor: Int32, anchor: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 3, contents: [
-            .string(text),
-            .int(cursor),
-            .int(anchor)
+            WaylandData.string(text),
+            WaylandData.int(cursor),
+            WaylandData.int(anchor)
         ])
         connection.send(message: message)
     }
     
     public func setTextChangeCause(cause: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 4, contents: [
-            .uint(cause)
+            WaylandData.uint(cause)
         ])
         connection.send(message: message)
     }
     
     public func setContentType(hint: UInt32, purpose: UInt32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 5, contents: [
-            .uint(hint),
-            .uint(purpose)
+            WaylandData.uint(hint),
+            WaylandData.uint(purpose)
         ])
         connection.send(message: message)
     }
     
     public func setCursorRectangle(x: Int32, y: Int32, width: Int32, height: Int32) throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 6, contents: [
-            .int(x),
-            .int(y),
-            .int(width),
-            .int(height)
+            WaylandData.int(x),
+            WaylandData.int(y),
+            WaylandData.int(width),
+            WaylandData.int(height)
         ])
         connection.send(message: message)
     }
     
     public func commit() throws(WaylandProxyError) {
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 7, contents: [])
         connection.send(message: message)
     }
