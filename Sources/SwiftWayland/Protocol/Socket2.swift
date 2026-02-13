@@ -34,12 +34,16 @@ class Socket2 {
     static func send(data: Data, fds handles: [FileHandle], to target: FileHandle)
         throws(SocketError)
     {
-        let flags: Int32 = numericCast(MSG_DONTWAIT)
+        let flags: Int32 = 0
+        // let flags: Int32 = numericCast(MSG_DONTWAIT)
         let fds: [Int32] = handles.map { $0.fileDescriptor }
         let fdSize = MemoryLayout<Int32>.size * fds.count
 
         let res = data.withUnsafeBytes { data in
             let message = Box(msghdr())
+            if data.count == 0 {
+                print("duck: \(data)")
+            }
 
             // Actual data: iov
             let iov = Box(
@@ -53,23 +57,25 @@ class Socket2 {
 
             // Set up control message
             // Ancillary Data
-            let ancillaryData = UnsafeMutableRawBufferPointer.allocate(
-                byteCount: ControlMessage.space(fdSize),
-                alignment: MemoryLayout<cmsghdr>.alignment
-            )
-            defer { ancillaryData.deallocate() }
+            if !fds.isEmpty {
+                let ancillaryData = UnsafeMutableRawBufferPointer.allocate(
+                    byteCount: ControlMessage.space(fdSize),
+                    alignment: MemoryLayout<cmsghdr>.alignment
+                )
+                defer { ancillaryData.deallocate() }
 
-            message.pointee.msg_control = UnsafeMutableRawPointer(ancillaryData.baseAddress)
-            message.pointee.msg_controllen = ancillaryData.count
+                message.pointee.msg_control = UnsafeMutableRawPointer(ancillaryData.baseAddress)
+                message.pointee.msg_controllen = ancillaryData.count
 
-            let controlMessage = ControlMessage.firstHeader(message.ptr)!
-            controlMessage.pointee.cmsg_level = SOL_SOCKET
-            controlMessage.pointee.cmsg_type = Int32(SCM_RIGHTS)
-            controlMessage.pointee.cmsg_len = ControlMessage.lenght(fdSize)
+                let controlMessage = ControlMessage.firstHeader(message.ptr)!
+                controlMessage.pointee.cmsg_level = SOL_SOCKET
+                controlMessage.pointee.cmsg_type = Int32(SCM_RIGHTS)
+                controlMessage.pointee.cmsg_len = ControlMessage.lenght(fdSize)
 
-            // fds.cop
-            let dataPtr: UnsafeMutableRawPointer = ControlMessage.data(controlMessage)
-            dataPtr.copyMemory(from: fds, byteCount: fdSize)
+                // fds.cop
+                let dataPtr: UnsafeMutableRawPointer = ControlMessage.data(controlMessage)
+                dataPtr.copyMemory(from: fds, byteCount: fdSize)
+            }
 
             // print("start")
             return sendmsg(target.fileDescriptor, message.ptr, flags)

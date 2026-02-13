@@ -1,13 +1,12 @@
 # SwiftWayland
 Wayland scanner and Wayland client library for swift 
 
-# WARNING: fd transport is not yet implemented
+# WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
 
 # What's not in there
 - Server code generation
 
 # Todos
-- roundtrip
 - think about queue and concurrency
 - make Event decode failable 
 - programmatic rename id to the instance or any better name

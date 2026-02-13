@@ -40,7 +40,7 @@ public protocol WlProxy: Identifiable, WlInterface {
 extension WlProxy {
     func parseAndDispatch(message: Message, connection: Connection, fdSource: BufferedSocket) {
         let event = Event.decode(message: message, connection: connection, fdSource: fdSource)
-        // print("[Wayland] dispatch \(event) to \(self)")
+        print("[Wayland] dispatch \(event) to \(self)")
         self.onEvent(event)
     }
 }
@@ -49,7 +49,7 @@ public protocol WlEventEnum: WLDecodable {}
 
 open class WlProxyBase {
     public let id: ObjectId
-    public unowned var connection: Connection
+    public var connection: Connection
 
     public required init(connection: Connection, id: ObjectId) {
         self.connection = connection

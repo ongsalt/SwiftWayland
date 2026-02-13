@@ -48,8 +48,10 @@ public class BufferedSocket {
 
     func flush() throws(SocketError) {
         // todo: batching?
-        for (data, fds) in outData {
-            // print("sending: \(data as NSData)")
+        let flushed = outData
+        outData = []
+        for (data, fds) in flushed {
+            print("[Wayland] sending: \(data as NSData)")
             try socket.send(data: data, fds: fds)
         }
     }

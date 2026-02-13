@@ -19,11 +19,21 @@ public final class Connection: @unchecked Sendable {
     init(socket: Socket2) {
         self.socket = BufferedSocket(socket)
         display = createProxy(type: WlDisplay.self, id: 1)
+
+        display.onEvent = { event in
+            print(event)
+        }
     }
 
     public func dispatch(force: Bool = false) throws {
         var shouldRun = force
-        try socket.receiveUntilDone(force: force)
+
+        // var error: SocketError? = nil
+        // do {
+            try socket.receiveUntilDone(force: force)
+        // } catch let e {
+        //     error = e
+        // }
 
         while socket.dataAvailable || shouldRun {
             shouldRun = false
@@ -38,6 +48,10 @@ public final class Connection: @unchecked Sendable {
 
             receiver.parseAndDispatch(message: message, connection: self, fdSource: self.socket)
         }
+
+        // if let error {
+        //     throw error
+        // }
     }
 
     public func flush() throws {
