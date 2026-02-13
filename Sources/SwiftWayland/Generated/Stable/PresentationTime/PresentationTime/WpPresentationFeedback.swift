@@ -16,8 +16,8 @@ public final class WpPresentationFeedback: WlProxyBase, WlProxy, WlInterface {
         case presented(tvSecHi: UInt32, tvSecLo: UInt32, tvNsec: UInt32, refresh: UInt32, seqHi: UInt32, seqLo: UInt32, flags: UInt32)
         case discarded
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.syncOutput(output: connection.get(as: WlOutput.self, id: r.readObjectId())!)

@@ -9,7 +9,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -18,7 +18,7 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -27,13 +27,13 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public func release() {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Capability: UInt32, WlEnum {
@@ -50,8 +50,8 @@ public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
         case capabilities(capabilities: UInt32)
         case name(name: String)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.capabilities(capabilities: r.readUInt())

@@ -7,7 +7,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func commitString(serial: UInt32, text: String) {
@@ -15,7 +15,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .string(text)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func preeditString(serial: UInt32, text: String, commit: String) {
@@ -24,7 +24,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .string(text),
             .string(commit)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func preeditStyling(index: UInt32, length: UInt32, style: UInt32) {
@@ -33,14 +33,14 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .uint(length),
             .uint(style)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func preeditCursor(index: Int32) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .int(index)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func deleteSurroundingText(index: Int32, length: UInt32) {
@@ -48,7 +48,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .int(index),
             .uint(length)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func cursorPosition(index: Int32, anchor: Int32) {
@@ -56,14 +56,14 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .int(index),
             .int(anchor)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func modifiersMap(map: Data) {
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .array(map)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func keysym(serial: UInt32, time: UInt32, sym: UInt32, state: UInt32, modifiers: UInt32) {
@@ -74,7 +74,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .uint(state),
             .uint(modifiers)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func grabKeyboard() -> WlKeyboard {
@@ -82,7 +82,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .newId(keyboard.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return keyboard
     }
     
@@ -93,7 +93,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .uint(key),
             .uint(state)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func modifiers(serial: UInt32, modsDepressed: UInt32, modsLatched: UInt32, modsLocked: UInt32, group: UInt32) {
@@ -104,7 +104,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .uint(modsLocked),
             .uint(group)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func language(serial: UInt32, language: String) {
@@ -112,7 +112,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .string(language)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func textDirection(serial: UInt32, direction: UInt32) {
@@ -120,7 +120,7 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .uint(direction)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
@@ -131,8 +131,8 @@ public final class ZwpInputMethodContextV1: WlProxyBase, WlProxy, WlInterface {
         case commitState(serial: UInt32)
         case preferredLanguage(language: String)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.surroundingText(text: r.readString(), cursor: r.readUInt(), anchor: r.readUInt())

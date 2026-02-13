@@ -6,7 +6,7 @@ public final class WlRegion: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func add(x: Int32, y: Int32, width: Int32, height: Int32) {
@@ -16,7 +16,7 @@ public final class WlRegion: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func subtract(x: Int32, y: Int32, width: Int32, height: Int32) {
@@ -26,13 +26,13 @@ public final class WlRegion: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

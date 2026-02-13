@@ -7,14 +7,14 @@ public final class ExtSessionLockSurfaceV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func ackConfigure(serial: UInt32) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -27,8 +27,8 @@ public final class ExtSessionLockSurfaceV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case configure(serial: UInt32, width: UInt32, height: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.configure(serial: r.readUInt(), width: r.readUInt(), height: r.readUInt())

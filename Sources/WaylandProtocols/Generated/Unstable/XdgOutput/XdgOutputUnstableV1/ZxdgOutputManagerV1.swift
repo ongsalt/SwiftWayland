@@ -7,7 +7,7 @@ public final class ZxdgOutputManagerV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getXdgOutput(output: WlOutput) -> ZxdgOutputV1 {
@@ -16,14 +16,14 @@ public final class ZxdgOutputManagerV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(output)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

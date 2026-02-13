@@ -7,7 +7,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func inhibitShortcuts(surface: WlSurface, seat: WlSeat) -> ZwpKeyboardShortcutsInhibitorV1 {
@@ -17,7 +17,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
             .object(surface),
             .object(seat)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -28,7 +28,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: WlProxyBase, WlProxy, W
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

@@ -6,7 +6,7 @@ public final class WlTouch: WlProxyBase, WlProxy, WlInterface {
 
     public func release() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
@@ -18,8 +18,8 @@ public final class WlTouch: WlProxyBase, WlProxy, WlInterface {
         case shape(id: Int32, major: Double, minor: Double)
         case orientation(id: Int32, orientation: Double)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.down(serial: r.readUInt(), time: r.readUInt(), surface: connection.get(as: WlSurface.self, id: r.readObjectId())!, id: r.readInt(), x: r.readFixed(), y: r.readFixed())

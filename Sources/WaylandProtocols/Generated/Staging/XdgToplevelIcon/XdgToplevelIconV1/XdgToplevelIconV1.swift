@@ -7,14 +7,14 @@ public final class XdgToplevelIconV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setName(iconName: String) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(iconName)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func addBuffer(buffer: WlBuffer, scale: Int32) {
@@ -22,7 +22,7 @@ public final class XdgToplevelIconV1: WlProxyBase, WlProxy, WlInterface {
             .object(buffer),
             .int(scale)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -34,7 +34,7 @@ public final class XdgToplevelIconV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

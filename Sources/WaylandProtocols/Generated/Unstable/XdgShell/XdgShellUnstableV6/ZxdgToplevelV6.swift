@@ -7,28 +7,28 @@ public final class ZxdgToplevelV6: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setParent(parent: ZxdgToplevelV6) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(parent)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setTitle(title: String) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .string(title)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setAppId(appId: String) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .string(appId)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func showWindowMenu(seat: WlSeat, serial: UInt32, x: Int32, y: Int32) {
@@ -38,7 +38,7 @@ public final class ZxdgToplevelV6: WlProxyBase, WlProxy, WlInterface {
             .int(x),
             .int(y)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func move(seat: WlSeat, serial: UInt32) {
@@ -46,7 +46,7 @@ public final class ZxdgToplevelV6: WlProxyBase, WlProxy, WlInterface {
             .object(seat),
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) {
@@ -55,7 +55,7 @@ public final class ZxdgToplevelV6: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .uint(edges)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMaxSize(width: Int32, height: Int32) {
@@ -63,7 +63,7 @@ public final class ZxdgToplevelV6: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMinSize(width: Int32, height: Int32) {
@@ -71,34 +71,34 @@ public final class ZxdgToplevelV6: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMaximized() {
         let message = Message(objectId: self.id, opcode: 9, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func unsetMaximized() {
         let message = Message(objectId: self.id, opcode: 10, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setFullscreen(output: WlOutput) {
         let message = Message(objectId: self.id, opcode: 11, contents: [
             .object(output)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func unsetFullscreen() {
         let message = Message(objectId: self.id, opcode: 12, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMinimized() {
         let message = Message(objectId: self.id, opcode: 13, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum ResizeEdge: UInt32, WlEnum {
@@ -124,8 +124,8 @@ public final class ZxdgToplevelV6: WlProxyBase, WlProxy, WlInterface {
         case configure(width: Int32, height: Int32, states: Data)
         case close
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.configure(width: r.readInt(), height: r.readInt(), states: r.readArray())

@@ -10,13 +10,13 @@ public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public func release() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
@@ -25,8 +25,8 @@ public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy, WlInterface {
         case done
         case released
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.drmFd(fd: r.readFd())

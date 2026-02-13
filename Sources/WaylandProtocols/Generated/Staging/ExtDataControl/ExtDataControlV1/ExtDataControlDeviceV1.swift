@@ -9,19 +9,19 @@ public final class ExtDataControlDeviceV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .object(source)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setPrimarySelection(source: ExtDataControlSourceV1) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(source)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -34,8 +34,8 @@ public final class ExtDataControlDeviceV1: WlProxyBase, WlProxy, WlInterface {
         case finished
         case primarySelection(id: ExtDataControlOfferV1)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.dataOffer(id: connection.createProxy(type: ExtDataControlOfferV1.self, id: r.readNewId()))

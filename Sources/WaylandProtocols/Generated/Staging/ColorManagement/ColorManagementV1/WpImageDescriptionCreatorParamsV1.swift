@@ -10,7 +10,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(imageDescription.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return imageDescription
     }
     
@@ -18,21 +18,21 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(tf)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setTfPower(eexp: UInt32) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .uint(eexp)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setPrimariesNamed(primaries: UInt32) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(primaries)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) {
@@ -46,7 +46,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
             .int(wX),
             .int(wY)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setLuminances(minLum: UInt32, maxLum: UInt32, referenceLum: UInt32) {
@@ -55,7 +55,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
             .uint(maxLum),
             .uint(referenceLum)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMasteringDisplayPrimaries(rX: Int32, rY: Int32, gX: Int32, gY: Int32, bX: Int32, bY: Int32, wX: Int32, wY: Int32) {
@@ -69,7 +69,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
             .int(wX),
             .int(wY)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMasteringLuminance(minLum: UInt32, maxLum: UInt32) {
@@ -77,21 +77,21 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
             .uint(minLum),
             .uint(maxLum)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMaxCll(maxCll: UInt32) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .uint(maxCll)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMaxFall(maxFall: UInt32) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .uint(maxFall)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -106,7 +106,7 @@ public final class WpImageDescriptionCreatorParamsV1: WlProxyBase, WlProxy, WlIn
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

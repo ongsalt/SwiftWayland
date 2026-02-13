@@ -12,12 +12,12 @@ public final class ZwpTabletToolV2: WlProxyBase, WlProxy, WlInterface {
             .int(hotspotX),
             .int(hotspotY)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum `Type`: UInt32, WlEnum {
@@ -70,8 +70,8 @@ public final class ZwpTabletToolV2: WlProxyBase, WlProxy, WlInterface {
         case button(serial: UInt32, button: UInt32, state: UInt32)
         case frame(time: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.type(toolType: r.readUInt())

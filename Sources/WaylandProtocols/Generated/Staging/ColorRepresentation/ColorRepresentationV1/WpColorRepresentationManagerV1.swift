@@ -7,7 +7,7 @@ public final class WpColorRepresentationManagerV1: WlProxyBase, WlProxy, WlInter
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getSurface(surface: WlSurface) -> WpColorRepresentationSurfaceV1 {
@@ -16,7 +16,7 @@ public final class WpColorRepresentationManagerV1: WlProxyBase, WlProxy, WlInter
             .newId(id.id),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -29,8 +29,8 @@ public final class WpColorRepresentationManagerV1: WlProxyBase, WlProxy, WlInter
         case supportedCoefficientsAndRanges(coefficients: UInt32, range: UInt32)
         case done
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.supportedAlphaMode(alphaMode: r.readUInt())

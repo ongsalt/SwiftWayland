@@ -7,7 +7,7 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: WlProxyBase, WlProxy, WlInt
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func grabKeyboard(surface: WlSurface, seat: WlSeat) -> ZwpXwaylandKeyboardGrabV1 {
@@ -17,14 +17,14 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: WlProxyBase, WlProxy, WlInt
             .object(surface),
             .object(seat)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

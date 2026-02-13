@@ -6,7 +6,7 @@ public final class WpViewport: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSource(x: Double, y: Double, width: Double, height: Double) {
@@ -16,7 +16,7 @@ public final class WpViewport: WlProxyBase, WlProxy, WlInterface {
             .fixed(width),
             .fixed(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setDestination(width: Int32, height: Int32) {
@@ -24,7 +24,7 @@ public final class WpViewport: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -37,7 +37,7 @@ public final class WpViewport: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

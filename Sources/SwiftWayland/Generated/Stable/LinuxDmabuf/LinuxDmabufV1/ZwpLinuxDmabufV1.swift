@@ -6,7 +6,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func createParams() -> ZwpLinuxBufferParamsV1 {
@@ -14,7 +14,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(paramsId.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return paramsId
     }
     
@@ -23,7 +23,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -33,7 +33,7 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -41,8 +41,8 @@ public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
         case format(format: UInt32)
         case modifier(format: UInt32, modifierHi: UInt32, modifierLo: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.format(format: r.readUInt())

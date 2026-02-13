@@ -7,8 +7,8 @@ public final class WlCallback: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case done(callbackData: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.done(callbackData: r.readUInt())

@@ -10,13 +10,13 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(frame.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return frame
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -31,8 +31,8 @@ public final class ExtImageCopyCaptureSessionV1: WlProxyBase, WlProxy, WlInterfa
         case done
         case stopped
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.bufferSize(width: r.readUInt(), height: r.readUInt())

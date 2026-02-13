@@ -11,12 +11,12 @@ public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
             .int(hotspotX),
             .int(hotspotY)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func release() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -58,8 +58,8 @@ public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
         case axisValue120(axis: UInt32, value120: Int32)
         case axisRelativeDirection(axis: UInt32, direction: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.enter(serial: r.readUInt(), surface: connection.get(as: WlSurface.self, id: r.readObjectId())!, surfaceX: r.readFixed(), surfaceY: r.readFixed())

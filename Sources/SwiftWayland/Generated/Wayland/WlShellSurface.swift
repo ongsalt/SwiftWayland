@@ -8,7 +8,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func move(seat: WlSeat, serial: UInt32) {
@@ -16,7 +16,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
             .object(seat),
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) {
@@ -25,12 +25,12 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .uint(edges)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setToplevel() {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setTransient(parent: WlSurface, x: Int32, y: Int32, flags: UInt32) {
@@ -40,7 +40,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
             .int(y),
             .uint(flags)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setFullscreen(method: UInt32, framerate: UInt32, output: WlOutput) {
@@ -49,7 +49,7 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
             .uint(framerate),
             .object(output)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setPopup(seat: WlSeat, serial: UInt32, parent: WlSurface, x: Int32, y: Int32, flags: UInt32) {
@@ -61,28 +61,28 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
             .int(y),
             .uint(flags)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMaximized(output: WlOutput) {
         let message = Message(objectId: self.id, opcode: 7, contents: [
             .object(output)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setTitle(title: String) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .string(title)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setClass(`class`: String) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .string(`class`)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Resize: UInt32, WlEnum {
@@ -113,8 +113,8 @@ public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
         case configure(edges: UInt32, width: Int32, height: Int32)
         case popupDone
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.ping(serial: r.readUInt())

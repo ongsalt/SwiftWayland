@@ -6,7 +6,7 @@ public final class WlSubcompositor: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getSubsurface(surface: WlSurface, parent: WlSurface) -> WlSubsurface {
@@ -16,7 +16,7 @@ public final class WlSubcompositor: WlProxyBase, WlProxy, WlInterface {
             .object(surface),
             .object(parent)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -28,7 +28,7 @@ public final class WlSubcompositor: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

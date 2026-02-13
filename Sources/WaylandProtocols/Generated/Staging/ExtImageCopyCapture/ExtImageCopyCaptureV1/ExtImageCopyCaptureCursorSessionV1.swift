@@ -7,7 +7,7 @@ public final class ExtImageCopyCaptureCursorSessionV1: WlProxyBase, WlProxy, WlI
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getCaptureSession() -> ExtImageCopyCaptureSessionV1 {
@@ -15,7 +15,7 @@ public final class ExtImageCopyCaptureCursorSessionV1: WlProxyBase, WlProxy, WlI
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(session.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return session
     }
     
@@ -29,8 +29,8 @@ public final class ExtImageCopyCaptureCursorSessionV1: WlProxyBase, WlProxy, WlI
         case position(x: Int32, y: Int32)
         case hotspot(x: Int32, y: Int32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.enter

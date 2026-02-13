@@ -9,12 +9,12 @@ public final class ExtWorkspaceGroupHandleV1: WlProxyBase, WlProxy, WlInterface 
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .string(workspace)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum GroupCapabilities: UInt32, WlEnum {
@@ -29,8 +29,8 @@ public final class ExtWorkspaceGroupHandleV1: WlProxyBase, WlProxy, WlInterface 
         case workspaceLeave(workspace: ExtWorkspaceHandleV1)
         case removed
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.capabilities(capabilities: r.readUInt())

@@ -10,31 +10,31 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .object(seat)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setAppId(appId: String) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(appId)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSurface(surface: WlSurface) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func commit() {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -44,8 +44,8 @@ public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case done(token: String)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.done(token: r.readString())

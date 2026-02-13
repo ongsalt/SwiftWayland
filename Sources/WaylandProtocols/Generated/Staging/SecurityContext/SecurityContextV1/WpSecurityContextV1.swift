@@ -7,33 +7,33 @@ public final class WpSecurityContextV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSandboxEngine(name: String) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .string(name)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setAppId(appId: String) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .string(appId)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setInstanceId(instanceId: String) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .string(instanceId)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func commit() {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -45,7 +45,7 @@ public final class WpSecurityContextV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

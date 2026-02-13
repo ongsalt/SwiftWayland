@@ -7,7 +7,7 @@ public final class ZxdgPopupV6: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func grab(seat: WlSeat, serial: UInt32) {
@@ -15,7 +15,7 @@ public final class ZxdgPopupV6: WlProxyBase, WlProxy, WlInterface {
             .object(seat),
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -26,8 +26,8 @@ public final class ZxdgPopupV6: WlProxyBase, WlProxy, WlInterface {
         case configure(x: Int32, y: Int32, width: Int32, height: Int32)
         case popupDone
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.configure(x: r.readInt(), y: r.readInt(), width: r.readInt(), height: r.readInt())

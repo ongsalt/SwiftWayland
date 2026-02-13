@@ -7,7 +7,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setAcquirePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) {
@@ -16,7 +16,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
             .uint(pointHi),
             .uint(pointLo)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setReleasePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) {
@@ -25,7 +25,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
             .uint(pointHi),
             .uint(pointLo)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -40,7 +40,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

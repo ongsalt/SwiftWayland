@@ -9,7 +9,7 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .string(mimeType)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func receive(mimeType: String, fd: FileHandle) {
@@ -17,17 +17,17 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
             .string(mimeType),
             .fd(fd)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func finish() {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setActions(dndActions: UInt32, preferredAction: UInt32) {
@@ -35,7 +35,7 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
             .uint(dndActions),
             .uint(preferredAction)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -50,8 +50,8 @@ public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
         case sourceActions(sourceActions: UInt32)
         case action(dndAction: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.offer(mimeType: r.readString())

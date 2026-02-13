@@ -14,26 +14,26 @@ public final class WlShmPool: WlProxyBase, WlProxy, WlInterface {
             .int(stride),
             .uint(format)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func resize(size: Int32) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .int(size)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

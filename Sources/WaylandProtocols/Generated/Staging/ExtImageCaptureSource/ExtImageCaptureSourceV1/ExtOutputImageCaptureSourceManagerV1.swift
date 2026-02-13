@@ -11,19 +11,19 @@ public final class ExtOutputImageCaptureSourceManagerV1: WlProxyBase, WlProxy, W
             .newId(source.id),
             .object(output)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return source
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

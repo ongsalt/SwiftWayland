@@ -10,7 +10,7 @@ public final class ZwpFullscreenShellModeFeedbackV1: WlProxyBase, WlProxy, WlInt
         case modeFailed
         case presentCancelled
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             case 0:

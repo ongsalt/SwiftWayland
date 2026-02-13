@@ -7,7 +7,7 @@ public final class ZwpLockedPointerV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setCursorPositionHint(surfaceX: Double, surfaceY: Double) {
@@ -15,21 +15,21 @@ public final class ZwpLockedPointerV1: WlProxyBase, WlProxy, WlInterface {
             .fixed(surfaceX),
             .fixed(surfaceY)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setRegion(region: WlRegion) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(region)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         case locked
         case unlocked
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             case 0:

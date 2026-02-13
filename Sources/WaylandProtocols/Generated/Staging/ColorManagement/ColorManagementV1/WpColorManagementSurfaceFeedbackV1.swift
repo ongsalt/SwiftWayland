@@ -7,7 +7,7 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getPreferred() -> WpImageDescriptionV1 {
@@ -15,7 +15,7 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(imageDescription.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return imageDescription
     }
     
@@ -24,7 +24,7 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(imageDescription.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return imageDescription
     }
     
@@ -37,8 +37,8 @@ public final class WpColorManagementSurfaceFeedbackV1: WlProxyBase, WlProxy, WlI
         case preferredChanged(identity: UInt32)
         case preferredChanged2(identityHi: UInt32, identityLo: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.preferredChanged(identity: r.readUInt())

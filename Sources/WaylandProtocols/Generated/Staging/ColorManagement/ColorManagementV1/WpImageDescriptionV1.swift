@@ -7,7 +7,7 @@ public final class WpImageDescriptionV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getInformation() -> WpImageDescriptionInfoV1 {
@@ -15,7 +15,7 @@ public final class WpImageDescriptionV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(information.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return information
     }
     
@@ -36,8 +36,8 @@ public final class WpImageDescriptionV1: WlProxyBase, WlProxy, WlInterface {
         case ready(identity: UInt32)
         case ready2(identityHi: UInt32, identityLo: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.failed(cause: r.readUInt(), msg: r.readString())

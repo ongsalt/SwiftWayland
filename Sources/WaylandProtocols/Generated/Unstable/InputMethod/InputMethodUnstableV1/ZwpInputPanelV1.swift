@@ -11,14 +11,14 @@ public final class ZwpInputPanelV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

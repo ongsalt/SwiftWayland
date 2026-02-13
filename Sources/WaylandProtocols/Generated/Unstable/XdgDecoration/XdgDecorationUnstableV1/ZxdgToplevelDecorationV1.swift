@@ -7,19 +7,19 @@ public final class ZxdgToplevelDecorationV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setMode(mode: UInt32) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .uint(mode)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func unsetMode() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -37,8 +37,8 @@ public final class ZxdgToplevelDecorationV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case configure(mode: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.configure(mode: r.readUInt())

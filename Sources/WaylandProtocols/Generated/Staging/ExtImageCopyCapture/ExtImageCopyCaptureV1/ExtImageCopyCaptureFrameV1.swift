@@ -7,14 +7,14 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func attachBuffer(buffer: WlBuffer) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(buffer)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func damageBuffer(x: Int32, y: Int32, width: Int32, height: Int32) {
@@ -24,12 +24,12 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func capture() {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -51,8 +51,8 @@ public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface
         case ready
         case failed(reason: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.transform(transform: r.readUInt())

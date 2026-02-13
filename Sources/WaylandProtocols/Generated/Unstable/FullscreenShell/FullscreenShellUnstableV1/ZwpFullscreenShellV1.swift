@@ -7,7 +7,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
 
     public func release() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func presentSurface(surface: WlSurface, method: UInt32, output: WlOutput) {
@@ -16,7 +16,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
             .uint(method),
             .object(output)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32) -> ZwpFullscreenShellModeFeedbackV1 {
@@ -27,7 +27,7 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
             .int(framerate),
             .newId(feedback.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return feedback
     }
     
@@ -52,8 +52,8 @@ public final class ZwpFullscreenShellV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case capability(capability: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.capability(capability: r.readUInt())

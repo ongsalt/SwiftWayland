@@ -7,7 +7,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getOutput(output: WlOutput) -> WpColorManagementOutputV1 {
@@ -16,7 +16,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(output)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -26,7 +26,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -36,7 +36,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -45,7 +45,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .newId(obj.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return obj
     }
     
@@ -54,7 +54,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .newId(obj.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return obj
     }
     
@@ -63,7 +63,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 6, contents: [
             .newId(imageDescription.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return imageDescription
     }
     
@@ -73,7 +73,7 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
             .newId(imageDescription.id),
             .object(reference)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return imageDescription
     }
     
@@ -139,8 +139,8 @@ public final class WpColorManagerV1: WlProxyBase, WlProxy, WlInterface {
         case supportedPrimariesNamed(primaries: UInt32)
         case done
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.supportedIntent(renderIntent: r.readUInt())

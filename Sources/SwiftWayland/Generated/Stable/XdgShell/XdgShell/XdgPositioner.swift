@@ -6,7 +6,7 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSize(width: Int32, height: Int32) {
@@ -14,7 +14,7 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setAnchorRect(x: Int32, y: Int32, width: Int32, height: Int32) {
@@ -24,28 +24,28 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setAnchor(anchor: UInt32) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(anchor)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setGravity(gravity: UInt32) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(gravity)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setConstraintAdjustment(constraintAdjustment: UInt32) {
         let message = Message(objectId: self.id, opcode: 5, contents: [
             .uint(constraintAdjustment)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setOffset(x: Int32, y: Int32) {
@@ -53,12 +53,12 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
             .int(x),
             .int(y)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setReactive() {
         let message = Message(objectId: self.id, opcode: 7, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setParentSize(parentWidth: Int32, parentHeight: Int32) {
@@ -66,14 +66,14 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
             .int(parentWidth),
             .int(parentHeight)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setParentConfigure(serial: UInt32) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -117,7 +117,7 @@ public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

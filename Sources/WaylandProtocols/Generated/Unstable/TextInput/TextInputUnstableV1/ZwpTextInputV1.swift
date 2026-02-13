@@ -10,29 +10,29 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
             .object(seat),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func deactivate(seat: WlSeat) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(seat)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func showInputPanel() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func hideInputPanel() {
         let message = Message(objectId: self.id, opcode: 3, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func reset() {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSurroundingText(text: String, cursor: UInt32, anchor: UInt32) {
@@ -41,7 +41,7 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
             .uint(cursor),
             .uint(anchor)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setContentType(hint: UInt32, purpose: UInt32) {
@@ -49,7 +49,7 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
             .uint(hint),
             .uint(purpose)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setCursorRectangle(x: Int32, y: Int32, width: Int32, height: Int32) {
@@ -59,21 +59,21 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setPreferredLanguage(language: String) {
         let message = Message(objectId: self.id, opcode: 8, contents: [
             .string(language)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func commitState(serial: UInt32) {
         let message = Message(objectId: self.id, opcode: 9, contents: [
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func invokeAction(button: UInt32, index: UInt32) {
@@ -81,7 +81,7 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
             .uint(button),
             .uint(index)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum ContentHint: UInt32, WlEnum {
@@ -148,8 +148,8 @@ public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
         case language(serial: UInt32, language: String)
         case textDirection(serial: UInt32, direction: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.enter(surface: connection.get(as: WlSurface.self, id: r.readObjectId())!)

@@ -7,7 +7,7 @@ public final class WpCursorShapeDeviceV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setShape(serial: UInt32, shape: UInt32) {
@@ -15,7 +15,7 @@ public final class WpCursorShapeDeviceV1: WlProxyBase, WlProxy, WlInterface {
             .uint(serial),
             .uint(shape)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Shape: UInt32, WlEnum {
@@ -64,7 +64,7 @@ public final class WpCursorShapeDeviceV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

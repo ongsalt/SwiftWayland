@@ -12,7 +12,7 @@ public final class ExtImageCopyCaptureManagerV1: WlProxyBase, WlProxy, WlInterfa
             .object(source),
             .uint(options)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return session
     }
     
@@ -23,13 +23,13 @@ public final class ExtImageCopyCaptureManagerV1: WlProxyBase, WlProxy, WlInterfa
             .object(source),
             .object(pointer)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return session
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -43,7 +43,7 @@ public final class ExtImageCopyCaptureManagerV1: WlProxyBase, WlProxy, WlInterfa
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

@@ -7,7 +7,7 @@ public final class ZwpPointerGestureSwipeV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
@@ -15,8 +15,8 @@ public final class ZwpPointerGestureSwipeV1: WlProxyBase, WlProxy, WlInterface {
         case update(time: UInt32, dx: Double, dy: Double)
         case end(serial: UInt32, time: UInt32, cancelled: Int32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.begin(serial: r.readUInt(), time: r.readUInt(), surface: connection.get(as: WlSurface.self, id: r.readObjectId())!, fingers: r.readUInt())

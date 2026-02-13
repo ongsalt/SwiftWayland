@@ -7,14 +7,14 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setAcquireFence(fd: FileHandle) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .fd(fd)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getRelease() -> ZwpLinuxBufferReleaseV1 {
@@ -22,7 +22,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .newId(release.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return release
     }
     
@@ -38,7 +38,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: WlProxyBase, WlProxy, WlInt
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

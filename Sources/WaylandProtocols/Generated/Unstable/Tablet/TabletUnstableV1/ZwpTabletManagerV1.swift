@@ -11,19 +11,19 @@ public final class ZwpTabletManagerV1: WlProxyBase, WlProxy, WlInterface {
             .newId(tabletSeat.id),
             .object(seat)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return tabletSeat
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

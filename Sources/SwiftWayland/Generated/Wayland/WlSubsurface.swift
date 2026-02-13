@@ -6,7 +6,7 @@ public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setPosition(x: Int32, y: Int32) {
@@ -14,31 +14,31 @@ public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
             .int(x),
             .int(y)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func placeAbove(sibling: WlSurface) {
         let message = Message(objectId: self.id, opcode: 2, contents: [
             .object(sibling)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func placeBelow(sibling: WlSurface) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .object(sibling)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSync() {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setDesync() {
         let message = Message(objectId: self.id, opcode: 5, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -48,7 +48,7 @@ public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

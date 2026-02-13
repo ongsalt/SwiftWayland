@@ -9,8 +9,8 @@ public final class ZwpInputMethodV1: WlProxyBase, WlProxy, WlInterface {
         case activate(id: ZwpInputMethodContextV1)
         case deactivate(context: ZwpInputMethodContextV1)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.activate(id: connection.createProxy(type: ZwpInputMethodContextV1.self, id: r.readNewId()))

@@ -10,12 +10,12 @@ public final class ZwpInputPanelSurfaceV1: WlProxyBase, WlProxy, WlInterface {
             .object(output),
             .uint(position)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setOverlayPanel() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Position: UInt32, WlEnum {
@@ -25,7 +25,7 @@ public final class ZwpInputPanelSurfaceV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

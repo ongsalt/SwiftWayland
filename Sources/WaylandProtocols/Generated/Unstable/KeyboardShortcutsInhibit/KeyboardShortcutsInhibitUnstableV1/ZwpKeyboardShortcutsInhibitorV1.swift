@@ -7,14 +7,14 @@ public final class ZwpKeyboardShortcutsInhibitorV1: WlProxyBase, WlProxy, WlInte
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         case active
         case inactive
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             case 0:

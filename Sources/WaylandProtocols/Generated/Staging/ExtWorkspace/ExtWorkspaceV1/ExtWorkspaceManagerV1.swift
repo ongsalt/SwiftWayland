@@ -7,12 +7,12 @@ public final class ExtWorkspaceManagerV1: WlProxyBase, WlProxy, WlInterface {
 
     public func commit() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func stop() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
@@ -21,8 +21,8 @@ public final class ExtWorkspaceManagerV1: WlProxyBase, WlProxy, WlInterface {
         case done
         case finished
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.workspaceGroup(workspaceGroup: connection.createProxy(type: ExtWorkspaceGroupHandleV1.self, id: r.readNewId()))

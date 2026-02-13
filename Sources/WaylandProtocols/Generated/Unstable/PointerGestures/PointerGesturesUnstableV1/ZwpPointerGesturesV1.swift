@@ -11,7 +11,7 @@ public final class ZwpPointerGesturesV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(pointer)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -21,13 +21,13 @@ public final class ZwpPointerGesturesV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(pointer)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public func release() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getHoldGesture(pointer: WlPointer) -> ZwpPointerGestureHoldV1 {
@@ -36,14 +36,14 @@ public final class ZwpPointerGesturesV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(pointer)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

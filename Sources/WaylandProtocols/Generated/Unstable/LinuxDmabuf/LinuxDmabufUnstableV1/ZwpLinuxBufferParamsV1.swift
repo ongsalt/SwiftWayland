@@ -7,7 +7,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func add(fd: FileHandle, planeIdx: UInt32, offset: UInt32, stride: UInt32, modifierHi: UInt32, modifierLo: UInt32) {
@@ -19,7 +19,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
             .uint(modifierHi),
             .uint(modifierLo)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func create(width: Int32, height: Int32, format: UInt32, flags: UInt32) {
@@ -29,7 +29,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
             .uint(format),
             .uint(flags)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32) -> WlBuffer {
@@ -41,7 +41,7 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
             .uint(format),
             .uint(flags)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return bufferId
     }
     
@@ -66,8 +66,8 @@ public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
         case created(buffer: WlBuffer)
         case failed
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.created(buffer: connection.createProxy(type: WlBuffer.self, id: r.readNewId()))

@@ -10,7 +10,7 @@ public final class ExtDataControlManagerV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -20,19 +20,19 @@ public final class ExtDataControlManagerV1: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(seat)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

@@ -7,7 +7,7 @@ public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setToplevelTag(toplevel: XdgToplevel, tag: String) {
@@ -15,7 +15,7 @@ public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy, WlInterface {
             .object(toplevel),
             .string(tag)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setToplevelDescription(toplevel: XdgToplevel, description: String) {
@@ -23,13 +23,13 @@ public final class XdgToplevelTagManagerV1: WlProxyBase, WlProxy, WlInterface {
             .object(toplevel),
             .string(description)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

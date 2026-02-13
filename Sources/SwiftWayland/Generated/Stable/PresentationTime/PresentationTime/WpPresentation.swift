@@ -6,7 +6,7 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func feedback(surface: WlSurface) -> WpPresentationFeedback {
@@ -15,7 +15,7 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
             .object(surface),
             .newId(callback.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return callback
     }
     
@@ -27,8 +27,8 @@ public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case clockId(clkId: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.clockId(clkId: r.readUInt())

@@ -7,29 +7,29 @@ public final class ExtWorkspaceHandleV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func activate() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func deactivate() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func assign(workspaceGroup: ExtWorkspaceGroupHandleV1) {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .object(workspaceGroup)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func remove() {
         let message = Message(objectId: self.id, opcode: 4, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum State: UInt32, WlEnum {
@@ -53,8 +53,8 @@ public final class ExtWorkspaceHandleV1: WlProxyBase, WlProxy, WlInterface {
         case capabilities(capabilities: UInt32)
         case removed
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.id(id: r.readString())

@@ -7,17 +7,17 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func enable() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func disable() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSurroundingText(text: String, cursor: Int32, anchor: Int32) {
@@ -26,14 +26,14 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
             .int(cursor),
             .int(anchor)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setTextChangeCause(cause: UInt32) {
         let message = Message(objectId: self.id, opcode: 4, contents: [
             .uint(cause)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setContentType(hint: UInt32, purpose: UInt32) {
@@ -41,7 +41,7 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
             .uint(hint),
             .uint(purpose)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setCursorRectangle(x: Int32, y: Int32, width: Int32, height: Int32) {
@@ -51,12 +51,12 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
             .int(width),
             .int(height)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func commit() {
         let message = Message(objectId: self.id, opcode: 7, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum ChangeCause: UInt32, WlEnum {
@@ -103,8 +103,8 @@ public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
         case deleteSurroundingText(beforeLength: UInt32, afterLength: UInt32)
         case done(serial: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.enter(surface: connection.get(as: WlSurface.self, id: r.readObjectId())!)

@@ -7,14 +7,14 @@ public final class ZxdgImportedV2: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setParentOf(surface: WlSurface) {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -24,7 +24,7 @@ public final class ZxdgImportedV2: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case destroyed
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             case 0:

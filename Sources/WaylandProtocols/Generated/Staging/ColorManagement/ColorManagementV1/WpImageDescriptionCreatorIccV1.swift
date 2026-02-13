@@ -10,7 +10,7 @@ public final class WpImageDescriptionCreatorIccV1: WlProxyBase, WlProxy, WlInter
         let message = Message(objectId: self.id, opcode: 0, contents: [
             .newId(imageDescription.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return imageDescription
     }
     
@@ -20,7 +20,7 @@ public final class WpImageDescriptionCreatorIccV1: WlProxyBase, WlProxy, WlInter
             .uint(offset),
             .uint(length)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -34,7 +34,7 @@ public final class WpImageDescriptionCreatorIccV1: WlProxyBase, WlProxy, WlInter
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

@@ -7,7 +7,7 @@ public final class ExtSessionLockManagerV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func lock() -> ExtSessionLockV1 {
@@ -15,14 +15,14 @@ public final class ExtSessionLockManagerV1: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

@@ -11,7 +11,7 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
             .object(icon),
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func setSelection(source: WlDataSource, serial: UInt32) {
@@ -19,12 +19,12 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
             .object(source),
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func release() {
         let message = Message(objectId: self.id, opcode: 2, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -40,8 +40,8 @@ public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
         case drop
         case selection(id: WlDataOffer)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.dataOffer(id: connection.createProxy(type: WlDataOffer.self, id: r.readNewId()))

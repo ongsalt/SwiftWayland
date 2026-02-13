@@ -18,8 +18,8 @@ public final class WpImageDescriptionInfoV1: WlProxyBase, WlProxy, WlInterface {
         case targetMaxCll(maxCll: UInt32)
         case targetMaxFall(maxFall: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.done

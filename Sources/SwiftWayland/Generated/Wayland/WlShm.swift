@@ -11,13 +11,13 @@ public final class WlShm: WlProxyBase, WlProxy, WlInterface {
             .fd(fd),
             .int(size)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
     public func release() {
         let message = Message(objectId: self.id, opcode: 1, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -155,8 +155,8 @@ public final class WlShm: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case format(format: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.format(format: r.readUInt())

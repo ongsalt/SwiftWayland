@@ -7,7 +7,7 @@ public final class ExtBackgroundEffectManagerV1: WlProxyBase, WlProxy, WlInterfa
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func getBackgroundEffect(surface: WlSurface) -> ExtBackgroundEffectSurfaceV1 {
@@ -16,7 +16,7 @@ public final class ExtBackgroundEffectManagerV1: WlProxyBase, WlProxy, WlInterfa
             .newId(id.id),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -31,8 +31,8 @@ public final class ExtBackgroundEffectManagerV1: WlProxyBase, WlProxy, WlInterfa
     public enum Event: WlEventEnum {
         case capabilities(flags: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.capabilities(flags: r.readUInt())

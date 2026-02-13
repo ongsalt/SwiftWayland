@@ -6,7 +6,7 @@ public final class WlOutput: WlProxyBase, WlProxy, WlInterface {
 
     public func release() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Subpixel: UInt32, WlEnum {
@@ -42,8 +42,8 @@ public final class WlOutput: WlProxyBase, WlProxy, WlInterface {
         case name(name: String)
         case description(description: String)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.geometry(x: r.readInt(), y: r.readInt(), physicalWidth: r.readInt(), physicalHeight: r.readInt(), subpixel: r.readInt(), make: r.readString(), model: r.readString(), transform: r.readInt())

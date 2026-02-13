@@ -7,7 +7,7 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32) -> ZwpLockedPointerV1 {
@@ -19,7 +19,7 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
             .object(region),
             .uint(lifetime)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -32,7 +32,7 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
             .object(region),
             .uint(lifetime)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -48,7 +48,7 @@ public final class ZwpPointerConstraintsV1: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         
     
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             
             switch message.opcode {
             

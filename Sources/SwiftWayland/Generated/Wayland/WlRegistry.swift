@@ -11,8 +11,8 @@ public final class WlRegistry: WlProxyBase, WlProxy, WlInterface {
         case global(name: UInt32, interface: String, version: UInt32)
         case globalRemove(name: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.global(name: r.readUInt(), interface: r.readString(), version: r.readUInt())

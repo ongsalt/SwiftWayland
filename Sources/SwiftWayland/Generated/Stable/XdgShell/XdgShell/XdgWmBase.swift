@@ -6,7 +6,7 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
 
     public func destroy() {
         let message = Message(objectId: self.id, opcode: 0, contents: [])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public func createPositioner() -> XdgPositioner {
@@ -14,7 +14,7 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 1, contents: [
             .newId(id.id)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -24,7 +24,7 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
             .newId(id.id),
             .object(surface)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
         return id
     }
     
@@ -32,7 +32,7 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
         let message = Message(objectId: self.id, opcode: 3, contents: [
             .uint(serial)
         ])
-        connection.queueSend(message: message)
+        connection.send(message: message)
     }
     
     public enum Error: UInt32, WlEnum {
@@ -48,8 +48,8 @@ public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
     public enum Event: WlEventEnum {
         case ping(serial: UInt32)
     
-        public static func decode(message: Message, connection: Connection) -> Self {
-            let r = WLReader(data: message.arguments, connection: connection)
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+            var r = ArgumentParser(data: message.arguments, fdSource: fdSource)
             switch message.opcode {
             case 0:
                 return Self.ping(serial: r.readUInt())
