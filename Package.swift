@@ -24,12 +24,15 @@ let package = Package(
     targets: [
         .target(
             name: "SwiftWayland",
+            dependencies: [
+                // .product(name: "SystemPackage", package: "swift-system")
+            ]
         ),
 
         .target(
             name: "WaylandProtocols",
             dependencies: [
-                "SwiftWayland",
+                "SwiftWayland"
             ],
         ),
 

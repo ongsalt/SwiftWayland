@@ -11,6 +11,7 @@ enum SocketEvent {
 
 enum SocketError: Error {
     case readFailed(errno: Int32)
+    case invalidData
     case writeFailed(errno: Int32)
     case closed
 }
