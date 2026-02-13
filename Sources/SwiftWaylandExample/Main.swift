@@ -25,7 +25,7 @@ public struct SwiftWayland {
     }
 }
 
-func testConnection() async {
+func testConnection() async throws {
     let connection = try! Connection.fromEnv()
 
     let display = connection.display!
@@ -38,7 +38,7 @@ func testConnection() async {
         }
     }
 
-    let registry = display.getRegistry()
+    let registry = try display.getRegistry()
 
     registry.onEvent = { event in
         print(event)

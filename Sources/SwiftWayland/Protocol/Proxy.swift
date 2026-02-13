@@ -19,7 +19,7 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
     }
 }
 
-public protocol WlProxy: Identifiable, WlInterface {
+public protocol WlProxy: Identifiable, WlInterface, AnyObject {
     associatedtype Event: WlEventEnum
     var id: ObjectId {
         get
@@ -37,7 +37,7 @@ public protocol WlProxy: Identifiable, WlInterface {
     init(connection: Connection, id: ObjectId)
 }
 
-extension WlProxy {
+internal extension WlProxy {
     func parseAndDispatch(message: Message, connection: Connection, fdSource: BufferedSocket) {
         let event = Event.decode(message: message, connection: connection, fdSource: fdSource)
         print("[Wayland] dispatch \(event) to \(self)")
@@ -47,9 +47,16 @@ extension WlProxy {
 
 public protocol WlEventEnum: WLDecodable {}
 
+public enum WaylandProxyState {
+    case alive
+    case dropped
+    case consumed
+}
+
 open class WlProxyBase {
     public let id: ObjectId
     public var connection: Connection
+    private var _state: WaylandProxyState = .alive
 
     public required init(connection: Connection, id: ObjectId) {
         self.connection = connection
@@ -69,4 +76,9 @@ extension WlProxyBase: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+}
+
+
+public enum WaylandProxyError: Error {
+    case destroyed
 }

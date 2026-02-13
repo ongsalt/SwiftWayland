@@ -76,3 +76,11 @@ public class Box<T> {
         ptr.deinitialize(count: 1)
     }
 }
+
+// public for now
+public class Weak<T: AnyObject> {
+    public weak var value: T?
+    init(_ value: T) {
+        self.value = value
+    }
+}

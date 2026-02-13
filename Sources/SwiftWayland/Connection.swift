@@ -8,7 +8,8 @@ public enum InitWaylandError: Error {
 }
 
 public final class Connection: @unchecked Sendable {
-    public var proxies: [ObjectId: any WlProxy] = [:]
+    // this should be weak
+    public var proxies: [ObjectId: Weak<AnyObject>] = [:]
     private(set) var currentId: ObjectId = 1  // must be 1 becuase wldisplay is special case
     let socket: BufferedSocket
 
@@ -30,24 +31,30 @@ public final class Connection: @unchecked Sendable {
 
         // var error: SocketError? = nil
         // do {
-            try socket.receiveUntilDone(force: force)
+        try socket.receiveUntilDone(force: force)
         // } catch let e {
         //     error = e
         // }
-
 
         while socket.dataAvailable || shouldRun {
             shouldRun = false
             let message = try Message(readBlocking: socket)
 
-            guard let receiver = self.proxies[message.objectId] else {
+            guard let receiver: Weak<AnyObject> = self.proxies[message.objectId] else {
                 print("Bad wayland message: unknown receiver")
                 print(message)
                 print(message.arguments as NSData)
                 break
             }
 
-            receiver.parseAndDispatch(message: message, connection: self, fdSource: self.socket)
+            guard let receiver = receiver.value else {
+                print("Bad wayland message: object is already dropped")
+                print(message)
+                print(message.arguments as NSData)
+                break
+            }
+
+            (receiver as! any WlProxy).parseAndDispatch(message: message, connection: self, fdSource: self.socket)
         }
 
         // if let error {
@@ -73,7 +80,7 @@ public final class Connection: @unchecked Sendable {
     }
 
     public func get(id: ObjectId) -> (any WlProxy)? {
-        proxies[id]
+        proxies[id] as? any WlProxy
     }
 
     public func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
@@ -95,11 +102,12 @@ public final class Connection: @unchecked Sendable {
     public func createProxy<T>(type: T.Type, id: ObjectId? = nil) -> T where T: WlProxy {
         let id = id ?? nextId()
         let obj = T(connection: self, id: id)
-        proxies[obj.id] = obj
+        proxies[obj.id] = Weak(obj)
         return obj
     }
 
-    func removeObject(id: ObjectId) {
+    // TODO: @spi for this
+    public func removeObject(id: ObjectId) {
         proxies.removeValue(forKey: id)
     }
 

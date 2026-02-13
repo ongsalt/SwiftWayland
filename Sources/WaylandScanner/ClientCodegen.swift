@@ -46,8 +46,9 @@ struct SwiftFnSignature {
     var withOutBracket: String {
         var out = ""
         out += argString
+        out += " throws(WaylandProxyError)"
         if returnType.count > 0 {
-            out += " -> \(returnTypeString)"
+            out += "  -> \(returnTypeString)"
         }
 
         return out
@@ -100,85 +101,104 @@ func makeSwiftFnSignature(_ request: Request) -> SwiftFnSignature? {
     return SwiftFnSignature(returnType: returnType, args: swiftArgs)
 }
 
-func buildMethods(_ requests: [Request]) -> String {
-    // TODO: transform
-    requests.enumerated().map { (reqId, r) in
-        // TODO: just return multiple value for multiple newId
-        guard let signature = makeSwiftFnSignature(r) else {
-            // its newId arg without a type
-            // found in wl_registry::bind
-            // im gonna skip this
-            // well, we can, but it took too long
-
-            return """
-                // request `\(r.name)` can not (yet) be generated 
-                // \(r.arguments)
-                """
-        }
-
-        var statements: [String] = []
-
-        // create any thing involving newId
-        for instance in signature.returnType {
-            statements.append(
-                """
-                let \(instance.name.gravedIfNeeded) = connection.createProxy(type: \(instance.swiftType).self)
-                """)
-        }
-        // then put that into waylandData
-
-        let waylandData = r.arguments.map { a in
-            if a.type == .newId {
-                ".\(a.type)(\(a.name.lowerCamel.gravedIfNeeded).id)"
-            } else {
-                ".\(a.type)(\(a.name.lowerCamel.gravedIfNeeded))"
-            }
-            // "WaylandData.\(a.type)(`\(a.name.lowerCamel)`)"
-        }.joined(separator: ",\n")
-
-        // Message sending
-        let contentString =
-            if waylandData.isEmpty {
-                "[]"
-            } else {
-                """
-                [
-                \(waylandData.indent(space: 4))
-                ]
-                """
-            }
-        statements.append(
-            """
-            let message = Message(objectId: self.id, opcode: \(reqId), contents: \(contentString))
-            connection.send(message: message)
-            """)
-
-        // Return Expression
-        if !signature.returnType.isEmpty {
-            let finalTuple = signature.returnType.map { "\($0.name.gravedIfNeeded)" }.joined(
-                separator: ", ")
-            statements.append("return \(finalTuple)")
-        }
-
-
-        // ok there is a wp_image_description_creator_icc_v1::create
-        // which is a consuming method
-        let blockHeader =
-            switch r.type {
-            case .destructor where signature.returnType.count != 0:
-                "public consuming func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket)"
-            case .destructor:
-                "deinit"
-            default:
-                "public func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket)"
-            }
+func buildMethod(_ r: Request, _ reqId: Int) -> String {
+    // TODO: just return multiple value for multiple newId
+    guard let signature = makeSwiftFnSignature(r) else {
+        // its newId arg without a type
+        // found in wl_registry::bind
+        // im gonna skip this
+        // well, we can, but it took too long
 
         return """
-            \(blockHeader) {
-            \(statements.joined(separator: "\n").indent(space: 4))
-            }
+            // request `\(r.name)` can not (yet) be generated 
+            // \(r.arguments)
             """
-    }.joined(separator: "\n\n")
+    }
+
+    var statements: [String] = []
+
+    // create any thing involving newId
+    for instance in signature.returnType {
+        statements.append(
+            """
+            let \(instance.name.gravedIfNeeded) = connection.createProxy(type: \(instance.swiftType).self)
+            """)
+    }
+    // then put that into waylandData
+
+    let waylandData = r.arguments.map { a in
+        if a.type == .newId {
+            ".\(a.type)(\(a.name.lowerCamel.gravedIfNeeded).id)"
+        } else {
+            ".\(a.type)(\(a.name.lowerCamel.gravedIfNeeded))"
+        }
+        // "WaylandData.\(a.type)(`\(a.name.lowerCamel)`)"
+    }.joined(separator: ",\n")
+
+    // Message sending
+    let contentString =
+        if waylandData.isEmpty {
+            "[]"
+        } else {
+            """
+            [
+            \(waylandData.indent(space: 4))
+            ]
+            """
+        }
+    statements.append(
+        """
+        let message = Message(objectId: self.id, opcode: \(reqId), contents: \(contentString))
+        connection.send(message: message)
+        """)
+
+    if r.type == .destructor {
+        // TODO: read docs about destructor behavior
+        statements.append("connection.removeObject(id: self.id)")
+    }
+
+    // Return Expression
+    if !signature.returnType.isEmpty {
+        let finalTuple = signature.returnType.map { "\($0.name.gravedIfNeeded)" }.joined(
+            separator: ", ")
+        statements.append("return \(finalTuple)")
+    }
+
+    // ok there is a wp_image_description_creator_icc_v1::create which produce new object
+    // and there are interface with more than 1 destructor as well, like ext_session_lock_v1
+    // we might just call it a consuming instead
+    let blockHeader =
+        switch r.type {
+        case .destructor:
+            "public consuming func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket)"
+        default:
+            "public func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket)"
+        }
+
+    return """
+        \(blockHeader) {
+        \(statements.joined(separator: "\n").indent(space: 4))
+        }
+        """
+}
+
+func buildMethods(_ requests: [Request]) -> String {
+    // TODO: transform
+    var methods = requests.enumerated().map { (reqId, r) in
+        buildMethod(r, reqId)
+    }
+
+    // auto run first destructor without any argument
+    if let destructor = requests.first(where: { $0.type == .destructor && $0.arguments.count == 0 }) {
+        methods.append(
+            """
+            deinit {
+                try! self.\(destructor.name.lowerCamel.gravedIfNeeded)()
+            }
+            """)
+    }
+
+    return methods.joined(separator: "\n\n")
 }
 
 func buildEnums(_ enums: [Enum]) -> String {
