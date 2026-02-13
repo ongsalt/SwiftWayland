@@ -135,7 +135,7 @@ func buildMethod(_ r: Request, _ reqId: Int) -> String {
     for instance in signature.returnType {
         statements.append(
             """
-            let \(instance.name.gravedIfNeeded) = connection.createProxy(type: \(instance.swiftType).self)
+            let \(instance.name.gravedIfNeeded) = connection.createProxy(type: \(instance.swiftType).self, version: self.version)
             """)
     }
     // then put that into waylandData

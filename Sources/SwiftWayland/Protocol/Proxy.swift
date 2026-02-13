@@ -9,7 +9,7 @@ public protocol WLDecodable {
 
 public protocol WlInterface {
     static var name: String { get }
-    var version: UInt { get }
+    var version: UInt32 { get }
 }
 
 public protocol WlEnum: WLDecodable {}
@@ -37,7 +37,7 @@ public protocol WlProxy: Identifiable, WlInterface, AnyObject {
         set
     }
 
-    init(connection: Connection, id: ObjectId)
+    init(connection: Connection, id: ObjectId, version: UInt32)
 }
 
 extension WlProxy {
@@ -62,11 +62,12 @@ open class WlProxyBase {
     public let id: ObjectId
     public var connection: Connection
     public var _state: WaylandProxyState = .alive
-    public package(set) var version: UInt = 0
+    public let version: UInt32
 
-    public required init(connection: Connection, id: ObjectId) {
+    public required init(connection: Connection, id: ObjectId, version: UInt32) {
         self.connection = connection
         self.id = id
+        self.version = version
     }
 
     deinit {

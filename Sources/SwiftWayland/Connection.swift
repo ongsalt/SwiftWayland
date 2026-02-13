@@ -17,7 +17,8 @@ public final class Connection: @unchecked Sendable {
 
     init(socket: Socket2) {
         self.socket = BufferedSocket(socket)
-        display = createProxy(type: WlDisplay.self, id: 1)
+        // TODO: what is wl_display's version tho
+        display = createProxy(type: WlDisplay.self, version: 1, id: 1)
 
         display.onEvent = { event in
             print(event)
@@ -97,9 +98,9 @@ public final class Connection: @unchecked Sendable {
         return currentId
     }
 
-    public func createProxy<T>(type: T.Type, id: ObjectId? = nil) -> T where T: WlProxy {
+    public func createProxy<T>(type: T.Type, version: UInt32, id: ObjectId? = nil) -> T where T: WlProxy {
         let id = id ?? nextId()
-        let obj = T(connection: self, id: id)
+        let obj = T(connection: self, id: id, version: version)
         proxies[obj.id] = Weak(obj)
         return obj
     }
