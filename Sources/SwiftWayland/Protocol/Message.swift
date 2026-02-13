@@ -43,14 +43,14 @@ public struct Message {
 
     public static let HEADER_SIZE: UInt16 = 8
 
-    // init(readFrom socket: Socket) async throws {
-    //     let header = try await socket.read(Int(Self.HEADER_SIZE))
-    //     objectId = Self.readUInt32(header, offset: 0)
-    //     opcode = Self.readUInt16(header, offset: 4)
-    //     size = Self.readUInt16(header, offset: 6)
+    init(readAsync socket: Socket) async throws {
+        let header = try await socket.read(Int(Self.HEADER_SIZE))
+        objectId = Self.readUInt32(header, offset: 0)
+        opcode = Self.readUInt16(header, offset: 4)
+        size = Self.readUInt16(header, offset: 6)
 
-    //     arguments = try await socket.read(Int(size - Self.HEADER_SIZE))
-    // }
+        arguments = try await socket.read(Int(size - Self.HEADER_SIZE))
+    }
 
     init(readBlocking socket: Socket) throws {
         let header = try socket.readBlocking(count: Int(Self.HEADER_SIZE))

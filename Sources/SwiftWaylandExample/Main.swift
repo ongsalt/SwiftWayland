@@ -17,22 +17,27 @@ public struct SwiftWayland {
     }
 
     public static func main() {
-        // Task { try await start() }
-        try! start()
-       
+        Task {
+            try await start()
+
+            while !Task.isCancelled {
+                try await connection.roundtrip()
+            }
+        }
+
         RunLoop.main.run()
     }
 
-    static func start() throws {
+    static func start() async throws {
         connection = try Connection.fromEnv()
 
         let display = connection.display!
         display.onEvent = { event in
             switch event {
-                case .deleteId(let id):
-                    print("___---- Delete id \(id)")
-                default:
-                    break
+            case .deleteId(let id):
+                print("___---- Delete id \(id)")
+            default:
+                break
             }
         }
 
@@ -46,11 +51,13 @@ public struct SwiftWayland {
                 // print(interface)
                 switch interface {
                 case WlCompositor.name:
-                    state.compositor = registry.bind(name: name, version: version, interface: WlCompositor.self)
+                    state.compositor = registry.bind(
+                        name: name, version: version, interface: WlCompositor.self)
                 case WlShm.name:
                     state.shm = registry.bind(name: name, version: version, interface: WlShm.self)
                 case XdgWmBase.name:
-                    state.xdgWmBase = registry.bind(name: name, version: version, interface: XdgWmBase.self)
+                    state.xdgWmBase = registry.bind(
+                        name: name, version: version, interface: XdgWmBase.self)
                     state.xdgWmBase?.onEvent = { ev in
                         if case .ping(let serial) = ev {
                             state.xdgWmBase?.pong(serial: serial)
@@ -64,13 +71,7 @@ public struct SwiftWayland {
             }
         }
 
-        // try await connection.flush()
-        try connection.roundtrip()
-        // print(connection.pendingMessages)
-        // print(connection.proxies)
-
-        try connection.roundtrip()
-
+        try await connection.roundtrip()
 
         guard
             let compositor = state.compositor,
@@ -96,6 +97,7 @@ public struct SwiftWayland {
         state.toplevel = toplevel
 
         surface.commit()
-        try connection.flush()
+
+        try await connection.roundtrip()
     }
 }

@@ -5,10 +5,8 @@ Wayland scanner and Wayland client library for swift
 
 # What's not in there
 - Server code generation
-- versioning
 
 # Todos
-- generate WLInterface::name
 - roundtrip
 - think about queue and concurrency
 - make Event decode failable 
@@ -28,6 +26,6 @@ See Scripts/generate.py
 ```bash
 # swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml
 swift run WaylandScanner client /usr/share/wayland/wayland.xml Sources/SwiftWayland/Generated/Wayland
-swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml Sources/SwiftWayland/Generated/XdgShell
+swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml Sources/SwiftWayland/Generated/Stable/XdgShell
 ```
 

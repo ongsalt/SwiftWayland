@@ -1,3 +1,4 @@
+import CoreFoundation
 import Foundation
 
 public enum InitWaylandError: Error {
@@ -11,10 +12,6 @@ public final class Connection: @unchecked Sendable {
     private(set) var currentId: ObjectId = 1  // must be 1 becuase wldisplay is special case
     let socket: Socket
 
-    var roundtripping: Bool {
-        roundtrippingContinuation != nil
-    }
-    var roundtrippingContinuation: UnsafeContinuation<(), Never>? = nil
     public var pendingMessages: [Message] = []
 
     private(set) public var display: WlDisplay!  // id 1
@@ -25,22 +22,41 @@ public final class Connection: @unchecked Sendable {
         // startProcessingEvent()
     }
 
-    public func flush() throws {
+    public func flush() async throws {
         // print("Start flush")
         let msgs = pendingMessages
         pendingMessages = []
         for m in msgs {
-            // let p = proxies[m.objectId]
-            // print("Sending \(m) (\(p!))")
-            try sendBlocking(message: m)
-            // print(" - Sent")
+            try await send(message: m)
         }
-        // print("Done flush")
-        // flushing = false
     }
 
-    public func dispatch(force: Bool = false) throws {
-        // print("Start dispatch")
+    public func flushBlocking() throws {
+        let msgs = pendingMessages
+        pendingMessages = []
+        for m in msgs {
+            try sendBlocking(message: m)
+        }
+    }
+
+    public func dispatch(force: Bool = false) async throws {
+        var didRun = !force
+        while socket.canRead || !didRun {
+            didRun = true
+            let message = try await Message(readAsync: socket)
+
+            guard let receiver = self.proxies[message.objectId] else {
+                print("Bad wayland message: unknown receiver")
+                print(message)
+                print(message.arguments as NSData)
+                break
+            }
+
+            receiver.parseAndDispatch(message: message, connection: self)
+        }
+    }
+
+    public func dispatchBlocking(force: Bool = false) async throws {
         var didRun = !force
         while socket.canRead || !didRun {
             didRun = true
@@ -55,14 +71,15 @@ public final class Connection: @unchecked Sendable {
 
             receiver.parseAndDispatch(message: message, connection: self)
         }
-        // print("Done dispatch")
     }
 
     // how does this work
-    public func roundtrip() throws {
+    public func roundtrip() async throws {
+        // if asnyc, block external access
+
         // print("Start roundtrip")
-        try flush()
-        try dispatch(force: true)
+        try await flush()
+        try await dispatch(force: true)
         // print("Resumed")
     }
 
@@ -97,53 +114,12 @@ public final class Connection: @unchecked Sendable {
         proxies.removeValue(forKey: id)
     }
 
-    // func startProcessingEvent() {
-    //     Task {
-    //         for await event in socket.event {
-    //             switch event {
-    //             case .write:
-    //                 // print("write")
-    //                 try await flush()
-    //             // if let c = roundtrippingContinuation {
-    //             //     c.resume()
-    //             //     // will this be run immediately or in next run loop pass
-    //             //     // if first (js like) this gonna be fine
-    //             //     // but if its second -> fuck
-    //             // }
-    //             case .read:
-    //                 // print("read")
-    //                 let message = try await Message(readFrom: socket)
-    //                 guard let receiver = self.proxies[message.objectId] else {
-    //                     print("Bad wayland message: unknown receiver")
-    //                     print(message)
-    //                     print(message.arguments as NSData)
-    //                     break
-    //                 }
-    //                 receiver.parseAndDispatch(message: message, connection: self)
-    //             // print("done")
-    //             // receiver.onEvent()
-    //             // dispatch(receiver)
-    //             //
-    //             // read it, put it to proper queue
-    //             // each queue must call dispatch
-    //             // or just ignore this and let swift do its thing
-    //             case .error(let error):
-    //                 print("error: \(error)")
-    //             case .close:
-    //                 // tell everyone its close
-    //                 print("closing")
-    //                 break
-    //             }
-    //         }
-    //     }
-    // }
-
-    // @discardableResult
-    // public func send(message: Message) async throws -> Int {
-    //     let data = Data(message)
-    //     try await socket.write(data)
-    //     return data.count
-    // }
+    @discardableResult
+    public func send(message: Message) async throws -> Int {
+        let data = Data(message)
+        try await socket.write(data)
+        return data.count
+    }
 
     @discardableResult
     public func sendBlocking(message: Message) throws -> Int {

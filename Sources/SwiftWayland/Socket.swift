@@ -3,7 +3,7 @@ import Foundation
 import Glibc
 
 enum SocketEvent {
-    case read
+    case read(UInt)
     case write
     case error(Error)
     case close
@@ -15,9 +15,14 @@ enum SocketError: Error {
     case closed
 }
 
-final class Socket: @unchecked Sendable {
+final class Socket {
     private let fileDescriptor: Int32
     private let queue = DispatchQueue(label: "SwiftWayland.Socket")
+    private let readSource: DispatchSourceRead
+    private let writeSource: DispatchSourceWrite
+    private let eventStream: AsyncStream<SocketEvent>
+    private let continuation: AsyncStream<SocketEvent>.Continuation
+    var event: AsyncStream<SocketEvent> { eventStream }
 
     var canRead: Bool {
         var pfd = pollfd(fd: fileDescriptor, events: Int16(POLLIN), revents: 0)
@@ -29,26 +34,67 @@ final class Socket: @unchecked Sendable {
     init(fileDescriptor: Int32) {
         self.fileDescriptor = fileDescriptor
 
+        var streamContinuation: AsyncStream<SocketEvent>.Continuation!
+        self.eventStream = AsyncStream { continuation in
+            streamContinuation = continuation
+        }
+        self.continuation = streamContinuation
+
+        self.writeSource = DispatchSource.makeWriteSource(
+            fileDescriptor: fileDescriptor, queue: queue)
+        self.readSource = DispatchSource.makeReadSource(
+            fileDescriptor: fileDescriptor, queue: queue)
+
+        self.readSource.setEventHandler { [unowned self] in
+            if self.readSource.data != 0 {
+                self.continuation.yield(.read(self.readSource.data))
+            }
+        }
+        self.readSource.setCancelHandler { [unowned self] in
+            self.continuation.yield(.close)
+            self.continuation.finish()
+        }
+        self.writeSource.setEventHandler { [unowned self] in
+            self.continuation.yield(.write)
+        }
+
+        self.writeSource.resume()
+        self.readSource.resume()
     }
 
     deinit {
+        readSource.cancel()
+        writeSource.cancel()
         _ = Glibc.close(fileDescriptor)
     }
 
-    // func read(_ count: Int) async throws -> Data {
-    //     let res = try await withCheckedThrowingContinuation { continuation in
-    //         DispatchQueue.global().async { [fileDescriptor] in
-    //             do {
-    //                 let data = try Socket.readBlocking(fd: fileDescriptor, count: count)
-    //                 continuation.resume(returning: data)
-    //             } catch {
-    //                 continuation.resume(throwing: error)
-    //             }
-    //         }
-    //     }
+    func read(_ count: Int) async throws -> Data {
+        let res = try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global().async { [fileDescriptor] in
+                do {
+                    let data = try Socket.readBlocking(fd: fileDescriptor, count: count)
+                    continuation.resume(returning: data)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
 
-    //     return res
-    // }
+        return res
+    }
+
+    func write(_ data: Data) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global().async { [fileDescriptor] in
+                do {
+                    try Socket.writeBlocking(fd: fileDescriptor, data: data)
+                    continuation.resume()
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
 
     func writeBlocking(data: Data) throws {
         try Socket.writeBlocking(fd: fileDescriptor, data: data)
@@ -57,19 +103,6 @@ final class Socket: @unchecked Sendable {
     func readBlocking(count: Int) throws -> Data {
         try Socket.readBlocking(fd: fileDescriptor, count: count)
     }
-
-    // func write(_ data: Data) async throws {
-    //     try await withCheckedThrowingContinuation { continuation in
-    //         DispatchQueue.global().async { [fileDescriptor] in
-    //             do {
-    //                 try Socket.writeBlocking(fd: fileDescriptor, data: data)
-    //                 continuation.resume()
-    //             } catch {
-    //                 continuation.resume(throwing: error)
-    //             }
-    //         }
-    //     }
-    // }
 
     func readControlMessage() async throws -> [cmsghdr] {
         try await withCheckedThrowingContinuation { continuation in
