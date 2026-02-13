@@ -149,7 +149,7 @@ func buildMethods(_ requests: [Request]) -> String {
         statements.append(
             """
             let message = Message(objectId: self.id, opcode: \(reqId), contents: \(contentString))
-            connection.queueSend(message: message)
+            connection.send(message: message)
             """)
 
         // Return Expression
@@ -283,9 +283,9 @@ func buildDecodeFunction(_ events: [Event]) -> String {
     }.joined(separator: "\n")
 
     let readerNeeded  = cases.contains("r.read")
-    let readerString = !readerNeeded ? "" : "let r = WLReader(data: message.arguments, connection: connection)"
+    let readerString = !readerNeeded ? "" : "var r = ArgumentParser(data: message.arguments, fdSource: fdSource)"
     return """
-        public static func decode(message: Message, connection: Connection) -> Self {
+        public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
             \(readerString)
             switch message.opcode {
         \(cases.indent(space: 4))

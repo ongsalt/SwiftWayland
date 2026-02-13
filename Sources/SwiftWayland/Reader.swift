@@ -1,38 +1,35 @@
 import Foundation
 import Glibc
 
-public class WLReader {
+public struct ArgumentParser {
     var data: Data
-    unowned let connection: Connection
+    unowned let fdSource: BufferedSocket
     private(set) var cursor: Int = 0
 
-    public init(data: Data, connection: Connection) {
-        self.connection = connection
+    public init(data: Data, fdSource: BufferedSocket) {
+        self.fdSource = fdSource
         self.data = data
     }
 
-    public func readInt() -> Int32 {
+    public mutating func readInt() -> Int32 {
         Int32(bitPattern: readUInt32Raw())
     }
 
-    public func readFixed() -> Double {
+    public mutating func readFixed() -> Double {
         // its 24.8
         let raw = readInt()
         return Double(raw) / 256.0
     }
 
-    public func readUInt() -> UInt32 {
+    public mutating func readUInt() -> UInt32 {
         readUInt32Raw()
     }
 
-    public func readFd() -> FileHandle {
-        // FileHandle()
-        print("WlReader: readFd is not implemented")
-
-        fatalError("WlReader: readFd is not implemented")
+    public mutating func readFd() -> FileHandle {
+        fdSource.readFd()!
     }
 
-    public func readArray() -> Data {
+    public mutating func readArray() -> Data {
         // array: A blob of arbitrary data, prefixed with a 32-bit integer specifying its length (in bytes), then the verbatim contents of the array, padded to 32 bits with undefined data.
         let length = Int(readUInt())
         guard length > 0 else { return Data() }
@@ -45,11 +42,11 @@ public class WLReader {
         return arrayData
     }
 
-    public func readObjectId() -> UInt32 {
+    public mutating func readObjectId() -> UInt32 {
         self.readUInt()
     }
 
-    public func readString() -> String {
+    public mutating func readString() -> String {
         // size: u32
         // string: [u8] (utf8, 32bit aligned, can put any garbag there preferable UInt16(1002))
         let length = Int(readUInt())
@@ -66,15 +63,15 @@ public class WLReader {
         return String(decoding: stringSlice, as: UTF8.self)
     }
 
-    public func readEnum() -> UInt32 {
+    public mutating func readEnum() -> UInt32 {
         self.readUInt()
     }
 
-    public func readNewId() -> UInt32 {
+    public mutating func readNewId() -> UInt32 {
         self.readUInt()
     }
 
-    private func readBytes(count: Int) -> Data {
+    private mutating func readBytes(count: Int) -> Data {
         guard count > 0 else { return Data() }
         let remaining = data.count - cursor
         guard remaining > 0 else { return Data() }
@@ -86,12 +83,12 @@ public class WLReader {
         return data[start..<end]
     }
 
-    private func advance(_ count: Int) {
+    private mutating func advance(_ count: Int) {
         guard count > 0 else { return }
         cursor = min(cursor + count, data.count)
     }
 
-    private func readUInt32Raw() -> UInt32 {
+    private mutating func readUInt32Raw() -> UInt32 {
         let size = MemoryLayout<UInt32>.size
         guard data.count - cursor >= size else {
             cursor = data.count
