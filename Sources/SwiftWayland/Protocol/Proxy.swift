@@ -9,12 +9,15 @@ public protocol WLDecodable {
 
 public protocol WlInterface {
     static var name: String { get }
+    var version: UInt { get }
 }
 
 public protocol WlEnum: WLDecodable {}
 
 extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
-    public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket) -> Self {
+    public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket)
+        -> Self
+    {
         Self(rawValue: 0)!
     }
 }
@@ -37,10 +40,12 @@ public protocol WlProxy: Identifiable, WlInterface, AnyObject {
     init(connection: Connection, id: ObjectId)
 }
 
-internal extension WlProxy {
+extension WlProxy {
     func parseAndDispatch(message: Message, connection: Connection, fdSource: BufferedSocket) {
         let event = Event.decode(message: message, connection: connection, fdSource: fdSource)
-        print("[Wayland] dispatch \(event) to \(self)")
+        #if DEBUG
+            print("[Wayland] dispatch \(event) to \(self)")
+        #endif
         self.onEvent(event)
     }
 }
@@ -57,6 +62,7 @@ open class WlProxyBase {
     public let id: ObjectId
     public var connection: Connection
     public var _state: WaylandProxyState = .alive
+    public package(set) var version: UInt = 0
 
     public required init(connection: Connection, id: ObjectId) {
         self.connection = connection
@@ -78,7 +84,7 @@ extension WlProxyBase: Hashable {
     }
 }
 
-
 public enum WaylandProxyError: Error {
     case destroyed
+    case unsupportedVersion(current: UInt32, required: UInt32)
 }

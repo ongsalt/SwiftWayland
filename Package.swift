@@ -43,10 +43,10 @@ let package = Package(
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),
-        // .testTarget(
-        //     name: "SwiftWaylandTests",
-        //     dependencies: ["SwiftWayland"]
-        // ),
+        .testTarget(
+            name: "SwiftWaylandTests",
+            dependencies: ["SwiftWayland"]
+        ),
         .executableTarget(
             name: "SwiftWaylandExample",
             dependencies: [

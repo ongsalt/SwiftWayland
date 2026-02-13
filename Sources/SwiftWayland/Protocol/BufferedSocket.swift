@@ -51,7 +51,10 @@ public class BufferedSocket {
         let flushed = outData
         outData = []
         for (data, fds) in flushed {
-            print("[Wayland] sending: \(data as NSData)")
+            #if DEBUG
+            // print("[Wayland] sending: \(data as NSData)")
+            #endif
+
             try socket.send(data: data, fds: fds)
         }
     }

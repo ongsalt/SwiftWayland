@@ -118,9 +118,18 @@ func buildMethod(_ r: Request, _ reqId: Int) -> String {
     var statements: [String] = []
 
     // check if object is destroyed
-    statements.append("""
-    guard self._state == .alive else { throw WaylandProxyError.destroyed }
-    """)
+    statements.append(
+        """
+        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        """)
+
+    // version check
+    if let availableSince = r.since {
+        statements.append(
+            """
+            guard self.version >= \(availableSince) else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: \(availableSince)) }
+            """)
+    }
 
     // create any thing involving newId
     for instance in signature.returnType {
@@ -159,10 +168,11 @@ func buildMethod(_ r: Request, _ reqId: Int) -> String {
 
     if r.type == .destructor {
         // TODO: read docs about destructor behavior
-        statements.append("""
-        self._state = .dropped
-        connection.removeObject(id: self.id)
-        """)
+        statements.append(
+            """
+            self._state = .dropped
+            connection.removeObject(id: self.id)
+            """)
     }
 
     // Return Expression
@@ -197,7 +207,8 @@ func buildMethods(_ requests: [Request]) -> String {
     }
 
     // auto run first destructor without any argument
-    if let destructor = requests.first(where: { $0.type == .destructor && $0.arguments.count == 0 }) {
+    if let destructor = requests.first(where: { $0.type == .destructor && $0.arguments.count == 0 })
+    {
         methods.append(
             """
             deinit {

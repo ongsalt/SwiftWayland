@@ -13,8 +13,6 @@ public final class Connection: @unchecked Sendable {
     private(set) var currentId: ObjectId = 1  // must be 1 becuase wldisplay is special case
     let socket: BufferedSocket
 
-    public var pendingMessages: [Message] = []
-
     private(set) public var display: WlDisplay!  // id 1
 
     init(socket: Socket2) {
@@ -108,6 +106,8 @@ public final class Connection: @unchecked Sendable {
 
     // TODO: @spi for this
     public func removeObject(id: ObjectId) {
+        // this is not needed tho, because its a already weak??
+        // todo delete_id req
         proxies.removeValue(forKey: id)
     }
 
