@@ -4,7 +4,7 @@ import SwiftWayland
 
 @main
 @MainActor
-public struct SwiftWayland {
+public struct SwiftWaylandExample {
     public static func main() {
         Task {
             let connection = try! Connection.fromEnv()
