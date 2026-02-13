@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtForeignToplevelListV1: WlProxyBase, WlProxy {
+public final class ExtForeignToplevelListV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_foreign_toplevel_list_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func stop() {

@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy {
+public final class ExtImageCopyCaptureFrameV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_image_copy_capture_frame_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

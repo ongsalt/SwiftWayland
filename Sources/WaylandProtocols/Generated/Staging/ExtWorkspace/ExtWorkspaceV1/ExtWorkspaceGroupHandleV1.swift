@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtWorkspaceGroupHandleV1: WlProxyBase, WlProxy {
+public final class ExtWorkspaceGroupHandleV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_workspace_group_handle_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createWorkspace(workspace: String) {

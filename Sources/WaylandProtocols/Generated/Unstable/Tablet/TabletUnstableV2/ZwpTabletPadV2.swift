@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpTabletPadV2: WlProxyBase, WlProxy {
+public final class ZwpTabletPadV2: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_tablet_pad_v2"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setFeedback(button: UInt32, description: String, serial: UInt32) {

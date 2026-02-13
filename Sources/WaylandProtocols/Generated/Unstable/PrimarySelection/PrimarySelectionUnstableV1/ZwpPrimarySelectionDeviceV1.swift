@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpPrimarySelectionDeviceV1: WlProxyBase, WlProxy {
+public final class ZwpPrimarySelectionDeviceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_primary_selection_device_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setSelection(source: ZwpPrimarySelectionSourceV1, serial: UInt32) {

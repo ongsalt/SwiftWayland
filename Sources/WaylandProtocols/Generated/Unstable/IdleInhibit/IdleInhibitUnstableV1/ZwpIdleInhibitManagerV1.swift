@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpIdleInhibitManagerV1: WlProxyBase, WlProxy {
+public final class ZwpIdleInhibitManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_idle_inhibit_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

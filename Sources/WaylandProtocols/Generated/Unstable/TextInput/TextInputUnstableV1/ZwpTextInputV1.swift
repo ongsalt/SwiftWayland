@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpTextInputV1: WlProxyBase, WlProxy {
+public final class ZwpTextInputV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_text_input_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func activate(seat: WlSeat, surface: WlSurface) {

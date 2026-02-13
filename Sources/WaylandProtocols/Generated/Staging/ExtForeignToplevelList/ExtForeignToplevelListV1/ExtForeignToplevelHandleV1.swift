@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtForeignToplevelHandleV1: WlProxyBase, WlProxy {
+public final class ExtForeignToplevelHandleV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_foreign_toplevel_handle_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

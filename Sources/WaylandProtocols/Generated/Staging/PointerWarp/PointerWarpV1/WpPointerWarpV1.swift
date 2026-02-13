@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpPointerWarpV1: WlProxyBase, WlProxy {
+public final class WpPointerWarpV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_pointer_warp_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

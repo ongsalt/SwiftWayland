@@ -1,6 +1,7 @@
 import Foundation
 
-public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy {
+public final class ZwpLinuxDmabufV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_linux_dmabuf_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

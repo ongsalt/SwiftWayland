@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlDataDevice: WlProxyBase, WlProxy {
+public final class WlDataDevice: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_data_device"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func startDrag(source: WlDataSource, origin: WlSurface, icon: WlSurface, serial: UInt32) {

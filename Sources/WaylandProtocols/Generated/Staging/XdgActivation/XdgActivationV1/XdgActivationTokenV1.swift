@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class XdgActivationTokenV1: WlProxyBase, WlProxy {
+public final class XdgActivationTokenV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xdg_activation_token_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setSerial(serial: UInt32, seat: WlSeat) {

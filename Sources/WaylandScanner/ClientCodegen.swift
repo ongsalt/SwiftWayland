@@ -17,7 +17,8 @@ func buildInterfaceClass(interface: Interface, importName: String? = nil) -> Str
     return """
         \(importString)
 
-        public final class \(interface.name.camel): WlProxyBase, WlProxy {
+        public final class \(interface.name.camel): WlProxyBase, WlProxy, WlInterface {
+            public static let name: String = "\(interface.name)"
             public var onEvent: (Event) -> Void = { _ in }
 
         \(body.joined(separator: "\n\n").indent(space: 4))

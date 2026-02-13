@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpXwaylandKeyboardGrabV1: WlProxyBase, WlProxy {
+public final class ZwpXwaylandKeyboardGrabV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_xwayland_keyboard_grab_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

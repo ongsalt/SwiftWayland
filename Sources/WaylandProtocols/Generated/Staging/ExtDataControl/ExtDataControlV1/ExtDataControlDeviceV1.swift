@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtDataControlDeviceV1: WlProxyBase, WlProxy {
+public final class ExtDataControlDeviceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_data_control_device_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setSelection(source: ExtDataControlSourceV1) {

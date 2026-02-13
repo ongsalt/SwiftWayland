@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpFifoV1: WlProxyBase, WlProxy {
+public final class WpFifoV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_fifo_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setBarrier() {

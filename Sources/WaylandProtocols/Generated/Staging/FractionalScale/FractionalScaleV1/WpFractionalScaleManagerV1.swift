@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpFractionalScaleManagerV1: WlProxyBase, WlProxy {
+public final class WpFractionalScaleManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_fractional_scale_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

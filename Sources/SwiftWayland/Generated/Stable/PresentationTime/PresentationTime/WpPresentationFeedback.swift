@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WpPresentationFeedback: WlProxyBase, WlProxy {
+public final class WpPresentationFeedback: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_presentation_feedback"
     public var onEvent: (Event) -> Void = { _ in }
 
     public enum Kind: UInt32, WlEnum {

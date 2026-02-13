@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlKeyboard: WlProxyBase, WlProxy {
+public final class WlKeyboard: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_keyboard"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func release() {

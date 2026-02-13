@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlTouch: WlProxyBase, WlProxy {
+public final class WlTouch: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_touch"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func release() {

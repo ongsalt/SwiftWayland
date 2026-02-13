@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlDataOffer: WlProxyBase, WlProxy {
+public final class WlDataOffer: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_data_offer"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func accept(serial: UInt32, mimeType: String) {

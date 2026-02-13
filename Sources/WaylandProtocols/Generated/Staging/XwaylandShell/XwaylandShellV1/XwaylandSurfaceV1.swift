@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class XwaylandSurfaceV1: WlProxyBase, WlProxy {
+public final class XwaylandSurfaceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xwayland_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setSerial(serialLo: UInt32, serialHi: UInt32) {

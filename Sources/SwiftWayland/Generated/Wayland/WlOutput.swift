@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlOutput: WlProxyBase, WlProxy {
+public final class WlOutput: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_output"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func release() {

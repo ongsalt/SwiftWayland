@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlShell: WlProxyBase, WlProxy {
+public final class WlShell: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_shell"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func getShellSurface(surface: WlSurface) -> WlShellSurface {

@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlSeat: WlProxyBase, WlProxy {
+public final class WlSeat: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_seat"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func getPointer() -> WlPointer {

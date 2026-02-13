@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtTransientSeatManagerV1: WlProxyBase, WlProxy {
+public final class ExtTransientSeatManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_transient_seat_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func create() -> ExtTransientSeatV1 {

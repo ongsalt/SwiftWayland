@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpTextInputV3: WlProxyBase, WlProxy {
+public final class ZwpTextInputV3: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_text_input_v3"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

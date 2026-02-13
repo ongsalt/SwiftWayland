@@ -1,6 +1,7 @@
 import Foundation
 
-public final class XdgPositioner: WlProxyBase, WlProxy {
+public final class XdgPositioner: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xdg_positioner"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

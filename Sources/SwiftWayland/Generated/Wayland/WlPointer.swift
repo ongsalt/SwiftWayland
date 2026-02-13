@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlPointer: WlProxyBase, WlProxy {
+public final class WlPointer: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_pointer"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setCursor(serial: UInt32, surface: WlSurface, hotspotX: Int32, hotspotY: Int32) {

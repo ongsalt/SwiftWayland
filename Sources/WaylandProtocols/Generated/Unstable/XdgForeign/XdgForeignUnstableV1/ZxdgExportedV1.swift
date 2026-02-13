@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZxdgExportedV1: WlProxyBase, WlProxy {
+public final class ZxdgExportedV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zxdg_exported_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpInputPanelSurfaceV1: WlProxyBase, WlProxy {
+public final class ZwpInputPanelSurfaceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_input_panel_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setToplevel(output: WlOutput, position: UInt32) {

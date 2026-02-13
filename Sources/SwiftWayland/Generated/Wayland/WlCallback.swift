@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlCallback: WlProxyBase, WlProxy {
+public final class WlCallback: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_callback"
     public var onEvent: (Event) -> Void = { _ in }
 
     public enum Event: WlEventEnum {

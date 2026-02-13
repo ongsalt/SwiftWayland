@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpRelativePointerManagerV1: WlProxyBase, WlProxy {
+public final class ZwpRelativePointerManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_relative_pointer_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

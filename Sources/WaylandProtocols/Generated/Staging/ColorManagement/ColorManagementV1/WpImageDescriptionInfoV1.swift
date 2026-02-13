@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpImageDescriptionInfoV1: WlProxyBase, WlProxy {
+public final class WpImageDescriptionInfoV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_image_description_info_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public enum Event: WlEventEnum {

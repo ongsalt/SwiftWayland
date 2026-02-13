@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpCursorShapeDeviceV1: WlProxyBase, WlProxy {
+public final class WpCursorShapeDeviceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_cursor_shape_device_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

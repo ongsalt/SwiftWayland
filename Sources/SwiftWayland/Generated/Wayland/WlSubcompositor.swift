@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlSubcompositor: WlProxyBase, WlProxy {
+public final class WlSubcompositor: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_subcompositor"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

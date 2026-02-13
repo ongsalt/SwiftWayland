@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy {
+public final class WpDrmLeaseDeviceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_drm_lease_device_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createLeaseRequest() -> WpDrmLeaseRequestV1 {

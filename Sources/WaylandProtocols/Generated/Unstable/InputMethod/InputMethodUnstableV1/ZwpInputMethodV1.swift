@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpInputMethodV1: WlProxyBase, WlProxy {
+public final class ZwpInputMethodV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_input_method_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public enum Event: WlEventEnum {

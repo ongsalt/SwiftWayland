@@ -1,6 +1,7 @@
 import Foundation
 
-public final class XdgToplevel: WlProxyBase, WlProxy {
+public final class XdgToplevel: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xdg_toplevel"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlDataSource: WlProxyBase, WlProxy {
+public final class WlDataSource: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_data_source"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func offer(mimeType: String) {

@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpTearingControlManagerV1: WlProxyBase, WlProxy {
+public final class WpTearingControlManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_tearing_control_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

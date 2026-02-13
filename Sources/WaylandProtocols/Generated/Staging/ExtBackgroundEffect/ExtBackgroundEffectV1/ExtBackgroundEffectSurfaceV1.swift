@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtBackgroundEffectSurfaceV1: WlProxyBase, WlProxy {
+public final class ExtBackgroundEffectSurfaceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_background_effect_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

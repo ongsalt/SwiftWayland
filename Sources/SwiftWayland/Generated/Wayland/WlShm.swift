@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlShm: WlProxyBase, WlProxy {
+public final class WlShm: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_shm"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createPool(fd: FileHandle, size: Int32) -> WlShmPool {

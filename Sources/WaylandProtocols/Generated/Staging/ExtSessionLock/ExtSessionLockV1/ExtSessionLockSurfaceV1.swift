@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtSessionLockSurfaceV1: WlProxyBase, WlProxy {
+public final class ExtSessionLockSurfaceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_session_lock_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

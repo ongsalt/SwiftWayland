@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlCompositor: WlProxyBase, WlProxy {
+public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_compositor"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createSurface() -> WlSurface {

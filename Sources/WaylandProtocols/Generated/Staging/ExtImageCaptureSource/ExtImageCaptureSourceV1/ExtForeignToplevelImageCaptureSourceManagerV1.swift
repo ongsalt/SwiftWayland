@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtForeignToplevelImageCaptureSourceManagerV1: WlProxyBase, WlProxy {
+public final class ExtForeignToplevelImageCaptureSourceManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_foreign_toplevel_image_capture_source_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createSource(toplevelHandle: ExtForeignToplevelHandleV1) -> ExtImageCaptureSourceV1 {

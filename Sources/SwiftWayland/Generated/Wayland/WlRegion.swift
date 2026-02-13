@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlRegion: WlProxyBase, WlProxy {
+public final class WlRegion: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_region"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpTabletV2: WlProxyBase, WlProxy {
+public final class ZwpTabletV2: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_tablet_v2"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

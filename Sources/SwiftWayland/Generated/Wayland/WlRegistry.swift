@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlRegistry: WlProxyBase, WlProxy {
+public final class WlRegistry: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_registry"
     public var onEvent: (Event) -> Void = { _ in }
 
     // request `bind` can not (yet) be generated 

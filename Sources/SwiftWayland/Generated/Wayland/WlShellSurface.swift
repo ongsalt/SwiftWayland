@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlShellSurface: WlProxyBase, WlProxy {
+public final class WlShellSurface: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_shell_surface"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func pong(serial: UInt32) {

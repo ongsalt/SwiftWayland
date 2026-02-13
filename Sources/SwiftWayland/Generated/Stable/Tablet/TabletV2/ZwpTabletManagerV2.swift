@@ -1,6 +1,7 @@
 import Foundation
 
-public final class ZwpTabletManagerV2: WlProxyBase, WlProxy {
+public final class ZwpTabletManagerV2: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_tablet_manager_v2"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func getTabletSeat(seat: WlSeat) -> ZwpTabletSeatV2 {

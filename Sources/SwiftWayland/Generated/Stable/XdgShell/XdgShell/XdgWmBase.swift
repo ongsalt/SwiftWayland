@@ -1,6 +1,7 @@
 import Foundation
 
-public final class XdgWmBase: WlProxyBase, WlProxy {
+public final class XdgWmBase: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xdg_wm_base"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

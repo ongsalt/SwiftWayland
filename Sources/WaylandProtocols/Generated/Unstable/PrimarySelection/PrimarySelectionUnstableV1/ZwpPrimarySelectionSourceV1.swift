@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpPrimarySelectionSourceV1: WlProxyBase, WlProxy {
+public final class ZwpPrimarySelectionSourceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_primary_selection_source_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func offer(mimeType: String) {

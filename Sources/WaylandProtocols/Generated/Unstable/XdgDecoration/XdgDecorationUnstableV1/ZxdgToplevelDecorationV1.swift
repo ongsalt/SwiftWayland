@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZxdgToplevelDecorationV1: WlProxyBase, WlProxy {
+public final class ZxdgToplevelDecorationV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zxdg_toplevel_decoration_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

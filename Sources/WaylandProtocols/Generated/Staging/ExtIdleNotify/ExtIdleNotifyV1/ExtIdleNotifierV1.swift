@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtIdleNotifierV1: WlProxyBase, WlProxy {
+public final class ExtIdleNotifierV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_idle_notifier_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

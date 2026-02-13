@@ -1,6 +1,7 @@
 import Foundation
 
-public final class XdgPopup: WlProxyBase, WlProxy {
+public final class XdgPopup: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xdg_popup"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpKeyboardShortcutsInhibitorV1: WlProxyBase, WlProxy {
+public final class ZwpKeyboardShortcutsInhibitorV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_keyboard_shortcuts_inhibitor_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

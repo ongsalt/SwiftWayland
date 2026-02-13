@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpFullscreenShellModeFeedbackV1: WlProxyBase, WlProxy {
+public final class ZwpFullscreenShellModeFeedbackV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_fullscreen_shell_mode_feedback_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public enum Event: WlEventEnum {

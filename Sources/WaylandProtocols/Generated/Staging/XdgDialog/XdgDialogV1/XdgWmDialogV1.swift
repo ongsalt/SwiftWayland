@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class XdgWmDialogV1: WlProxyBase, WlProxy {
+public final class XdgWmDialogV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xdg_wm_dialog_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

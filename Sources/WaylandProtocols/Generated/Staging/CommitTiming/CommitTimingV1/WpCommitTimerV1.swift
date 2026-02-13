@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpCommitTimerV1: WlProxyBase, WlProxy {
+public final class WpCommitTimerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_commit_timer_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func setTimestamp(tvSecHi: UInt32, tvSecLo: UInt32, tvNsec: UInt32) {

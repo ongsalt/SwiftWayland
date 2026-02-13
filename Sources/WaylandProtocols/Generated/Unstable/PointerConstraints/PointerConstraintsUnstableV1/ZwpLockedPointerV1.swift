@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpLockedPointerV1: WlProxyBase, WlProxy {
+public final class ZwpLockedPointerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_locked_pointer_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

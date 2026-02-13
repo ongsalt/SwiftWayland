@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ZwpPointerGestureSwipeV1: WlProxyBase, WlProxy {
+public final class ZwpPointerGestureSwipeV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_pointer_gesture_swipe_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

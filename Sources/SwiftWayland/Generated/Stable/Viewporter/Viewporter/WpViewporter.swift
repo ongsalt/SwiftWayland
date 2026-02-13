@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WpViewporter: WlProxyBase, WlProxy {
+public final class WpViewporter: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_viewporter"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

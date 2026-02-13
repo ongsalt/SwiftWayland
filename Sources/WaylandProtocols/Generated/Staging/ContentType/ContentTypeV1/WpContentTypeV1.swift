@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpContentTypeV1: WlProxyBase, WlProxy {
+public final class WpContentTypeV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_content_type_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

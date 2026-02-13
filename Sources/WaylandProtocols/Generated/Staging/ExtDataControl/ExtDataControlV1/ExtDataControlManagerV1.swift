@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class ExtDataControlManagerV1: WlProxyBase, WlProxy {
+public final class ExtDataControlManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "ext_data_control_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createDataSource() -> ExtDataControlSourceV1 {

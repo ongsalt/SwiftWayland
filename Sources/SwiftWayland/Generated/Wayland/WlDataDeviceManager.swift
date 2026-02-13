@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlDataDeviceManager: WlProxyBase, WlProxy {
+public final class WlDataDeviceManager: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_data_device_manager"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createDataSource() -> WlDataSource {

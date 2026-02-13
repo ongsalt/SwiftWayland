@@ -1,6 +1,7 @@
 import Foundation
 
-public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy {
+public final class ZwpLinuxBufferParamsV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "zwp_linux_buffer_params_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class XdgToplevelDragManagerV1: WlProxyBase, WlProxy {
+public final class XdgToplevelDragManagerV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "xdg_toplevel_drag_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

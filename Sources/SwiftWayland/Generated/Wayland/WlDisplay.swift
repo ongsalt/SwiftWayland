@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlDisplay: WlProxyBase, WlProxy {
+public final class WlDisplay: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_display"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func sync() -> WlCallback {

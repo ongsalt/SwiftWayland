@@ -1,7 +1,8 @@
 import Foundation
 import SwiftWayland
 
-public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy {
+public final class WpLinuxDrmSyncobjSurfaceV1: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_linux_drm_syncobj_surface_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

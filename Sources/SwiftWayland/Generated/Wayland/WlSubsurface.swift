@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlSubsurface: WlProxyBase, WlProxy {
+public final class WlSubsurface: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_subsurface"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {

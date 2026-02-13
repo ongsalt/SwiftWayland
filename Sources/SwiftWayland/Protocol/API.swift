@@ -7,6 +7,10 @@ public protocol WLDecodable {
     static func decode(message: Message, connection: Connection) -> Self
 }
 
+public protocol WlInterface {
+    static var name: String { get }
+}
+
 public protocol WlEnum: WLDecodable {}
 
 extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
@@ -15,7 +19,7 @@ extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
     }
 }
 
-public protocol WlProxy: Identifiable {
+public protocol WlProxy: Identifiable, WlInterface {
     associatedtype Event: WlEventEnum
     var id: ObjectId {
         get

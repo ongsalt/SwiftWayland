@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WlShmPool: WlProxyBase, WlProxy {
+public final class WlShmPool: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wl_shm_pool"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func createBuffer(offset: Int32, width: Int32, height: Int32, stride: Int32, format: UInt32) -> WlBuffer {

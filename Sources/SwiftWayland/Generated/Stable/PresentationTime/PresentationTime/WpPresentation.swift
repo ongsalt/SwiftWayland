@@ -1,6 +1,7 @@
 import Foundation
 
-public final class WpPresentation: WlProxyBase, WlProxy {
+public final class WpPresentation: WlProxyBase, WlProxy, WlInterface {
+    public static let name: String = "wp_presentation"
     public var onEvent: (Event) -> Void = { _ in }
 
     public func destroy() {
