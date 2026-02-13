@@ -45,12 +45,12 @@ public struct SwiftWayland {
             case .global(let name, let interface, let version):
                 // print(interface)
                 switch interface {
-                case "wl_compositor":
-                    state.compositor = registry.bind(name: name, version: version, interfaceName: "wl_compositor", type: WlCompositor.self)
-                case "wl_shm":
-                    state.shm = registry.bind(name: name, version: version, interfaceName: "wl_shm", type: WlShm.self)
-                case "xdg_wm_base":
-                    state.xdgWmBase = registry.bind(name: name, version: version, interfaceName: "xdg_wm_base", type: XdgWmBase.self)
+                case WlCompositor.name:
+                    state.compositor = registry.bind(name: name, version: version, interface: WlCompositor.self)
+                case WlShm.name:
+                    state.shm = registry.bind(name: name, version: version, interface: WlShm.self)
+                case XdgWmBase.name:
+                    state.xdgWmBase = registry.bind(name: name, version: version, interface: XdgWmBase.self)
                     state.xdgWmBase?.onEvent = { ev in
                         if case .ping(let serial) = ev {
                             state.xdgWmBase?.pong(serial: serial)
@@ -66,8 +66,8 @@ public struct SwiftWayland {
 
         // try await connection.flush()
         try connection.roundtrip()
-        print(connection.pendingMessages)
-        print(connection.proxies)
+        // print(connection.pendingMessages)
+        // print(connection.proxies)
 
         try connection.roundtrip()
 
