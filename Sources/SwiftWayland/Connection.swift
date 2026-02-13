@@ -53,7 +53,8 @@ public final class Connection: @unchecked Sendable {
                 break
             }
 
-            (receiver as! any WlProxy).parseAndDispatch(message: message, connection: self, fdSource: self.socket)
+            (receiver as! any WlProxy).parseAndDispatch(
+                message: message, connection: self, fdSource: self.socket)
         }
 
         // if let error {
@@ -98,11 +99,28 @@ public final class Connection: @unchecked Sendable {
         return currentId
     }
 
-    public func createProxy<T>(type: T.Type, version: UInt32, id: ObjectId? = nil) -> T where T: WlProxy {
+    public func createProxy<T>(type: T.Type, version: UInt32, id: ObjectId? = nil) -> T
+    where T: WlProxy {
         let id = id ?? nextId()
         let obj = T(connection: self, id: id, version: version)
         proxies[obj.id] = Weak(obj)
         return obj
+    }
+
+    public func createCallback(fn: @escaping (UInt32) -> Void) -> WlCallback {
+        let callback = WlCallback(connection: self, id: nextId(), version: 1)
+        proxies[callback.id] = Weak(callback)
+
+        callback.onEvent = { event in
+            if case .done(let callbackData) = event {
+                fn(callbackData)
+            } else {
+                fatalError("wtf")
+            }
+        }
+
+        return callback
+        // we this must be alive until it got call  
     }
 
     // TODO: @spi for this

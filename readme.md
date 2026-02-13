@@ -13,16 +13,20 @@ some design decision
 - will expose a destructor function as a `consuming func`
 - will provide a `deinit` that will be automatically run if no consuming func are detected, so we need to keep track if an object is still alive or not
 
+## Versioning
+- its currently inherited from what you bind
+- probably wrong
+- what if some interface create an object from another registry
+    - if its wl_callback, just make it 1 or just ignore
+
 # Todos
 - @spi export
 - think about queue and concurrency
-- make Event decode failable 
+- make Event decode failable (and not fatalError)
 - programmatic rename id to the instance or any better name
 - bitfield
 - Codegen
-    - destructor
     - wl_callback special handling
-    - parse event `since`
     - generate documentation
 - test
 

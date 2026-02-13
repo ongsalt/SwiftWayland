@@ -1,8 +1,7 @@
 extension WlRegistry {
-    public func bind<T>(name: UInt32, version: UInt32, interface: T.Type) -> T where T: WlInterface & WlProxy {
-        let obj = connection.createProxy(type: T.self)
-        (obj as? WlProxyBase)?.version = UInt(version)
-        
+    public func bind<T>(name: UInt32, version: UInt32, interface: T.Type) -> T
+    where T: WlInterface & WlProxy {
+        let obj = connection.createProxy(type: T.self, version: version)
         let message = Message(
             objectId: self.id, opcode: 0,
             contents: [
@@ -14,3 +13,16 @@ extension WlRegistry {
         return obj
     }
 }
+
+// extension WlDisplay {
+//     public func sync(callback: @escaping (UInt32) -> Void) throws(WaylandProxyError) {
+//         guard self._state == .alive else { throw WaylandProxyError.destroyed }
+//         let callback = connection.createCallback(fn: callback)
+//         let message = Message(
+//             objectId: self.id, opcode: 0,
+//             contents: [
+//                 .newId(callback.id)
+//             ])
+//         connection.send(message: message)
+//     }
+// }
