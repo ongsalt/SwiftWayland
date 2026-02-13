@@ -7,12 +7,18 @@ import SwiftWayland
 public struct SwiftWayland {
     public static func main() {
         Task {
+            let connection = try! Connection.fromEnv()
             do {
-                let w = Window(connection: try! Connection.fromEnv())
+                let w = Window(connection: connection)
                 try await w.start()
+                Unmanaged.passRetained(w)
                 // await testConnection()
             } catch {
                 print("Error: \(error)")
+            }
+
+            while !Task.isCancelled {
+                try connection.roundtrip()
             }
         }
         RunLoop.main.run()
