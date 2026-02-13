@@ -125,7 +125,7 @@ func buildMethod(_ r: Request, _ reqId: Int) -> String {
     // check if object is destroyed
     statements.append(
         """
-        guard self._state == .alive else { throw WaylandProxyError.destroyed }
+        guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         """)
 
     // version check
@@ -156,9 +156,9 @@ func buildMethod(_ r: Request, _ reqId: Int) -> String {
     // then put that into waylandData
     let waylandData = r.arguments.map { a in
         if a.type == .newId {
-            ".\(a.type)(\(a.name.lowerCamel.gravedIfNeeded).id)"
+            "WaylandData.\(a.type)(\(a.name.lowerCamel.gravedIfNeeded).id)"
         } else {
-            ".\(a.type)(\(a.name.lowerCamel.gravedIfNeeded))"
+            "WaylandData.\(a.type)(\(a.name.lowerCamel.gravedIfNeeded))"
         }
         // "WaylandData.\(a.type)(`\(a.name.lowerCamel)`)"
     }.joined(separator: ",\n")

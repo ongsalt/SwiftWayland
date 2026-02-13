@@ -10,18 +10,22 @@ public enum InitWaylandError: Error {
 public final class Connection: @unchecked Sendable {
     // this should be weak
     public var proxies: [ObjectId: Weak<AnyObject>] = [:]
-    private(set) var currentId: ObjectId = 1  // must be 1 becuase wldisplay is special case
+    private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1
     let socket: BufferedSocket
 
-    private(set) public var display: WlDisplay!  // id 1
+    private(set) public lazy var display: WlDisplay = createProxy(
+        type: WlDisplay.self, version: nextId(), id: 1)
 
     init(socket: Socket2) {
         self.socket = BufferedSocket(socket)
-        // TODO: what is wl_display's version tho
-        display = createProxy(type: WlDisplay.self, version: 1, id: 1)
-
+        // we force to create it now
         display.onEvent = { event in
-            print(event)
+            switch event {
+            case .error(let obj, let code, let message):
+                print("[Wayland] Error \(message) (code: \(code), target: \(obj))")
+            case .deleteId(let id):
+                self.removeObject(id: id)
+            }
         }
     }
 
@@ -78,8 +82,14 @@ public final class Connection: @unchecked Sendable {
 
     // how does this work
     public func roundtrip() throws {
-        try flush()
-        try dispatch(force: true)
+        var shouldStop = false
+        try display.sync { _ in
+            shouldStop = true
+        }
+        try self.flush()
+        while !shouldStop {
+            try self.dispatch(force: true)
+        }
     }
     @discardableResult
     public func send(message: Message) -> Int {
@@ -125,7 +135,6 @@ public final class Connection: @unchecked Sendable {
 
         // lmao
         let ref = Unmanaged.passRetained(callback)
-
         callback.onEvent = { event in
             if case .done(let callbackData) = event {
                 fn(callbackData)
@@ -138,7 +147,6 @@ public final class Connection: @unchecked Sendable {
         return callback
     }
 
-
     public var proxiesList: [any WlProxy] {
         proxies.values.filter { $0.value != nil }
             .map { $0.value! as! (any WlProxy) }
@@ -148,6 +156,9 @@ public final class Connection: @unchecked Sendable {
     public func removeObject(id: ObjectId) {
         // this is not needed tho, because its a already weak??
         // todo delete_id req
+        if let v = proxies[id]?.value {
+            print(v)
+        }
         proxies.removeValue(forKey: id)
     }
 

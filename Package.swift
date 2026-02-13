@@ -14,10 +14,10 @@ let package = Package(
         // other dependencies
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
-        .package(
-            url: "https://github.com/swiftlang/swift-syntax.git",
-            from: "602.0.0"
-        ),
+        // .package(
+        //     url: "https://github.com/swiftlang/swift-syntax.git",
+        //     from: "602.0.0"
+        // ),
         // .package(url: "https://github.com/PureSwift/Socket.git", from: "0.5.0"),
         // .package(url: "https://github.com/apple/swift-system", from: "1.6.1"),
     ],
@@ -25,7 +25,7 @@ let package = Package(
         .target(
             name: "SwiftWayland",
             dependencies: [
-                .product(name: "SwiftSyntax", package: "swift-syntax")
+                // .product(name: "SwiftSyntax", package: "swift-syntax")
             ]
         ),
 
