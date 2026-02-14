@@ -54,28 +54,37 @@ public class BufferedSocket {
         let flushed = outData
         outData = []
 
+        // we should just merge all of this together first
+        // well, is this perfect use case for iovec
         for (data, fds) in flushed {
             #if DEBUG
                 // print("[Wayland] sending: \(data as NSData)")
             #endif
 
-            let bytes = UnsafeMutableRawBufferPointer.allocate(
-                byteCount: data.count, alignment: MemoryLayout<UInt8>.alignment)
-            data.copyBytes(to: bytes)
-
-            _ = try socket.send(data: UnsafeRawBufferPointer(bytes), fds: fds)
+            do {
+                try data.withUnsafeBytes { data in
+                    // print("Sending")
+                    _ = try socket.send(data: data, fds: fds)
+                }
+            } catch {
+                throw error as! SocketError
+            }
         }
+    }
+
+    private let _data: UnsafeMutableRawBufferPointer = UnsafeMutableRawBufferPointer.allocate(
+        byteCount: Int(MAX_BYTES_OUT), alignment: MemoryLayout<UInt8>.alignment)
+    deinit {
+        _data.deallocate()
     }
 
     func receiveUntilDone(force: Bool = false) throws(SocketError) {
         var shouldRun = force
-        let data = UnsafeMutableRawBufferPointer.allocate(
-            byteCount: Int(MAX_BYTES_OUT), alignment: MemoryLayout<UInt8>.alignment)
         var fds: [FileHandle] = []
 
         while socket.canRead || shouldRun {
             shouldRun = false
-            let read = try socket.receive(data: data, fds: &fds)
+            let read = try socket.receive(data: _data, fds: &fds)
 
             if read <= 0 {
                 if read < 0 {
@@ -84,7 +93,7 @@ public class BufferedSocket {
                 break
             }
 
-            self.data.append(data.baseAddress!.assumingMemoryBound(to: UInt8.self), count: read)
+            self.data.append(_data.baseAddress!.assumingMemoryBound(to: UInt8.self), count: read)
             self.fds.append(contentsOf: fds)
         }
     }
