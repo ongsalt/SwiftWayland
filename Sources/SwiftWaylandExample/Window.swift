@@ -20,6 +20,8 @@ public final class Window {
     private var bufferWidth: Int = 0
     private var bufferHeight: Int = 0
 
+    private var file: FileHandle?
+
     public init(connection: Connection, flusher: AutoFlusher? = nil) {
         self.connection = connection
         self.flusher = flusher
@@ -110,7 +112,8 @@ public final class Window {
         let stride = width * 4
         let size = stride * height
 
-        let file = try! createShmFile(size: size)
+        let file: FileHandle = try! createShmFile(size: size)
+        self.file = file
         let pool = try! shm.createPool(fd: file, size: Int32(size))
         let buffer = try! pool.createBuffer(
             offset: 0,
