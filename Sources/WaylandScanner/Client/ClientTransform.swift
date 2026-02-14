@@ -16,7 +16,7 @@ func transform(interface: Interface) -> ClassDeclaration {
                     case .fd: .fd
                     case .int: .i32
                     case .uint: .u32
-                    case .fixed: .f64
+                    case .fixed: .fixed
                     case .enum: .enum(swiftName: arg.enum!.camel)
                     case .object: .proxy(swiftName: arg.interface!.camel)
                     case .newId where arg.interface == "wl_callback": .callback
@@ -70,7 +70,7 @@ func transform(interface: Interface) -> ClassDeclaration {
         },
         events: interface.events.map { event in
             EventDeclaration(
-                name: event.name.camel,
+                name: event.name.lowerCamel,
                 description: event.description,
                 arguments: event.arguments.map { arg in
                     let t: ArgumentType =
@@ -80,7 +80,7 @@ func transform(interface: Interface) -> ClassDeclaration {
                         case .fd: .fd
                         case .int: .i32
                         case .uint: .u32
-                        case .fixed: .f64
+                        case .fixed: .fixed
                         case .enum: .enum(swiftName: arg.enum!.camel)
                         case .object: .proxy(swiftName: arg.interface?.camel) // nullable when its wl_display.error
                         case .newId where arg.interface != nil: .newProxy(swiftName: arg.interface!.camel)

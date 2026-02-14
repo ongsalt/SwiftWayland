@@ -68,7 +68,7 @@ public final class Connection: @unchecked Sendable {
             }
 
             (receiver as! any WlProxy).parseAndDispatch(
-                message: message, connection: self, fdSource: self.socket)
+                message: message, connection: self)
         }
 
         // if let error {

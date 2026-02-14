@@ -9,7 +9,7 @@ public protocol WlInterface {
 // TODO: confirm it
 // public protocol WlEnum: WLDecodable {}
 // extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
-//     public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32)
+//     public static func decode(message: Message, connection: Connection, version: UInt32)
 //         -> Self
 //     {
 //         Self(rawValue: 0)!
@@ -36,8 +36,8 @@ public protocol WlProxy: Identifiable, WlInterface, AnyObject {
 }
 
 extension WlProxy {
-    func parseAndDispatch(message: Message, connection: Connection, fdSource: BufferedSocket) {
-        let event = Event.decode(message: message, connection: connection, fdSource: fdSource, version: self.version)
+    func parseAndDispatch(message: Message, connection: Connection) {
+        let event = Event.decode(message: message, connection: connection, version: self.version)
         #if DEBUG
             // print("[Wayland] dispatch \(event) to \(self)")
         #endif
@@ -47,11 +47,11 @@ extension WlProxy {
 
 public protocol WlEventEnum {
     // TOOD: make this failable
-    static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self
+    static func decode(message: Message, connection: Connection, version: UInt32) -> Self
 }
 
 public struct NoEvent: WlEventEnum {
-    static public func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> NoEvent {
+    static public func decode(message: Message, connection: Connection, version: UInt32) -> NoEvent {
         let obj = connection.get(id: message.objectId)!
         fatalError("\(obj) has no event associated with it")
     }

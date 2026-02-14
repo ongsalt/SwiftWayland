@@ -11,15 +11,16 @@ public typealias EnumValue = UInt32
 
 // use for encoding
 // TODO: rename this to WaylandArgument
+// user wont interact with this directly
 public enum WaylandData {
     case int(Int32)
     case uint(UInt32)
     case fixed(Double)
-    case object(any WlProxy)
     case string(String)
     case array(Data)
-    case fd(FileHandle)
-    case `enum`(any RawRepresentable<UInt32>)
+    case fd(Int32)
+    case `enum`(UInt32)
+    case object(ObjectId)
     case newId(ObjectId)
     case newIdDynamic(interfaceName: String, version: UInt32, id: ObjectId)
 
@@ -38,8 +39,8 @@ public enum WaylandData {
             var v = Int32(value * 256.0)
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
-        case .object(let object):
-            var v = object.id
+        case .object(let id):
+            var v = id
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
         case .string(let string):
@@ -58,12 +59,12 @@ public enum WaylandData {
 
         case .fd(let handle):
             // File descriptors are passed via ancillary data (msg_control), not in main data
-            fds.append(handle)
+            fds.append(FileHandle(fileDescriptor: handle))
             break
 
         case .enum(let enumValue):
             // TODO: some is bitfield
-            var v = enumValue.rawValue
+            var v = enumValue
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
         case .newId(let objectId):

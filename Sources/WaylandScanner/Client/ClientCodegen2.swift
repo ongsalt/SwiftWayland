@@ -59,7 +59,7 @@ extension ClassDeclaration: Code {
         gen.indent {
             gen.add(
                 """
-                public static let name: String = "\(self.name)"
+                public static let name: String = "\(self.interfaceName)"
                 """
             )
             gen.add("public var onEvent: (Event) -> Void = { _ in }")
@@ -70,7 +70,16 @@ extension ClassDeclaration: Code {
                 gen.add()
             }
 
-            // self.events.generate(gen)
+            for e in self.enums {
+                gen.walk(node: e)
+                gen.add()
+            }
+
+            if let d = self.deinit {
+                gen.walk(node: d)
+            }
+
+            gen.walk(node: self.events)
         }
         gen.add("}")
     }
@@ -83,7 +92,8 @@ extension MethodDeclaration: Code {
         }
 
         if self.returns.contains(where: { $0.type.swiftType == "any WlProxy" }) {
-            gen.add(comment: "request `\(name)` can not be generated as it use dynamic new_id argument")
+            gen.add(
+                comment: "request `\(name)` can not be generated as it use dynamic new_id argument")
             return
         }
 
@@ -94,9 +104,8 @@ extension MethodDeclaration: Code {
         }
 
         functionHeader.append("func")
-        functionHeader.append(self.name.gravedIfNeeded)
         if arguments.isEmpty {
-            functionHeader.append("()")
+            functionHeader.append("\(self.name.gravedIfNeeded)()")
         } else {
             let params = arguments.map { arg in
                 if let externalName = arg.externalName {
@@ -105,7 +114,7 @@ extension MethodDeclaration: Code {
                     "\(arg.name.gravedIfNeeded): \(arg.type.swiftType)"
                 }
             }.joined(separator: ", ")
-            functionHeader.append("(\(params))")
+            functionHeader.append("\(self.name.gravedIfNeeded)(\(params))")
         }
 
         // TODO: throwing
@@ -160,13 +169,22 @@ extension MethodDeclaration: Code {
             }
 
             gen.add(
-                "let message = Message(objectId: self.id, opcode: \(self.requestId), contents: [")
+                "let message = Message(objectId: self.id, opcode: \(self.requestId), contents: ["
+            )
             gen.indent {
                 for arg in self.messageArguments {
                     switch arg.type {
-                    case .callback, .newProxy:
+                    case .callback, .newProxy, .proxy:
                         gen.add(
                             "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).id),")
+                    case .enum:
+                        gen.add(
+                            "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).rawValue),"
+                        )
+                    case .fd:
+                        gen.add(
+                            "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).fileDescriptor),"
+                        )
                     default:
                         gen.add("WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded)),")
                     }
@@ -200,8 +218,129 @@ extension MethodDeclaration: Code {
     }
 }
 
+extension EnumDeclaration: Code {
+    func generate(_ gen: Generator) {
+        gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
+        gen.indent {
+            for (index, c) in self.cases.enumerated() {
+                gen.walk(node: c)
+                if index != self.cases.count - 1 {
+                    gen.add()
+                }
+            }
+        }
+        gen.add("}")
+    }
+}
+
+extension EnumCaseDeclaration: Code {
+    func generate(_ gen: Generator) {
+        if let summary = self.summary {
+            gen.add(docc: summary)
+        }
+        gen.add("case \(self.name.gravedIfNeeded) = \(self.value)")
+    }
+}
+
+extension DeinitDeclaration: Code {
+    func generate(_ gen: Generator) {
+        gen.add("deinit {")
+        gen.indent {
+            gen.add("try? self.\(self.selectedMethod.gravedIfNeeded)()")
+        }
+        gen.add("}")
+    }
+}
+
 extension Array: Code where Element == EventDeclaration {
     func generate(_ gen: Generator) {
+        // luckily there is no enum named `event`
+        gen.add("public enum Event: WlEventEnum {")
+        gen.indent {
+            for event in self {
+                gen.walk(node: event)
+                gen.add()
+            }
 
+            // decoding function
+
+            gen.add(
+                "public static func decode(message: Message, connection: Connection, version: UInt32) -> Self {"
+            )
+            gen.indent {
+                let reader = true
+                if reader {
+                    gen.add("var r = ArgumentReader(data: message.arguments, fdSource: connection.socket)")
+                }
+                gen.add("switch message.opcode {")
+                for (index, event) in self.enumerated() {
+                    gen.add("case \(index):")
+                    gen.indent {
+                        var out = "return Self.\(event.name)"
+                        if !event.arguments.isEmpty {
+                            out +=
+                                "(\(event.arguments.map { "\($0.name): \(getArgDecodingExpr($0.type))" }.joined(separator: ", ") ))"
+                        }
+                        gen.add(out)
+                    }
+                }
+                gen.add("default:")
+                gen.indent {
+                    gen.add(
+                        "fatalError(\"Unknown message: opcode=\\(message.opcode) \\(message.arguments as NSData)\")"
+                    )
+                }
+                gen.add("}")
+            }
+            gen.add("}")
+        }
+        gen.add("}")
+    }
+}
+
+private func getArgDecodingExpr(_ t: ArgumentType) -> String {
+    switch t {
+    case .i32: "r.readInt()"
+    case .u32: "r.readUInt()"
+    case .fixed: "r.readFixed()"
+    case .string: "r.readString()"
+
+    case .fd: "r.readFd()"
+
+    case .enum: "r.readEnum()"
+    // case .object: "r.readObjectId()"
+    case .proxy(let swiftName):
+        if let swiftName {
+            "connection.get(as: \(swiftName).self, id: r.readObjectId())!"
+        } else {
+            "connection.get(id: r.readObjectId())!"
+        }
+
+    // case .newId: fatalError("Impossible (newId)")
+    case .newProxy(let swiftName):
+        if let swiftName {
+            "connection.createProxy(type: \(swiftName).self, version: version, id: r.readNewId())"
+        } else {
+            fatalError("wtf, how can you have newId without a type")
+        }
+
+    case .data: "r.readArray()"
+    default: fatalError("impossible")
+    }
+}
+
+extension EventDeclaration: Code {
+    func generate(_ gen: Generator) {
+        if let description = self.description {
+            gen.add(docc: description.docc)
+        }
+
+        var out = "case \(self.name)"
+        if !self.arguments.isEmpty {
+            out +=
+                "(\(self.arguments.map {"\($0.name.gravedIfNeeded): \($0.type.swiftType)"}.joined(separator: ", ")))"
+        }
+
+        gen.add(out)
     }
 }

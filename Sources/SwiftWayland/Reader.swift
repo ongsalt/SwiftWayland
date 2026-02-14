@@ -1,7 +1,7 @@
 import Foundation
 import Glibc
 
-public struct ArgumentParser {
+public struct ArgumentReader {
     var data: Data
     unowned let fdSource: BufferedSocket
     private(set) var cursor: Int = 0

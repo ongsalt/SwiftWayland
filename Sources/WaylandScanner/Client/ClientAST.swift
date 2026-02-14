@@ -18,6 +18,7 @@ struct MethodDeclaration {
     var since: UInt?
     var arguments: [ArgumentDeclaration]
     var returns: [ArgumentDeclaration]
+    // var callbacks: [ArgumentDeclaration]
     var messageArguments: [ArgumentDeclaration]
     var description: Description?
     var `throws`: ArgumentType?
@@ -62,7 +63,7 @@ struct Statement {
 }
 
 enum ArgumentType {
-    case void, callback, string, u32, i32, fd, f64
+    case callback, string, u32, i32, fd, fixed
     case data  // array
     case `enum`(swiftName: String)
     // case tuple([ArgumentType])
@@ -73,12 +74,11 @@ enum ArgumentType {
 extension ArgumentType {
     var swiftType: String {
         switch self {
-        case .void: "Void"
         case .string: "String"
         case .callback: "@escaping (UInt32) -> Void"
         case .i32: "Int32"  // we should just do auto conversion
         case .u32: "UInt32"
-        case .f64: "Double"
+        case .fixed: "Double"
         case .fd: "FileHandle"
         case .data: "Data"  // or should i do UnsafeRawBufferPointer
         case .enum(let swiftName): swiftName
@@ -100,7 +100,7 @@ extension ArgumentType {
         case .string: "string"
         case .i32: "int"
         case .u32: "uint"
-        case .f64: "fixed"
+        case .fixed: "fixed"
         case .fd: "fd"
         case .data: "array"
         case .enum: "enum"
@@ -108,8 +108,6 @@ extension ArgumentType {
         case .proxy: "object"
         case .newProxy: "newId"
         case .callback: "newId"
-
-        case .void: fatalError("cant send void")
         // case .tuple: fatalError("how tf did tuple end up here")
         }
     }

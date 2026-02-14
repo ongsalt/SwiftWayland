@@ -319,7 +319,7 @@ func buildEventEnum(events: [Event]) -> String {
         """
 }
 
-func getArgDecodingExpr(_ arg: Argument) -> String {
+private func getArgDecodingExpr(_ arg: Argument) -> String {
     switch arg.type {
     case .int: "r.readInt()"
     case .uint: "r.readUInt()"
