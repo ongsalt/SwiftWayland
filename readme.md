@@ -1,5 +1,10 @@
+# im gonna rewrite this so that we dont need git to track it anymore
+- there's gonna be a new SPM plugin
+
+
 # SwiftWayland
 Wayland scanner and Wayland client library for swift 
+
 
 # WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
 
@@ -44,7 +49,7 @@ some design decision
 - bitfield
 - generate documentation
     - throws
-    - returnsS
+    - returns
     - callback
 - test
     - probably gonna steal from wayland-rs
