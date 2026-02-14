@@ -98,7 +98,7 @@ public final class Connection: @unchecked Sendable {
     }
 
     public func get(id: ObjectId) -> (any WlProxy)? {
-        proxies[id] as? any WlProxy
+        proxies[id]?.value as? ((any WlProxy)?) ?? nil
     }
 
     public func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
@@ -146,9 +146,14 @@ public final class Connection: @unchecked Sendable {
         return callback
     }
 
-    public var proxiesList: [any WlProxy] {
-        proxies.values.filter { $0.value != nil }
-            .map { $0.value! as! (any WlProxy) }
+    public var proxiesList: [(UInt32, any WlProxy)] {
+        proxies.lazy.map { (k, v) in
+            (k, v.value as? any WlProxy)
+        }.filter { (_, v) in
+            v != nil
+        }.map { (k, v) in
+            (k, v!)
+        }
     }
 
     // TODO: @spi for this
