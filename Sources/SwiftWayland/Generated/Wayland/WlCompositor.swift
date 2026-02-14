@@ -1,9 +1,17 @@
 import Foundation
 
+/// The Compositor Singleton
+/// 
+/// A compositor.  This object is a singleton global.  The
+/// compositor is in charge of combining the contents of multiple
+/// surfaces into one displayable output.
 public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "wl_compositor"
     public var onEvent: (Event) -> Void = { _ in }
 
+    /// Create New Surface
+    /// 
+    /// Ask the compositor to create a new surface.
     public func createSurface() throws(WaylandProxyError) -> WlSurface {
         guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlSurface.self, version: self.version)
@@ -14,6 +22,9 @@ public final class WlCompositor: WlProxyBase, WlProxy, WlInterface {
         return id
     }
     
+    /// Create New Region
+    /// 
+    /// Ask the compositor to create a new region.
     public func createRegion() throws(WaylandProxyError) -> WlRegion {
         guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlRegion.self, version: self.version)

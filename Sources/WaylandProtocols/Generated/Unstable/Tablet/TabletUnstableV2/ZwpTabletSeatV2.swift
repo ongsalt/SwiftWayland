@@ -1,10 +1,19 @@
 import Foundation
 import SwiftWayland
 
+/// Controller Object For Graphic Tablet Devices Of A Seat
+/// 
+/// An object that provides access to the graphics tablets available on this
+/// seat. After binding to this interface, the compositor sends a set of
+/// wp_tablet_seat.tablet_added and wp_tablet_seat.tool_added events.
 public final class ZwpTabletSeatV2: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_tablet_seat_v2"
     public var onEvent: (Event) -> Void = { _ in }
 
+    /// Release The Memory For The Tablet Seat Object
+    /// 
+    /// Destroy the wp_tablet_seat object. Objects created from this
+    /// object are unaffected and should be destroyed separately.
     public consuming func destroy() throws(WaylandProxyError) {
         guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
@@ -18,8 +27,33 @@ public final class ZwpTabletSeatV2: WlProxyBase, WlProxy, WlInterface {
     }
     
     public enum Event: WlEventEnum {
+        /// New Device Notification
+        /// 
+        /// This event is sent whenever a new tablet becomes available on this
+        /// seat. This event only provides the object id of the tablet, any
+        /// static information about the tablet (device name, vid/pid, etc.) is
+        /// sent through the wp_tablet interface.
         case tabletAdded(id: ZwpTabletV2)
+        
+        /// A New Tool Has Been Used With A Tablet
+        /// 
+        /// This event is sent whenever a tool that has not previously been used
+        /// with a tablet comes into use. This event only provides the object id
+        /// of the tool; any static information about the tool (capabilities,
+        /// type, etc.) is sent through the wp_tablet_tool interface.
         case toolAdded(id: ZwpTabletToolV2)
+        
+        /// New Pad Notification
+        /// 
+        /// This event is sent whenever a new pad is known to the system. Typically,
+        /// pads are physically attached to tablets and a pad_added event is
+        /// sent immediately after the wp_tablet_seat.tablet_added.
+        /// However, some standalone pad devices logically attach to tablets at
+        /// runtime, and the client must wait for wp_tablet_pad.enter to know
+        /// the tablet a pad is attached to.
+        /// This event only provides the object id of the pad. All further
+        /// features (buttons, strips, rings) are sent through the wp_tablet_pad
+        /// interface.
         case padAdded(id: ZwpTabletPadV2)
     
         public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {

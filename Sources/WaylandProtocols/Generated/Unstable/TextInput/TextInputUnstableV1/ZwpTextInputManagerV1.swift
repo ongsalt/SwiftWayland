@@ -1,10 +1,16 @@
 import Foundation
 import SwiftWayland
 
+/// Text Input Manager
+/// 
+/// A factory for text_input objects. This object is a global singleton.
 public final class ZwpTextInputManagerV1: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "zwp_text_input_manager_v1"
     public var onEvent: (Event) -> Void = { _ in }
 
+    /// Create Text Input
+    /// 
+    /// Creates a new text_input object.
     public func createTextInput() throws(WaylandProxyError) -> ZwpTextInputV1 {
         guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpTextInputV1.self, version: self.version)

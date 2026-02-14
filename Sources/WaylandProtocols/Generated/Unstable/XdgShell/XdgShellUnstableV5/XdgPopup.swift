@@ -1,10 +1,58 @@
 import Foundation
 import SwiftWayland
 
+/// Short-Lived, Popup Surfaces For Menus
+/// 
+/// A popup surface is a short-lived, temporary surface that can be
+/// used to implement menus. It takes an explicit grab on the surface
+/// that will be dismissed when the user dismisses the popup. This can
+/// be done by the user clicking outside the surface, using the keyboard,
+/// or even locking the screen through closing the lid or a timeout.
+/// When the popup is dismissed, a popup_done event will be sent out,
+/// and at the same time the surface will be unmapped. The xdg_popup
+/// object is now inert and cannot be reactivated, so clients should
+/// destroy it. Explicitly destroying the xdg_popup object will also
+/// dismiss the popup and unmap the surface.
+/// Clients will receive events for all their surfaces during this
+/// grab (which is an "owner-events" grab in X11 parlance). This is
+/// done so that users can navigate through submenus and other
+/// "nested" popup windows without having to dismiss the topmost
+/// popup.
+/// Clients that want to dismiss the popup when another surface of
+/// their own is clicked should dismiss the popup using the destroy
+/// request.
+/// The parent surface must have either an xdg_surface or xdg_popup
+/// role.
+/// Specifying an xdg_popup for the parent means that the popups are
+/// nested, with this popup now being the topmost popup. Nested
+/// popups must be destroyed in the reverse order they were created
+/// in, e.g. the only popup you are allowed to destroy at all times
+/// is the topmost one.
+/// If there is an existing popup when creating a new popup, the
+/// parent must be the current topmost popup.
+/// A parent surface must be mapped before the new popup is mapped.
+/// When compositors choose to dismiss a popup, they will likely
+/// dismiss every nested popup as well. When a compositor dismisses
+/// popups, it will follow the same dismissing order as required
+/// from the client.
+/// The x and y arguments passed when creating the popup object specify
+/// where the top left of the popup should be placed, relative to the
+/// local surface coordinates of the parent surface. See
+/// xdg_shell.get_xdg_popup.
+/// The client must call wl_surface.commit on the corresponding wl_surface
+/// for the xdg_popup state to take effect.
+/// For a surface to be mapped by the compositor the client must have
+/// committed both the xdg_popup state and a buffer.
 public final class XdgPopup: WlProxyBase, WlProxy, WlInterface {
     public static let name: String = "xdg_popup"
     public var onEvent: (Event) -> Void = { _ in }
 
+    /// Remove Xdg_Popup Interface
+    /// 
+    /// This destroys the popup. Explicitly destroying the xdg_popup
+    /// object will also dismiss the popup, and unmap the surface.
+    /// If this xdg_popup is not the "topmost" popup, a protocol error
+    /// will be sent.
     public consuming func destroy() throws(WaylandProxyError) {
         guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }
         let message = Message(objectId: self.id, opcode: 0, contents: [])
@@ -18,6 +66,11 @@ public final class XdgPopup: WlProxyBase, WlProxy, WlInterface {
     }
     
     public enum Event: WlEventEnum {
+        /// Popup Interaction Is Done
+        /// 
+        /// The popup_done event is sent out when a popup is dismissed by the
+        /// compositor. The client should destroy the xdg_popup object at this
+        /// point.
         case popupDone
     
         public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self {
