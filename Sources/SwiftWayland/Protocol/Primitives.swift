@@ -10,6 +10,7 @@ public typealias NewId = UInt32
 public typealias EnumValue = UInt32
 
 // use for encoding
+// TODO: rename this to WaylandArgument
 public enum WaylandData {
     case int(Int32)
     case uint(UInt32)
@@ -18,7 +19,7 @@ public enum WaylandData {
     case string(String)
     case array(Data)
     case fd(FileHandle)
-    case `enum`(any WlEnum)
+    case `enum`(any RawRepresentable<UInt32>)
     case newId(ObjectId)
     case newIdDynamic(interfaceName: String, version: UInt32, id: ObjectId)
 
@@ -62,10 +63,8 @@ public enum WaylandData {
 
         case .enum(let enumValue):
             // TODO: some is bitfield
-            if let rawValue = enumValue as? any RawRepresentable {
-                var v = (rawValue.rawValue as? UInt32) ?? 0
-                withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
-            }
+            var v = enumValue.rawValue
+            withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
         case .newId(let objectId):
             var v = objectId
