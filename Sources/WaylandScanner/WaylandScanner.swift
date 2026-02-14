@@ -42,22 +42,37 @@ struct WaylandScanner: ParsableCommand {
         let aProtocol = try decoder.decode(Protocol.self, from: Data(contentsOf: inputUrl))
         print("Protocol: \(aProtocol.name)")
 
-        // let interface = aProtocol.interfaces.first { $0.name == "wl_display" }
-        for interface in aProtocol.interfaces {
-            // if interface.name != "wl_data_device" {
-            //     continue
-            // }
+        let importName = self.import
 
-            var url = URL(filePath: outputDirectory)
-            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        let dir = URL(filePath: outputDirectory)
+        try! FileManager.default.createDirectory(
+            at: dir, withIntermediateDirectories: true)
 
-            url.append(path: "\(interface.name.camel).swift")
+        // bruhhh
+        Task {
+            await withTaskGroup { group in
+                for interface in aProtocol.interfaces {
+                    group.addTask {
+                        await withUnsafeContinuation { contination in
+                            DispatchQueue.global().async {
+                                var url = dir
+                                url.append(path: "\(interface.name.camel).swift")
 
-            print(" - Writing \(url.lastPathComponent)")
-            let out = buildInterfaceClass(interface: interface, importName: self.`import`)
-            try out.write(to: url, atomically: true, encoding: .utf8)
+                                print(" - Writing \(url.lastPathComponent)")
+                                let out = buildInterfaceClass(
+                                    interface: interface, importName: importName)
 
-            // break
+                                try! out.write(to: url, atomically: true, encoding: .utf8)
+                                contination.resume()
+                            }
+                        }
+                    }
+                }
+            }
+
+            Foundation.exit(0)
         }
+
+        RunLoop.main.run()
     }
 }
