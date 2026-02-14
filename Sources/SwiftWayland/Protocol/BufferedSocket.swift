@@ -55,7 +55,7 @@ public class BufferedSocket {
         outData = []
 
         // we should just merge all of this together first
-        // well, is this perfect use case for iovec
+        // well, is this the perfect use case for iovec
         for (data, fds) in flushed {
             #if DEBUG
                 // print("[Wayland] sending: \(data as NSData)")

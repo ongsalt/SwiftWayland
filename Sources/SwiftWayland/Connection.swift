@@ -179,32 +179,7 @@ public final class Connection: @unchecked Sendable {
         let waylandDisplay = ProcessInfo.processInfo.environment["WAYLAND_DISPLAY"] ?? "wayland-0"
         let waylandPath = "\(xdgRuntimeDirectory)/\(waylandDisplay)"
 
-        return try Self(socket: connectToSocket(path: waylandPath))
-    }
-
-    private static func connectToSocket(path: String) throws(InitWaylandError) -> Socket2 {
-        var addr = sockaddr_un()
-        addr.sun_family = UInt16(AF_UNIX)
-        withUnsafeMutableBytes(of: &addr.sun_path) { ptr in
-            ptr.copyBytes(from: path.utf8)
-            ptr[path.count] = 0  // null terminated
-        }
-
-        let fd = Glibc.socket(AF_UNIX, Int32(SOCK_STREAM.rawValue), 0)
-        guard fd != -1 else {
-            throw .cannotOpenSocket
-        }
-
-        let c = withUnsafePointer(to: &addr) { ptr in
-            ptr.withMemoryRebound(to: sockaddr.self, capacity: 1, ) { ptr in
-                connect(fd, ptr, UInt32(MemoryLayout<sockaddr_un>.size))
-            }
-        }
-        guard c != -1 else {
-            throw .cannotConnect
-        }
-
-        return Socket2(fileDescriptor: fd)
+        return try Self(socket: Socket2(connectTo: waylandPath))
     }
 }
 

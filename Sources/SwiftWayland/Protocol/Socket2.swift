@@ -22,11 +22,38 @@ class Socket2 {
         self.fd = fileDescriptor
     }
 
+    init(connectTo path: String) throws(InitWaylandError) {
+        var addr = sockaddr_un()
+        addr.sun_family = UInt16(AF_UNIX)
+        withUnsafeMutableBytes(of: &addr.sun_path) { ptr in
+            ptr.copyBytes(from: path.utf8)
+            ptr[path.count] = 0  // null terminated
+        }
+
+        let fd = Glibc.socket(AF_UNIX, Int32(SOCK_STREAM.rawValue), 0)
+        guard fd != -1 else {
+            throw .cannotOpenSocket
+        }
+
+        let c = withUnsafePointer(to: &addr) { ptr in
+            ptr.withMemoryRebound(to: sockaddr.self, capacity: 1, ) { ptr in
+                connect(fd, ptr, UInt32(MemoryLayout<sockaddr_un>.size))
+            }
+        }
+        guard c != -1 else {
+            throw .cannotConnect
+        }
+
+        self.fd = fd
+    }
+
     func send(data: UnsafeRawBufferPointer, fds: [FileHandle]) throws(SocketError) -> Int {
         try Socket2.send(data: data, fds: fds, to: FileHandle(fileDescriptor: fd))
     }
 
-    func receive(data: UnsafeMutableRawBufferPointer, fds: inout [FileHandle]) throws(SocketError) -> Int {
+    func receive(data: UnsafeMutableRawBufferPointer, fds: inout [FileHandle]) throws(SocketError)
+        -> Int
+    {
         return try Socket2.receive(data: data, fds: &fds, from: FileHandle(fileDescriptor: fd))
     }
 
@@ -79,7 +106,7 @@ class Socket2 {
         let res = sendmsg(target.fileDescriptor, message.ptr, flags)
 
         if res < 0 {
-            print("res: \(res)")
+            // print("res: \(res)")
             throw SocketError.writeFailed(errno: errno)
         }
 
