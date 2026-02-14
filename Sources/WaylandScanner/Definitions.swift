@@ -42,11 +42,14 @@ struct Description: Codable {
 struct Enum: Codable {
     let name: String
     let entries: [EnumEntry]
+    let description: Description?
     // TODO: MARKER: bitfield handling
     let bitfield: Bool = false
+    // TODO: enum since codegen, (probably not needed tho)
+    let since: UInt?
 
     enum CodingKeys: String, CodingKey {
-        case name
+        case name, description, since
         case entries = "entry"
     }
 }
@@ -88,10 +91,6 @@ struct Argument: Codable {
     let interface: String?
     let `enum`: String?
     let summary: String?
-
-    var interfaceOrAny: String {
-        interface?.camel ?? "any WlProxy"
-    }
 }
 
 // https://wayland-book.com/protocol-design/wire-protocol.html

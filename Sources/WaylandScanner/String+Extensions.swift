@@ -55,6 +55,13 @@ extension String {
             self
         }
     }
+
+    var trimmed: String {
+        self
+            .split(separator: "\n")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .joined(separator: "\n")
+    }
 }
 
 // Copied from SwiftSyntax, its private

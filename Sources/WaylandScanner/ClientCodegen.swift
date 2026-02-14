@@ -18,7 +18,8 @@ func buildInterfaceClass(interface: Interface, importName: String? = nil) -> Str
 
     return """
         \(importString)
-
+        
+        \(interface.description?.docc.comment ?? "")
         public final class \(interface.name.camel): WlProxyBase, WlProxy, WlInterface {
             public static let name: String = "\(interface.name)"
             public var onEvent: (Event) -> Void = { _ in }
@@ -207,8 +208,10 @@ func buildMethod(_ r: Request, _ reqId: Int) -> String {
             "public func \(r.name.lowerCamel.gravedIfNeeded)\(signature.withOutBracket)"
         }
 
+    let docc = r.docc.map { "\($0.comment)\n" } ?? ""
+
     return """
-        \(blockHeader) {
+        \(docc)\(blockHeader) {
         \(statements.joined(separator: "\n").indent(space: 4))
         }
         """
@@ -240,21 +243,33 @@ func buildEnums(_ enums: [Enum]) -> String {
 
 func buildEnum(_ enumm: Enum) -> String {
     let cases = enumm.entries.map { e in
-        return
-            // TODO: might keep hex as is
-            // "case \(e.name.lowerCamel.gravedIfNeeded) = \(e.intValue.expect("invalid int value \(e)"))"
-            "case \(e.name.lowerCamel.gravedIfNeeded) = \(e.value)"
-    }.joined(separator: "\n")
+        var lines: [String] = []
+        if let docc = e.docc {
+            lines.append(docc.comment)
+        }
+        lines.append("case \(e.name.lowerCamel.gravedIfNeeded) = \(e.value)")
+        return lines.joined(separator: "\n")
+        // TODO: might keep hex as is
+        // "case \(e.name.lowerCamel.gravedIfNeeded) = \(e.intValue.expect("invalid int value \(e)"))"
+    }.joined(separator: "\n\n")
 
-    return """
+    var chunks: [String] = []
+    if let docc = enumm.docc {
+        chunks.append(docc.comment)
+    }
+    chunks.append(
+        """
         public enum \(enumm.name.camel.gravedIfNeeded): UInt32, WlEnum {
         \(cases.indent(space: 4))
         }
         """
+    )
+
+    return chunks.joined(separator: "\n")
 
 }
 
-func buildEnumArgs(_ event: Event) -> String {
+func buildEventEnumArgs(_ event: Event) -> String {
     event.arguments
         .map { a in
             "\(a.name.lowerCamel): \(getSwiftArgType(a))"
@@ -283,11 +298,17 @@ func getSwiftArgType(_ arg: Argument) -> String {
 
 func buildEventEnum(events: [Event]) -> String {
     let cases = events.map { e in
-        let args = buildEnumArgs(e)
+        var lines: [String] = []
+        let args = buildEventEnumArgs(e)
         let enumBody = e.arguments.count == 0 ? "" : "(\(args))"
+        if let docc = e.docc {
+            lines.append(docc.comment)
+        }
 
-        return "case \(e.name.lowerCamel.gravedIfNeeded)\(enumBody)"
-    }.joined(separator: "\n")
+        lines.append("case \(e.name.lowerCamel.gravedIfNeeded)\(enumBody)")
+
+        return lines.joined(separator: "\n")
+    }.joined(separator: "\n\n")
 
     return """
         public enum Event: WlEventEnum {

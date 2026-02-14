@@ -25,7 +25,7 @@ some design decision
 ## Destructor method
 - now every method will be able to throws
 - will expose a destructor function as a `consuming func`
-- will provide a `deinit` that will be automatically run if no consuming func are detected, so we need to keep track if an object is still alive or not
+- will provide a `deinit` that will be automatically run first destructor method with no argument
 
 ## Versioning
 - its currently inherited from what you bind
@@ -35,14 +35,17 @@ some design decision
 
 # Todos
 - async again
+- there is 2 `ZwpLinuxBufferParamsV1`: stable and unstable, probably need to do some namespacing + aliasing
 - @spi export
 - nullable onEvent
 - think about queue and concurrency
 - make Event decode failable (and not fatalError)
-- programmatic rename id to the instance or any better name
+- programmatic renaming of id to the interface name or any better name
 - bitfield
-- Codegen
-    - generate documentation
+- generate documentation
+    - throws
+    - returnsS
+    - callback
 - test
     - probably gonna steal from wayland-rs
 
