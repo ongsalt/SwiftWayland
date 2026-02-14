@@ -1,28 +1,23 @@
 import Foundation
 
-// typealias WLCallback = () -> Void
-
-// TODO: see swift Decodable
-public protocol WLDecodable {
-    static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self
-}
 
 public protocol WlInterface {
     static var name: String { get }
 }
 
-public protocol WlEnum: WLDecodable {}
-
-extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
-    public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32)
-        -> Self
-    {
-        Self(rawValue: 0)!
-    }
-}
+// this was never used???? 
+// TODO: confirm it
+// public protocol WlEnum: WLDecodable {}
+// extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
+//     public static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32)
+//         -> Self
+//     {
+//         Self(rawValue: 0)!
+//     }
+// }
 
 public protocol WlProxy: Identifiable, WlInterface, AnyObject {
-    associatedtype Event: WlEventEnum
+    associatedtype Event: WlEventEnum = NoEvent
     var version: UInt32 { get }
     var id: ObjectId {
         get
@@ -50,7 +45,17 @@ extension WlProxy {
     }
 }
 
-public protocol WlEventEnum: WLDecodable {}
+public protocol WlEventEnum {
+    // TOOD: make this failable
+    static func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> Self
+}
+
+public struct NoEvent: WlEventEnum {
+    static public func decode(message: Message, connection: Connection, fdSource: BufferedSocket, version: UInt32) -> NoEvent {
+        let obj = connection.get(id: message.objectId)!
+        fatalError("\(obj) has no event associated with it")
+    }
+}
 
 public enum WaylandProxyState {
     // case beforeBound

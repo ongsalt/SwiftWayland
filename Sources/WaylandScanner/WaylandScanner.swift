@@ -49,30 +49,35 @@ struct WaylandScanner: ParsableCommand {
             at: dir, withIntermediateDirectories: true)
 
         // bruhhh
-        Task {
-            await withTaskGroup { group in
+        // Task {
+        //     await withTaskGroup { group in
                 for interface in aProtocol.interfaces {
-                    group.addTask {
-                        await withUnsafeContinuation { contination in
-                            DispatchQueue.global().async {
+                    // group.addTask {
+                    //     await withUnsafeContinuation { contination in
+                    //         DispatchQueue.global().async {
                                 var url = dir
                                 url.append(path: "\(interface.name.camel).swift")
 
                                 print(" - Writing \(url.lastPathComponent)")
-                                let out = buildInterfaceClass(
-                                    interface: interface, importName: importName)
+                                // let out = buildInterfaceClass(
+                                //     interface: interface, importName: importName)
+                                let generator = Generator()
+                                let decl = transform(interface: interface)
+                                generator.walk(node: decl)
+                                // dump(decl)
+                                let out = generator.text
 
                                 try! out.write(to: url, atomically: true, encoding: .utf8)
-                                contination.resume()
-                            }
-                        }
+                        //         contination.resume()
+                        //     }
+                        // }
                     }
-                }
-            }
+        //         }
+        //     }
 
-            Foundation.exit(0)
-        }
+        //     Foundation.exit(0)
+        // }
 
-        RunLoop.main.run()
+        // RunLoop.main.run()
     }
 }

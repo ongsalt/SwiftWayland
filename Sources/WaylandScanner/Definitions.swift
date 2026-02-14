@@ -43,9 +43,7 @@ struct Enum: Codable {
     let name: String
     let entries: [EnumEntry]
     let description: Description?
-    // TODO: MARKER: bitfield handling
     let bitfield: Bool = false
-    // TODO: enum since codegen, (probably not needed tho)
     let since: UInt?
 
     enum CodingKeys: String, CodingKey {
