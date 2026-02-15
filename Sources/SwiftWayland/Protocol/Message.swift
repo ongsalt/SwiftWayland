@@ -99,6 +99,6 @@ extension Data {
 
 extension Message: CustomStringConvertible {
     public var description: String {
-        "Message { object: \(objectId), opcode: \(opcode) } \(arguments as NSData)"
+        "Message(object: \(objectId), opcode: \(opcode), \(arguments as NSData)) "
     }
 }

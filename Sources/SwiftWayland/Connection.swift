@@ -23,6 +23,7 @@ public final class Connection: @unchecked Sendable {
             switch event {
             case .error(let obj, let code, let message):
                 print("[Wayland] Fatal Error \(message) (code: \(code), target: \(obj))")
+                // how to throw tho
             case .deleteId(let id):
                 self.removeObject(id: id)
             }
@@ -54,16 +55,13 @@ public final class Connection: @unchecked Sendable {
             }
 
             guard let receiver: Weak<AnyObject> = self.proxies[message.objectId] else {
-                print("Bad wayland message: unknown receiver")
-                print(message)
-                print(message.arguments as NSData)
+                print("[Wayland] Unknown receiver, object might be deallocated \(message)")
                 continue
             }
 
+            // will never run tho, TODO: build new WeakSet
             guard let receiver = receiver.value else {
-                print("Bad wayland message: object is already dropped")
-                print(message)
-                print(message.arguments as NSData)
+                print("[Wayland] Bad event: object is already dropped \(message)")
                 break
             }
 

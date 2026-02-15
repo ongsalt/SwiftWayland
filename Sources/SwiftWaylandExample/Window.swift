@@ -33,6 +33,7 @@ public final class Window {
         let registry = try display.getRegistry()
 
         registry.onEvent = { [unowned self] event in
+            // print(event)
             switch event {
             case .global(let name, let interface, let version):
                 switch interface {
@@ -113,7 +114,7 @@ public final class Window {
         let size = stride * height
 
         let file: FileHandle = try! createShmFile(size: size)
-        self.file = file
+        // self.file = file
         let pool = try! shm.createPool(fd: file, size: Int32(size))
         let buffer = try! pool.createBuffer(
             offset: 0,

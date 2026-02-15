@@ -79,7 +79,11 @@ extension ClassDeclaration: Code {
                 gen.walk(node: d)
             }
 
-            gen.walk(node: self.events)
+            // wl_display.error might send a deallocated objectId
+            // so we must handle this manually
+            if self.interfaceName != "wl_display" {
+                gen.walk(node: self.events)
+            }
         }
         gen.add("}")
     }

@@ -47,6 +47,10 @@ class Socket2 {
         self.fd = fd
     }
 
+    deinit {
+        Glibc.close(self.fd)
+    }
+
     func send(data: UnsafeRawBufferPointer, fds: [FileHandle]) throws(SocketError) -> Int {
         try Socket2.send(data: data, fds: fds, to: FileHandle(fileDescriptor: fd))
     }
@@ -152,6 +156,9 @@ class Socket2 {
         let bytesRead = recvmsg(fd.fileDescriptor, message.ptr, flags)
 
         if bytesRead < 0 {
+            // if errno == 104 {
+            //     throw SocketError.connectionClosed
+            // }
             throw SocketError.readFailed(errno: errno)
         }
 

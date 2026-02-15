@@ -2,6 +2,7 @@ import Foundation
 
 enum BufferedSocketError: Error {
     case notEnoughBytes(requested: Int, left: Int)
+    case closed
 }
 
 public class BufferedSocket {

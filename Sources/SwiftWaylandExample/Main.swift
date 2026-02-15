@@ -15,6 +15,7 @@ public struct SwiftWaylandExample {
                 // try await testConnection()
             } catch {
                 print("Error: \(error)")
+                print(connection.proxiesList)
             }
 
             while !Task.isCancelled {
