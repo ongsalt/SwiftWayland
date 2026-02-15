@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "swift",
+			"args": [
+				"build",
+				"--product",
+				"SwiftWaylandExample"
+			],
+			"env": {},
+			"cwd": "/home/ongsalt/Programming/SwiftWayland",
+			"disableTaskQueue": true,
+			"dontTriggerTestDiscovery": true,
+			"group": "build",
+			"problemMatcher": [],
+			"label": "swift: Build Debug SwiftWaylandExample",
+			"detail": "swift build --product SwiftWaylandExample"
+		}
+	]
+}

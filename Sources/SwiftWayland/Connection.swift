@@ -10,18 +10,18 @@ public enum ConnectionError: Error {
 
 // TODO: map error, or we should stop throwing and use reulst instead
 
-public final class Connection: @unchecked Sendable {
+public final class Connection {
     // this should be weak
     // spi
     public let socket: BufferedSocket
-    var proxies: WeakMap<ObjectId, WlProxyBase> = [:]
+    var proxies: [ObjectId: WlProxyBase] = [:]
     var queues: [EventQueue] = []
     private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1
     private(set) public lazy var display: WlDisplay = createProxy(
         type: WlDisplay.self, version: 1, id: 1)
 
     public var proxiesList: [ObjectId: WlProxyBase] {
-        proxies.upgrade()
+        proxies
     }
 
     var mainQueue: EventQueue {
@@ -43,7 +43,7 @@ public final class Connection: @unchecked Sendable {
         }
     }
 
-    package func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws(SocketError) {
+    package func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws {
         let res = socket.receiveUntilDone(wait: wait)
         if case .failure(let error) = res {
             // what to do??
@@ -64,7 +64,7 @@ public final class Connection: @unchecked Sendable {
                 continue
             }
 
-            let event = (receiver as! any WlProxy).parse(message: message, connection: self)
+            let event = try (receiver as! any WlProxy).parse(message: message, connection: self)
             receiver.queue.enqueue(event, receiver: receiver.id)
         }
     }

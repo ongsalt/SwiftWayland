@@ -7,12 +7,13 @@ import SwiftWayland
 public struct SwiftWaylandExample {
     public static func main() {
         Task {
+            try await testConnection()
+        }
+        Task {
             let connection = try! Connection.fromEnv()
+            let w = Window(connection: connection)
             do {
-                let w = Window(connection: connection)
-                Unmanaged.passRetained(w)
                 try await w.start()
-                // try await testConnection()
             } catch {
                 print("Error: \(error)")
                 print(connection.proxiesList)
@@ -31,6 +32,7 @@ func testConnection() async throws {
     let connection = try! Connection.fromEnv()
 
     let display = connection.display
+    print(display)
 
     try display.sync { data in
         print("> Callback: Sync \(data)")

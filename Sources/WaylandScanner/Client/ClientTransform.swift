@@ -89,9 +89,9 @@ func transform(interface: Interface) -> ClassDeclaration {
                     throws: nil,
                 )
             },
-        deinit: interface.requests
-            .first { $0.arguments.count == 0 && $0.type == .destructor }
-            .map { DeinitDeclaration(selectedMethod: $0.name.lowerCamel) },
+        // deinit: interface.requests
+        //     .first { $0.arguments.count == 0 && $0.type == .destructor }
+        //     .map { DeinitDeclaration(selectedMethod: $0.name.lowerCamel) },
         enums: interface.enums.map { e in
             EnumDeclaration(
                 name: e.name.camel,

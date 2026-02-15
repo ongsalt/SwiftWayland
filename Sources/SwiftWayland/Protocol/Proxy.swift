@@ -87,10 +87,6 @@ open class WlProxyBase {
         self.version = version
         self.queue = queue
     }
-
-    deinit {
-        connection.removeObject(id: id)
-    }
 }
 
 extension WlProxyBase: Hashable {

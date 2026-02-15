@@ -22,6 +22,22 @@ public final class Window {
 
     private var file: FileHandle?
 
+    deinit {
+        if let bufferData = bufferData, bufferSize > 0 {
+            munmap(bufferData, bufferSize)
+        }
+        try? file?.close()
+
+        try? buffer?.destroy()
+        try? shmPool?.destroy()
+        try? toplevel?.destroy()
+        try? xdgSurface?.destroy()
+        try? surface?.destroy()
+        try? xdgWmBase?.destroy()
+        try? shm?.release()
+
+    }
+
     public init(connection: Connection, flusher: AutoFlusher? = nil) {
         self.connection = connection
         self.flusher = flusher
@@ -32,7 +48,8 @@ public final class Window {
         let display = connection.display
         let registry = try display.getRegistry()
 
-        registry.onEvent = { [unowned self] event in
+        registry.onEvent = { [weak self] event in
+            guard let self else { return }
             // print(event)
             switch event {
             case .global(let name, let interface, let version):
@@ -46,9 +63,7 @@ public final class Window {
                     self.xdgWmBase = registry.bind(
                         name: name, version: version, interface: XdgWmBase.self)
                     self.xdgWmBase?.onEvent = { [weak self] ev in
-                        guard let self else {
-                            return
-                        }
+                        guard let self else { return }
                         if case .ping(let serial) = ev {
                             try! self.xdgWmBase?.pong(serial: serial)
                         }
@@ -61,7 +76,7 @@ public final class Window {
         }
 
         try connection.roundtrip()
-        
+
         guard
             let compositor = compositor,
             let xdgWmBase = xdgWmBase,
@@ -88,16 +103,16 @@ public final class Window {
         bufferWidth = initialWidth
         bufferHeight = initialHeight
 
-        xdgSurface.onEvent = { [unowned self] event in
+        xdgSurface.onEvent = { [weak self] event in
+            guard let self else { return }
             if case .configure(let serial) = event {
                 try! xdgSurface.ackConfigure(serial: serial)
-                if let buffer = self.buffer, let surface = self.surface {
-                    try! surface.attach(buffer: buffer, x: 0, y: 0)
-                    try! surface.damage(
-                        x: 0, y: 0, width: Int32(self.bufferWidth), height: Int32(self.bufferHeight)
-                    )
-                    try! surface.commit()
-                }
+                try! surface.attach(buffer: self.buffer!, x: 0, y: 0)
+                try! surface.damage(
+                    x: 0, y: 0, width: Int32(self.bufferWidth), height: Int32(self.bufferHeight)
+                )
+                try! surface.commit()
+
             }
         }
 

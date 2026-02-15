@@ -18,8 +18,10 @@ some design decision
 ## Destructor method
 - now every method will be able to throws
 - will expose a destructor function as a `consuming func`
-- will provide a `deinit` that will be automatically run first destructor method with no argument
-- this should be configurable
+- will not generate a deinit
+- even if we call a destructor, message might still come in, so drop it?
+- connection are now required to have strong reference to those (2 way)
+
 
 ## Versioning
 - its currently inherited from what you bind
@@ -27,8 +29,11 @@ some design decision
     - if its wl_callback, just make it 1 or just ignore
 
 # Todos
+- typed error
+- max version
 - nullable onEvent
 - make Event decode failable (and not fatalError)
+- allow custom proxy?
 - when should i check if fd is open? dispatch??? or when call
 - error message when connection closed,
 - async again
