@@ -1,27 +1,16 @@
 # SwiftWayland
-Wayland scanner and Wayland client library for swift 
-
-# Warning 2: memory leak
+Wayland scanner and Wayland client library for swift. We don't do server yet.
 
 
-# WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
-and lifetime must be rethink. Currently every proxy have strong reference to a `Conenction` but a `Connection` only have a weak references to those which is used to dispatch the event. The problem is that the server might still try to send an event to those deallocated object. We can just ignore this and for wl_display.error we need to provide special implementation?
-
-# What's not in there
-- Server code generation
+## WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
 
 # Usages
 
 For client library see `SwiftWaylandExample` 
 
 ## Code generation
-See Scripts/generate.py
 
-```bash
-# swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml
-swift run WaylandScanner client /usr/share/wayland/wayland.xml Sources/SwiftWayland/Generated/Wayland
-swift run WaylandScanner client /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml Sources/SwiftWayland/Generated/Stable/XdgShell
-```
+See Scripts/generate.py
 
 
 # Design
@@ -38,19 +27,17 @@ some design decision
     - if its wl_callback, just make it 1 or just ignore
 
 # Todos
-- document args
+- nullable onEvent
+- make Event decode failable (and not fatalError)
 - when should i check if fd is open? dispatch??? or when call
 - error message when connection closed,
 - async again
 - there is 2 `ZwpLinuxBufferParamsV1`: stable and unstable, probably need to do some namespacing + aliasing
 - codegen plugin
 - @spi export
-- nullable onEvent
-- make Event decode failable (and not fatalError)
 - bitfield
 - generate documentation
     - throws
     - returns multiple object
 - test
     - probably gonna steal from wayland-rs
-
