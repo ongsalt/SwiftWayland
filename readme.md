@@ -5,8 +5,7 @@ Wayland scanner and Wayland client library for swift
 
 
 # WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
-and lifetime must be rethink. Currently every proxy have strong reference to a `Conenction` but a `Connection` only have a weak references to those which is used to dispatch the event  
-Each proxy object will be automatically 
+and lifetime must be rethink. Currently every proxy have strong reference to a `Conenction` but a `Connection` only have a weak references to those which is used to dispatch the event. The problem is that the server might still try to send an event to those deallocated object. We can just ignore this and for wl_display.error we need to provide special implementation?
 
 # What's not in there
 - Server code generation

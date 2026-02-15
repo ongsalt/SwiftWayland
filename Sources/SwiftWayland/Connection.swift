@@ -110,10 +110,10 @@ public final class Connection: @unchecked Sendable {
     }
 
     func nextId() -> ObjectId {
-        while proxies.keys.contains(currentId) {
-            currentId += 1
-            // currentId += numericCast(rand())
-        }
+        currentId += 1
+        // while proxies.keys.contains(currentId) {
+        //     // currentId += numericCast(rand())
+        // }
         return currentId
     }
 
