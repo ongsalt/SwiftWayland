@@ -61,7 +61,7 @@ struct WaylandScanner: ParsableCommand {
             print(" - Writing \(url.lastPathComponent)")
             let generator = Generator()
             if let importName {
-                generator.imports.append(importName)
+                generator.importName = importName
             }
             let decl = transform(interface: interface)
             generator.walk(node: decl)

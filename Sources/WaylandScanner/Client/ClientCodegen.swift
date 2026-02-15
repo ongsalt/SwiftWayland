@@ -2,11 +2,10 @@ let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
 let QUEUE_INNER_NAME: String = "_queue"
 
 class Generator {
-    // let useAsync: Bool = false
     var stack: [any Code] = []
     var indentation: Int = 4
     var indentLevel: Int = 0
-    var imports: [String] = []
+    var importName: String?
 
     var text: String = ""
 
@@ -50,8 +49,8 @@ protocol Code {
 extension ClassDeclaration: Code {
     func generate(_ gen: Generator) {
         gen.add("import Foundation")
-        for name in gen.imports {
-            gen.add("import \(name)")
+        if let importName = gen.importName {
+            gen.add("@_spi(SwiftWaylandPrivate) import \(importName)")
         }
         gen.add()
 

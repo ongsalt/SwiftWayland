@@ -8,19 +8,18 @@ public enum ConnectionError: Error {
     case connectionClosed
 }
 
-// TODO: map error, or we should stop throwing and use reulst instead
+// TODO: map error
 
 public final class Connection {
     // this should be weak
-    // spi
-    public let socket: BufferedSocket
-    var proxies: [ObjectId: WlProxyBase] = [:]
+    @_spi(SwiftWaylandPrivate) public let socket: BufferedSocket
+    var proxies: [ObjectId: any WlProxy] = [:]
     var queues: [EventQueue] = []
     private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1
     private(set) public lazy var display: WlDisplay = createProxy(
         type: WlDisplay.self, version: 1, id: 1)
 
-    public var proxiesList: [ObjectId: WlProxyBase] {
+    public var proxiesList: [ObjectId: any WlProxy] {
         proxies
     }
 
@@ -43,7 +42,7 @@ public final class Connection {
         }
     }
 
-    package func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws {
+    func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws {
         let res = socket.receiveUntilDone(wait: wait)
         if case .failure(let error) = res {
             // what to do??
@@ -64,7 +63,7 @@ public final class Connection {
                 continue
             }
 
-            let event = try (receiver as! any WlProxy).parse(message: message, connection: self)
+            let event = try receiver.parse(message: message, connection: self)
             receiver.queue.enqueue(event, receiver: receiver.id)
         }
     }
@@ -90,14 +89,14 @@ public final class Connection {
     // --- SPI export ---
 
     @discardableResult
-    public func send(message: Message) -> Int {
+    @_spi(SwiftWaylandPrivate) public func send(message: Message) -> Int {
         let data = Data(message)
         socket.write(data: data, fds: message.fds)
         return data.count
     }
 
     public func get(id: ObjectId) -> (any WlProxy)? {
-        proxies[id] as! (any WlProxy)?
+        proxies[id]
     }
 
     public func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
@@ -116,10 +115,10 @@ public final class Connection {
         return currentId
     }
 
-    public func createProxy<T>(
+    @_spi(SwiftWaylandPrivate) public func createProxy<T>(
         type: T.Type, version: UInt32, id: ObjectId? = nil, queue: EventQueue? = nil
     ) -> T
-    where T: WlProxy, T: WlProxyBase {
+    where T: WlProxy {
         let id = id ?? nextId()
         let obj = T(connection: self, id: id, version: version, queue: queue ?? self.mainQueue)
         // print("[Wayland] create \(obj) with id: \(id)")
@@ -128,7 +127,7 @@ public final class Connection {
         return obj
     }
 
-    public func createCallback(fn: @escaping (UInt32) -> Void, queue: EventQueue? = nil)
+    @_spi(SwiftWaylandPrivate) public func createCallback(fn: @escaping (UInt32) -> Void, queue: EventQueue? = nil)
         -> WlCallback
     {
         // this must be alive until it got call
@@ -154,8 +153,7 @@ public final class Connection {
         return callback
     }
 
-    // TODO: @spi for this
-    public func removeObject(id: ObjectId) {
+    @_spi(SwiftWaylandPrivate) public func removeObject(id: ObjectId) {
         proxies[id] = nil
     }
 

@@ -31,8 +31,7 @@ some design decision
 # Todos
 - typed error
 - max version
-- nullable onEvent
-- make Event decode failable (and not fatalError)
+- make Event decode failable (and not fatalError) in case object mentioned is already dropped
 - allow custom proxy?
 - when should i check if fd is open? dispatch??? or when call
 - error message when connection closed,
