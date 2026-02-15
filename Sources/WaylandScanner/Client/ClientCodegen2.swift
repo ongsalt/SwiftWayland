@@ -77,11 +77,12 @@ extension ClassDeclaration: Code {
 
             if let d = self.deinit {
                 gen.walk(node: d)
+                gen.add()
             }
 
             // wl_display.error might send a deallocated objectId
             // so we must handle this manually
-            if self.interfaceName != "wl_display" {
+            if !self.events.isEmpty && self.interfaceName != "wl_display" {
                 gen.walk(node: self.events)
             }
         }
@@ -250,7 +251,11 @@ extension DeinitDeclaration: Code {
     func generate(_ gen: Generator) {
         gen.add("deinit {")
         gen.indent {
-            gen.add("try? self.\(self.selectedMethod.gravedIfNeeded)()")
+            gen.add("if self._state == WaylandProxyState.alive {")
+            gen.indent {
+                gen.add("try? self.\(self.selectedMethod.gravedIfNeeded)()")
+            }
+            gen.add("}")
         }
         gen.add("}")
     }
@@ -274,7 +279,9 @@ extension Array: Code where Element == EventDeclaration {
             gen.indent {
                 let reader = true
                 if reader {
-                    gen.add("var r = ArgumentReader(data: message.arguments, fdSource: connection.socket)")
+                    gen.add(
+                        "var r = ArgumentReader(data: message.arguments, fdSource: connection.socket)"
+                    )
                 }
                 gen.add("switch message.opcode {")
                 for (index, event) in self.enumerated() {
