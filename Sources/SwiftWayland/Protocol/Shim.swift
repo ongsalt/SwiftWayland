@@ -2,7 +2,7 @@ import Foundation
 
 extension WlRegistry {
     public func bind<T>(name: UInt32, version: UInt32, interface: T.Type) -> T
-    where T: WlInterface & WlProxy {
+    where T: WlInterface & WlProxy & WlProxyBase {
         let obj = connection.createProxy(type: T.self, version: version)
         let message = Message(
             objectId: self.id, opcode: 0,

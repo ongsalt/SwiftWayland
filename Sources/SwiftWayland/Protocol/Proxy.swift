@@ -1,25 +1,17 @@
 import Foundation
 
-
 public protocol WlInterface {
     static var name: String { get }
 }
-
-// this was never used???? 
-// TODO: confirm it
-// public protocol WlEnum: WLDecodable {}
-// extension WlEnum where Self: RawRepresentable, Self.RawValue == UInt32 {
-//     public static func decode(message: Message, connection: Connection, version: UInt32)
-//         -> Self
-//     {
-//         Self(rawValue: 0)!
-//     }
-// }
 
 public protocol WlProxy: Identifiable, WlInterface, AnyObject {
     associatedtype Event: WlEventEnum = NoEvent
     var version: UInt32 { get }
     var id: ObjectId {
+        get
+    }
+
+    var queue: EventQueue {
         get
     }
 
@@ -32,26 +24,42 @@ public protocol WlProxy: Identifiable, WlInterface, AnyObject {
         set
     }
 
-    init(connection: Connection, id: ObjectId, version: UInt32)
+    init(connection: Connection, id: ObjectId, version: UInt32, queue: EventQueue)
 }
 
 extension WlProxy {
-    func parseAndDispatch(message: Message, connection: Connection) {
-        let event = Event.decode(message: message, connection: connection, version: self.version)
-        #if DEBUG
-            // print("[Wayland] dispatch \(event) to \(self)")
-        #endif
-        self.onEvent(event)
+    nonisolated package func parse(message: Message, connection: Connection) -> Event {
+        Event.decode(message: message, connection: connection, version: self.version)
     }
+
+    nonisolated package func dispatch(event: any WlEventEnum) {
+        if let event = event as? Event {
+            #if DEBUG
+                // print("[Wayland] dispatch \(event) to \(self)")
+            #endif
+            self.onEvent(event)
+        } else {
+            fatalError("Invalid event type: \(event)")
+        }
+    }
+}
+
+// TODO: rename this to WlEvent
+
+public enum WaylandEventDecodeError: Error {
+
 }
 
 public protocol WlEventEnum {
     // TOOD: make this failable
     static func decode(message: Message, connection: Connection, version: UInt32) -> Self
+
+    // static func decode(message: Message, connection: Connection, version: UInt32) -> Result<Self, WaylandEventDecodeError>
 }
 
 public struct NoEvent: WlEventEnum {
-    static public func decode(message: Message, connection: Connection, version: UInt32) -> NoEvent {
+    static public func decode(message: Message, connection: Connection, version: UInt32) -> NoEvent
+    {
         let obj = connection.get(id: message.objectId)!
         fatalError("\(obj) has no event associated with it")
     }
@@ -68,11 +76,13 @@ open class WlProxyBase {
     public var connection: Connection
     public var _state: WaylandProxyState = .alive
     public let version: UInt32
+    public let queue: EventQueue
 
-    public required init(connection: Connection, id: ObjectId, version: UInt32) {
+    public required init(connection: Connection, id: ObjectId, version: UInt32, queue: EventQueue) {
         self.connection = connection
         self.id = id
         self.version = version
+        self.queue = queue ?? connection.mainQueue
     }
 
     deinit {

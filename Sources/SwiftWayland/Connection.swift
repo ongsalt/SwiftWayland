@@ -12,15 +12,24 @@ public enum ConnectionError: Error {
 
 public final class Connection: @unchecked Sendable {
     // this should be weak
-    var proxies: [ObjectId: Weak<AnyObject>] = [:]
-    private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1
     let socket: BufferedSocket
-
+    var proxies: WeakMap<ObjectId, WlProxyBase> = [:]
+    var queues: [EventQueue] = []
+    private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1
     private(set) public lazy var display: WlDisplay = createProxy(
         type: WlDisplay.self, version: 1, id: 1)
 
+    public var proxiesList: [ObjectId: WlProxyBase] {
+        proxies.upgrade()
+    }
+
+    var mainQueue: EventQueue {
+        queues[0]
+    }
+
     init(socket: Socket2) {
         self.socket = BufferedSocket(socket)
+        queues.append(EventQueue(connection: self))
         // we force to create it now
         display.onEvent = { event in
             switch event {
@@ -33,48 +42,29 @@ public final class Connection: @unchecked Sendable {
         }
     }
 
-    public func dispatch(force: Bool = false) throws(ConnectionError) {
-        let res = socket.receiveUntilDone(force: force)
+    package func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws(SocketError) {
+        let res = socket.receiveUntilDone(wait: wait)
         if case .failure(let error) = res {
-            // must close immediately
-            throw .socket(error)
+            // what to do??
+            throw error
         }
 
-        // print("DataAvailable: \(socket.dataAvailable)")
         while socket.data.count >= Message.HEADER_SIZE {
             let result = Result {
                 try Message(readBlocking: socket)
             }.mapError { $0 as! BufferedSocketError }
 
             guard case .success(let message) = result else {
-                // print("not enought data \(socket.data.count) \(socket.data as NSData)")
-                let res = socket.receiveUntilDone(force: false)
-                if case .failure(let error) = res {
-                    switch error {
-                    case .closed: throw .connectionClosed
-                    // case .readFailed(let errno): fatalError("TODO: more error handling")
-                    case .readFailed(let errno): fatalError("TODO: more error handling")
-                    default: fatalError("Unreachable")
-                    }
-                    // throw .socket(error)
-                }
-                // print("received \(socket.data.count)")
-                continue
+                break
             }
 
-            guard let receiver: Weak<AnyObject> = self.proxies[message.objectId] else {
+            guard let receiver = self.proxies[message.objectId] else {
                 print("[Wayland] Unknown receiver, object might be deallocated \(message)")
                 continue
             }
 
-            // will never run tho, TODO: build new WeakSet
-            guard let receiver = receiver.value else {
-                print("[Wayland] Bad event: object is already dropped \(message)")
-                break
-            }
-
-            (receiver as! any WlProxy).parseAndDispatch(
-                message: message, connection: self)
+            let event = (receiver as! any WlProxy).parse(message: message, connection: self)
+            receiver.queue.enqueue(event, receiver: receiver.id)
         }
     }
 
@@ -88,16 +78,15 @@ public final class Connection: @unchecked Sendable {
         }.get()
     }
 
-    public func roundtrip() throws {
-        var shouldStop = false
-        try display.sync { _ in
-            shouldStop = true
-        }
-        try self.flush()
-        while !shouldStop {
-            try self.dispatch(force: true)
-        }
+    public func dispatch(wait: Bool = false) throws {
+        try self.mainQueue.dispatch(wait: wait)
     }
+
+    public func roundtrip() throws {
+        try self.mainQueue.roundtrip()
+    }
+
+    // --- SPI export ---
 
     @discardableResult
     public func send(message: Message) -> Int {
@@ -107,7 +96,7 @@ public final class Connection: @unchecked Sendable {
     }
 
     public func get(id: ObjectId) -> (any WlProxy)? {
-        proxies[id]?.value as? ((any WlProxy)?) ?? nil
+        proxies[id] as! (any WlProxy)?
     }
 
     public func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
@@ -126,20 +115,29 @@ public final class Connection: @unchecked Sendable {
         return currentId
     }
 
-    public func createProxy<T>(type: T.Type, version: UInt32, id: ObjectId? = nil) -> T
-    where T: WlProxy {
+    public func createProxy<T>(
+        type: T.Type, version: UInt32, id: ObjectId? = nil, _queue: EventQueue? = nil
+    ) -> T
+    where T: WlProxy, T: WlProxyBase {
         let id = id ?? nextId()
-        let obj = T(connection: self, id: id, version: version)
+        let obj = T(connection: self, id: id, version: version, queue: _queue ?? self.mainQueue)
         // print("[Wayland] create \(obj) with id: \(id)")
         // dump(obj)
-        proxies[obj.id] = Weak(obj)
+        proxies[obj.id] = obj
         return obj
     }
 
-    public func createCallback(fn: @escaping (UInt32) -> Void) -> WlCallback {
+    public func createCallback(fn: @escaping (UInt32) -> Void, _queue: EventQueue? = nil)
+        -> WlCallback
+    {
         // this must be alive until it got call
-        let callback = WlCallback(connection: self, id: nextId(), version: 1)
-        proxies[callback.id] = Weak(callback)
+        let callback = WlCallback(
+            connection: self,
+            id: nextId(),
+            version: 1,
+            queue: _queue ?? self.mainQueue
+        )
+        proxies[callback.id] = callback
 
         // lmao
         let ref = Unmanaged.passRetained(callback)
@@ -155,24 +153,9 @@ public final class Connection: @unchecked Sendable {
         return callback
     }
 
-    public var proxiesList: [(UInt32, any WlProxy)] {
-        proxies.lazy.map { (k, v) in
-            (k, v.value as? any WlProxy)
-        }.filter { (_, v) in
-            v != nil
-        }.map { (k, v) in
-            (k, v!)
-        }
-    }
-
     // TODO: @spi for this
     public func removeObject(id: ObjectId) {
-        // this is not needed tho, because its a already weak??
-        // todo delete_id req
-        if let v = proxies[id]?.value {
-            print(v)
-        }
-        proxies.removeValue(forKey: id)
+        proxies[id] = nil
     }
 
     deinit {
@@ -220,7 +203,7 @@ public final class AutoFlusher {
 
             // if !connection.socket.canRead {
             //     print("> Cant (can read)")
-            //     try! connection.dispatchBlocking(force: true)
+            //     try! connection.dispatchBlocking(wait: true)
             // }
         }!
     }

@@ -80,7 +80,7 @@ public class BufferedSocket {
         _data.deallocate()
     }
 
-    func receiveUntilDone(force: Bool = false) -> Result<(), SocketError> {
+    func receiveUntilDone(wait force: Bool = false) -> Result<(), SocketError> {
         var shouldRun = force
         var fds: [FileHandle] = []
 

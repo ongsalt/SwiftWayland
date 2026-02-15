@@ -43,16 +43,15 @@ some design decision
 - error message when connection closed,
 - async again
 - there is 2 `ZwpLinuxBufferParamsV1`: stable and unstable, probably need to do some namespacing + aliasing
+- codegen plugin
 - @spi export
 - nullable onEvent
-- think about concurrency, this is not yet thread safe
 - make Event decode failable (and not fatalError)
-- programmatic renaming of id to the interface name or any better name
 - bitfield
 - generate documentation
     - throws
     - returns
-    - callback
+    - args
 - test
     - probably gonna steal from wayland-rs
 
