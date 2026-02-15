@@ -14,7 +14,7 @@ public final class Connection: @unchecked Sendable {
     let socket: BufferedSocket
 
     private(set) public lazy var display: WlDisplay = createProxy(
-        type: WlDisplay.self, version: nextId(), id: 1)
+        type: WlDisplay.self, version: 1, id: 1)
 
     init(socket: Socket2) {
         self.socket = BufferedSocket(socket)
@@ -22,7 +22,7 @@ public final class Connection: @unchecked Sendable {
         display.onEvent = { event in
             switch event {
             case .error(let obj, let code, let message):
-                print("[Wayland] Error \(message) (code: \(code), target: \(obj))")
+                print("[Wayland] Fatal Error \(message) (code: \(code), target: \(obj))")
             case .deleteId(let id):
                 self.removeObject(id: id)
             }
