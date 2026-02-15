@@ -9,6 +9,13 @@ let package = Package(
         // .executable(name: "WaylandScanner", targets: ["WaylandScanner"]),
         .library(name: "SwiftWayland", targets: ["SwiftWayland", "WaylandProtocols"])
     ],
+    traits: [
+        .trait(name: "Client"),
+        .trait(name: "Server"),
+        .trait(name: "Staging"),
+        .trait(name: "Unstable"),
+        .default(enabledTraits: ["Client"]),
+    ],
     dependencies: [
         // other dependencies
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
