@@ -19,7 +19,7 @@ public protocol WlProxy: Identifiable, WlInterface, AnyObject {
         get
     }
 
-    var onEvent: ((Event) -> Void) {
+    var onEvent: ((Event) -> Void)? {
         get
         set
     }
@@ -28,40 +28,43 @@ public protocol WlProxy: Identifiable, WlInterface, AnyObject {
 }
 
 extension WlProxy {
-    nonisolated package func parse(message: Message, connection: Connection) -> Event {
-        Event.decode(message: message, connection: connection, version: self.version)
+    nonisolated package func parse(message: Message, connection: Connection) throws(WaylandEventDecodeError) -> Event {
+        try Event.decode(message: message, connection: connection, version: self.version)
     }
 
     nonisolated package func dispatch(event: any WlEventEnum) {
+        guard let onEvent else {
+            return
+        }
         if let event = event as? Event {
             #if DEBUG
                 // print("[Wayland] dispatch \(event) to \(self)")
             #endif
-            self.onEvent(event)
+            onEvent(event)
         } else {
             fatalError("Invalid event type: \(event)")
         }
     }
 }
 
-// TODO: rename this to WlEvent
 
 public enum WaylandEventDecodeError: Error {
-
+    // case objectNotFound(id: ObjectId)
+    case noEvent
 }
 
+// TODO: rename this to WlEvent
 public protocol WlEventEnum {
     // TOOD: make this failable
-    static func decode(message: Message, connection: Connection, version: UInt32) -> Self
-
-    // static func decode(message: Message, connection: Connection, version: UInt32) -> Result<Self, WaylandEventDecodeError>
+    static func decode(message: Message, connection: Connection, version: UInt32) throws(WaylandEventDecodeError) -> Self
 }
 
 public struct NoEvent: WlEventEnum {
-    static public func decode(message: Message, connection: Connection, version: UInt32) -> NoEvent
+    static public func decode(message: Message, connection: Connection, version: UInt32) throws(WaylandEventDecodeError) -> NoEvent
     {
         let obj = connection.get(id: message.objectId)!
-        fatalError("\(obj) has no event associated with it")
+        print("\(obj) has no event associated with it")
+        throw .noEvent
     }
 }
 
@@ -82,7 +85,7 @@ open class WlProxyBase {
         self.connection = connection
         self.id = id
         self.version = version
-        self.queue = queue ?? connection.mainQueue
+        self.queue = queue
     }
 
     deinit {

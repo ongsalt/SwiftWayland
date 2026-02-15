@@ -65,7 +65,7 @@ extension ClassDeclaration: Code {
                 public static let name: String = "\(self.interfaceName)"
                 """
             )
-            gen.add("public var onEvent: (Event) -> Void = { _ in }")
+            gen.add("public var onEvent: ((Event) -> Void)? = nil")
 
             for method in self.methods {
                 // method.generate(gen)
