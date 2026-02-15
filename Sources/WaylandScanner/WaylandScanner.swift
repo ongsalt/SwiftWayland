@@ -17,6 +17,9 @@ public enum WaylandProtocolMacroError: Error {
     case invalidXml
 }
 
+
+// TODO: parse options like trimPrefix: "wl" or "xdg"
+// 
 public struct WaylandProtocolMacro: MemberMacro {
     public static func expansion(
         of node: AttributeSyntax,

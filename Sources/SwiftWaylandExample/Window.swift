@@ -5,16 +5,16 @@ public final class Window {
     public let connection: Connection
     public let flusher: AutoFlusher?
 
-    private var compositor: WlCompositor?
-    private var shm: WlShm?
-    private var xdgWmBase: XdgWmBase?
+    private var compositor: Wayland.WlCompositor?
+    private var shm: Wayland.WlShm?
+    private var xdgWmBase: Wayland.XdgWmBase?
 
-    private var surface: WlSurface?
-    private var xdgSurface: XdgSurface?
-    private var toplevel: XdgToplevel?
+    private var surface: Wayland.WlSurface?
+    private var xdgSurface: Wayland.XdgSurface?
+    private var toplevel: Wayland.XdgToplevel?
 
-    private var shmPool: WlShmPool?
-    private var buffer: WlBuffer?
+    private var shmPool: Wayland.WlShmPool?
+    private var buffer: Wayland.WlBuffer?
     private var bufferData: UnsafeMutableRawPointer?
     private var bufferSize: Int = 0
     private var bufferWidth: Int = 0
@@ -54,14 +54,15 @@ public final class Window {
             switch event {
             case .global(let name, let interface, let version):
                 switch interface {
-                case WlCompositor.name:
+                case Wayland.WlCompositor.name:
                     self.compositor = registry.bind(
-                        name: name, version: version, interface: WlCompositor.self)
-                case WlShm.name:
-                    self.shm = registry.bind(name: name, version: version, interface: WlShm.self)
-                case XdgWmBase.name:
+                        name: name, version: version, interface: Wayland.WlCompositor.self)
+                case Wayland.WlShm.name:
+                    self.shm = registry.bind(
+                        name: name, version: version, interface: Wayland.WlShm.self)
+                case Wayland.XdgWmBase.name:
                     self.xdgWmBase = registry.bind(
-                        name: name, version: version, interface: XdgWmBase.self)
+                        name: name, version: version, interface: Wayland.XdgWmBase.self)
                     self.xdgWmBase?.onEvent = { [weak self] ev in
                         guard let self else { return }
                         if case .ping(let serial) = ev {
@@ -122,8 +123,8 @@ public final class Window {
         try connection.roundtrip()
     }
 
-    private func makeShmBuffer(shm: WlShm, width: Int, height: Int) throws -> (
-        buffer: WlBuffer, pool: WlShmPool, data: UnsafeMutableRawPointer, size: Int
+    private func makeShmBuffer(shm: Wayland.WlShm, width: Int, height: Int) throws -> (
+        buffer: Wayland.WlBuffer, pool: Wayland.WlShmPool, data: UnsafeMutableRawPointer, size: Int
     ) {
         let stride = width * 4
         let size = stride * height
@@ -136,7 +137,7 @@ public final class Window {
             width: Int32(width),
             height: Int32(height),
             stride: Int32(stride),
-            format: WlShm.Format.xrgb8888.rawValue
+            format: Wayland.WlShm.Format.xrgb8888.rawValue
         )
 
         let data = mmap(nil, size, PROT_READ | PROT_WRITE, MAP_SHARED, file.fileDescriptor, 0)
