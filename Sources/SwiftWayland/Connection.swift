@@ -1,11 +1,12 @@
 import CoreFoundation
 import Foundation
 
-public enum InitWaylandError: Error {
+public enum ConnectionError: Error {
     case noXdgRuntimeDirectory
-    case cannotOpenSocket
-    case cannotConnect
+    case socket(SocketError)
 }
+
+// TODO: map error, or we should stop throwing and use reulst instead
 
 public final class Connection: @unchecked Sendable {
     // this should be weak
@@ -23,33 +24,31 @@ public final class Connection: @unchecked Sendable {
             switch event {
             case .error(let obj, let code, let message):
                 print("[Wayland] Fatal Error \(message) (code: \(code), target: \(obj))")
-                // how to throw tho
+            // how to throw tho
             case .deleteId(let id):
                 self.removeObject(id: id)
             }
         }
     }
 
-    public func dispatch(force: Bool = false) throws {
-        // var shouldRun = force
-
-        // var error: SocketError? = nil
-        // do {
-        try socket.receiveUntilDone(force: force)
-        // } catch let e {
-        //     error = e
-        // }
+    public func dispatch(force: Bool = false) throws(ConnectionError) {
+        let res = socket.receiveUntilDone(force: force)
+        if case .failure(let error) = res {
+            throw .socket(error)
+        }
 
         // print("DataAvailable: \(socket.dataAvailable)")
         while socket.data.count >= Message.HEADER_SIZE {
-            // shouldRun = false
             let result = Result {
                 try Message(readBlocking: socket)
             }.mapError { $0 as! BufferedSocketError }
 
             guard case .success(let message) = result else {
                 // print("not enought data \(socket.data.count) \(socket.data as NSData)")
-                try socket.receiveUntilDone(force: false)
+                let res = socket.receiveUntilDone(force: false)
+                if case .failure(let error) = res {
+                    throw .socket(error)
+                }
                 // print("received \(socket.data.count)")
                 continue
             }
@@ -68,14 +67,10 @@ public final class Connection: @unchecked Sendable {
             (receiver as! any WlProxy).parseAndDispatch(
                 message: message, connection: self)
         }
-
-        // if let error {
-        //     throw error
-        // }
     }
 
-    public func flush() throws {
-        try self.socket.flush()
+    public func flush() throws(ConnectionError) {
+        try self.socket.flush().mapError { ConnectionError.socket($0) }.get()
     }
 
     public func roundtrip() throws {
@@ -88,6 +83,7 @@ public final class Connection: @unchecked Sendable {
             try self.dispatch(force: true)
         }
     }
+
     @discardableResult
     public func send(message: Message) -> Int {
         let data = Data(message)
@@ -168,7 +164,7 @@ public final class Connection: @unchecked Sendable {
         print("Closing because refcounted")
     }
 
-    public static func fromEnv() throws(InitWaylandError) -> Self {
+    public static func fromEnv() throws(ConnectionError) -> Self {
         guard let xdgRuntimeDirectory = ProcessInfo.processInfo.environment["XDG_RUNTIME_DIR"]
         else {
             throw .noXdgRuntimeDirectory
@@ -177,7 +173,14 @@ public final class Connection: @unchecked Sendable {
         let waylandDisplay = ProcessInfo.processInfo.environment["WAYLAND_DISPLAY"] ?? "wayland-0"
         let waylandPath = "\(xdgRuntimeDirectory)/\(waylandDisplay)"
 
-        return try Self(socket: Socket2(connectTo: waylandPath))
+        let socket = Result {
+            try Socket2(connectTo: waylandPath)
+        }
+
+        return switch socket {
+        case .success(let socket): Self(socket: socket)
+        case .failure(let error): throw .socket(error as! SocketError)
+        }
     }
 }
 

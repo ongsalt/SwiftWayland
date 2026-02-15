@@ -61,7 +61,7 @@ public final class Window {
         }
 
         try connection.roundtrip()
-
+        
         guard
             let compositor = compositor,
             let xdgWmBase = xdgWmBase,

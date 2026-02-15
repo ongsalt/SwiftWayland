@@ -52,7 +52,7 @@ public struct Message {
             throw .notEnoughBytes(requested: Int(Self.HEADER_SIZE), left: socket.data.count)
         }
 
-        let header = try socket.read(Self.HEADER_SIZE, consume: false)
+        let header = try socket.read(Self.HEADER_SIZE, consume: false).get()
         objectId = Self.readUInt32(header, offset: 0)
         opcode = Self.readUInt16(header, offset: 4)
         size = Self.readUInt16(header, offset: 6)
@@ -61,8 +61,9 @@ public struct Message {
             throw .notEnoughBytes(requested: Int(size), left: socket.data.count)
         }
 
-        try! _ = socket.read(Self.HEADER_SIZE, consume: true)
-        arguments = try socket.read(Int(size - Self.HEADER_SIZE))
+        _ = try socket.read(Self.HEADER_SIZE, consume: true).get()
+        arguments = try socket.read(Int(size - Self.HEADER_SIZE)).get()
+
         self.fds = []  // This must be request later in the event parsing
     }
 

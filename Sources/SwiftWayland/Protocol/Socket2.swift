@@ -22,7 +22,7 @@ class Socket2 {
         self.fd = fileDescriptor
     }
 
-    init(connectTo path: String) throws(InitWaylandError) {
+    init(connectTo path: String) throws(SocketError) {
         var addr = sockaddr_un()
         addr.sun_family = UInt16(AF_UNIX)
         withUnsafeMutableBytes(of: &addr.sun_path) { ptr in
@@ -32,7 +32,7 @@ class Socket2 {
 
         let fd = Glibc.socket(AF_UNIX, Int32(SOCK_STREAM.rawValue), 0)
         guard fd != -1 else {
-            throw .cannotOpenSocket
+            throw .cannotOpenSocket(errno: errno)
         }
 
         let c = withUnsafePointer(to: &addr) { ptr in
@@ -41,7 +41,7 @@ class Socket2 {
             }
         }
         guard c != -1 else {
-            throw .cannotConnect
+            throw .cannotConnect(errno: errno)
         }
 
         self.fd = fd
@@ -51,18 +51,17 @@ class Socket2 {
         Glibc.close(self.fd)
     }
 
-    func send(data: UnsafeRawBufferPointer, fds: [FileHandle]) throws(SocketError) -> Int {
-        try Socket2.send(data: data, fds: fds, to: FileHandle(fileDescriptor: fd))
+    func send(data: UnsafeRawBufferPointer, fds: [FileHandle]) -> Result<Int, SocketError> {
+        Socket2.send(data: data, fds: fds, to: FileHandle(fileDescriptor: fd))
     }
 
-    func receive(data: UnsafeMutableRawBufferPointer, fds: inout [FileHandle]) throws(SocketError)
-        -> Int
+    func receive(data: UnsafeMutableRawBufferPointer, fds: inout [FileHandle]) -> Result<Int, SocketError>
     {
-        return try Socket2.receive(data: data, fds: &fds, from: FileHandle(fileDescriptor: fd))
+        Socket2.receive(data: data, fds: &fds, from: FileHandle(fileDescriptor: fd))
     }
 
     static func send(data: UnsafeRawBufferPointer, fds handles: [FileHandle], to target: FileHandle)
-        throws(SocketError) -> Int
+        -> Result<Int, SocketError>
     {
         let flags: Int32 = 0
         // let flags: Int32 = numericCast(MSG_DONTWAIT)
@@ -111,18 +110,20 @@ class Socket2 {
 
         if res < 0 {
             // print("res: \(res)")
-            throw SocketError.writeFailed(errno: errno)
+            if errno == 9 {
+                return .failure(SocketError.invalidFd) 
+            }
+            return .failure(SocketError.writeFailed(errno: errno))
         }
 
-        return res
+        return .success(res)
     }
 
     // reuse pls
     static func receive(
         data: UnsafeMutableRawBufferPointer, fds: inout [FileHandle], from fd: FileHandle
     )
-        throws(SocketError)
-        -> Int
+        -> Result<Int, SocketError>
     {
         let flags: Int32 = 0
         // let flags: Int32 = numericCast(MSG_DONTWAIT)
@@ -159,7 +160,7 @@ class Socket2 {
             // if errno == 104 {
             //     throw SocketError.connectionClosed
             // }
-            throw SocketError.readFailed(errno: errno)
+            return .failure(SocketError.readFailed(errno: errno))
         }
 
         defer {
@@ -171,7 +172,7 @@ class Socket2 {
                 controlMessage.pointee.cmsg_type == SCM_RIGHTS
                     && controlMessage.pointee.cmsg_level == SOL_SOCKET
             else {
-                throw .invalidData
+                return .failure(SocketError.invalidData)
             }
 
             let dataPtr = ControlMessage.data(controlMessage)
@@ -186,7 +187,7 @@ class Socket2 {
         // print("+ outData: (\(outData)) \(outData as NSData)")
         // print("+ fds: \(fds)")
 
-        return bytesRead
+        return .success(bytesRead)
     }
 }
 

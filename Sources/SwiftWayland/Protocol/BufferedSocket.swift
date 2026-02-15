@@ -21,13 +21,13 @@ public class BufferedSocket {
         data = Data()
     }
 
-    func read(_ bytes: UInt16, consume: Bool = true) throws(BufferedSocketError) -> Data {
-        try self.read(Int(bytes), consume: consume)
+    func read(_ bytes: UInt16, consume: Bool = true) -> Result<Data, BufferedSocketError> {
+        self.read(Int(bytes), consume: consume)
     }
 
-    func read(_ bytes: Int, consume: Bool = true) throws(BufferedSocketError) -> Data {
+    func read(_ bytes: Int, consume: Bool = true) -> Result<Data, BufferedSocketError> {
         guard data.count >= bytes else {
-            throw .notEnoughBytes(requested: bytes, left: data.count)
+            return .failure(.notEnoughBytes(requested: bytes, left: data.count))
         }
 
         let out = Data(self.data[0..<bytes])
@@ -36,7 +36,7 @@ public class BufferedSocket {
             self.data = Data(self.data[bytes..<data.count])
         }
 
-        return out
+        return .success(out)
     }
 
     func readFd() -> FileHandle? {
@@ -51,7 +51,7 @@ public class BufferedSocket {
         outData.append((data, fds))
     }
 
-    func flush() throws(SocketError) {
+    func flush() -> Result<(), SocketError> {
         let flushed = outData
         outData = []
 
@@ -59,18 +59,20 @@ public class BufferedSocket {
         // well, is this the perfect use case for iovec
         for (data, fds) in flushed {
             #if DEBUG
-                // print("[Wayland] sending: \(data as NSData)")
+                print("[Wayland] sending: \(data as NSData)")
             #endif
 
-            do {
-                try data.withUnsafeBytes { data in
-                    // print("Sending")
-                    _ = try socket.send(data: data, fds: fds)
-                }
-            } catch {
-                throw error as! SocketError
+            let res = data.withUnsafeBytes { data in
+                // print("Sending")
+                socket.send(data: data, fds: fds)
+            }
+
+            if case .failure(let error) = res {
+                return .failure(error)
             }
         }
+
+        return .success(())
     }
 
     private let _data: UnsafeMutableRawBufferPointer = UnsafeMutableRawBufferPointer.allocate(
@@ -79,23 +81,29 @@ public class BufferedSocket {
         _data.deallocate()
     }
 
-    func receiveUntilDone(force: Bool = false) throws(SocketError) {
+    func receiveUntilDone(force: Bool = false) -> Result<(), SocketError> {
         var shouldRun = force
         var fds: [FileHandle] = []
 
         while socket.canRead || shouldRun {
             shouldRun = false
-            let read = try socket.receive(data: _data, fds: &fds)
+            let res = socket.receive(data: _data, fds: &fds)
+            guard case .success(let bytesRead) = res else {
+                return .failure(res.error!)
+            }
 
-            if read <= 0 {
-                if read < 0 {
-                    print("err \(read)")
-                }
+            if bytesRead <= 0 {
+                // if bytesRead < 0 {
+                //     print("wtf err \(bytesRead)")
+                // }
                 break
             }
 
-            self.data.append(_data.baseAddress!.assumingMemoryBound(to: UInt8.self), count: read)
+            self.data.append(
+                _data.baseAddress!.assumingMemoryBound(to: UInt8.self), count: bytesRead)
             self.fds.append(contentsOf: fds)
         }
+
+        return .success(())
     }
 }

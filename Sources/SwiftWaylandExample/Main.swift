@@ -10,8 +10,8 @@ public struct SwiftWaylandExample {
             let connection = try! Connection.fromEnv()
             do {
                 let w = Window(connection: connection)
-                try await w.start()
                 Unmanaged.passRetained(w)
+                try await w.start()
                 // try await testConnection()
             } catch {
                 print("Error: \(error)")
