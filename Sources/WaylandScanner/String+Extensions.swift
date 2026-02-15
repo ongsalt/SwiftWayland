@@ -62,6 +62,14 @@ extension String {
             .map { $0.trimmingCharacters(in: .whitespaces) }
             .joined(separator: "\n")
     }
+
+    func withoutPrefix(_ prefix: String?) -> String {
+        if let prefix {
+            String(self.trimmingPrefix(prefix))
+        } else {
+            self
+        }
+    }
 }
 
 // Copied from SwiftSyntax, its private

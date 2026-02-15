@@ -5,16 +5,16 @@ public final class Window {
     public let connection: Connection
     public let flusher: AutoFlusher?
 
-    private var compositor: Wayland.WlCompositor?
-    private var shm: Wayland.WlShm?
+    private var compositor: Wayland.Compositor?
+    private var shm: Wayland.Shm?
     private var xdgWmBase: Wayland.XdgWmBase?
 
-    private var surface: Wayland.WlSurface?
+    private var surface: Wayland.Surface?
     private var xdgSurface: Wayland.XdgSurface?
     private var toplevel: Wayland.XdgToplevel?
 
-    private var shmPool: Wayland.WlShmPool?
-    private var buffer: Wayland.WlBuffer?
+    private var shmPool: Wayland.ShmPool?
+    private var buffer: Wayland.Buffer?
     private var bufferData: UnsafeMutableRawPointer?
     private var bufferSize: Int = 0
     private var bufferWidth: Int = 0
@@ -54,12 +54,12 @@ public final class Window {
             switch event {
             case .global(let name, let interface, let version):
                 switch interface {
-                case Wayland.WlCompositor.name:
+                case Wayland.Compositor.name:
                     self.compositor = registry.bind(
-                        name: name, version: version, interface: Wayland.WlCompositor.self)
-                case Wayland.WlShm.name:
+                        name: name, version: version, interface: Wayland.Compositor.self)
+                case Wayland.Shm.name:
                     self.shm = registry.bind(
-                        name: name, version: version, interface: Wayland.WlShm.self)
+                        name: name, version: version, interface: Wayland.Shm.self)
                 case Wayland.XdgWmBase.name:
                     self.xdgWmBase = registry.bind(
                         name: name, version: version, interface: Wayland.XdgWmBase.self)
@@ -123,8 +123,8 @@ public final class Window {
         try connection.roundtrip()
     }
 
-    private func makeShmBuffer(shm: Wayland.WlShm, width: Int, height: Int) throws -> (
-        buffer: Wayland.WlBuffer, pool: Wayland.WlShmPool, data: UnsafeMutableRawPointer, size: Int
+    private func makeShmBuffer(shm: Wayland.Shm, width: Int, height: Int) throws -> (
+        buffer: Wayland.Buffer, pool: Wayland.ShmPool, data: UnsafeMutableRawPointer, size: Int
     ) {
         let stride = width * 4
         let size = stride * height
@@ -137,7 +137,7 @@ public final class Window {
             width: Int32(width),
             height: Int32(height),
             stride: Int32(stride),
-            format: Wayland.WlShm.Format.xrgb8888.rawValue
+            format: Wayland.Shm.Format.xrgb8888.rawValue
         )
 
         let data = mmap(nil, size, PROT_READ | PROT_WRITE, MAP_SHARED, file.fileDescriptor, 0)

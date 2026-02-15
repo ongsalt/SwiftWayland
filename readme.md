@@ -9,8 +9,19 @@ Wayland scanner and Wayland client library for swift. We don't do server yet.
 For client library see `SwiftWaylandExample` 
 
 ## Code generation
+its macro
+```swift
+public macro WaylandProtocol(trimPrefix: String? = nil, _ xml: String)
 
-See Scripts/generate.py
+@WaylandProtocol(
+    trimPrefix: "Xdg"
+    """
+    <xml>...
+    """
+)
+struct Protocol {}
+```
+
 
 
 # Design
@@ -29,6 +40,7 @@ some design decision
     - if its wl_callback, just make it 1 or just ignore
 
 # Todos
+- we still need python codegen for putting xml into swift file and doing aliases
 - typed error
 - max version
 - make Event decode failable (and not fatalError) in case object mentioned is already dropped

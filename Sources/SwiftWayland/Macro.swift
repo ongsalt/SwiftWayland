@@ -1,3 +1,3 @@
 @attached(member, names: arbitrary)
-public macro WaylandProtocol(_ xml: String) =
+public macro WaylandProtocol(trimPrefix: String? = nil, _ xml: String) =
         #externalMacro(module: "WaylandScanner", type: "WaylandProtocolMacro")
