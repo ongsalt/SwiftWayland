@@ -116,18 +116,18 @@ public final class Connection: @unchecked Sendable {
     }
 
     public func createProxy<T>(
-        type: T.Type, version: UInt32, id: ObjectId? = nil, _queue: EventQueue? = nil
+        type: T.Type, version: UInt32, id: ObjectId? = nil, queue: EventQueue? = nil
     ) -> T
     where T: WlProxy, T: WlProxyBase {
         let id = id ?? nextId()
-        let obj = T(connection: self, id: id, version: version, queue: _queue ?? self.mainQueue)
+        let obj = T(connection: self, id: id, version: version, queue: queue ?? self.mainQueue)
         // print("[Wayland] create \(obj) with id: \(id)")
         // dump(obj)
         proxies[obj.id] = obj
         return obj
     }
 
-    public func createCallback(fn: @escaping (UInt32) -> Void, _queue: EventQueue? = nil)
+    public func createCallback(fn: @escaping (UInt32) -> Void, queue: EventQueue? = nil)
         -> WlCallback
     {
         // this must be alive until it got call
@@ -135,7 +135,7 @@ public final class Connection: @unchecked Sendable {
             connection: self,
             id: nextId(),
             version: 1,
-            queue: _queue ?? self.mainQueue
+            queue: queue ?? self.mainQueue
         )
         proxies[callback.id] = callback
 

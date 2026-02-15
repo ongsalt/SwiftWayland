@@ -1,3 +1,6 @@
+let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
+let QUEUE_INNER_NAME: String = "_queue"
+
 class Generator {
     // let useAsync: Bool = false
     var stack: [any Code] = []
@@ -96,16 +99,9 @@ extension MethodDeclaration: Code {
             gen.add(docc: docc)
         }
 
-        if self.returns.contains(where: { $0.type.swiftType == "any WlProxy" }) {
-            gen.add(
-                comment: "request `\(name)` can not be generated as it use dynamic new_id argument")
-            return
-        }
-
         var functionHeader: [String] = ["public"]
         if self.consuming {
             functionHeader.append("consuming")
-        } else {
         }
 
         functionHeader.append("func")
@@ -113,11 +109,14 @@ extension MethodDeclaration: Code {
             functionHeader.append("\(self.name.gravedIfNeeded)()")
         } else {
             let params = arguments.map { arg in
+                var str = "\(arg.name.gravedIfNeeded): \(arg.swiftType)"
                 if let externalName = arg.externalName {
-                    "\(externalName.gravedIfNeeded) \(arg.name.gravedIfNeeded): \(arg.type.swiftType)"
-                } else {
-                    "\(arg.name.gravedIfNeeded): \(arg.type.swiftType)"
-                }
+                    str = "\(externalName.gravedIfNeeded) \(str)"
+                } 
+                if let defaultValue = arg.defaultValue {
+                    str = "\(str) = \(defaultValue)"
+                } 
+                return str
             }.joined(separator: ", ")
             functionHeader.append("\(self.name.gravedIfNeeded)(\(params))")
         }
@@ -129,9 +128,9 @@ extension MethodDeclaration: Code {
             let ret =
                 switch returns.count {
                 case 0: ""
-                case 1: returns[0].type.swiftType
+                case 1: returns[0].swiftType
                 default:
-                    "(\(returns.map {"\($0.name.gravedIfNeeded): \($0.type.swiftType)"}.joined(separator: ", ")))"
+                    "(\(returns.map {"\($0.name.gravedIfNeeded): \($0.swiftType)"}.joined(separator: ", ")))"
                 }
             functionHeader.append("->")
             functionHeader.append(ret)
@@ -157,20 +156,18 @@ extension MethodDeclaration: Code {
                 // type of return is always newId, so a swift class type
                 gen.add(
                     """
-                    let \(object.name.gravedIfNeeded) = connection.createProxy(type: \(object.type.swiftType).self, version: self.version)
+                    let \(object.name.gravedIfNeeded) = connection.createProxy(type: \(object.swiftType).self, version: self.version, queue: \(QUEUE_INNER_NAME))
                     """
                 )
             }
 
-            // Callback
-            for arg in self.arguments {
-                if case .callback = arg.type {
-                    gen.add(
-                        """
-                        let \(arg.name.gravedIfNeeded) = connection.createCallback(fn: \(arg.name.gravedIfNeeded))
-                        """
-                    )
-                }
+            // create callbacks
+            for callbacks in self.callbacks {
+                gen.add(
+                    """
+                    let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME))
+                    """
+                )
             }
 
             gen.add(
@@ -178,20 +175,16 @@ extension MethodDeclaration: Code {
             )
             gen.indent {
                 for arg in self.messageArguments {
-                    switch arg.type {
-                    case .callback, .newProxy, .proxy:
+                    switch arg.waylandType {
+                    case .object, .newId:
                         gen.add(
-                            "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).id),")
+                            "WaylandData.\(arg.waylandType)(\(arg.name.gravedIfNeeded).id),")
                     case .enum:
                         gen.add(
-                            "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).rawValue),"
+                            "WaylandData.\(arg.waylandType)(\(arg.name.gravedIfNeeded).rawValue),"
                         )
-                    // case .fd:
-                    //     gen.add(
-                    //         "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).fileDescriptor),"
-                    //     )
                     default:
-                        gen.add("WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded)),")
+                        gen.add("WaylandData.\(arg.waylandType)(\(arg.name.gravedIfNeeded)),")
                     }
                 }
             }
@@ -290,7 +283,7 @@ extension Array: Code where Element == EventDeclaration {
                         var out = "return Self.\(event.name)"
                         if !event.arguments.isEmpty {
                             out +=
-                                "(\(event.arguments.map { "\($0.name): \(getArgDecodingExpr($0.type))" }.joined(separator: ", ") ))"
+                                "(\(event.arguments.map { "\($0.name): \(getArgDecodingExpr($0))" }.joined(separator: ", ") ))"
                         }
                         gen.add(out)
                     }
@@ -309,34 +302,19 @@ extension Array: Code where Element == EventDeclaration {
     }
 }
 
-private func getArgDecodingExpr(_ t: ArgumentType) -> String {
-    switch t {
-    case .i32: "r.readInt()"
-    case .u32: "r.readUInt()"
+private func getArgDecodingExpr(_ arg: WaylandArgumentDeclaration) -> String {
+    switch arg.waylandType {
+    case .int: "r.readInt()"
+    case .uint: "r.readUInt()"
     case .fixed: "r.readFixed()"
     case .string: "r.readString()"
-
     case .fd: "r.readFd()"
-
     case .enum: "r.readEnum()"
-    // case .object: "r.readObjectId()"
-    case .proxy(let swiftName):
-        if let swiftName {
-            "connection.get(as: \(swiftName).self, id: r.readObjectId())!"
-        } else {
-            "connection.get(id: r.readObjectId())!"
-        }
-
-    // case .newId: fatalError("Impossible (newId)")
-    case .newProxy(let swiftName):
-        if let swiftName {
-            "connection.createProxy(type: \(swiftName).self, version: version, id: r.readNewId())"
-        } else {
-            fatalError("wtf, how can you have newId without a type")
-        }
-
-    case .data: "r.readArray()"
-    default: fatalError("impossible")
+    case .object: "connection.get(as: \(arg.swiftType).self, id: r.readObjectId())!"
+    case .newId:
+        // TODO: queue
+        "connection.createProxy(type: \(arg.swiftType).self, version: version, id: r.readNewId())"
+    case .array: "r.readArray()"
     }
 }
 
@@ -349,7 +327,7 @@ extension EventDeclaration: Code {
         var out = "case \(self.name)"
         if !self.arguments.isEmpty {
             out +=
-                "(\(self.arguments.map {"\($0.name.gravedIfNeeded): \($0.type.swiftType)"}.joined(separator: ", ")))"
+                "(\(self.arguments.map {"\($0.name.gravedIfNeeded): \($0.swiftType)"}.joined(separator: ", ")))"
         }
 
         gen.add(out)

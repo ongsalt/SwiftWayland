@@ -1,6 +1,5 @@
 // import SwiftSyntax
 
-let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
 
 func buildInterfaceClass(interface: Interface, importName: String? = nil) -> String {
     let body: [String] = [
