@@ -2,14 +2,15 @@
 // - generate deint
 // - wl_callback -> `@escaping () -> Void`
 
-
 // func transform(p: Protocol) -> ProtocolDeclaration {
-// TODO: license and other protocol level stuff 
+// TODO: license and other protocol level stuff
 // }
 
-public func transform(interface: Interface, trimPrefix p: String? = nil) -> ClassDeclaration {
+public func transform(
+    interface: Interface, trimPrefix p: String? = nil, trimSubfix p2: String? = nil
+) -> ClassDeclaration {
     return ClassDeclaration(
-        name: interface.name.camel.withoutPrefix(p),
+        name: interface.name.camel.trim(p, p2),
         interfaceName: interface.name,
         description: interface.description,
         methods: interface.requests.enumerated()
@@ -40,9 +41,9 @@ public func transform(interface: Interface, trimPrefix p: String? = nil) -> Clas
                         case .int: "Int32"
                         case .uint: "UInt32"
                         case .fixed: "Double"
-                        case .enum: arg.enum!.camel.withoutPrefix(p)
-                        case .object: arg.interface!.camel.withoutPrefix(p)
-                        case .newId: arg.interface!.camel.withoutPrefix(p)  // dynamic newId in wl_registry.bind is excluded
+                        case .enum: arg.enum!.camel.trim(p, p2)
+                        case .object: arg.interface!.camel.trim(p, p2)
+                        case .newId: arg.interface!.camel.trim(p, p2)  // dynamic newId in wl_registry.bind is excluded
                         // TODO: bare proxy maybe
                         // case .newId: (arg.interface?.camel) ?? "any WlProxy"
                         }
@@ -99,7 +100,7 @@ public func transform(interface: Interface, trimPrefix p: String? = nil) -> Clas
         //     .map { DeinitDeclaration(selectedMethod: $0.name.lowerCamel) },
         enums: interface.enums.map { e in
             EnumDeclaration(
-                name: e.name.camel.withoutPrefix(p),
+                name: e.name.camel.trim(p, p2),
                 description: e.description,
                 bitfield: e.bitfield,
                 since: e.since,
@@ -127,10 +128,10 @@ public func transform(interface: Interface, trimPrefix p: String? = nil) -> Clas
                             case .int: "Int32"
                             case .uint: "UInt32"
                             case .fixed: "Double"
-                            case .enum: arg.enum!.camel.withoutPrefix(p)
+                            case .enum: arg.enum!.camel.trim(p, p2)
                             // TODO: fix this
-                            case .object: arg.interface?.camel.withoutPrefix(p) ?? "any WlProxy"  // nullable when its wl_display.error
-                            case .newId: arg.interface!.camel.withoutPrefix(p)
+                            case .object: arg.interface?.camel.trim(p, p2) ?? "any WlProxy"  // nullable when its wl_display.error
+                            case .newId: arg.interface!.camel.trim(p, p2)
                             }
 
                         return WaylandArgumentDeclaration(

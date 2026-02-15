@@ -70,6 +70,19 @@ extension String {
             self
         }
     }
+    
+    func trimmingSuffix(_ suffix: String) -> String {
+        guard self.hasSuffix(suffix) else { return self }
+        return String(self.dropLast(suffix.count))
+    }
+
+    func trim(_ prefix: String?, _ suffix: String?) -> String {
+        String(
+            self
+                .trimmingSuffix(suffix ?? "")
+                .trimmingPrefix(prefix ?? "")
+        )
+    }
 }
 
 // Copied from SwiftSyntax, its private

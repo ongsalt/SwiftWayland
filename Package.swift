@@ -19,7 +19,7 @@ let package = Package(
     dependencies: [
         // other dependencies
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
-        // .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
         .package(
             url: "https://github.com/swiftlang/swift-syntax.git",
             from: "602.0.0"
@@ -54,6 +54,19 @@ let package = Package(
             dependencies: [
                 "WaylandScanner"
             ]
+        ),
+
+        .executableTarget(
+            name: "WaylandScannerCLI",
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                "WaylandScanner"
+            ]
+        ),
+
+        .plugin(
+            name: "WaylandScannerPlugin",
+            capability: .buildTool()
         ),
 
         // .testTarget(

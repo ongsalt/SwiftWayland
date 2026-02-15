@@ -39,7 +39,7 @@ See `SwiftWaylandExample` for more example
 
 
 ## Code generation
-its macro
+There is both macro and CLI. Macro is incomplete tho
 ```swift
 public macro WaylandProtocol(trimPrefix: String? = nil, _ xml: String)
 
@@ -50,6 +50,10 @@ public macro WaylandProtocol(trimPrefix: String? = nil, _ xml: String)
     """
 )
 struct Protocol {}
+```
+
+```bash
+swift run WaylandScannerCLI client ./wayland.xml ./Wayland.swift --trim-prefix Wl --namespace IdkMan
 ```
 
 

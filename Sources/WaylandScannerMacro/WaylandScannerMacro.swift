@@ -28,7 +28,7 @@ public struct WaylandProtocolMacro: MemberMacro {
         }.joined()
     }
     private static func parseOption(_ list: LabeledExprListSyntax) throws(WaylandProtocolMacroError)
-        -> Options
+        -> (String, Options)
     {
         guard case .stringLiteralExpr(let s) = list.last?.expression.as(ExprSyntaxEnum.self)
         else {
@@ -46,9 +46,11 @@ public struct WaylandProtocolMacro: MemberMacro {
                 nil
             }
 
-        return Options(
-            trimPrefix: trimPrefix,
-            xml: xml
+        return (
+            xml,
+            Options(
+                trimPrefix: trimPrefix,
+            )
         )
     }
 
@@ -63,13 +65,13 @@ public struct WaylandProtocolMacro: MemberMacro {
             throw .invalidArguments
         }
 
-        let options = try parseOption(argumentList)
-        let text = try Result {
-            try generateClasses(options: options)
+        let (xml, options) = try parseOption(argumentList)
+        let code = try Result {
+            try generateClasses(xml, options: options)
         }.mapError { _ in WaylandProtocolMacroError.invalidXml }.get()
 
         return [
-            DeclSyntax(stringLiteral: text)
+            DeclSyntax(stringLiteral: code)
         ]
     }
 }
