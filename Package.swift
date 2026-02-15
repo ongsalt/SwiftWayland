@@ -30,7 +30,7 @@ let package = Package(
         .target(
             name: "SwiftWayland",
             dependencies: [
-                "WaylandScanner"
+                "WaylandScannerMacro"
             ]
         ),
         .target(
@@ -40,12 +40,19 @@ let package = Package(
             ],
         ),
 
-        .macro(
+        .target(
             name: "WaylandScanner",
             dependencies: [
                 .product(name: "XMLCoder", package: "XMLCoder"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+            ]
+        ),
+
+        .macro(
+            name: "WaylandScannerMacro",
+            dependencies: [
+                "WaylandScanner"
             ]
         ),
 

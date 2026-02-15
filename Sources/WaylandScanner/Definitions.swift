@@ -1,7 +1,7 @@
 import Foundation
 import XMLCoder
 
-struct Protocol: Codable {
+public struct Protocol: Codable {
     let name: String
     let copyright: String?
     let interfaces: [Interface]
@@ -13,7 +13,7 @@ struct Protocol: Codable {
     }
 }
 
-struct Interface: Codable {
+public struct Interface: Codable {
     let name: String
     let version: UInt
     let description: Description?

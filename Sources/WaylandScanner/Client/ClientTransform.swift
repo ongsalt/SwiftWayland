@@ -7,7 +7,7 @@
 // TODO: license and other protocol level stuff 
 // }
 
-func transform(interface: Interface, trimPrefix p: String? = nil) -> ClassDeclaration {
+public func transform(interface: Interface, trimPrefix p: String? = nil) -> ClassDeclaration {
     return ClassDeclaration(
         name: interface.name.camel.withoutPrefix(p),
         interfaceName: interface.name,

@@ -13,27 +13,36 @@ def kebab_to_camel(kebab_str):
     parts = kebab_str.split('-')
     return ''.join(word.title() for word in parts)
 
-def generate(protocols_dir: Path | [Path], target_dir: Path, import_name: str | None = None):
-    files = list_files_recursive(protocols_dir)
 
-    for file in files:
-        name = file.stem
-        new_path = [kebab_to_camel(p) for p in file.parts[-3:-1]]
-        output_dir = target_dir / Path(*new_path, kebab_to_camel(name))
-        args = [binary, "client", file, output_dir]
-        if import_name != None:
-            args += ["--import", import_name]
-        subprocess.run(args)
-        # print(args)
+# @WaylandProtocol("<protocol>...LinuxDmaBuf<protocol>")
+# #if Staging
+# extension ColorManagement {
+#   
+# }
+# #endif
+
+# so we need to emit `enum ColorManagement {}` as well 
+
+def generate_file(path: str, content: str):
+    pass
     
 # binary = ".build/release/WaylandScanner"
 binary = ".build/debug/WaylandScanner"
 
-protocols_dir = Path("/usr/share/wayland-protocols/")
+protocols_dir = Path("./Protocols")
 
-subprocess.run([binary, "client", "/usr/share/wayland/wayland.xml", "Sources/SwiftWayland/Generated/Wayland"])
-generate(protocols_dir / "stable", Path.cwd() / Path("Sources/SwiftWayland/Generated"))
+staging = {
+    "Xdg": {
+        "Activation": {
+            "V1": "./protocols/staging/xdg-activation/xdg-activation-v1.xml"
+        }
+    }
+}
 
-# generate(protocols_dir / "stable", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
+# subprocess.run([binary, "client", "/usr/share/wayland/wayland.xml", "Sources/SwiftWayland/Generated/Wayland"])
+
+generate(protocols_dir / "stable", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
 generate(protocols_dir / "staging", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
 generate(protocols_dir / "unstable", Path.cwd() / Path("Sources/WaylandProtocols/Generated"), import_name="SwiftWayland")
+
+# linux_dmabuf_unstable_v1

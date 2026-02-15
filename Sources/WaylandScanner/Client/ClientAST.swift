@@ -1,6 +1,6 @@
 // import SwiftSyntax
 
-struct ClassDeclaration {
+public struct ClassDeclaration {
     var name: String
     var interfaceName: String
     var description: Description? = nil

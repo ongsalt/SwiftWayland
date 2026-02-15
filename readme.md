@@ -1,12 +1,42 @@
 # SwiftWayland
-Wayland scanner and Wayland client library for swift. We don't do server yet.
+Wayland client library for swift. The package structure is very much inspired by [wayland-rs](https://github.com/Smithay/wayland-rs)
 
 
 ## WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
 
 # Usages
+- request is a method
+- register a `onEvent` callback to deal event from the server  
+- Generated classes are always namespaced: `Wayland.Compositor`.
 
-For client library see `SwiftWaylandExample` 
+```swift
+let connection = try! Connection.fromEnv()
+let display: Wayland.Display = connection.display
+
+try display.sync { data in
+    print(data)
+}
+
+let registry = try display.getRegistry()
+registry.onEvent = { event in
+    switch event {
+    case .global(let name, let interface, let version):
+        switch interface {
+        case Wayland.Compositor.name:
+            self.compositor = registry.bind(name: name, version: version, interface: Wayland.Compositor.self)
+        default:
+            break
+        }
+    default: 
+        break
+    }
+}
+
+try connection.roundtrip()
+```
+
+See `SwiftWaylandExample` for more example
+
 
 ## Code generation
 its macro
