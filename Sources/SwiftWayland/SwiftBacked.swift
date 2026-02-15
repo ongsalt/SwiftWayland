@@ -1,7 +1,0 @@
-protocol Backend {
-    
-}
-
-class SwiftBackend {
-
-}

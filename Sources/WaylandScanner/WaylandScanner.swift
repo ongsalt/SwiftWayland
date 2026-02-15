@@ -1,84 +1,58 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-import ArgumentParser
 import Foundation
+import SwiftCompilerPlugin
+import SwiftSyntax
+import SwiftSyntaxMacros
 import XMLCoder
 
-enum Mode: String {
-    case server
-    case client
-}
-
-extension Mode: ExpressibleByArgument {
-    init?(argument: String) {
-        self.init(rawValue: argument)
-    }
-}
-
 @main
-struct WaylandScanner: ParsableCommand {
-    @ArgumentParser.Argument(help: "server | client", completion: .list(["server", "client"]))
-    var mode: Mode
+struct MyProjectMacros: CompilerPlugin {
+    var providingMacros: [Macro.Type] = [WaylandProtocolMacro.self]
+}
 
-    @ArgumentParser.Argument(help: "Protocol XML", completion: .file())
-    var inputFile: String
+public enum WaylandProtocolMacroError: Error {
+    case invalidArguments
+    case invalidXml
+}
 
-    @ArgumentParser.Argument(help: "Output directory", completion: .directory)
-    var outputDirectory: String
-
-    @Option(name: .long, help: "import name")
-    var `import`: String? = nil
-
-    mutating func run() throws {
-        if mode == .server {
-            print("Server code is not yet support")
-            return
+public struct WaylandProtocolMacro: MemberMacro {
+    public static func expansion(
+        of node: AttributeSyntax,
+        providingMembersOf declaration: some DeclGroupSyntax,
+        conformingTo protocols: [TypeSyntax],
+        in context: some MacroExpansionContext
+    ) throws(WaylandProtocolMacroError) -> [DeclSyntax] {
+        guard case .argumentList(let list) = node.arguments,
+            case .stringLiteralExpr(let s) = list.first?.expression.as(ExprSyntaxEnum.self)
+        else {
+            throw .invalidArguments
         }
 
-        let inputUrl = URL(filePath: inputFile)
-        let decoder = XMLDecoder()
-
-        let aProtocol = try decoder.decode(Protocol.self, from: Data(contentsOf: inputUrl))
-        print("Protocol: \(aProtocol.name)")
-
-        let importName = self.import
-
-        let dir = URL(filePath: outputDirectory)
-        try! FileManager.default.createDirectory(
-            at: dir, withIntermediateDirectories: true)
-
-        // bruhhh
-        // Task {
-        //     await withTaskGroup { group in
-        for interface in aProtocol.interfaces {
-            // group.addTask {
-            //     await withUnsafeContinuation { contination in
-            //         DispatchQueue.global().async {
-            var url = dir
-            url.append(path: "\(interface.name.camel).swift")
-
-            print(" - Writing \(url.lastPathComponent)")
-            let generator = Generator()
-            if let importName {
-                generator.importName = importName
+        let rawText = s.segments.map {
+            switch $0 {
+            case .stringSegment(let segment): segment.content.text
+            case .expressionSegment: ""  // this should throw mf
             }
+        }
+        .joined()
+
+        let decoder = XMLDecoder()
+        let aProtocol = try Result {
+            try decoder.decode(Protocol.self, from: rawText.data(using: .utf8)!)
+        }.mapError { _ in WaylandProtocolMacroError.invalidXml }.get()
+
+        let generator = Generator()
+        for interface in aProtocol.interfaces {
             let decl = transform(interface: interface)
             generator.walk(node: decl)
-            // dump(decl)
-            let out = generator.text
-
-            try! out.write(to: url, atomically: true, encoding: .utf8)
-            //         contination.resume()
-            //     }
-            // }
+            generator.add()
         }
-        //         }
-        //     }
 
-        //     Foundation.exit(0)
-        // }
+        let out = generator.text
+        let a = DeclSyntax(stringLiteral: out)
 
-        // RunLoop.main.run()
+        return [a]
     }
 }

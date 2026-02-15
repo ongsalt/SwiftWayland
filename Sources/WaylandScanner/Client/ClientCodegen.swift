@@ -48,12 +48,6 @@ protocol Code {
 
 extension ClassDeclaration: Code {
     func generate(_ gen: Generator) {
-        gen.add("import Foundation")
-        if let importName = gen.importName {
-            gen.add("@_spi(SwiftWaylandPrivate) import \(importName)")
-        }
-        gen.add()
-
         if let docc = self.description?.docc {
             gen.add(docc: docc)
         }
@@ -290,6 +284,7 @@ extension Array: Code where Element == EventDeclaration {
                 "public static func decode(message: Message, connection: Connection, version: UInt32) -> Self {"
             )
             gen.indent {
+                // TODO
                 let reader = true
                 if reader {
                     gen.add(

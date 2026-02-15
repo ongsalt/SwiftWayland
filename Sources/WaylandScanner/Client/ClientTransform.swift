@@ -2,6 +2,11 @@
 // - generate deint
 // - wl_callback -> `@escaping () -> Void`
 
+
+// func transform(p: Protocol) -> ProtocolDeclaration {
+// TODO: license and other protocol level stuff 
+// }
+
 func transform(interface: Interface) -> ClassDeclaration {
     return ClassDeclaration(
         name: interface.name.camel,
