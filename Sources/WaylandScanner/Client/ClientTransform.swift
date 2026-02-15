@@ -19,7 +19,8 @@ func transform(interface: Interface) -> ClassDeclaration {
                         arguments.append(
                             ArgumentDeclaration(
                                 name: arg.name.lowerCamel,
-                                swiftType: CALLBACK_TYPE
+                                swiftType: CALLBACK_TYPE,
+                                summary: arg.summary
                             )
                         )
                         callbacks.append(CallbackDeclaration(name: arg.name.lowerCamel))
@@ -36,16 +37,15 @@ func transform(interface: Interface) -> ClassDeclaration {
                         case .fixed: "Double"
                         case .enum: arg.enum!.camel
                         case .object: arg.interface!.camel
-                        case .newId:
-                            (arg.interface?.camel).expect(
-                                "wl_registry.bind require special handling \(request)")
+                        case .newId: arg.interface!.camel  // dynamic newId in wl_registry.bind is excluded
                         // TODO: bare proxy maybe
                         // case .newId: (arg.interface?.camel) ?? "any WlProxy"
                         }
 
                     let decl = ArgumentDeclaration(
                         name: arg.name.lowerCamel,
-                        swiftType: swiftType
+                        swiftType: swiftType,
+                        summary: arg.summary
                     )
 
                     if arg.type == .newId {
@@ -62,7 +62,8 @@ func transform(interface: Interface) -> ClassDeclaration {
                             name: QUEUE_INNER_NAME,
                             externalName: "queue",
                             swiftType: "EventQueue?",
-                            defaultValue: "nil"
+                            defaultValue: "nil",
+                            summary: "queue to associated with created objects"
                         ))
                 }
 
@@ -85,7 +86,7 @@ func transform(interface: Interface) -> ClassDeclaration {
                     callbacks: callbacks,
                     messageArguments: messageArguments,
                     description: request.description,
-                    throws: nil
+                    throws: nil,
                 )
             },
         deinit: interface.requests
@@ -106,32 +107,34 @@ func transform(interface: Interface) -> ClassDeclaration {
                 },
             )
         },
-        events: interface.events.map { event in
-            EventDeclaration(
-                name: event.name.lowerCamel,
-                description: event.description,
-                arguments: event.arguments.map { arg in
-                    let swiftType: String =
-                        switch arg.type {
-                        case .string: "String"
-                        case .array: "Data"
-                        case .fd: "FileHandle"
-                        case .int: "Int32"
-                        case .uint: "UInt32"
-                        case .fixed: "Double"
-                        case .enum: arg.enum!.camel
-                        // TODO: fix this
-                        case .object: arg.interface?.camel ?? "any WlProxy"  // nullable when its wl_display.error
-                        case .newId: arg.interface!.camel
-                        }
+        events: interface.name == "wl_display"
+            ? []
+            : interface.events.map { event in
+                EventDeclaration(
+                    name: event.name.lowerCamel,
+                    description: event.description,
+                    arguments: event.arguments.map { arg in
+                        let swiftType: String =
+                            switch arg.type {
+                            case .string: "String"
+                            case .array: "Data"
+                            case .fd: "FileHandle"
+                            case .int: "Int32"
+                            case .uint: "UInt32"
+                            case .fixed: "Double"
+                            case .enum: arg.enum!.camel
+                            // TODO: fix this
+                            case .object: arg.interface?.camel ?? "any WlProxy"  // nullable when its wl_display.error
+                            case .newId: arg.interface!.camel
+                            }
 
-                    return WaylandArgumentDeclaration(
-                        name: arg.name.lowerCamel,
-                        waylandType: arg.type,
-                        swiftType: swiftType  // for object/newId
-                    )
-                }
-            )
-        }
+                        return WaylandArgumentDeclaration(
+                            name: arg.name.lowerCamel,
+                            waylandType: arg.type,
+                            swiftType: swiftType,  // for object/newId
+                        )
+                    }
+                )
+            }
     )
 }

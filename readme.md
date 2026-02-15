@@ -50,8 +50,7 @@ some design decision
 - bitfield
 - generate documentation
     - throws
-    - returns
-    - args
+    - returns multiple object
 - test
     - probably gonna steal from wayland-rs
 

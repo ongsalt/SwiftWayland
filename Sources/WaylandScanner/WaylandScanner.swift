@@ -51,27 +51,28 @@ struct WaylandScanner: ParsableCommand {
         // bruhhh
         // Task {
         //     await withTaskGroup { group in
-                for interface in aProtocol.interfaces {
-                    // group.addTask {
-                    //     await withUnsafeContinuation { contination in
-                    //         DispatchQueue.global().async {
-                                var url = dir
-                                url.append(path: "\(interface.name.camel).swift")
+        for interface in aProtocol.interfaces {
+            // group.addTask {
+            //     await withUnsafeContinuation { contination in
+            //         DispatchQueue.global().async {
+            var url = dir
+            url.append(path: "\(interface.name.camel).swift")
 
-                                print(" - Writing \(url.lastPathComponent)")
-                                // let out = buildInterfaceClass(
-                                //     interface: interface, importName: importName)
-                                let generator = Generator()
-                                let decl = transform(interface: interface)
-                                generator.walk(node: decl)
-                                // dump(decl)
-                                let out = generator.text
+            print(" - Writing \(url.lastPathComponent)")
+            let generator = Generator()
+            if let importName {
+                generator.imports.append(importName)
+            }
+            let decl = transform(interface: interface)
+            generator.walk(node: decl)
+            // dump(decl)
+            let out = generator.text
 
-                                try! out.write(to: url, atomically: true, encoding: .utf8)
-                        //         contination.resume()
-                        //     }
-                        // }
-                    }
+            try! out.write(to: url, atomically: true, encoding: .utf8)
+            //         contination.resume()
+            //     }
+            // }
+        }
         //         }
         //     }
 

@@ -6,7 +6,7 @@ class Generator {
     var stack: [any Code] = []
     var indentation: Int = 4
     var indentLevel: Int = 0
-    let imports: [String] = []
+    var imports: [String] = []
 
     var text: String = ""
 
@@ -30,10 +30,10 @@ class Generator {
         add("\(str)".indent("// "))
     }
 
-    func indent(_ block: () -> Void) {
-        self.indentLevel += indentation
+    func indent(level: Int? = nil, _ block: () -> Void) {
+        self.indentLevel += level ?? indentation
         block()
-        self.indentLevel -= indentation
+        self.indentLevel -= level ?? indentation
     }
 
     func walk(node: some Code) {
@@ -83,9 +83,7 @@ extension ClassDeclaration: Code {
                 gen.add()
             }
 
-            // wl_display.error might send a deallocated objectId
-            // so we must handle this manually
-            if !self.events.isEmpty && self.interfaceName != "wl_display" {
+            if !self.events.isEmpty {
                 gen.walk(node: self.events)
             }
         }
@@ -95,10 +93,33 @@ extension ClassDeclaration: Code {
 
 extension MethodDeclaration: Code {
     func generate(_ gen: Generator) {
+        // Docc
         if let docc = self.description?.docc {
             gen.add(docc: docc)
         }
 
+        // argument docc
+        if !self.arguments.isEmpty {
+            var lines = ["- Parameters:"]
+            for arg in self.arguments {
+                if let summary = arg.summary {
+                    lines.append("  - \(arg.externalName ?? arg.name): \(summary)")
+                }
+            }
+            gen.add(docc: "")
+            gen.add(docc: lines.joined(separator: "\n"))
+        }
+
+        // returns docc
+        // TODO: multipl return value docc
+        if !self.returns.isEmpty {
+            if let summary = self.returns[0].summary {
+                gen.add(docc: "")
+                gen.add(docc: "- Returns: \(summary)")
+            }
+        }
+
+        // signature
         var functionHeader: [String] = ["public"]
         if self.consuming {
             functionHeader.append("consuming")
@@ -112,10 +133,10 @@ extension MethodDeclaration: Code {
                 var str = "\(arg.name.gravedIfNeeded): \(arg.swiftType)"
                 if let externalName = arg.externalName {
                     str = "\(externalName.gravedIfNeeded) \(str)"
-                } 
+                }
                 if let defaultValue = arg.defaultValue {
                     str = "\(str) = \(defaultValue)"
-                } 
+                }
                 return str
             }.joined(separator: ", ")
             functionHeader.append("\(self.name.gravedIfNeeded)(\(params))")

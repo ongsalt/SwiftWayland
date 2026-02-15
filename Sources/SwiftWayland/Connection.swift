@@ -12,7 +12,8 @@ public enum ConnectionError: Error {
 
 public final class Connection: @unchecked Sendable {
     // this should be weak
-    let socket: BufferedSocket
+    // spi
+    public let socket: BufferedSocket
     var proxies: WeakMap<ObjectId, WlProxyBase> = [:]
     var queues: [EventQueue] = []
     private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1

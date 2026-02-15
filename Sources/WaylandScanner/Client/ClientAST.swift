@@ -38,7 +38,8 @@ struct ArgumentDeclaration {
     var name: String
     var externalName: String? = nil
     var swiftType: String
-    var defaultValue: String?
+    var defaultValue: String? = nil
+    var summary: String? = nil
     // do this have since field
 }
 
