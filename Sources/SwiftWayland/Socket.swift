@@ -12,11 +12,11 @@ enum SocketEvent {
 public enum SocketError: Error {
     case cannotOpenSocket(errno: Int32)
     case cannotConnect(errno: Int32)
-    case readFailed(errno: Int32)
     case invalidData
-    case invalidFd
-    case writeFailed(errno: Int32)
+    case invalidFds([Int32])
     case closed
+    case readFailed(errno: Int32)
+    case writeFailed(errno: Int32)
 }
 
 

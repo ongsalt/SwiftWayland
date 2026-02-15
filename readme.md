@@ -38,6 +38,8 @@ some design decision
     - if its wl_callback, just make it 1 or just ignore
 
 # Todos
+- document args
+- when should i check if fd is open? dispatch??? or when call
 - error message when connection closed,
 - async again
 - there is 2 `ZwpLinuxBufferParamsV1`: stable and unstable, probably need to do some namespacing + aliasing

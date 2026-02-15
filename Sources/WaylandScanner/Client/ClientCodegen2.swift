@@ -185,10 +185,10 @@ extension MethodDeclaration: Code {
                         gen.add(
                             "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).rawValue),"
                         )
-                    case .fd:
-                        gen.add(
-                            "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).fileDescriptor),"
-                        )
+                    // case .fd:
+                    //     gen.add(
+                    //         "WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded).fileDescriptor),"
+                    //     )
                     default:
                         gen.add("WaylandData.\(arg.type.waylandData)(\(arg.name.gravedIfNeeded)),")
                     }

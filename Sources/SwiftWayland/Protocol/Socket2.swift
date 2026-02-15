@@ -111,7 +111,7 @@ class Socket2 {
         if res < 0 {
             // print("res: \(res)")
             if errno == 9 {
-                return .failure(SocketError.invalidFd) 
+                return .failure(SocketError.invalidFds(fds)) 
             }
             return .failure(SocketError.writeFailed(errno: errno))
         }

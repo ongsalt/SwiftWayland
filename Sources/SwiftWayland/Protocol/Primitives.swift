@@ -18,7 +18,7 @@ public enum WaylandData {
     case fixed(Double)
     case string(String)
     case array(Data)
-    case fd(Int32)
+    case fd(FileHandle) // this need to live until we send it
     case `enum`(UInt32)
     case object(ObjectId)
     case newId(ObjectId)
@@ -59,7 +59,7 @@ public enum WaylandData {
 
         case .fd(let handle):
             // File descriptors are passed via ancillary data (msg_control), not in main data
-            fds.append(FileHandle(fileDescriptor: handle))
+            fds.append(handle)
             break
 
         case .enum(let enumValue):

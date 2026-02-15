@@ -59,11 +59,10 @@ public class BufferedSocket {
         // well, is this the perfect use case for iovec
         for (data, fds) in flushed {
             #if DEBUG
-                print("[Wayland] sending: \(data as NSData)")
+                // print("[Wayland] sending: \(data as NSData)")
             #endif
 
             let res = data.withUnsafeBytes { data in
-                // print("Sending")
                 socket.send(data: data, fds: fds)
             }
 

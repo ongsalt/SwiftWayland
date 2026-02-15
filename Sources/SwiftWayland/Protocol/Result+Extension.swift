@@ -1,3 +1,5 @@
+import Foundation
+
 extension Result {
     var error: Failure? {
         do {
@@ -22,5 +24,11 @@ extension Result {
 
     var isOk: Bool {
         self.value != nil
+    }
+}
+
+private extension FileHandle {
+    var isOpen: Bool {
+        return fcntl(self.fileDescriptor, F_GETFD) != -1 || errno != EBADF
     }
 }

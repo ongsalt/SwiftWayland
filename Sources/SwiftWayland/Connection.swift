@@ -4,6 +4,8 @@ import Foundation
 public enum ConnectionError: Error {
     case noXdgRuntimeDirectory
     case socket(SocketError)
+    case invalidFds([Int32])
+    case connectionClosed
 }
 
 // TODO: map error, or we should stop throwing and use reulst instead
@@ -34,6 +36,7 @@ public final class Connection: @unchecked Sendable {
     public func dispatch(force: Bool = false) throws(ConnectionError) {
         let res = socket.receiveUntilDone(force: force)
         if case .failure(let error) = res {
+            // must close immediately
             throw .socket(error)
         }
 
@@ -47,7 +50,13 @@ public final class Connection: @unchecked Sendable {
                 // print("not enought data \(socket.data.count) \(socket.data as NSData)")
                 let res = socket.receiveUntilDone(force: false)
                 if case .failure(let error) = res {
-                    throw .socket(error)
+                    switch error {
+                    case .closed: throw .connectionClosed
+                    // case .readFailed(let errno): fatalError("TODO: more error handling")
+                    case .readFailed(let errno): fatalError("TODO: more error handling")
+                    default: fatalError("Unreachable")
+                    }
+                    // throw .socket(error)
                 }
                 // print("received \(socket.data.count)")
                 continue
@@ -70,7 +79,13 @@ public final class Connection: @unchecked Sendable {
     }
 
     public func flush() throws(ConnectionError) {
-        try self.socket.flush().mapError { ConnectionError.socket($0) }.get()
+        try self.socket.flush().mapError { e in
+            switch e {
+            case .invalidFds(let fds): ConnectionError.invalidFds(fds)
+            case .closed: ConnectionError.connectionClosed
+            default: fatalError("unhandle error \(e)")
+            }
+        }.get()
     }
 
     public func roundtrip() throws {
