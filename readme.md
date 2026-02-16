@@ -1,5 +1,5 @@
 # SwiftWayland
-Wayland client library for swift. The package structure is very much inspired by [wayland-rs](https://github.com/Smithay/wayland-rs)
+Wayland client library for swift. The package structure is very much inspired by [wayland-rs](https://github.com/Smithay/wayland-rs). Some part of SwiftWayland was directly ported from that. 
 
 
 ## WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
@@ -53,7 +53,8 @@ If you need to do custom protocol, see `WaylandScannerCLI`. (not yet exported)
 
 
 # Todos
-- wrapper for wl_registry
+- `libwayland-client`-accurated connection establishing
+- runtime request and event information??
 - refactor namespace generation, -> hardcode known prefix into the scanner
 - accept version rasonge when initialize an object from `wl_registry`
 - typed error

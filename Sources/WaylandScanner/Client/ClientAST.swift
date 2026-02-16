@@ -3,6 +3,7 @@
 public struct ClassDeclaration {
     var name: String
     var interfaceName: String
+    var interfaceVersion: UInt
     var description: Description? = nil
     var methods: [MethodDeclaration]
     var `deinit`: DeinitDeclaration? = nil

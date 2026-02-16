@@ -56,6 +56,7 @@ extension ClassDeclaration: Code {
             gen.add(
                 """
                 public static let name: String = "\(self.interfaceName)"
+                public static let interfaceVersion: UInt = \(self.interfaceVersion)
                 """
             )
             gen.add("public var onEvent: ((Event) -> Void)? = nil")

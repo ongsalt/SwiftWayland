@@ -12,6 +12,7 @@ public func transform(
     return ClassDeclaration(
         name: interface.name.camel,
         interfaceName: interface.name,
+        interfaceVersion: interface.version,
         description: interface.description,
         methods: interface.requests.enumerated()
             .filter { !(interface.name == "wl_registry" && $1.name == "bind") }

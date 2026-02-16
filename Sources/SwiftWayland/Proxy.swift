@@ -1,10 +1,11 @@
 import Foundation
 
-public protocol WlInterface {
+public protocol Interface {
     static var name: String { get }
+    static var interfaceVersion: UInt { get }
 }
 
-public protocol WlProxy: Identifiable, WlInterface, AnyObject {
+public protocol WlProxy: Identifiable, Interface, AnyObject {
     associatedtype Event: WlEventEnum = NoEvent
     var version: UInt32 { get }
     var id: ObjectId {
