@@ -75,6 +75,7 @@ some design decision
 
 # Todos
 - refactor namespace generation, -> hardcode known prefix in the scanner
+- more protocols
 - traits
 - typed error
 - max version
