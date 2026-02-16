@@ -11,11 +11,10 @@ public enum ConnectionError: Error {
 // TODO: map error
 
 public final class Connection {
-    // this should be weak
     @_spi(SwiftWaylandPrivate) public let socket: BufferedSocket
     var proxies: [ObjectId: any WlProxy] = [:]
     var queues: [EventQueue] = []
-    private(set) var currentId: ObjectId = 1  // wldisplay's id must be 1
+    private(set) var currentId: ObjectId = 1  // wl_display's id must be 1
     private(set) public lazy var display: WlDisplay = createProxy(
         type: WlDisplay.self, version: 1, id: 1)
 

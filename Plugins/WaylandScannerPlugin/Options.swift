@@ -9,6 +9,7 @@ public struct Options: Sendable {
 
     public init() {}
 
+    // we stop doing namespace nowm so this is mostly unused
     public init(path: String, autoTrimPrefix: Bool = true) {
         self.importName = "SwiftWayland"
         let url = URL(filePath: path)
@@ -17,11 +18,11 @@ public struct Options: Sendable {
         let filename = url.lastPathComponent.split(separator: ".")[0]
         var namespace = url.pathComponents[base + 2].split(separator: "-").map { $0.capitalized }
 
-        if autoTrimPrefix {
-            self.trimPrefix = namespace[0]
-        } else {
-            self.trimPrefix = nil
-        }
+        // if autoTrimPrefix {
+        //     self.trimPrefix = namespace[0]
+        // } else {
+        //     self.trimPrefix = nil
+        // }
 
         let stability = url.pathComponents[base + 1]
         self.traits = stability.uppercased()
@@ -33,6 +34,7 @@ public struct Options: Sendable {
         let version = filename.split(separator: "-").last!.uppercased()
         self.trimPostfix = version
 
+        let parts: [String] = []
         let versionNamespace =
             if self.traits == "UNSTABLE" {
                 "Z" + self.trimPostfix!
@@ -40,8 +42,12 @@ public struct Options: Sendable {
                 self.trimPostfix!
             }
 
-        // xdg
-        let topLevelNamespace = namespace.removeFirst()
-        self.namespace = "\(topLevelNamespace).\(namespace.joined()).\(versionNamespace)"
+        // // xdg
+        // if autoTrimPrefix {
+        //     let topLevelNamespace = namespace.removeFirst()
+        //     self.namespace = "\(topLevelNamespace).\(namespace.joined()).\(versionNamespace)"
+        // } else {
+        //     self.namespace = "\(namespace.joined()).\(versionNamespace)"
+        // }
     }
 }
