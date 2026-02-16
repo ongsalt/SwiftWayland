@@ -41,7 +41,8 @@ See `SwiftWaylandExample` for more example
 Every wayland proxy is owned by the `Connection` that create it. Proxy only contains a weak reference back to that connection. A proxy will be dropped only when its destructor method is called (exposed as a `consuming func`). Objects without destructor method will never be dropped (TODO: might provide a way tho) and so do its event handler. 
 
 `EventQueue` is owned by both the `Connection` and associated proxies. `EventQueue` itself do not contains any strong reference back to those.
-If you drop the connection it will be close automatically
+
+If you drop the connection every object and event queue will be close automatically.
 
 
 ## Code generation
