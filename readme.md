@@ -6,7 +6,7 @@ Wayland client library for swift. The package structure is very much inspired by
 
 # Usages
 - request is a method
-- register a `onEvent` callback to deal event from the server  
+- register a `onEvent` callback to deal with event from server  
 
 ```swift
 let connection = try! Connection.fromEnv()
