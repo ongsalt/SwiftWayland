@@ -76,8 +76,8 @@ public enum WaylandProxyState {
 
 open class WlProxyBase {
     public let id: ObjectId
-    public var connection: Connection
-    public var _state: WaylandProxyState = .alive
+    private(set) public unowned var connection: Connection
+    public var _state: WaylandProxyState = .alive // TODO spi for setter
     public let version: UInt32
     public let queue: EventQueue
 

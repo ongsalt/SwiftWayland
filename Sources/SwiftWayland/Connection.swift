@@ -127,7 +127,9 @@ public final class Connection {
         return obj
     }
 
-    @_spi(SwiftWaylandPrivate) public func createCallback(fn: @escaping (UInt32) -> Void, queue: EventQueue? = nil)
+    @_spi(SwiftWaylandPrivate) public func createCallback(
+        fn: @escaping (UInt32) -> Void, queue: EventQueue? = nil
+    )
         -> WlCallback
     {
         // this must be alive until it got call

@@ -16,11 +16,11 @@ let package = Package(
         ),
     ],
     traits: [
-        .trait(name: "Client"),
-        .trait(name: "Server"),
-        .trait(name: "Staging"),
-        .trait(name: "Unstable"),
-        .default(enabledTraits: ["Client"]),
+        .trait(name: "CLIENT"),
+        .trait(name: "SERVER"),
+        .trait(name: "STAGING"),
+        .trait(name: "UNSTABLE"),
+        .default(enabledTraits: ["CLIENT"]),
     ],
     dependencies: [
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
@@ -33,9 +33,6 @@ let package = Package(
     targets: [
         .target(
             name: "SwiftWayland",
-            dependencies: [
-                // "WaylandScannerMacro"
-            ],
             plugins: [
                 "WaylandScannerPlugin"
             ]
@@ -57,13 +54,6 @@ let package = Package(
                 .product(name: "XMLCoder", package: "XMLCoder")
             ]
         ),
-
-        // .macro(
-        //     name: "WaylandScannerMacro",
-        //     dependencies: [
-        //         "WaylandScanner"
-        //     ]
-        // ),
 
         .executableTarget(
             name: "WaylandScannerCLI",

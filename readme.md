@@ -37,6 +37,12 @@ try connection.roundtrip()
 
 See `SwiftWaylandExample` for more example
 
+## Object lifetime
+Every wayland proxy is owned by the `Connection` that create it. Proxy only contains a weak reference back to that connection. A proxy will be dropped only when its destructor method is called (exposed as a `consuming func`). Objects without destructor method will never be dropped (TODO: might provide a way tho) and so do its event handler. 
+
+`EventQueue` is owned by both the `Connection` and associated proxies. `EventQueue` itself do not contains any strong reference back to those.
+If you drop the connection it will be close automatically
+
 
 ## Code generation
 There is both macro and CLI. Macro is incomplete tho
@@ -57,29 +63,24 @@ swift run WaylandScannerCLI client ./wayland.xml ./Wayland.swift --trim-prefix W
 ```
 
 
-
 # Design
 some design decision
 ## Destructor method
 - now every method will be able to throws
 - will expose a destructor function as a `consuming func`
-- will not generate a deinit
-- even if we call a destructor, message might still come in, so drop it?
-- connection are now required to have strong reference to those (2 way)
-
+- will not generate a deinit that will call those destructor
 
 ## Versioning
 - its currently inherited from what you bind
 - what if some interface create an object from another registry
     - if its wl_callback, just make it 1 or just ignore
+- i didnt do max version yet tho
 
 # Todos
 - refactor namespace generation, -> hardcode known prefix in the scanner
 - more protocols
 - traits
 - typed error
-- max version
-- make Event decode failable (and not fatalError) in case object mentioned is already dropped
 - allow custom proxy?
 - async again
 - bitfield

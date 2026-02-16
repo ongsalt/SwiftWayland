@@ -4,7 +4,7 @@
 
 public class EventQueue: Identifiable {
     private var queue: [(ObjectId, any WlEventEnum)] = []
-    private let connection: Connection
+    private unowned let connection: Connection
 
     init(connection: Connection) {
         self.connection = connection
