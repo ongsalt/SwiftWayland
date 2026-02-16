@@ -17,7 +17,7 @@ struct WaylandScannerPlugin: BuildToolPlugin {
             return []
         }
 
-        let verionFile = URL(filePath: "./.codegenversion")
+        // let versionFile = URL(filePath: "./.codegenversion")
 
         let outputDirectory: URL = context.pluginWorkDirectoryURL
         let outputFile = outputDirectory.appendingPathComponent("WaylandNamespace.swift")
@@ -30,7 +30,7 @@ struct WaylandScannerPlugin: BuildToolPlugin {
         //         .map { $0.1.namespace }
         //         .filter { $0 != nil }
         //         .map { $0! } ,
-        //     inputFiles: mappings.map { URL(filePath: $0.0) } + [verionFile],
+        //     inputFiles: mappings.map { URL(filePath: $0.0) } + [versionFile],
         //     outputFiles: [outputFile]
         // )
         // [namespaceCommand] +
@@ -65,7 +65,7 @@ struct WaylandScannerPlugin: BuildToolPlugin {
                 displayName: "Generating protocol \(name)",
                 executable: cli.url,
                 arguments: arguments,
-                inputFiles: [inputPath, verionFile],
+                inputFiles: [inputPath],
                 outputFiles: [outputPath]
             )
         }

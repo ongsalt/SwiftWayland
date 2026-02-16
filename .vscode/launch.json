@@ -79,6 +79,26 @@
             "target": "WaylandScannerCLI",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release WaylandScannerCLI"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SwiftWayland}",
+            "name": "Debug Examples",
+            "target": "Examples",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Examples"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SwiftWayland}",
+            "name": "Release Examples",
+            "target": "Examples",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Examples"
         }
     ]
 }
