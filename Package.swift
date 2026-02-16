@@ -7,7 +7,13 @@ let package = Package(
     name: "SwiftWayland",
     products: [
         // .executable(name: "WaylandScanner", targets: ["WaylandScanner"]),
-        .library(name: "SwiftWayland", targets: ["SwiftWayland", "WaylandProtocols"])
+        .library(name: "SwiftWayland", targets: ["SwiftWayland", "WaylandProtocols"]),
+        .plugin(
+            name: "WaylandScannerPlugin",
+            targets: [
+                "WaylandScannerPlugin"
+            ]
+        ),
     ],
     traits: [
         .trait(name: "Client"),
@@ -17,27 +23,32 @@ let package = Package(
         .default(enabledTraits: ["Client"]),
     ],
     dependencies: [
-        // other dependencies
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
         .package(
             url: "https://github.com/swiftlang/swift-syntax.git",
             from: "602.0.0"
         ),
-        // .package(url: "https://github.com/PureSwift/Socket.git", from: "0.5.0"),
     ],
     targets: [
         .target(
             name: "SwiftWayland",
             dependencies: [
-                "WaylandScannerMacro"
+                // "WaylandScannerMacro"
+            ],
+            plugins: [
+                "WaylandScannerPlugin"
             ]
         ),
+
         .target(
             name: "WaylandProtocols",
             dependencies: [
                 "SwiftWayland"
             ],
+            plugins: [
+                "WaylandScannerPlugin"
+            ]
         ),
 
         .target(
@@ -49,24 +60,27 @@ let package = Package(
             ]
         ),
 
-        .macro(
-            name: "WaylandScannerMacro",
-            dependencies: [
-                "WaylandScanner"
-            ]
-        ),
+        // .macro(
+        //     name: "WaylandScannerMacro",
+        //     dependencies: [
+        //         "WaylandScanner"
+        //     ]
+        // ),
 
         .executableTarget(
             name: "WaylandScannerCLI",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                "WaylandScanner"
+                "WaylandScanner",
             ]
         ),
 
         .plugin(
             name: "WaylandScannerPlugin",
-            capability: .buildTool()
+            capability: .buildTool(),
+            dependencies: [
+                "WaylandScannerCLI"
+            ]
         ),
 
         // .testTarget(
@@ -77,7 +91,8 @@ let package = Package(
             name: "SwiftWaylandExample",
             dependencies: [
                 // "SwiftWayland",
-                .target(name: "SwiftWayland")
+                "SwiftWayland",
+                "WaylandProtocols"
             ],
         ),
     ]

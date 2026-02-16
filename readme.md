@@ -74,17 +74,13 @@ some design decision
     - if its wl_callback, just make it 1 or just ignore
 
 # Todos
-- we still need python codegen for putting xml into swift file and doing aliases
+- refactor namespace generation, -> hardcode known prefix in the scanner
+- traits
 - typed error
 - max version
 - make Event decode failable (and not fatalError) in case object mentioned is already dropped
 - allow custom proxy?
-- when should i check if fd is open? dispatch??? or when call
-- error message when connection closed,
 - async again
-- there is 2 `ZwpLinuxBufferParamsV1`: stable and unstable, probably need to do some namespacing + aliasing
-- codegen plugin
-- @spi export
 - bitfield
 - generate documentation
     - throws
