@@ -91,9 +91,12 @@ public struct Message {
 extension Data {
     init(_ message: Message) {
         self.init()
-        append(u32: message.objectId)
-        append(u16: message.opcode)
-        append(u16: Message.HEADER_SIZE + UInt16(message.arguments.count))  // size
+        var objectId = message.objectId
+        self.append(Data(bytes: &objectId, count: MemoryLayout<UInt32>.size))
+        var opCode = message.opcode
+        self.append(Data(bytes: &opCode, count: MemoryLayout<UInt16>.size))
+        var size = Message.HEADER_SIZE + UInt16(message.arguments.count)
+        self.append(Data(bytes: &size, count: MemoryLayout<UInt16>.size))
         append(message.arguments)
     }
 }
