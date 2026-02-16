@@ -12,13 +12,13 @@ public enum ConnectionError: Error {
 
 public final class Connection {
     @_spi(SwiftWaylandPrivate) public let socket: BufferedSocket
-    var proxies: [ObjectId: any WlProxy] = [:]
+    var proxies: [ObjectId: any ProxyProtocol] = [:]
     var queues: [EventQueue] = []
     private(set) var currentId: ObjectId = 1  // wl_display's id must be 1
     private(set) public lazy var display: WlDisplay = createProxy(
         type: WlDisplay.self, version: 1, id: 1)
 
-    public var proxiesList: [ObjectId: any WlProxy] {
+    public var proxiesList: [ObjectId: any ProxyProtocol] {
         proxies
     }
 
@@ -41,49 +41,49 @@ public final class Connection {
         }
     }
 
-    func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws {
-        let res = socket.receiveUntilDone(wait: wait)
-        if case .failure(let error) = res {
-            // what to do??
-            throw error
-        }
+    // func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws {
+    //     let res = socket.receiveUntilDone(wait: wait)
+    //     if case .failure(let error) = res {
+    //         // what to do??
+    //         throw error
+    //     }
 
-        while socket.data.count >= Message.HEADER_SIZE {
-            let result = Result {
-                try Message(readFrom: socket)
-            }.mapError { $0 as! BufferedSocketError }
+    //     while socket.data.count >= Message.HEADER_SIZE {
+    //         let result = Result {
+    //             try Message(readFrom: socket)
+    //         }.mapError { $0 as! BufferedSocketError }
 
-            guard case .success(let message) = result else {
-                break
-            }
+    //         guard case .success(let message) = result else {
+    //             break
+    //         }
 
-            guard let receiver = self.proxies[message.objectId] else {
-                print("[Wayland] Unknown receiver, object might be deallocated \(message)")
-                continue
-            }
+    //         guard let receiver = self.proxies[message.objectId] else {
+    //             print("[Wayland] Unknown receiver, object might be deallocated \(message)")
+    //             continue
+    //         }
 
-            let event = try receiver.parse(message: message, connection: self)
-            receiver.queue.enqueue(event, receiver: receiver.id)
-        }
-    }
+    //         let event = try receiver.parse(message: message, connection: self)
+    //         receiver.queue.enqueue(event, receiver: receiver.id)
+    //     }
+    // }
 
-    public func flush() throws(ConnectionError) {
-        try self.socket.flush().mapError { e in
-            switch e {
-            case .invalidFds(let fds): ConnectionError.invalidFds(fds)
-            case .closed: ConnectionError.connectionClosed
-            default: fatalError("unhandle error \(e)")
-            }
-        }.get()
-    }
+    // public func flush() throws(ConnectionError) {
+    //     try self.socket.flush().mapError { e in
+    //         switch e {
+    //         case .invalidFds(let fds): ConnectionError.invalidFds(fds)
+    //         case .closed: ConnectionError.connectionClosed
+    //         default: fatalError("unhandle error \(e)")
+    //         }
+    //     }.get()
+    // }
 
-    public func dispatch(wait: Bool = false) throws {
-        try self.mainQueue.dispatch(wait: wait)
-    }
+    // public func dispatch(wait: Bool = false) throws {
+    //     try self.mainQueue.dispatch(wait: wait)
+    // }
 
-    public func roundtrip() throws {
-        try self.mainQueue.roundtrip()
-    }
+    // public func roundtrip() throws {
+    //     try self.mainQueue.roundtrip()
+    // }
 
     // async apis
     func plsReadAndPutMessageIntoQueuesAsync() async throws {
@@ -140,11 +140,11 @@ public final class Connection {
         return data.count
     }
 
-    public func get(id: ObjectId) -> (any WlProxy)? {
+    public func get(id: ObjectId) -> (any ProxyProtocol)? {
         proxies[id]
     }
 
-    public func get<T>(as type: T.Type, id: ObjectId) -> T? where T: WlProxy {
+    public func get<T>(as type: T.Type, id: ObjectId) -> T? where T: ProxyProtocol {
         if let obj = proxies[id] {
             (obj as! T)
         } else {
@@ -163,7 +163,7 @@ public final class Connection {
     @_spi(SwiftWaylandPrivate) public func createProxy<T>(
         type: T.Type, version: UInt32, id: ObjectId? = nil, queue: EventQueue? = nil
     ) -> T
-    where T: WlProxy {
+    where T: ProxyProtocol {
         let id = id ?? nextId()
         let obj = T(connection: self, id: id, version: version, queue: queue ?? self.mainQueue)
         // print("[Wayland] create \(obj) with id: \(id)")

@@ -76,7 +76,7 @@ public final class Window {
             }
         }
 
-        try connection.roundtrip()
+        try await connection.roundtripAsync()
 
         guard
             let compositor = compositor,
@@ -120,7 +120,7 @@ public final class Window {
         try surface.commit()
 
         print(connection.proxiesList)
-        try connection.roundtrip()
+        try await connection.roundtripAsync()
     }
 
     private func makeShmBuffer(shm: WlShm, width: Int, height: Int) throws -> (

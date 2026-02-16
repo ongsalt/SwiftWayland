@@ -51,7 +51,7 @@ extension ClassDeclaration: Code {
         if let docc = self.description?.docc {
             gen.add(docc: docc)
         }
-        gen.add("public final class \(self.name): WlProxyBase, WlProxy, WlInterface {")
+        gen.add("public final class \(self.name): BaseProxy, ProxyProtocol, Interface {")
         gen.indent {
             gen.add(
                 """
@@ -272,7 +272,7 @@ extension DeinitDeclaration: Code {
 extension Array: Code where Element == EventDeclaration {
     func generate(_ gen: Generator) {
         // luckily there is no enum named `event`
-        gen.add("public enum Event: WlEventEnum {")
+        gen.add("public enum Event: WaylandEvent {")
         gen.indent {
             for event in self {
                 gen.walk(node: event)

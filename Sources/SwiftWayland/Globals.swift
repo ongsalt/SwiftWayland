@@ -13,7 +13,7 @@ public enum BindError: Error {
 
 public class Globals {
     public let registry: WlRegistry
-    public var connection: Connection {
+    private var connection: Connection {
         registry.connection
     }
     public private(set) var globals: [Global] = []
@@ -35,7 +35,7 @@ public class Globals {
 
     public func bind<T>(version: Range<UInt32>, interface: T.Type, on queue: EventQueue? = nil)
         throws(BindError) -> T
-    where T: Interface & WlProxy {
+    where T: Interface & ProxyProtocol {
         let queue = queue ?? connection.mainQueue
         if version.upperBound > interface.interfaceVersion {
             // This is a fatalError because it's a compile-time programmer error, not a runtime error.

@@ -1,8 +1,8 @@
 import Foundation
 
 extension WlRegistry {
-    public func bind<T>(name: UInt32, version: UInt32, interface: T.Type, queue: EventQueue) -> T
-    where T: Interface & WlProxy {
+    public func bind<T>(name: UInt32, version: UInt32, interface: T.Type, queue: EventQueue? = nil) -> T
+    where T: Interface & ProxyProtocol {
         let obj = connection.createProxy(type: T.self, version: version, queue: queue)
         let message = Message(
             objectId: self.id, opcode: 0,
@@ -17,7 +17,7 @@ extension WlRegistry {
 }
 
 extension WlDisplay {
-    public enum Event: WlEventEnum {
+    public enum Event: WaylandEvent {
         /// Fatal Error Event
         ///
         /// The error event is sent out when a fatal (non-recoverable)

@@ -21,7 +21,7 @@ public struct SwiftWaylandExample {
 
             while !Task.isCancelled {
                 try await Task.sleep(for: .microseconds(16))
-                try connection.roundtrip()
+                try await connection.roundtripAsync()
             }
         }
         RunLoop.main.run()
@@ -32,19 +32,15 @@ func testConnection() async throws {
     let connection = try! Connection.fromEnv()
 
     let display = connection.display
+    let registry = try Globals(connection: connection)
     print(display)
 
     try display.sync { data in
         print("> Callback: Sync \(data)")
     }
-    let registry = try display.getRegistry()
 
-    registry.onEvent = { event in
-        print(event)
-    }
-    try connection.roundtrip()
-
-    print(connection.proxiesList)
+    try await connection.roundtripAsync()
+    print(registry.globals)
 
     print("[DONE]")
 

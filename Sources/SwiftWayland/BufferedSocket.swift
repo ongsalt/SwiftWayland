@@ -109,17 +109,17 @@ public class BufferedSocket: @unchecked Sendable {
     private var writeQueue = DispatchQueue(label: "lt.ongsa.SwiftWayland.BufferedScoket.writeQueue")
     private var readQueue = DispatchQueue(label: "lt.ongsa.SwiftWayland.BufferedScoket.readQueue")
 
-    func flush() -> Result<(), SocketError> {
-        writeQueue.sync { [self] in
-            self._flush()
-        }
-    }
+    // func flush() -> Result<(), SocketError> {
+    //     writeQueue.sync { [self] in
+    //         self._flush()
+    //     }
+    // }
 
-    func receiveUntilDone(wait force: Bool = false) -> Result<(), SocketError> {
-        writeQueue.sync { [self] in
-            self.receiveUntilDone(wait: force)
-        }
-    }
+    // func receiveUntilDone(wait force: Bool = false) -> Result<(), SocketError> {
+    //     writeQueue.sync { [self] in
+    //         self._receiveUntilDone(wait: force)
+    //     }
+    // }
 
     func flushAsync() async -> Result<(), SocketError> {
         await withUnsafeContinuation { continuation in

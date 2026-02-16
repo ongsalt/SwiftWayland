@@ -5,8 +5,8 @@ public protocol Interface {
     static var interfaceVersion: UInt { get }
 }
 
-public protocol WlProxy: Identifiable, Interface, AnyObject {
-    associatedtype Event: WlEventEnum = NoEvent
+public protocol ProxyProtocol: Identifiable, Interface, AnyObject {
+    associatedtype Event: WaylandEvent = NoEvent
     var version: UInt32 { get }
     var id: ObjectId {
         get
@@ -28,12 +28,12 @@ public protocol WlProxy: Identifiable, Interface, AnyObject {
     init(connection: Connection, id: ObjectId, version: UInt32, queue: EventQueue)
 }
 
-extension WlProxy {
+extension ProxyProtocol {
     nonisolated package func parse(message: Message, connection: Connection) throws(WaylandEventDecodeError) -> Event {
         try Event.decode(message: message, connection: connection, version: self.version)
     }
 
-    nonisolated package func dispatch(event: any WlEventEnum) {
+    nonisolated package func dispatch(event: any WaylandEvent) {
         guard let onEvent else {
             return
         }
@@ -55,12 +55,12 @@ public enum WaylandEventDecodeError: Error {
 }
 
 // TODO: rename this to WlEvent
-public protocol WlEventEnum {
+public protocol WaylandEvent {
     // TOOD: make this failable
     static func decode(message: Message, connection: Connection, version: UInt32) throws(WaylandEventDecodeError) -> Self
 }
 
-public struct NoEvent: WlEventEnum {
+public struct NoEvent: WaylandEvent {
     static public func decode(message: Message, connection: Connection, version: UInt32) throws(WaylandEventDecodeError) -> NoEvent
     {
         let obj = connection.get(id: message.objectId)!
@@ -75,7 +75,7 @@ public enum WaylandProxyState {
     case dropped
 }
 
-open class WlProxyBase {
+open class BaseProxy {
     public let id: ObjectId
     private(set) public unowned var connection: Connection
     public var _state: WaylandProxyState = .alive // TODO spi for setter
@@ -90,8 +90,8 @@ open class WlProxyBase {
     }
 }
 
-extension WlProxyBase: Hashable {
-    public static func == (lhs: WlProxyBase, rhs: WlProxyBase) -> Bool {
+extension BaseProxy: Hashable {
+    public static func == (lhs: BaseProxy, rhs: BaseProxy) -> Bool {
         lhs.id == rhs.id
     }
 
