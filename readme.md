@@ -7,11 +7,10 @@ Wayland client library for swift. The package structure is very much inspired by
 # Usages
 - request is a method
 - register a `onEvent` callback to deal event from the server  
-- Generated classes are always namespaced: `Wayland.Compositor`.
 
 ```swift
 let connection = try! Connection.fromEnv()
-let display: Wayland.Display = connection.display
+let display: WlDisplay = connection.display
 
 try display.sync { data in
     print(data)
@@ -22,8 +21,8 @@ registry.onEvent = { event in
     switch event {
     case .global(let name, let interface, let version):
         switch interface {
-        case Wayland.Compositor.name:
-            self.compositor = registry.bind(name: name, version: version, interface: Wayland.Compositor.self)
+        case WlCompositor.name:
+            self.compositor = registry.bind(name: name, version: version, interface: WlCompositor.self)
         default:
             break
         }
@@ -35,7 +34,7 @@ registry.onEvent = { event in
 try connection.roundtrip()
 ```
 
-See `SwiftWaylandExample` for more example
+See `Example` target for more.
 
 ## Object lifetime
 Every wayland proxy is owned by the `Connection` that create it. Proxy only contains a weak reference back to that connection. A proxy will be dropped only when its destructor method is called (exposed as a `consuming func`). Objects without destructor method will never be dropped (TODO: might provide a way tho) and so do its event handler. 
@@ -46,47 +45,25 @@ If you drop the connection every object and event queue will be close automatica
 
 
 ## Code generation
-There is both macro and CLI. Macro is incomplete tho
-```swift
-public macro WaylandProtocol(trimPrefix: String? = nil, _ xml: String)
+Code generation was done by a build tool plugin using protocol definitions from [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols)
 
-@WaylandProtocol(
-    trimPrefix: "Xdg"
-    """
-    <xml>...
-    """
-)
-struct Protocol {}
-```
+There is no server side code generation yet and probably won't be any time soon.
 
-```bash
-swift run WaylandScannerCLI client ./wayland.xml ./Wayland.swift --trim-prefix Wl --namespace IdkMan
-```
+If you need to do custom protocol, see `WaylandScannerCLI`. (not yet exported)
 
-
-# Design
-some design decision
-## Destructor method
-- now every method will be able to throws
-- will expose a destructor function as a `consuming func`
-- will not generate a deinit that will call those destructor
-
-## Versioning
-- its currently inherited from what you bind
-- what if some interface create an object from another registry
-    - if its wl_callback, just make it 1 or just ignore
-- i didnt do max version yet tho
 
 # Todos
-- refactor namespace generation, -> hardcode known prefix in the scanner
-- more protocols
-- traits
+- refactor namespace generation, -> hardcode known prefix into the scanner
+- accept version range when initialize an object from `wl_registry`
+- add more protocols
+- traits: `STAGING`, `UNSTABLE`
 - typed error
+    - and better error handling in general
 - allow custom proxy?
 - async again
 - bitfield
-- generate documentation
+- generate more documentation
     - throws
-    - returns multiple object
+    - when returns multiple object (probably never????)
 - test
-    - probably gonna steal from wayland-rs
+    - gonna steal from wayland-rs
