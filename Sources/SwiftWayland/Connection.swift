@@ -41,53 +41,8 @@ public final class Connection {
         }
     }
 
-    // func plsReadAndPutMessageIntoQueues(wait: Bool = false) throws {
-    //     let res = socket.receiveUntilDone(wait: wait)
-    //     if case .failure(let error) = res {
-    //         // what to do??
-    //         throw error
-    //     }
-
-    //     while socket.data.count >= Message.HEADER_SIZE {
-    //         let result = Result {
-    //             try Message(readFrom: socket)
-    //         }.mapError { $0 as! BufferedSocketError }
-
-    //         guard case .success(let message) = result else {
-    //             break
-    //         }
-
-    //         guard let receiver = self.proxies[message.objectId] else {
-    //             print("[Wayland] Unknown receiver, object might be deallocated \(message)")
-    //             continue
-    //         }
-
-    //         let event = try receiver.parse(message: message, connection: self)
-    //         receiver.queue.enqueue(event, receiver: receiver.id)
-    //     }
-    // }
-
-    // public func flush() throws(ConnectionError) {
-    //     try self.socket.flush().mapError { e in
-    //         switch e {
-    //         case .invalidFds(let fds): ConnectionError.invalidFds(fds)
-    //         case .closed: ConnectionError.connectionClosed
-    //         default: fatalError("unhandle error \(e)")
-    //         }
-    //     }.get()
-    // }
-
-    // public func dispatch(wait: Bool = false) throws {
-    //     try self.mainQueue.dispatch(wait: wait)
-    // }
-
-    // public func roundtrip() throws {
-    //     try self.mainQueue.roundtrip()
-    // }
-
-    // async apis
-    func plsReadAndPutMessageIntoQueuesAsync() async throws {
-        let res = await socket.receiveUntilDoneAsync()
+    func plsReadAndPutMessageIntoQueues() async throws {
+        let res = await socket.receiveUntilDone()
         // the rest is the same
         if case .failure(let error) = res {
             // what to do??
@@ -113,8 +68,8 @@ public final class Connection {
         }
     }
 
-    public func flushAsync() async throws(ConnectionError) {
-        try await self.socket.flushAsync().mapError { e in
+    public func flush() async throws(ConnectionError) {
+        try await self.socket.flush().mapError { e in
             switch e {
             case .invalidFds(let fds): ConnectionError.invalidFds(fds)
             case .closed: ConnectionError.connectionClosed
@@ -123,12 +78,12 @@ public final class Connection {
         }.get()
     }
 
-    public func dispatchAsync() async throws {
-        try await self.mainQueue.dispatchAsync()
+    public func dispatch() async throws {
+        try await self.mainQueue.dispatch()
     }
 
-    public func roundtripAsync() async throws {
-        try await self.mainQueue.roundtripAsync()
+    public func roundtrip() async throws {
+        try await self.mainQueue.roundtrip()
     }
 
     // --- SPI export ---

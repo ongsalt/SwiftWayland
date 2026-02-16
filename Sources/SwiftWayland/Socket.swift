@@ -210,11 +210,6 @@ class Socket {
     }
 }
 
-// Async stuff
-extension Socket {
-
-}
-
 // see socket.h
 // __glibc_c99_flexarr_available is not defined for some reason
 // swift wont see so __cmsg_data
