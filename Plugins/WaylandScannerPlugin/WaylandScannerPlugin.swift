@@ -44,16 +44,9 @@ struct WaylandScannerPlugin: BuildToolPlugin {
                 "\(inputPath.path())", "\(outputPath.path())",
             ]
 
-            // if let t = options.trimPrefix {
-            //     arguments.append(contentsOf: ["--trim-prefix", t])
-            // }
-            // if let t = options.trimPostfix {
-            //     arguments.append(contentsOf: ["--trim-postfix", t])
-            // }
             // if let t = options.namespace {
             //     arguments.append(contentsOf: ["--namespace", t])
             // }
-
             if let t = options.importName {
                 arguments.append(contentsOf: ["--import", t])
             }

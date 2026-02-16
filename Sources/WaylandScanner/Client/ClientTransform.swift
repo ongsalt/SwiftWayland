@@ -7,10 +7,10 @@
 // }
 
 public func transform(
-    interface: Interface, trimPrefix p: String? = nil, trimSubfix p2: String? = nil
+    interface: Interface, trim transformName: Bool 
 ) -> ClassDeclaration {
     return ClassDeclaration(
-        name: interface.name.camel.trim(p, p2),
+        name: interface.name.camel,
         interfaceName: interface.name,
         description: interface.description,
         methods: interface.requests.enumerated()
@@ -41,9 +41,9 @@ public func transform(
                         case .int: "Int32"
                         case .uint: "UInt32"
                         case .fixed: "Double"
-                        case .enum: arg.enum!.camel.trim(p, p2)
-                        case .object: arg.interface!.camel.trim(p, p2)
-                        case .newId: arg.interface!.camel.trim(p, p2)  // dynamic newId in wl_registry.bind is excluded
+                        case .enum: arg.enum!.camel
+                        case .object: arg.interface!.camel
+                        case .newId: arg.interface!.camel  // dynamic newId in wl_registry.bind is excluded
                         // TODO: bare proxy maybe
                         // case .newId: (arg.interface?.camel) ?? "any WlProxy"
                         }
@@ -100,7 +100,7 @@ public func transform(
         //     .map { DeinitDeclaration(selectedMethod: $0.name.lowerCamel) },
         enums: interface.enums.map { e in
             EnumDeclaration(
-                name: e.name.camel.trim(p, p2),
+                name: e.name.camel,
                 description: e.description,
                 bitfield: e.bitfield,
                 since: e.since,
@@ -128,10 +128,10 @@ public func transform(
                             case .int: "Int32"
                             case .uint: "UInt32"
                             case .fixed: "Double"
-                            case .enum: arg.enum!.camel.trim(p, p2)
+                            case .enum: arg.enum!.camel
                             // TODO: fix this
-                            case .object: arg.interface?.camel.trim(p, p2) ?? "any WlProxy"  // nullable when its wl_display.error
-                            case .newId: arg.interface!.camel.trim(p, p2)
+                            case .object: arg.interface?.camel ?? "any WlProxy"  // nullable when its wl_display.error
+                            case .newId: arg.interface!.camel
                             }
 
                         return WaylandArgumentDeclaration(

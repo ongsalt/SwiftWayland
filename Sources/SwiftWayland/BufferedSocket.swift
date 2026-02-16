@@ -5,8 +5,8 @@ enum BufferedSocketError: Error {
     case closed
 }
 
-public class BufferedSocket {
-    let socket: Socket2
+public class BufferedSocket: @unchecked Sendable {
+    let socket: Socket
     var data: Data
     var fds: [FileHandle] = []
 
@@ -16,7 +16,7 @@ public class BufferedSocket {
 
     private var outData: [(Data, [FileHandle])] = []
 
-    init(_ socket: Socket2) {
+    init(_ socket: Socket) {
         self.socket = socket
         data = Data()
     }
@@ -51,7 +51,7 @@ public class BufferedSocket {
         outData.append((data, fds))
     }
 
-    func flush() -> Result<(), SocketError> {
+    private func _flush() -> Result<(), SocketError> {
         let flushed = outData
         outData = []
 
@@ -80,7 +80,7 @@ public class BufferedSocket {
         _data.deallocate()
     }
 
-    func receiveUntilDone(wait force: Bool = false) -> Result<(), SocketError> {
+    private func _receiveUntilDone(wait force: Bool = false) -> Result<(), SocketError> {
         var shouldRun = force
         var fds: [FileHandle] = []
 
@@ -105,4 +105,36 @@ public class BufferedSocket {
 
         return .success(())
     }
+
+    private var writeQueue = DispatchQueue(label: "lt.ongsa.SwiftWayland.BufferedScoket.writeQueue")
+    private var readQueue = DispatchQueue(label: "lt.ongsa.SwiftWayland.BufferedScoket.readQueue")
+
+    func flush() -> Result<(), SocketError> {
+        writeQueue.sync { [self] in
+            self._flush()
+        }
+    }
+
+    func receiveUntilDone(wait force: Bool = false) -> Result<(), SocketError> {
+        writeQueue.sync { [self] in
+            self.receiveUntilDone(wait: force)
+        }
+    }
+
+    func flushAsync() async -> Result<(), SocketError> {
+        await withUnsafeContinuation { continuation in
+            writeQueue.async { [self] in
+                continuation.resume(returning: self._flush())
+            }
+        }
+    }
+
+    func receiveUntilDoneAsync() async -> Result<(), SocketError> {
+        await withUnsafeContinuation { continuation in
+            readQueue.async { [self] in
+                continuation.resume(returning: self._receiveUntilDone(wait: true))
+            }
+        }
+    }
+
 }

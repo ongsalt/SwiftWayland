@@ -27,6 +27,7 @@ public struct Options: Sendable {
         let stability = url.pathComponents[base + 1]
         self.traits = stability.uppercased()
         if self.traits == "STABLE" {
+            self.traits = nil
             self.trimPostfix = nil
             return
         }

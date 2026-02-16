@@ -37,12 +37,6 @@ struct GenerateClientCode: ParsableCommand {
     @Option(name: .long, help: "import name")
     var `import`: String? = nil
 
-    @Option(name: .long, help: "trim class prefix e.g. WlDisplay -> Display")
-    var trimPrefix: String? = nil
-
-    @Option(name: .long, help: "same, e.g. WpAlphaModifierV1 -> WpAlphaModifier")
-    var trimPostfix: String? = nil
-
     @Option(
         name: .long,
         help: "generate class under an empty enum `extension Namespace.V1.Whatever { ... }` ")
@@ -65,8 +59,6 @@ struct GenerateClientCode: ParsableCommand {
         let text: String = try generateFile(
             String(contentsOf: inputUrl, encoding: .utf8),
             options: Options(
-                trimPrefix: trimPrefix,
-                trimPostfix: trimPostfix,
                 namespace: namespace,
                 importName: importName,
                 traits: traits

@@ -26,7 +26,7 @@ public final class Connection {
         queues[0]
     }
 
-    init(socket: Socket2) {
+    init(socket: Socket) {
         self.socket = BufferedSocket(socket)
         queues.append(EventQueue(connection: self))
         // we force to create it now
@@ -50,7 +50,7 @@ public final class Connection {
 
         while socket.data.count >= Message.HEADER_SIZE {
             let result = Result {
-                try Message(readBlocking: socket)
+                try Message(readFrom: socket)
             }.mapError { $0 as! BufferedSocketError }
 
             guard case .success(let message) = result else {
@@ -83,6 +83,52 @@ public final class Connection {
 
     public func roundtrip() throws {
         try self.mainQueue.roundtrip()
+    }
+
+    // async apis
+    func plsReadAndPutMessageIntoQueuesAsync() async throws {
+        let res = await socket.receiveUntilDoneAsync()
+        // the rest is the same
+        if case .failure(let error) = res {
+            // what to do??
+            throw error
+        }
+
+        while socket.data.count >= Message.HEADER_SIZE {
+            let result = Result {
+                try Message(readFrom: socket)
+            }.mapError { $0 as! BufferedSocketError }
+
+            guard case .success(let message) = result else {
+                break
+            }
+
+            guard let receiver = self.proxies[message.objectId] else {
+                print("[Wayland] Unknown receiver, object might be deallocated \(message)")
+                continue
+            }
+
+            let event = try receiver.parse(message: message, connection: self)
+            receiver.queue.enqueue(event, receiver: receiver.id)
+        }
+    }
+
+    public func flushAsync() async throws(ConnectionError) {
+        try await self.socket.flushAsync().mapError { e in
+            switch e {
+            case .invalidFds(let fds): ConnectionError.invalidFds(fds)
+            case .closed: ConnectionError.connectionClosed
+            default: fatalError("unhandle error \(e)")
+            }
+        }.get()
+    }
+
+    public func dispatchAsync() async throws {
+        try await self.mainQueue.dispatchAsync()
+    }
+
+    public func roundtripAsync() async throws {
+        try await self.mainQueue.roundtripAsync()
     }
 
     // --- SPI export ---
@@ -172,7 +218,7 @@ public final class Connection {
         let waylandPath = "\(xdgRuntimeDirectory)/\(waylandDisplay)"
 
         let socket = Result {
-            try Socket2(connectTo: waylandPath)
+            try Socket(connectTo: waylandPath)
         }
 
         return switch socket {

@@ -55,9 +55,7 @@ If you need to do custom protocol, see `WaylandScannerCLI`. (not yet exported)
 # Todos
 - wrapper for wl_registry
 - refactor namespace generation, -> hardcode known prefix into the scanner
-- accept version range when initialize an object from `wl_registry`
-- add more protocols
-- traits: `STAGING`, `UNSTABLE`
+- accept version rasonge when initialize an object from `wl_registry`
 - typed error
     - and better error handling in general
 - allow custom proxy?

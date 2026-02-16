@@ -53,3 +53,16 @@ public func createNamespaces(namespaces: Set<String>) -> String {
 
     return gen.text
 }
+
+func transformName(_ name: String) {
+    // xdg_decoration_unstable_v1::zxdg_decoration_manager_v1 
+    // will be Xdg.DecorationUnstable.V1 DecorationManager
+    // this namespace is already done by the CLI
+
+    // will be Xdg.Decoration.Zv1 DecorationManager
+    
+    let knownPrefixes = ["Wl", "Wp", "Zwp", "Xdg", "Zxdg"]
+    // Subfixes is V{n} or 
+
+    // so we trim
+}

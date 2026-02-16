@@ -38,16 +38,8 @@ public struct Message {
 
     public static let HEADER_SIZE: UInt16 = 8
 
-    // init(readAsync socket: Socket) async throws {
-    //     let header = try await socket.read(Int(Self.HEADER_SIZE))
-    //     objectId = Self.readUInt32(header, offset: 0)
-    //     opcode = Self.readUInt16(header, offset: 4)
-    //     size = Self.readUInt16(header, offset: 6)
-
-    //     arguments = try await socket.read(Int(size - Self.HEADER_SIZE))
-    // }
-
-    init(readBlocking socket: BufferedSocket) throws(BufferedSocketError) {
+    // this never block anyways
+    init(readFrom socket: BufferedSocket) throws(BufferedSocketError) {
         guard socket.data.count >= Self.HEADER_SIZE else {
             throw .notEnoughBytes(requested: Int(Self.HEADER_SIZE), left: socket.data.count)
         }

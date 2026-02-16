@@ -25,7 +25,7 @@ let MAX_FDS_OUT: UInt = 28
 /// Maximum number of bytes that can be sent in a single socket message
 let MAX_BYTES_OUT: UInt = 4096
 
-class Socket2 {
+class Socket {
     private let fd: Int32
 
     var canRead: Bool {
@@ -70,13 +70,13 @@ class Socket2 {
     }
 
     func send(data: UnsafeRawBufferPointer, fds: [FileHandle]) -> Result<Int, SocketError> {
-        Socket2.send(data: data, fds: fds, to: FileHandle(fileDescriptor: fd))
+        Socket.send(data: data, fds: fds, to: FileHandle(fileDescriptor: fd))
     }
 
     func receive(data: UnsafeMutableRawBufferPointer, fds: inout [FileHandle]) -> Result<
         Int, SocketError
     > {
-        Socket2.receive(data: data, fds: &fds, from: FileHandle(fileDescriptor: fd))
+        Socket.receive(data: data, fds: &fds, from: FileHandle(fileDescriptor: fd))
     }
 
     static func send(data: UnsafeRawBufferPointer, fds handles: [FileHandle], to target: FileHandle)
@@ -211,7 +211,7 @@ class Socket2 {
 }
 
 // Async stuff
-extension Socket2 {
+extension Socket {
 
 }
 
