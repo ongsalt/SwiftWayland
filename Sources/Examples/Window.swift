@@ -2,9 +2,9 @@ import Foundation
 import SwiftWayland
 import WaylandProtocols
 
+// copilot wrote most of this
 public final class Window {
     public let connection: Connection
-    public let flusher: AutoFlusher?
 
     private var compositor: WlCompositor?
     private var shm: WlShm?
@@ -39,9 +39,8 @@ public final class Window {
 
     }
 
-    public init(connection: Connection, flusher: AutoFlusher? = nil) {
+    public init(connection: Connection) {
         self.connection = connection
-        self.flusher = flusher
     }
 
     func start() async throws {
