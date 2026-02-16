@@ -39,6 +39,16 @@ struct Description: Codable {
     }
 }
 
+extension Description {
+    var docc: String {
+        """
+        \(self.summary.capitalized)
+
+        \(self.value.trimmed)
+        """
+    }
+}
+
 struct Enum: Codable {
     let name: String
     let entries: [EnumEntry]
