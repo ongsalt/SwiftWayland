@@ -1,4 +1,4 @@
-extension String {
+public extension String {
     func snakeToLowerCamel() -> String {
         let parts =
             self

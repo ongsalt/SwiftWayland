@@ -32,6 +32,23 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "SwiftWaylandCommon",
+        ),
+
+        .systemLibrary(
+            name: "CWayland",
+            pkgConfig: "wayland-client",
+        ),
+
+        .target(
+            name: "SwiftWaylandBackend",
+            dependencies: [
+                "SwiftWaylandCommon",
+                "CWayland"
+            ]
+        ),
+
+        .target(
             name: "SwiftWayland",
             plugins: [
                 "WaylandScannerPlugin"
@@ -51,6 +68,7 @@ let package = Package(
         .target(
             name: "WaylandScanner",
             dependencies: [
+                "SwiftWaylandCommon",
                 .product(name: "XMLCoder", package: "XMLCoder")
             ]
         ),
@@ -79,7 +97,7 @@ let package = Package(
             name: "Examples",
             dependencies: [
                 "SwiftWayland",
-                "WaylandProtocols"
+                "WaylandProtocols",
             ],
         ),
     ]

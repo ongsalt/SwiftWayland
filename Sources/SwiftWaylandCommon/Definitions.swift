@@ -1,14 +1,13 @@
 import Foundation
-import XMLCoder
 
 public struct Protocol: Codable {
     let name: String
     let copyright: String?
+    let description: Description?
     let interfaces: [Interface]
 
     enum CodingKeys: String, CodingKey {
-        case name
-        case copyright
+        case name, copyright, description
         case interfaces = "interface"
     }
 }
@@ -29,7 +28,7 @@ public struct Interface: Codable {
     }
 }
 
-struct Description: Codable {
+public struct Description: Codable {
     let summary: String
     let value: String
 
@@ -37,9 +36,7 @@ struct Description: Codable {
         case summary
         case value = ""
     }
-}
 
-extension Description {
     var docc: String {
         """
         \(self.summary.capitalized)
@@ -49,7 +46,8 @@ extension Description {
     }
 }
 
-struct Enum: Codable {
+
+public struct Enum: Codable {
     let name: String
     let entries: [EnumEntry]
     let description: Description?
@@ -62,7 +60,7 @@ struct Enum: Codable {
     }
 }
 
-struct EnumEntry: Codable {
+public struct EnumEntry: Codable {
     let name: String
     let value: String  // this may be hex
     var intValue: UInt? {
@@ -75,7 +73,7 @@ struct EnumEntry: Codable {
     let summary: String?
 }
 
-struct Request: Codable {
+public struct Request: Codable {
     let name: String
     let `type`: RequestType?
     let description: Description?
@@ -93,7 +91,7 @@ enum RequestType: String, Codable {
     case destructor
 }
 
-struct Argument: Codable {
+public struct Argument: Codable {
     let name: String
     let `type`: Primitive
     let interface: String?
@@ -101,13 +99,12 @@ struct Argument: Codable {
     let summary: String?
 }
 
-// https://wayland-book.com/protocol-design/wire-protocol.html
-enum Primitive: String, Codable {
+public enum Primitive: String, Codable {
     case int, uint, fixed, object, string, array, fd, `enum`
     case newId = "new_id"
 }
 
-struct Event: Codable {
+public struct Event: Codable {
     let name: String
     let description: Description?
     let arguments: [Argument]

@@ -52,9 +52,19 @@ There is no server side code generation yet and probably won't be any time soon.
 If you need to do custom protocol, see `WaylandScannerCLI`. (not yet exported)
 
 
+# Dependencies
+Please get wayland development header from your package manager
+
+## Fedora
+```bash
+dnf install wayland-devel
+```
+
 # Todos
-- `libwayland-client`-accurated connection establishing
+- `libwayland-client` backend becuase its pain in the ass to deal with egl
 - runtime request and event information??
+
+
 - refactor namespace generation, -> hardcode known prefix into the scanner
 - typed error
     - and better error handling in general
