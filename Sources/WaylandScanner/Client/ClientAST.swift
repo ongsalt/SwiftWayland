@@ -1,4 +1,5 @@
 // import SwiftSyntax
+import SwiftWaylandCommon
 
 public struct ClassDeclaration {
     var name: String

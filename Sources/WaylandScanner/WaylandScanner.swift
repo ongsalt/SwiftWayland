@@ -1,5 +1,6 @@
 import Foundation
 import XMLCoder
+import SwiftWaylandCommon
 
 public struct Options: Sendable {
     public var trim: Bool = false

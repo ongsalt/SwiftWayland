@@ -1,3 +1,5 @@
+import SwiftWaylandCommon
+
 let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
 let QUEUE_INNER_NAME: String = "_queue"
 

@@ -1,3 +1,4 @@
+import SwiftWaylandCommon
 // - new_id -> return value
 // - generate deint
 // - wl_callback -> `@escaping () -> Void`

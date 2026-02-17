@@ -1,10 +1,10 @@
 import Foundation
 
 public struct Protocol: Codable {
-    let name: String
-    let copyright: String?
-    let description: Description?
-    let interfaces: [Interface]
+    public let name: String
+    public let copyright: String?
+    public let description: Description?
+    public let interfaces: [Interface]
 
     enum CodingKeys: String, CodingKey {
         case name, copyright, description
@@ -13,12 +13,12 @@ public struct Protocol: Codable {
 }
 
 public struct Interface: Codable {
-    let name: String
-    let version: UInt
-    let description: Description?
-    let enums: [Enum]
-    let requests: [Request]
-    let events: [Event]
+    public let name: String
+    public let version: UInt
+    public let description: Description?
+    public let enums: [Enum]
+    public let requests: [Request]
+    public let events: [Event]
 
     enum CodingKeys: String, CodingKey {
         case name, version, description
@@ -29,15 +29,15 @@ public struct Interface: Codable {
 }
 
 public struct Description: Codable {
-    let summary: String
-    let value: String
+    public let summary: String
+    public let value: String
 
     enum CodingKeys: String, CodingKey {
         case summary
         case value = ""
     }
 
-    var docc: String {
+    public var docc: String {
         """
         \(self.summary.capitalized)
 
@@ -48,11 +48,11 @@ public struct Description: Codable {
 
 
 public struct Enum: Codable {
-    let name: String
-    let entries: [EnumEntry]
-    let description: Description?
-    let bitfield: Bool = false
-    let since: UInt?
+    public let name: String
+    public let entries: [EnumEntry]
+    public let description: Description?
+    public let bitfield: Bool = false
+    public let since: UInt?
 
     enum CodingKeys: String, CodingKey {
         case name, description, since
@@ -61,25 +61,25 @@ public struct Enum: Codable {
 }
 
 public struct EnumEntry: Codable {
-    let name: String
-    let value: String  // this may be hex
-    var intValue: UInt? {
+    public let name: String
+    public let value: String  // this may be hex
+    public var intValue: UInt? {
         if value.starts(with: "0x") {
             UInt(value.trimmingPrefix("0x"), radix: 16)
         } else {
             UInt(value)
         }
     }
-    let summary: String?
+    public let summary: String?
 }
 
 public struct Request: Codable {
-    let name: String
-    let `type`: RequestType?
-    let description: Description?
-    let since: UInt?
+    public let name: String
+    public let `type`: RequestType?
+    public let description: Description?
+    public let since: UInt?
 
-    let arguments: [Argument]
+    public let arguments: [Argument]
 
     enum CodingKeys: String, CodingKey {
         case name, type, description, since
@@ -87,16 +87,16 @@ public struct Request: Codable {
     }
 }
 
-enum RequestType: String, Codable {
+public enum RequestType: String, Codable {
     case destructor
 }
 
 public struct Argument: Codable {
-    let name: String
-    let `type`: Primitive
-    let interface: String?
-    let `enum`: String?
-    let summary: String?
+    public let name: String
+    public let `type`: Primitive
+    public let interface: String?
+    public let `enum`: String?
+    public let summary: String?
 }
 
 public enum Primitive: String, Codable {
@@ -105,10 +105,10 @@ public enum Primitive: String, Codable {
 }
 
 public struct Event: Codable {
-    let name: String
-    let description: Description?
-    let arguments: [Argument]
-    let since: UInt?
+    public let name: String
+    public let description: Description?
+    public let arguments: [Argument]
+    public let since: UInt?
 
     enum CodingKeys: String, CodingKey {
         case name, description, since
