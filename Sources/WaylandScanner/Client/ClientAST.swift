@@ -4,7 +4,7 @@ import SwiftWaylandCommon
 public struct ClassDeclaration {
     var name: String
     var interfaceName: String
-    var interfaceVersion: UInt
+    var interfaceVersion: UInt32
     var description: Description? = nil
     var methods: [MethodDeclaration]
     var `deinit`: DeinitDeclaration? = nil
@@ -15,9 +15,9 @@ public struct ClassDeclaration {
 struct MethodDeclaration {
     var name: String
     var requestName: String
-    var requestId: UInt
+    var requestId: UInt32
     var consuming: Bool
-    var since: UInt?
+    var since: UInt32?
     var arguments: [ArgumentDeclaration]
     var returns: [ArgumentDeclaration] // TODO: make a type for this
     var callbacks: [CallbackDeclaration]
@@ -61,7 +61,7 @@ struct EnumDeclaration {
     var description: Description?
     var bitfield: Bool = false
     // TODO: enum since codegen, (probably not needed tho)
-    var since: UInt?
+    var since: UInt32?
 
     var cases: [EnumCaseDeclaration]
 }
@@ -69,7 +69,7 @@ struct EnumDeclaration {
 // this is event enum tho
 struct EnumCaseDeclaration {
     var name: String
-    var value: String
+    var value: UInt32
     var summary: String?
 }
 

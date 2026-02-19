@@ -44,7 +44,7 @@ let package = Package(
             name: "SwiftWaylandBackend",
             dependencies: [
                 "SwiftWaylandCommon",
-                "CWayland"
+                "CWayland",
             ]
         ),
 
@@ -69,7 +69,15 @@ let package = Package(
             name: "WaylandScanner",
             dependencies: [
                 "SwiftWaylandCommon",
-                .product(name: "XMLCoder", package: "XMLCoder")
+                .product(name: "XMLCoder", package: "XMLCoder"),
+            ]
+        ),
+
+        .executableTarget(
+            name: "Playground",
+            dependencies: [
+                "CWayland",
+                "SwiftWaylandCommon",
             ]
         ),
 

@@ -63,6 +63,7 @@ dnf install wayland-devel
 # Todos
 - `libwayland-client` backend becuase its pain in the ass to deal with egl
 - runtime request and event information??
+- allow-null
 
 
 - refactor namespace generation, -> hardcode known prefix into the scanner

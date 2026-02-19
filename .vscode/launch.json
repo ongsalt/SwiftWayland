@@ -99,6 +99,26 @@
             "target": "Examples",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release Examples"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SwiftWayland}",
+            "name": "Debug Playground",
+            "target": "Playground",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Playground"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SwiftWayland}",
+            "name": "Release Playground",
+            "target": "Playground",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Playground"
         }
     ]
 }

@@ -46,7 +46,6 @@ public struct Description: Codable {
     }
 }
 
-
 public struct Enum: Codable {
     public let name: String
     public let entries: [EnumEntry]
@@ -63,7 +62,7 @@ public struct Enum: Codable {
 public struct EnumEntry: Codable {
     public let name: String
     public let value: UInt32  // this may be hex
-    public var since: UInt32
+    public var since: UInt32?
     public let summary: String?
     public let description: Description?
 
@@ -97,6 +96,14 @@ public struct Argument: Codable {
     public let `enum`: String?
     public let summary: String?
     public let description: Description?
+
+    // TODO: codegen: nullable
+    public let nullable: Bool = false
+
+    enum CodingKeys: String, CodingKey {
+        case name, type, interface, `enum`, summary, description
+        case nullable = "allow_null"
+    }
 }
 
 public enum Primitive: String, Codable {
@@ -107,4 +114,3 @@ public enum Primitive: String, Codable {
 // Todo: remove this
 public typealias Event = Message
 public typealias Request = Message
-

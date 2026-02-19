@@ -1,5 +1,7 @@
-public extension String {
-    func snakeToLowerCamel() -> String {
+import Foundation
+
+extension String {
+    public func snakeToLowerCamel() -> String {
         let parts =
             self
             .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -13,26 +15,40 @@ public extension String {
         return ([head] + tail).joined()
     }
 
-    func snakeToCamel() -> String {
+    public func snakeToCamel() -> String {
         let camel = snakeToLowerCamel()
         guard let first = camel.first else { return "" }
 
         return String(first).uppercased() + camel.dropFirst()
     }
 
-    var lowerCamel: String {
+    public func camelToSnake() -> String {
+        let pattern = "([a-z0-9])([A-Z])"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: self.utf16.count)
+
+        let snakeCase = regex.stringByReplacingMatches(
+            in: self, options: [], range: range, withTemplate: "$1_$2")
+        return snakeCase.lowercased()
+    }
+
+    public var snake: String {
+        camelToSnake()
+    }
+
+    public var lowerCamel: String {
         snakeToLowerCamel()
     }
 
-    var camel: String {
+    public var camel: String {
         snakeToCamel()
     }
 
-    func indent(space: Int) -> String {
+    public func indent(space: Int) -> String {
         self.indent(String(repeating: " ", count: space))
     }
 
-    func indent(_ indentation: String) -> String {
+    public func indent(_ indentation: String) -> String {
         return
             self
             .split(separator: "\n", omittingEmptySubsequences: false)
@@ -40,15 +56,15 @@ public extension String {
             .joined(separator: "\n")
     }
 
-    var comment: String {
+    public var comment: String {
         indent("/// ")
     }
 
-    var graved: String {
+    public var graved: String {
         "`\(self)`"
     }
 
-    var gravedIfNeeded: String {
+    public var gravedIfNeeded: String {
         if swiftKeyword.contains(self) || self.first?.isNumber == true {
             self.graved
         } else {
@@ -56,27 +72,27 @@ public extension String {
         }
     }
 
-    var trimmed: String {
+    public var trimmed: String {
         self
             .split(separator: "\n")
             .map { $0.trimmingCharacters(in: .whitespaces) }
             .joined(separator: "\n")
     }
 
-    func withoutPrefix(_ prefix: String?) -> String {
+    public func withoutPrefix(_ prefix: String?) -> String {
         if let prefix {
             String(self.trimmingPrefix(prefix))
         } else {
             self
         }
     }
-    
-    func trimmingSuffix(_ suffix: String) -> String {
+
+    public func trimmingSuffix(_ suffix: String) -> String {
         guard self.hasSuffix(suffix) else { return self }
         return String(self.dropLast(suffix.count))
     }
 
-    func trim(_ prefix: String?, _ suffix: String?) -> String {
+    public func trim(_ prefix: String?, _ suffix: String?) -> String {
         String(
             self
                 .trimmingSuffix(suffix ?? "")

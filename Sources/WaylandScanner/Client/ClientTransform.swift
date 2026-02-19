@@ -86,7 +86,7 @@ public func transform(
                 return MethodDeclaration(
                     name: request.name.lowerCamel,
                     requestName: request.name,
-                    requestId: UInt(index),
+                    requestId: UInt32(index),
                     consuming: request.type == .destructor,
                     since: request.since,
                     arguments: arguments,
