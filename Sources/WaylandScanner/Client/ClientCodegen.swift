@@ -3,80 +3,21 @@ import SwiftWaylandCommon
 let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
 let QUEUE_INNER_NAME: String = "_queue"
 
-class Generator {
-    var stack: [any Code] = []
-    var indentation: Int = 4
-    var indentLevel: Int = 0
-    var importName: String?
-
-    var text: String {
-        lines.joined(separator: "\n")
-    }
-
-    var lines: [String]
-
-    func add(_ string: String) {
-        lines.append(
-            string.indent(space: indentLevel)
-        )
-    }
-
-    func add(sameLine string: String) {
-        if let l = lines.popLast() {
-            lines.append(l + string)
-        }
-    }
-
-    func add() {
-        lines.append("")
-    }
-
-    func add(docc str: String) {
-        add("\(str)".indent("/// "))
-    }
-
-    func add(comment str: String) {
-        add("\(str)".indent("// "))
-    }
-
-    func indent(level: Int? = nil, _ block: () -> Void) {
-        self.indentLevel += level ?? indentation
-        block()
-        self.indentLevel -= level ?? indentation
-    }
-
-    func walk(node: some Code) {
-        stack.append(node)
-        node.generate(self)
-        _ = stack.popLast()
-    }
-
-    func walk(array: [some Code]) {
-        self.add(sameLine: "[")
-        for c in array {
-            self.walk(node: c)
-            self.add(sameLine: ",")
-        }
-        self.add("]")
-    }
-
-}
-
-protocol Code {
-    func generate(_ generator: Generator)
-}
-
 extension ClassDeclaration: Code {
     func generate(_ gen: Generator) {
         if let docc = self.description?.docc {
             gen.add(docc: docc)
         }
-        gen.add("public final class \(self.name): BaseProxy, ProxyProtocol, Interface {")
+        gen.add("public final class \(self.name): Proxy {")
         gen.indent {
             gen.add(
                 """
-                public static let name: String = "\(self.interfaceName)"
-                public static let interfaceVersion: UInt = \(self.interfaceVersion)
+                publlic let var id: Void = ()
+                publlic let version: UInt32 = 1
+                publlic let interface: Shared<Interface> {
+                    Self.interface
+                }
+                public var onEvent: ((Event) -> Void)?
                 """
             )
             gen.add("public var onEvent: ((Event) -> Void)? = nil")
@@ -196,14 +137,14 @@ extension MethodDeclaration: Code {
                 )
             }
 
-            // create callbacks
-            for callbacks in self.callbacks {
-                gen.add(
-                    """
-                    let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME))
-                    """
-                )
-            }
+            // // create callbacks
+            // for callbacks in self.callbacks {
+            //     gen.add(
+            //         """
+            //         let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME))
+            //         """
+            //     )
+            // }
 
             gen.add(
                 "let message = Message(objectId: self.id, opcode: \(self.requestId), contents: ["

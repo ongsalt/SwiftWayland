@@ -3,7 +3,7 @@ import Foundation
 public protocol Proxy {
     associatedtype Event: Decodable = NoEvent
     associatedtype Request: Encodable = NoRequest
-    associatedtype ObjectId = Void
+    associatedtype ObjectId = Void // TODO: ObjectId
     // associatedtype Queue: EventQueue
     associatedtype Queue = AnyObject
     // associatedtype UserData

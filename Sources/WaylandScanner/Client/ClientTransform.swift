@@ -56,11 +56,11 @@ public func transform(
                         summary: arg.summary
                     )
 
-                    if arg.type == .newId {
-                        returns.append(decl)
-                    } else {
+                    // if arg.type == .newId {
+                    //     returns.append(decl)
+                    // } else {
                         arguments.append(decl)
-                    }
+                    // }
                 }
 
                 if !returns.isEmpty || !callbacks.isEmpty {

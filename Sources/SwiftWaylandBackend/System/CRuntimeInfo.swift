@@ -93,7 +93,7 @@ public final class CRuntimeInfo {
 }
 
 extension Message {
-    var signature: String {
+    public var signature: String {
         var out = ""
         if let since {
             out += "\(since)"

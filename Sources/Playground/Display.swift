@@ -8,6 +8,10 @@ class Display: Proxy {
     }
     var onEvent: ((NoEvent) -> Void)?
 
+    func getRegistry() -> Registry {
+        Registry()
+    }
+
     static let interface = Shared(
         Interface(
             name: "wl_display",
@@ -35,7 +39,9 @@ class Registry: Proxy {
     var id: () = ()
     var version: UInt32 = 1
     var interface: Shared<Interface> { Self.interface }
-    var onEvent: ((Event) -> Void)?
+    var onEvent: ((Event) -> Void)? = { event in
+        print(event)
+    }
 
     static let interface = Shared(
         Interface(
@@ -51,7 +57,14 @@ class Registry: Proxy {
                         Argument(name: "interface", type: .string),
                         Argument(name: "version", type: .uint),
                     ]
-                )
+                ),
+                Message(
+                    name: "global_remove",
+                    arguments: [
+                        Argument(name: "name", type: .uint),
+                    ]
+                ),
+
             ]
         ))
 

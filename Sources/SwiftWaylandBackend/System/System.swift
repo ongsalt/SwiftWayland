@@ -2,11 +2,12 @@ import CWayland
 import Foundation
 import SwiftWaylandCommon
 
-public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
+public let dispatchFn: wl_dispatcher_func_t = { user_data, target, opcode, _, args in
+
     // get the instance first
     let proxy =
         Unmanaged<AnyObject>.fromOpaque(
-            wl_proxy_get_user_data(OpaquePointer(target!))
+            wl_proxy_get_user_data(OpaquePointer(target))!
         ).takeUnretainedValue() as! any Proxy
 
     proxy.dispatch(opcode: opcode, args: args!)
