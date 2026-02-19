@@ -8,8 +8,8 @@ public protocol Proxy {
     associatedtype Queue = AnyObject
     // associatedtype UserData
 
-    static var interface: Interface { get }
-    var interface: Interface { get }
+    static var interface: Shared<Interface> { get }
+    var interface: Shared<Interface> { get }
 
     var version: UInt32 { get }
     var id: ObjectId {
@@ -39,7 +39,8 @@ public struct NoRequest: Encodable {
 }
 
 public enum DecodingError: Error {
-
+    case unknownOpcode(UInt32)
+    case objectNotFound(id: UInt32)
 }
 
 public protocol Decodable {

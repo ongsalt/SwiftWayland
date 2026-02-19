@@ -9,18 +9,26 @@ class Generator {
     var indentLevel: Int = 0
     var importName: String?
 
-    var text: String = ""
-
-    func add(raw string: String) {
-        text += string
+    var text: String {
+        lines.joined(separator: "\n")
     }
 
+    var lines: [String]
+
     func add(_ string: String) {
-        text += string.indent(space: indentLevel) + "\n"
+        lines.append(
+            string.indent(space: indentLevel)
+        )
+    }
+
+    func add(sameLine string: String) {
+        if let l = lines.popLast() {
+            lines.append(l + string)
+        }
     }
 
     func add() {
-        text += "\n"
+        lines.append("")
     }
 
     func add(docc str: String) {
@@ -42,6 +50,16 @@ class Generator {
         node.generate(self)
         _ = stack.popLast()
     }
+
+    func walk(array: [some Code]) {
+        self.add(sameLine: "[")
+        for c in array {
+            self.walk(node: c)
+            self.add(sameLine: ",")
+        }
+        self.add("]")
+    }
+
 }
 
 protocol Code {

@@ -3,55 +3,57 @@ import SwiftWaylandCommon
 class Display: Proxy {
     var id: Void = ()
     var version: UInt32 = 1
-    var interface: Interface {
+    var interface: Shared<Interface> {
         Self.interface
     }
     var onEvent: ((NoEvent) -> Void)?
 
-    static let interface = Interface(
-        name: "wl_display",
-        version: 1,
-        enums: [],
-        requests: [
-            Message(
-                name: "sync",
-                arguments: [
-                    // TODO:
-                ]
-            ),
-            Message(
-                name: "get_registry",
-                arguments: [
-                    Argument(name: "registry", type: .newId, interface: "wl_registry")
-                ]
-            ),
-        ],
-        events: []
-    )
+    static let interface = Shared(
+        Interface(
+            name: "wl_display",
+            version: 1,
+            enums: [],
+            requests: [
+                Message(
+                    name: "sync",
+                    arguments: [
+                        // TODO:
+                    ]
+                ),
+                Message(
+                    name: "get_registry",
+                    arguments: [
+                        Argument(name: "registry", type: .newId, interface: "wl_registry")
+                    ]
+                ),
+            ],
+            events: []
+        ))
 }
 
 class Registry: Proxy {
     var id: () = ()
     var version: UInt32 = 1
-    var interface: Interface { Self.interface }
+    var interface: Shared<Interface> { Self.interface }
     var onEvent: ((Event) -> Void)?
 
-    static let interface = Interface(
-        name: "wl_registry",
-        version: 1,
-        enums: [],
-        requests: [],
-        events: [
-            Message(
-                name: "global",
-                arguments: [
-                    Argument(name: "name", type: .uint),
-                    Argument(name: "interface", type: .string),
-                    Argument(name: "version", type: .uint),
-                ]
-            )
-        ]
-    )
+    static let interface = Shared(
+        Interface(
+            name: "wl_registry",
+            version: 1,
+            enums: [],
+            requests: [],
+            events: [
+                Message(
+                    name: "global",
+                    arguments: [
+                        Argument(name: "name", type: .uint),
+                        Argument(name: "interface", type: .string),
+                        Argument(name: "version", type: .uint),
+                    ]
+                )
+            ]
+        ))
 
     enum Event: Decodable {
         case global(name: UInt32, interface: String, version: UInt32)
@@ -69,5 +71,5 @@ class Registry: Proxy {
 
 let coreProtocol = Protocol(
     name: "wayland",
-    interfaces: [Registry.interface, Display.interface]
+    interfaces: [Registry.interface.value, Display.interface.value]
 )

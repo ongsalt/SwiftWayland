@@ -14,7 +14,7 @@ public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
     return 0  // or -1 on failure
 }
 
-// When create we gonnae wl_proxy_set_user_data and point to RawProxy
+// When created we gonna wl_proxy_set_user_data and point to RawProxy
 
 extension Proxy {
     func dispatch(opcode: UInt32, args: UnsafePointer<wl_argument>) {

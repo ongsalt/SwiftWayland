@@ -84,8 +84,8 @@ class Weak<T: AnyObject> {
 }
 
 public final class Shared<T> {
-    let value: T
-    init(_ value: T) {
+    public let value: T
+    public init(_ value: T) {
         self.value = value
     }
 }
