@@ -6,6 +6,16 @@ public struct Protocol: Codable {
     public let description: Description?
     public let interfaces: [Interface]
 
+    public init(
+        name: String, copyright: String? = nil, description: Description? = nil,
+        interfaces: [Interface]
+    ) {
+        self.name = name
+        self.copyright = copyright
+        self.description = description
+        self.interfaces = interfaces
+    }
+
     enum CodingKeys: String, CodingKey {
         case name, copyright, description
         case interfaces = "interface"
@@ -20,6 +30,18 @@ public struct Interface: Codable {
     public let requests: [Message]
     public let events: [Event]
 
+    public init(
+        name: String, version: UInt32, description: Description? = nil, enums: [Enum],
+        requests: [Message], events: [Event]
+    ) {
+        self.name = name
+        self.version = version
+        self.description = description
+        self.enums = enums
+        self.requests = requests
+        self.events = events
+    }
+
     enum CodingKeys: String, CodingKey {
         case name, version, description
         case enums = "enum"
@@ -31,6 +53,11 @@ public struct Interface: Codable {
 public struct Description: Codable {
     public let summary: String
     public let value: String
+
+    public init(summary: String, value: String) {
+        self.summary = summary
+        self.value = value
+    }
 
     enum CodingKeys: String, CodingKey {
         case summary
@@ -53,6 +80,15 @@ public struct Enum: Codable {
     public let bitfield: Bool = false
     public let since: UInt32?
 
+    public init(
+        name: String, entries: [EnumEntry], description: Description? = nil, since: UInt32? = nil
+    ) {
+        self.name = name
+        self.entries = entries
+        self.description = description
+        self.since = since
+    }
+
     enum CodingKeys: String, CodingKey {
         case name, description, since
         case entries = "entry"
@@ -66,6 +102,17 @@ public struct EnumEntry: Codable {
     public let summary: String?
     public let description: Description?
 
+    public init(
+        name: String, value: UInt32, since: UInt32? = nil, summary: String? = nil,
+        description: Description? = nil
+    ) {
+        self.name = name
+        self.value = value
+        self.since = since
+        self.summary = summary
+        self.description = description
+    }
+
     // TODO: remove this
     public var intValue: UInt32 {
         value
@@ -78,6 +125,17 @@ public struct Message: Codable {
     public let arguments: [Argument]
     public let description: Description?
     public let since: UInt32?
+
+    public init(
+        name: String, `type`: RequestType? = nil, arguments: [Argument],
+        description: Description? = nil, since: UInt32? = nil
+    ) {
+        self.name = name
+        self.`type` = `type`
+        self.arguments = arguments
+        self.description = description
+        self.since = since
+    }
 
     enum CodingKeys: String, CodingKey {
         case name, type, description, since
@@ -96,6 +154,18 @@ public struct Argument: Codable {
     public let `enum`: String?
     public let summary: String?
     public let description: Description?
+
+    public init(
+        name: String, `type`: Primitive, interface: String? = nil, `enum`: String? = nil,
+        summary: String? = nil, description: Description? = nil
+    ) {
+        self.name = name
+        self.`type` = `type`
+        self.interface = interface
+        self.`enum` = `enum`
+        self.summary = summary
+        self.description = description
+    }
 
     // TODO: codegen: nullable
     public let nullable: Bool = false
