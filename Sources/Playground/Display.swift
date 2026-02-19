@@ -1,18 +1,15 @@
+import CWayland
 import SwiftWaylandCommon
 
 class Display: Proxy {
-    var id: Void = ()
     var version: UInt32 = 1
-    var interface: Shared<Interface> {
+    var interface: Interface {
         Self.interface
     }
     var onEvent: ((NoEvent) -> Void)?
+    var raw: any RawProxy
 
-    func getRegistry() -> Registry {
-        Registry()
-    }
-
-    static let interface = Shared(
+    static var interface: Interface {
         Interface(
             name: "wl_display",
             version: 1,
@@ -32,18 +29,25 @@ class Display: Proxy {
                 ),
             ],
             events: []
-        ))
+        )
+    }
+
+    required init(raw: any RawProxy) {
+        self.raw = raw
+    }
 }
 
 class Registry: Proxy {
-    var id: () = ()
     var version: UInt32 = 1
-    var interface: Shared<Interface> { Self.interface }
-    var onEvent: ((Event) -> Void)? = { event in
-        print(event)
+    var interface: Interface { Self.interface }
+    var onEvent: ((Event) -> Void)?
+    var raw: any RawProxy
+
+    required init(raw: any RawProxy) {
+        self.raw = raw
     }
 
-    static let interface = Shared(
+    static var interface: Interface {
         Interface(
             name: "wl_registry",
             version: 1,
@@ -61,12 +65,13 @@ class Registry: Proxy {
                 Message(
                     name: "global_remove",
                     arguments: [
-                        Argument(name: "name", type: .uint),
+                        Argument(name: "name", type: .uint)
                     ]
                 ),
 
             ]
-        ))
+        )
+    }
 
     enum Event: Decodable {
         case global(name: UInt32, interface: String, version: UInt32)
@@ -84,5 +89,5 @@ class Registry: Proxy {
 
 let coreProtocol = Protocol(
     name: "wayland",
-    interfaces: [Registry.interface.value, Display.interface.value]
+    interfaces: [Registry.interface, Display.interface]
 )

@@ -12,6 +12,14 @@ public final class CRuntimeInfo {
 
     // TODO: interfaces look up
 
+    public func addIfNotExists(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
+        if let existed = protocolMap[p.name] {
+            return UnsafeBufferPointer(existed)
+        }
+
+        return add(protocol: p)
+    }
+
     public func add(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
         let pInterfaces = UnsafeMutableBufferPointer<wl_interface>.allocate(
             capacity: p.interfaces.count)
@@ -128,7 +136,7 @@ extension Message {
                 break
             }
         }
-        
+
         return out
     }
 }

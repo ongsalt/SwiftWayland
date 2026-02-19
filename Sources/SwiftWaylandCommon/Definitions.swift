@@ -97,13 +97,13 @@ public struct Enum: Codable, Sendable {
 
 public struct EnumEntry: Codable, Sendable {
     public let name: String
-    public let value: UInt32  // this may be hex
+    public let value: String  // this may be hex
     public var since: UInt32?
     public let summary: String?
     public let description: Description?
 
     public init(
-        name: String, value: UInt32, since: UInt32? = nil, summary: String? = nil,
+        name: String, value: String, since: UInt32? = nil, summary: String? = nil,
         description: Description? = nil
     ) {
         self.name = name
@@ -115,7 +115,12 @@ public struct EnumEntry: Codable, Sendable {
 
     // TODO: remove this
     public var intValue: UInt32 {
-        value
+        if let value = UInt32(value.trim("0x", nil), radix: 16) ?? UInt32(value) {
+            return value
+        }
+
+        fatalError("Cant decode \(value) name: \(name), summary: \(summary)")
+        
     }
 }
 

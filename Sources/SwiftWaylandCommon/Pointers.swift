@@ -84,7 +84,9 @@ class Weak<T: AnyObject> {
 }
 
 public final class Shared<T> {
-    public let value: T
+    public let value: T 
+        // yielding borrow {}
+    
     public init(_ value: T) {
         self.value = value
     }

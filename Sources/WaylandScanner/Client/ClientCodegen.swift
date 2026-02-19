@@ -12,9 +12,9 @@ extension ClassDeclaration: Code {
         gen.indent {
             gen.add(
                 """
-                publlic let var id: Void = ()
-                publlic let version: UInt32 = 1
-                publlic let interface: Shared<Interface> {
+                public let var id: Void = ()
+                public let version: UInt32 = 1
+                public let interface: Shared<Interface> {
                     Self.interface
                 }
                 public var onEvent: ((Event) -> Void)?
@@ -154,13 +154,13 @@ extension MethodDeclaration: Code {
                     switch arg.waylandType {
                     case .object, .newId:
                         gen.add(
-                            "WaylandData.\(arg.waylandType)(\(arg.name.gravedIfNeeded).id),")
+                            ".\(arg.waylandType)(\(arg.name.gravedIfNeeded).id),")
                     case .enum:
                         gen.add(
-                            "WaylandData.\(arg.waylandType)(\(arg.name.gravedIfNeeded).rawValue),"
+                            ".\(arg.waylandType)(\(arg.name.gravedIfNeeded).rawValue),"
                         )
                     default:
-                        gen.add("WaylandData.\(arg.waylandType)(\(arg.name.gravedIfNeeded)),")
+                        gen.add(".\(arg.waylandType)(\(arg.name.gravedIfNeeded)),")
                     }
                 }
             }

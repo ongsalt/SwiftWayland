@@ -1,24 +1,25 @@
 import Foundation
 
-public protocol Proxy {
+public protocol Proxy: AnyObject {
     associatedtype Event: Decodable = NoEvent
     associatedtype Request: Encodable = NoRequest
-    associatedtype ObjectId = Void // TODO: ObjectId
+
     // associatedtype Queue: EventQueue
-    associatedtype Queue = AnyObject
     // associatedtype UserData
 
-    static var interface: Shared<Interface> { get }
-    var interface: Shared<Interface> { get }
+    // TODO: find a way so it that we dont need to copy this everytime, making it a class???
+    static var interface: Interface { get }
+    var interface: Interface { get }
 
     var version: UInt32 { get }
-    var id: ObjectId {
+    var id: UInt32 {
         get
     }
+    var raw: any RawProxy { get }
 
     var onEvent: ((Event) -> Void)? { get }
 
-    // var queue: EventQueue {
+    // var queue: any EventQueue {
     //     get
     // }
 
@@ -26,6 +27,23 @@ public protocol Proxy {
     //     get
     //     set
     // }
+
+    // init(from: ObjectId) // TODO: version, queue
+    init(raw: any RawProxy)
+}
+
+extension Proxy {
+    public var interface: Interface {
+        Self.interface
+    }
+
+    public var id: UInt32 {
+        self.raw.id
+    }
+}
+
+public protocol RawProxy {
+    var id: UInt32 { get }
 }
 
 public struct NoEvent: Decodable {
