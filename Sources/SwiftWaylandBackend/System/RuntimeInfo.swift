@@ -3,12 +3,12 @@ import SwiftWaylandCommon
 
 public final class CRuntimeInfo {
     // trustmebro
-    nonisolated(unsafe) static var shared: CRuntimeInfo = CRuntimeInfo()
+    public nonisolated(unsafe) static var shared: CRuntimeInfo = CRuntimeInfo()
 
     // why did i do this
     var protocolMap: [String: UnsafeMutableBufferPointer<wl_interface>] = [:]
     // this is used in wl_proxy_create, wl_proxy_marshal_constructor_versioned (array ver. tho)
-    private(set) var interfaces: [String: UnsafePointer<wl_interface>] = [:]
+    public private(set) var interfaces: [String: UnsafePointer<wl_interface>] = [:]
 
     // TODO: interfaces look up
 
@@ -30,7 +30,11 @@ public final class CRuntimeInfo {
                         continue
                     }
 
-                    let name = arg.interface!
+                    guard let name = arg.interface else {
+                        // dynamic newId
+                        continue
+                    }
+
                     let index = p.interfaces.firstIndex { $0.name == name }
                     if let index {
                         typeArray.append(
@@ -124,6 +128,7 @@ extension Message {
                 break
             }
         }
-        return ""
+        
+        return out
     }
 }

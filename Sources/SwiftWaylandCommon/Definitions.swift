@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Protocol: Codable {
+public struct Protocol: Codable, Sendable {
     public let name: String
     public let copyright: String?
     public let description: Description?
@@ -22,7 +22,7 @@ public struct Protocol: Codable {
     }
 }
 
-public struct Interface: Codable {
+public struct Interface: Codable, Sendable {
     public let name: String
     public let version: UInt32
     public let description: Description?
@@ -50,7 +50,7 @@ public struct Interface: Codable {
     }
 }
 
-public struct Description: Codable {
+public struct Description: Codable, Sendable {
     public let summary: String
     public let value: String
 
@@ -73,7 +73,7 @@ public struct Description: Codable {
     }
 }
 
-public struct Enum: Codable {
+public struct Enum: Codable, Sendable {
     public let name: String
     public let entries: [EnumEntry]
     public let description: Description?
@@ -95,7 +95,7 @@ public struct Enum: Codable {
     }
 }
 
-public struct EnumEntry: Codable {
+public struct EnumEntry: Codable, Sendable {
     public let name: String
     public let value: UInt32  // this may be hex
     public var since: UInt32?
@@ -119,7 +119,7 @@ public struct EnumEntry: Codable {
     }
 }
 
-public struct Message: Codable {
+public struct Message: Codable, Sendable {
     public let name: String
     public let `type`: RequestType?
     public let arguments: [Argument]
@@ -143,11 +143,11 @@ public struct Message: Codable {
     }
 }
 
-public enum RequestType: String, Codable {
+public enum RequestType: String, Codable, Sendable {
     case destructor
 }
 
-public struct Argument: Codable {
+public struct Argument: Codable, Sendable {
     public let name: String
     public let `type`: Primitive
     public let interface: String?
@@ -176,7 +176,7 @@ public struct Argument: Codable {
     }
 }
 
-public enum Primitive: String, Codable {
+public enum Primitive: String, Codable, Sendable {
     case int, uint, fixed, object, string, array, fd, `enum`
     case newId = "new_id"
 }

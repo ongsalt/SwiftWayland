@@ -78,6 +78,7 @@ let package = Package(
             dependencies: [
                 "CWayland",
                 "SwiftWaylandCommon",
+                "SwiftWaylandBackend",
             ]
         ),
 
