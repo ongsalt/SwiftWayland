@@ -1,0 +1,85 @@
+import Foundation
+
+// TODO: naming is hard
+// user wont interact with this directly anyway
+public enum Arg {
+    case int(Int32)
+    case uint(UInt32)
+    case fixed(Double)
+    case string(String)
+    case array(Data)
+    case fd(FileHandle)  // this need to live until we send it
+    case `enum`(UInt32)
+    case object(UInt32)
+    case newId(UInt32)
+    // case newIdDynamic(interfaceName: String, version: UInt32, id: UInt32)
+
+    func encode(into data: inout Data, fds: inout [FileHandle]) {
+        switch self {
+        case .int(let value):
+            var v = value
+            withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
+
+        case .uint(let value):
+            var v = value
+            withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
+
+        case .fixed(let value):
+            // 24.8 fixed point format
+            var v = Int32(value * 256.0)
+            withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
+
+        case .object(let id):
+            var v = id
+            withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
+
+        case .string(let string):
+            // length (including null terminator) + utf8 bytes + null + padding to 32-bit
+            put(string, into: &data)
+
+        case .array(let arrayData):
+            // length + raw bytes + padding to 32-bit
+            var length = UInt32(arrayData.count)
+            withUnsafeBytes(of: &length) { data.append(contentsOf: $0) }
+            data.append(arrayData)
+            let padding = (4 - (arrayData.count % 4)) % 4
+            if padding > 0 {
+                data.append(contentsOf: [UInt8](repeating: 0, count: padding))
+            }
+
+        case .fd(let handle):
+            // File descriptors are passed via ancillary data (msg_control), not in main data
+            fds.append(handle)
+            break
+
+        case .enum(let enumValue):
+            // TODO: some is bitfield
+            var v = enumValue
+            withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
+
+        case .newId(let objectId):
+            var v = objectId
+            withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
+
+        // case .newIdDynamic(let interfaceName, let version, let id):
+        //     put(interfaceName, into: &data)
+
+        //     var v = version
+        //     withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
+
+        //     var id = id
+        //     withUnsafeBytes(of: &id) { data.append(contentsOf: $0) }
+        }
+    }
+}
+
+private func put(_ string: String, into data: inout Data) {
+    let utf8 = Array(string.utf8) + [0]  // null terminated
+    var length = UInt32(utf8.count)
+    withUnsafeBytes(of: &length) { data.append(contentsOf: $0) }
+    data.append(contentsOf: utf8)
+    let padding = (4 - (utf8.count % 4)) % 4
+    if padding > 0 {
+        data.append(contentsOf: [UInt8](repeating: 0, count: padding))
+    }
+}

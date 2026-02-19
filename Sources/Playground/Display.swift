@@ -1,6 +1,13 @@
 import SwiftWaylandCommon
 
-class Display {
+class Display: Proxy {
+    var id: Void = ()
+    var version: UInt32 = 1
+    var interface: Interface {
+        Self.interface
+    }
+    var onEvent: ((NoEvent) -> Void)?
+
     static let interface = Interface(
         name: "wl_display",
         version: 1,
@@ -23,7 +30,12 @@ class Display {
     )
 }
 
-class Registry {
+class Registry: Proxy {
+    var id: () = ()
+    var version: UInt32 = 1
+    var interface: Interface { Self.interface }
+    var onEvent: ((Event) -> Void)?
+
     static let interface = Interface(
         name: "wl_registry",
         version: 1,
@@ -40,6 +52,19 @@ class Registry {
             )
         ]
     )
+
+    enum Event: Decodable {
+        case global(name: UInt32, interface: String, version: UInt32)
+        case globalRemove(name: UInt32)
+
+        init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+            if opcode == 0 {
+                self = .global(name: r.uint(), interface: r.string(), version: r.uint())
+            } else {
+                self = .globalRemove(name: r.uint())
+            }
+        }
+    }
 }
 
 let coreProtocol = Protocol(

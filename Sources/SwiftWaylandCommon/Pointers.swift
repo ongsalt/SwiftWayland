@@ -1,4 +1,4 @@
-import Foundation 
+import Foundation
 
 public class Box<T> {
     public let ptr: UnsafeMutablePointer<T>
@@ -41,6 +41,7 @@ public class Box<T> {
             ptr.pointee = newValue
         }
     }
+
     public var value: T {
         get {
             ptr.pointee
@@ -52,6 +53,7 @@ public class Box<T> {
             ptr.pointee = newValue
         }
     }
+
     public subscript() -> T {
         get {
             ptr.pointee
@@ -80,3 +82,18 @@ class Weak<T: AnyObject> {
         self.value = value
     }
 }
+
+public final class Shared<T> {
+    let value: T
+    init(_ value: T) {
+        self.value = value
+    }
+}
+
+extension Shared: Sendable where T: Sendable {}
+extension Shared: Equatable where T: Equatable {
+    public static func == (lhs: Shared<T>, rhs: Shared<T>) -> Bool {
+        lhs.value == rhs.value
+    }
+}
+
