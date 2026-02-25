@@ -27,7 +27,7 @@ extension Interface: Code {
             gen.add(sameLine: ",")
             gen.add("events: ")
             gen.indent {
-                gen.walk(array: self.requests)
+                gen.walk(array: self.events)
             }
             gen.add(sameLine: ",")
         }

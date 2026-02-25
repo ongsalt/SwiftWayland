@@ -32,15 +32,17 @@ func testConnection() async throws {
     let connection = Connection()
 
     let display = connection.display
-    let registry = try Globals(connection: connection)
     print(display)
+    try await connection.roundtrip()
+    print("Roundtrip ok")
 
+    // let registry = try Globals(connection: connection)
     try display.sync { data in
         print("> Callback: Sync \(data)")
     }
 
     try await connection.roundtrip()
-    print(registry.globals)
+    // print(registry.globals)
 
     print("[DONE]")
 
