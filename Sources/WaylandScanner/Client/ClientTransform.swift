@@ -1,4 +1,5 @@
 import SwiftWaylandCommon
+
 // - new_id -> return value
 // - generate deint
 // - wl_callback -> `@escaping () -> Void`
@@ -8,11 +9,14 @@ import SwiftWaylandCommon
 // }
 
 public func transform(
-    interface: Interface, trim transformName: Bool 
+    interface: Interface, 
+    trim transformName: Bool,
+    protocolName: String
 ) -> ClassDeclaration {
     return ClassDeclaration(
         name: interface.name.camel,
         interface: interface,
+        protocolName: protocolName,
         description: interface.description,
         methods: interface.requests.enumerated()
             .filter { !(interface.name == "wl_registry" && $1.name == "bind") }
@@ -46,7 +50,7 @@ public func transform(
                         case .object: arg.interface!.camel
                         case .newId: arg.interface!.camel  // dynamic newId in wl_registry.bind is excluded
                         // TODO: bare proxy maybe
-                        // case .newId: (arg.interface?.camel) ?? "any WlProxy"
+                        // case .newId: (arg.interface?.camel) ?? "any Proxy"
                         }
 
                     let decl = ArgumentDeclaration(
@@ -114,9 +118,9 @@ public func transform(
                 },
             )
         },
-        events: interface.name == "wl_display"
-            ? []
-            : interface.events.map { event in
+        // interface.name == "wl_display" ? []
+        events:
+            interface.events.map { event in
                 EventDeclaration(
                     name: event.name.lowerCamel,
                     description: event.description,
@@ -131,7 +135,7 @@ public func transform(
                             case .fixed: "Double"
                             case .enum: arg.enum!.camel
                             // TODO: fix this
-                            case .object: arg.interface?.camel ?? "any WlProxy"  // nullable when its wl_display.error
+                            case .object: arg.interface?.camel ?? "any Proxy"  // nullable when its wl_display.error
                             case .newId: arg.interface!.camel
                             }
 
@@ -143,5 +147,18 @@ public func transform(
                     }
                 )
             }
+    )
+}
+
+public func transform(
+    protocol p: Protocol,
+    trim transformName: Bool
+) -> ProtocolDeclaration {
+    ProtocolDeclaration(
+        name: p.name.camel,
+        copyright: p.copyright,
+        description: p.description,
+        protocol: p,
+        classes: p.interfaces.map { transform(interface: $0, trim: transformName, protocolName: p.name.camel) }
     )
 }

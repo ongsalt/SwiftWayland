@@ -1,11 +1,20 @@
 // import SwiftSyntax
 import SwiftWaylandCommon
 
+public struct ProtocolDeclaration {
+    var name: String
+    var copyright: String?
+    var description: Description?
+    var `protocol`: Protocol
+    var classes: [ClassDeclaration]
+}
+
 public struct ClassDeclaration {
     var name: String
     var interface: Interface
     var interfaceName: String { interface.name }
     var interfaceVersion: UInt32 { interface.version } 
+    var protocolName: String
     var description: Description? = nil
     var methods: [MethodDeclaration]
     var `deinit`: DeinitDeclaration? = nil
@@ -98,8 +107,8 @@ struct Statement {
 //         case .fd: "FileHandle"
 //         case .data: "Data"  // or should i do UnsafeRawBufferPointer
 //         case .enum(let swiftName): swiftName
-//         case .proxy(let swiftName): swiftName ?? "any WlProxy"
-//         case .newProxy(let swiftName): swiftName ?? "any WlProxy"  // wl_registry.bind
+//         case .proxy(let swiftName): swiftName ?? "any Proxy"
+//         case .newProxy(let swiftName): swiftName ?? "any Proxy"  // wl_registry.bind
 //         // this will generate invalid code tho
 
 //         // case .tuple(let types):

@@ -10,7 +10,7 @@ public enum Arg {
     case array(Data)
     case fd(FileHandle)  // this need to live until we send it
     case `enum`(UInt32)
-    case object(any ObjectIdProtocol)
+    case object(UInt32)
     case newId(UInt32)
     // case newIdDynamic(interfaceName: String, version: UInt32, id: UInt32)
 
@@ -30,7 +30,7 @@ public enum Arg {
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
         case .object(let id):
-            var v = id.actualId
+            var v = id
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
         case .string(let string):

@@ -3,6 +3,28 @@ import SwiftWaylandCommon
 let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
 let QUEUE_INNER_NAME: String = "_queue"
 
+extension ProtocolDeclaration: Code {
+    func generate(_ gen: Generator) {
+        for c in self.classes {
+            gen.walk(node: c)
+        }
+
+        // Initilaization code
+        gen.add()
+        // this shit is either lazy or get treeshake away 
+        gen.add(
+            """
+            public let \(self.name.gravedIfNeeded) = Protocol(
+                    name: "\(self.protocol.name)",
+                    interfaces: [
+                        \(self.classes.map { "\($0.name).interface" }.joined(separator: ",\n"))
+                    ]
+                )
+            """
+        )
+    }
+}
+
 extension ClassDeclaration: Code {
     func generate(_ gen: Generator) {
         if let docc = self.description?.docc {
@@ -25,6 +47,15 @@ extension ClassDeclaration: Code {
                 gen.walk(node: method)
                 gen.add()
             }
+
+            gen.add(
+                """
+                @_spi(SwiftWaylandPrivate)
+                override public func ensureLoaded() {
+                    CRuntimeInfo.shared.addIfNotExists(protocol: \(self.protocolName.gravedIfNeeded))
+                }
+                """
+            )
 
             for e in self.enums {
                 gen.walk(node: e)
@@ -132,7 +163,7 @@ extension MethodDeclaration: Code {
                 // type of return is always newId, so a swift class type
                 gen.add(
                     """
-                    let \(object.name.gravedIfNeeded) = backend.createProxy(type: \(object.swiftType).self, version: self.version, parent: self, queue: \(QUEUE_INNER_NAME) ?? self.queue)
+                    let \(object.name.gravedIfNeeded) = connection.createProxy(type: \(object.swiftType).self, version: self.version, queue: \(QUEUE_INNER_NAME) ?? self.queue)
                     """
                 )
             }
@@ -141,13 +172,13 @@ extension MethodDeclaration: Code {
             for callbacks in self.callbacks {
                 gen.add(
                     """
-                    let \(callbacks.name.gravedIfNeeded) = backend.createCallback(fn: \(callbacks.name.gravedIfNeeded), parent: self, queue: \(QUEUE_INNER_NAME) ?? self.queue)
+                    let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME) ?? self.queue)
                     """
                 )
             }
 
             gen.add(
-                "backend.send(self.id, \(self.requestId), ["
+                "connection.send(self, \(self.requestId), ["
             )
             gen.indent {
                 for arg in self.messageArguments {
@@ -164,14 +195,14 @@ extension MethodDeclaration: Code {
                     }
                 }
             }
-            gen.add("], queue: nil)")
+            gen.add("])")
 
             if self.consuming {
                 // TODO: read docs about destructor behavior
                 // gen.add(
                 //     """
                 //     self._state = .dropped
-                //     backend.removeObject(id: self.id)
+                //     connection.removeObject(id: self.id)
                 //     """
                 // )
             }
@@ -279,7 +310,12 @@ private func getArgDecodingExpr(_ arg: WaylandArgumentDeclaration) -> String {
     case .string: "r.string()"
     case .fd: "r.fd()"
     case .enum: "r.uint()"
-    case .object: "r.object(type: \(arg.swiftType).self)"
+    case .object:
+        if arg.swiftType == "any Proxy" {
+            "r.object()"
+        } else {
+            "r.object(type: \(arg.swiftType).self)"
+        }
     case .newId: "r.newId(type: \(arg.swiftType).self)"
     case .array: "r.array()"
     }

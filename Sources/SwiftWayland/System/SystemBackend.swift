@@ -2,24 +2,39 @@ import CWayland
 import Foundation
 import SwiftWaylandCommon
 
-public class SystemBackend {
+public class Connection {
     let runtimeInfo: CRuntimeInfo
     // let display: WlDisplay
     let rawDisplay: OpaquePointer
     public private(set) var mainQueue: EventQueue  // its actually SystemEventQueue
-
     var knownProxies: [UInt32: any Proxy] = [:]
     var knownQueues: [EventQueue] = []  // TODO: queue
 
-    init(runtimeInfo: CRuntimeInfo, rawDisplay: OpaquePointer) {
+    public private(set) lazy var display: WlDisplay = WlDisplay(
+        id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
+
+    public init(runtimeInfo: CRuntimeInfo, rawDisplay: OpaquePointer) {
         self.runtimeInfo = runtimeInfo
         self.rawDisplay = rawDisplay
         self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay))
         knownQueues.append(mainQueue)
+
+        self.display.onEvent = { e in
+            switch e {
+            case .deleteId(let id):
+                print("the server said remove id \(id)")
+            case .error(let objectId, let code, let message):
+                print("[wayland] Error (\(code)) \(message) at \(objectId)")
+            }
+        }
     }
 
-    convenience init() {
+    public convenience init() {
         self.init(runtimeInfo: CRuntimeInfo.shared, rawDisplay: wl_display_connect(nil))
+    }
+
+    public func createQueue() {
+
     }
 
     public func send(
@@ -40,7 +55,7 @@ public class SystemBackend {
                 case .uint(let u): wl_argument(u: u)
                 case .string(let s): wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress)
                 case .object(let id):
-                    wl_argument(o: knownProxies[id.actualId]?.raw)  // fuckkkkkkkkk
+                    wl_argument(o: knownProxies[id]?.raw)  // fuckkkkkkkkk
                 // if we have a newId, create it, then make it a .object instead, we create an object before calling send anyway, sooo sammeeee
                 case .newId(let id):
                     wl_argument(o: knownProxies[id]?.raw)
@@ -53,13 +68,16 @@ public class SystemBackend {
     public func createProxy<T>(
         type: T.Type,
         version: UInt32,
-        parent: some Proxy,
-        queue: EventQueue
+        queue: EventQueue,
+        parent: (any Proxy)? = nil,
     ) -> T where T: Proxy {
-        let wrapper = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(rawDisplay)))
+        let wrapper = OpaquePointer(
+            wl_proxy_create_wrapper(UnsafeMutableRawPointer(parent?.raw ?? rawDisplay)))
         wl_proxy_set_queue(wrapper, queue.raw)
         let ptr = wl_proxy_create(rawDisplay, runtimeInfo.interfaces[type.interface.name]!)
-        let obj = T(id: wl_proxy_get_id(ptr), version: wl_proxy_get_version(ptr), queue: queue, raw: ptr!)
+        let obj = T(
+            id: wl_proxy_get_id(ptr), version: wl_proxy_get_version(ptr), queue: queue, raw: ptr!,
+            connection: self)
 
         wl_proxy_add_dispatcher(ptr, dispatchFn, nil, Unmanaged.passUnretained(obj).toOpaque())
 
@@ -69,6 +87,7 @@ public class SystemBackend {
 
     func destroy(proxy: some Proxy) {
         (proxy as? BaseProxy)?.markDead()
+        knownProxies[proxy.id] = nil
         wl_proxy_destroy(proxy.raw)
     }
 
@@ -76,19 +95,27 @@ public class SystemBackend {
 
     // TODO: proper async
     public func flush() async throws {
-        wl_display_flush(self.rawDisplay)
-        // wl_display_dispatch_queue_pending(OpaquePointer!, OpaquePointer!)
+        await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
+            wl_display_flush(display.value)
+        }
     }
 
-    public func dispatch() async throws {
-        wl_display_dispatch_pending(rawDisplay)
+    public func dispatchPending() async throws {
+        await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
+            wl_display_dispatch_pending(display.value)
+        }
     }
 
     public func roundtrip() async throws {
-        wl_display_roundtrip(self.rawDisplay)
+        await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
+            wl_display_roundtrip(display.value)
+        }
+    }
+
+    deinit {
+        print("Connection dropped with live proxies \(knownProxies)")
     }
 }
-
 
 extension Data {
     fileprivate func toWlArray() -> wl_array {
@@ -115,4 +142,8 @@ extension Array {
         _ = buffer.initialize(from: self)
         return UnsafeBufferPointer(buffer)
     }
+}
+
+struct TrustMeBro<T>: @unchecked Sendable {
+    let value: T
 }

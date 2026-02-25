@@ -1,6 +1,6 @@
 import Foundation
-import XMLCoder
 import SwiftWaylandCommon
+import XMLCoder
 
 public struct Options: Sendable {
     public var trim: Bool = false
@@ -48,21 +48,19 @@ public func generateFile(_ xml: String, options: Options, doImport: Bool = true)
         generator.indentLevel += 4
     }
 
-    for interface in aProtocol.interfaces {
-        let decl = transform(
-            interface: interface,
-            trim: options.trim
-        )
-        generator.walk(node: decl)
-        generator.add()
-    }
+    let decl = transform(
+        protocol: aProtocol,
+        trim: options.trim
+    )
+    generator.walk(node: decl)
+    generator.add()
 
     if options.namespace != nil {
         generator.indentLevel -= 4
         generator.add("}")
     }
 
-    if let _ = options.traits {
+    if options.traits != nil {
         generator.add("#endif")
     }
 

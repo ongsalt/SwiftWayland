@@ -24,7 +24,7 @@ public protocol Proxy: AnyObject {
         get
     }
 
-    init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer)
+    init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection)
 }
 
 extension Proxy {
@@ -34,21 +34,32 @@ extension Proxy {
 }
 
 open class BaseProxy {
-    let id: UInt32
-    let version: UInt32
-    private(set) var isAlive: Bool = true
-    let queue: EventQueue
-    let raw: OpaquePointer
+    public let id: UInt32
+    public let version: UInt32
+    public private(set) var isAlive: Bool = true
+    public let queue: EventQueue
+    public let raw: OpaquePointer
+    public unowned let connection: Connection
 
-    public required init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer) {
+    public typealias Event = NoEvent
+
+    public required init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection) {
         self.id = id
         self.version = version
         self.queue = queue
         self.raw = raw
+        self.connection = connection
+
+        ensureLoaded()
     }
 
     package func markDead() {
         self.isAlive = false
+    }
+
+    @_spi(SwiftWaylandPrivate)
+    open func ensureLoaded() {
+        
     }
 }
 
