@@ -2,22 +2,19 @@ import CWayland
 import Foundation
 import SwiftWaylandCommon
 
-public class SystemBackend: Backend {
-    public typealias ObjectId = LibWaylandProxyInfo
-    public typealias Queue = SystemEventQueue
-
+public class SystemBackend {
     let runtimeInfo: CRuntimeInfo
     // let display: WlDisplay
     let rawDisplay: OpaquePointer
-    public private(set) var mainQueue: SystemEventQueue  // its actually SystemEventQueue
+    public private(set) var mainQueue: EventQueue  // its actually SystemEventQueue
 
     var knownProxies: [UInt32: any Proxy] = [:]
-    var knownQueues: [SystemEventQueue] = [] // TODO: queue
+    var knownQueues: [EventQueue] = []  // TODO: queue
 
     init(runtimeInfo: CRuntimeInfo, rawDisplay: OpaquePointer) {
         self.runtimeInfo = runtimeInfo
         self.rawDisplay = rawDisplay
-        self.mainQueue = SystemEventQueue()
+        self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay))
         knownQueues.append(mainQueue)
     }
 
@@ -26,10 +23,9 @@ public class SystemBackend: Backend {
     }
 
     public func send(
-        _ objectId: ObjectId,
+        _ proxy: any Proxy,
         _ opcode: UInt32,
         _ args: [Arg],
-        queue: Queue?
     ) {
         // TODO: handle queue
         let arguments = UnsafeMutableBufferPointer<wl_argument>.allocate(capacity: args.count)
@@ -44,40 +40,36 @@ public class SystemBackend: Backend {
                 case .uint(let u): wl_argument(u: u)
                 case .string(let s): wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress)
                 case .object(let id):
-                    wl_argument(o: (knownProxies[id.actualId]?.raw as! LibWaylandProxyInfo).ptr)  // fuckkkkkkkkk
+                    wl_argument(o: knownProxies[id.actualId]?.raw)  // fuckkkkkkkkk
                 // if we have a newId, create it, then make it a .object instead, we create an object before calling send anyway, sooo sammeeee
                 case .newId(let id):
-                    wl_argument(o: (knownProxies[id]?.raw as! LibWaylandProxyInfo).ptr)
+                    wl_argument(o: knownProxies[id]?.raw)
                 }
         }
 
-        wl_proxy_marshal_array(objectId.ptr, opcode, arguments.baseAddress)
+        wl_proxy_marshal_array(proxy.raw, opcode, arguments.baseAddress)
     }
 
     public func createProxy<T>(
         type: T.Type,
         version: UInt32,
         parent: some Proxy,
-        queue: Queue
+        queue: EventQueue
     ) -> T where T: Proxy {
+        let wrapper = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(rawDisplay)))
+        wl_proxy_set_queue(wrapper, queue.raw)
         let ptr = wl_proxy_create(rawDisplay, runtimeInfo.interfaces[type.interface.name]!)
-        let info = LibWaylandProxyInfo(ptr: ptr!, backend: self, queue: queue)
-        let obj = T(raw: info)
+        let obj = T(id: wl_proxy_get_id(ptr), version: wl_proxy_get_version(ptr), queue: queue, raw: ptr!)
 
         wl_proxy_add_dispatcher(ptr, dispatchFn, nil, Unmanaged.passUnretained(obj).toOpaque())
 
-        // put this into known list???
-        knownProxies[info.id] = obj
+        knownProxies[obj.id] = obj
         return obj
     }
 
     func destroy(proxy: some Proxy) {
-        let raw = proxy.raw as! LibWaylandProxyInfo
-        raw.isAlive = false
-        guard let info = proxy.raw as? LibWaylandProxyInfo else {
-            fatalError("\(proxy) is not managed by this backend (\(Self.self))")
-        }
-        wl_proxy_destroy(info.ptr)
+        (proxy as? BaseProxy)?.markDead()
+        wl_proxy_destroy(proxy.raw)
     }
 
     let _queue = DispatchQueue(label: "lt.ongsa.SwiftWayland.libwayland-client-backend")
@@ -97,34 +89,6 @@ public class SystemBackend: Backend {
     }
 }
 
-public final class LibWaylandProxyInfo: RawProxy, ObjectIdProtocol {
-    public let ptr: OpaquePointer
-    public let backend: SystemBackend
-    public var id: UInt32 {
-        wl_proxy_get_id(ptr)
-    }
-    public var actualId: UInt32 {
-        id
-    }
-    public var queue: SystemEventQueue
-
-    // TODO: lifetime
-    public fileprivate(set) var isAlive: Bool = true
-
-    public var version: UInt32 {
-        wl_proxy_get_version(ptr)
-    }
-
-    public init(ptr: OpaquePointer, backend: SystemBackend, queue: SystemEventQueue) {
-        self.ptr = ptr
-        self.backend = backend
-        self.queue = queue
-    }
-
-    static func == (lhs: LibWaylandProxyInfo, rhs: LibWaylandProxyInfo) -> Bool {
-        return lhs.ptr == rhs.ptr
-    }
-}
 
 extension Data {
     fileprivate func toWlArray() -> wl_array {

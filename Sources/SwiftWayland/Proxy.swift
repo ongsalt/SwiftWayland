@@ -3,10 +3,8 @@ import Foundation
 public protocol Proxy: AnyObject {
     associatedtype Event: Decodable = NoEvent
     associatedtype Request: Encodable = NoRequest
-    // associatedtype UserData
-    // associatedtype Queue: EventQueue
 
-    var backend: any Backend { get }
+    var connection: Connection { get }
 
     // TODO: find a way so it that we dont need to copy this everytime, making it a class???
     static var interface: Interface { get }
@@ -18,61 +16,39 @@ public protocol Proxy: AnyObject {
     }
 
     var isAlive: Bool { get }
-
-    var raw: any RawProxy { get }
     var onEvent: ((Event) -> Void)? { get }
 
-    var queue: any EventQueue {
+    var raw: OpaquePointer { get }
+
+    var queue: EventQueue {
         get
     }
 
-    // var userData: UserData {
-    //     get
-    //     set
-    // }
-
-    init(raw: any RawProxy)
+    init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer)
 }
 
 extension Proxy {
     public var interface: Interface {
         Self.interface
     }
-
-    public var id: UInt32 {
-        self.raw.id
-    }
-
-    public var version: UInt32 {
-        self.raw.version
-    }
-
-    public var isAlive: Bool {
-        self.raw.isAlive
-    }
-
-    public var queue: any EventQueue {
-        self.raw.queue
-    }
-}
-
-public protocol RawProxy {
-    associatedtype B: Backend
-
-    var id: UInt32 { get }
-    var version: UInt32 { get }
-    var backend: B { get }
-    var isAlive: Bool { get }
-    var queue: B.Queue { get }
 }
 
 open class BaseProxy {
-    public let backend: any Backend
-    public let raw: any RawProxy
+    let id: UInt32
+    let version: UInt32
+    private(set) var isAlive: Bool = true
+    let queue: EventQueue
+    let raw: OpaquePointer
 
-    public required init(raw: any RawProxy) {
-        self.backend = raw.backend
+    public required init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer) {
+        self.id = id
+        self.version = version
+        self.queue = queue
         self.raw = raw
+    }
+
+    package func markDead() {
+        self.isAlive = false
     }
 }
 

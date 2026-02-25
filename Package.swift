@@ -41,18 +41,11 @@ let package = Package(
         ),
 
         .target(
-            name: "SwiftWaylandBackend",
-            dependencies: [
-                "SwiftWaylandCommon",
-                "CWayland",
-            ]
-        ),
-
-        .target(
             name: "SwiftWayland",
             plugins: [
                 "WaylandScannerPlugin",
-                "SwiftWaylandCommon"
+                "SwiftWaylandCommon",
+                "CWayland"
             ]
         ),
 
@@ -79,7 +72,7 @@ let package = Package(
             dependencies: [
                 "CWayland",
                 "SwiftWaylandCommon",
-                "SwiftWaylandBackend",
+                "SwiftWayland",
             ]
         ),
 

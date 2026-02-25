@@ -2,8 +2,6 @@
 Wayland client library for swift. The package structure is very much inspired by [wayland-rs](https://github.com/Smithay/wayland-rs). Some part of SwiftWayland was directly ported from that. 
 
 
-## WARNING: fd ~~transport~~ receiving is not yet ~~implemented~~ test
-
 # Usages
 - request is a method
 - register a `onEvent` callback to deal with event from server  
