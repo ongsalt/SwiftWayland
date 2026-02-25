@@ -8,19 +8,17 @@ extension ClassDeclaration: Code {
         if let docc = self.description?.docc {
             gen.add(docc: docc)
         }
-        gen.add("public final class \(self.name): Proxy {")
+        gen.add("public final class \(self.name): BaseProxy, Proxy {")
         gen.indent {
             gen.add(
                 """
-                public let var id: Void = ()
-                public let version: UInt32 = 1
-                public let interface: Shared<Interface> {
-                    Self.interface
-                }
                 public var onEvent: ((Event) -> Void)?
+                public static let interface: Interface =
                 """
             )
-            gen.add("public var onEvent: ((Event) -> Void)? = nil")
+            gen.indent {
+                gen.walk(node: self.interface)
+            }
 
             for method in self.methods {
                 // method.generate(gen)
@@ -38,7 +36,9 @@ extension ClassDeclaration: Code {
                 gen.add()
             }
 
-            if !self.events.isEmpty {
+            if self.events.isEmpty {
+                gen.add("public typealias Event = NoEvent")
+            } else {
                 gen.walk(node: self.events)
             }
         }
@@ -117,7 +117,7 @@ extension MethodDeclaration: Code {
         gen.indent {
             // State check
             gen.add(
-                "guard self._state == WaylandProxyState.alive else { throw WaylandProxyError.destroyed }"
+                "guard self.isAlive else { throw WaylandProxyError.destroyed }"
             )
 
             // Version check
@@ -132,22 +132,22 @@ extension MethodDeclaration: Code {
                 // type of return is always newId, so a swift class type
                 gen.add(
                     """
-                    let \(object.name.gravedIfNeeded) = connection.createProxy(type: \(object.swiftType).self, version: self.version, queue: \(QUEUE_INNER_NAME))
+                    let \(object.name.gravedIfNeeded) = backend.createProxy(type: \(object.swiftType).self, version: self.version, parent: self, queue: \(QUEUE_INNER_NAME) ?? self.queue)
                     """
                 )
             }
 
             // // create callbacks
-            // for callbacks in self.callbacks {
-            //     gen.add(
-            //         """
-            //         let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME))
-            //         """
-            //     )
-            // }
+            for callbacks in self.callbacks {
+                gen.add(
+                    """
+                    let \(callbacks.name.gravedIfNeeded) = backend.createCallback(fn: \(callbacks.name.gravedIfNeeded), parent: self, queue: \(QUEUE_INNER_NAME) ?? self.queue)
+                    """
+                )
+            }
 
             gen.add(
-                "let message = Message(objectId: self.id, opcode: \(self.requestId), contents: ["
+                "backend.send(self.id, \(self.requestId), ["
             )
             gen.indent {
                 for arg in self.messageArguments {
@@ -164,17 +164,16 @@ extension MethodDeclaration: Code {
                     }
                 }
             }
-            gen.add("])")
-            gen.add("connection.send(message: message)")
+            gen.add("], queue: nil)")
 
             if self.consuming {
                 // TODO: read docs about destructor behavior
-                gen.add(
-                    """
-                    self._state = .dropped
-                    connection.removeObject(id: self.id)
-                    """
-                )
+                // gen.add(
+                //     """
+                //     self._state = .dropped
+                //     backend.removeObject(id: self.id)
+                //     """
+                // )
             }
 
             // Return
@@ -220,7 +219,7 @@ extension DeinitDeclaration: Code {
     func generate(_ gen: Generator) {
         gen.add("deinit {")
         gen.indent {
-            gen.add("if self._state == WaylandProxyState.alive {")
+            gen.add("if self.isAlive {")
             gen.indent {
                 gen.add("try? self.\(self.selectedMethod.gravedIfNeeded)()")
             }
@@ -233,7 +232,7 @@ extension DeinitDeclaration: Code {
 extension Array: Code where Element == EventDeclaration {
     func generate(_ gen: Generator) {
         // luckily there is no enum named `event`
-        gen.add("public enum Event: WaylandEvent {")
+        gen.add("public enum Event: Decodable {")
         gen.indent {
             for event in self {
                 gen.walk(node: event)
@@ -243,21 +242,14 @@ extension Array: Code where Element == EventDeclaration {
             // decoding function
 
             gen.add(
-                "public static func decode(message: Message, connection: Connection, version: UInt32) -> Self {"
+                "public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {"
             )
             gen.indent {
-                // TODO
-                let reader = true
-                if reader {
-                    gen.add(
-                        "var r = ArgumentReader(data: message.arguments, fdSource: connection.socket)"
-                    )
-                }
-                gen.add("switch message.opcode {")
+                gen.add("switch opcode {")
                 for (index, event) in self.enumerated() {
                     gen.add("case \(index):")
                     gen.indent {
-                        var out = "return Self.\(event.name)"
+                        var out = "self = Self.\(event.name)"
                         if !event.arguments.isEmpty {
                             out +=
                                 "(\(event.arguments.map { "\($0.name): \(getArgDecodingExpr($0))" }.joined(separator: ", ") ))"
@@ -268,7 +260,7 @@ extension Array: Code where Element == EventDeclaration {
                 gen.add("default:")
                 gen.indent {
                     gen.add(
-                        "fatalError(\"Unknown message: opcode=\\(message.opcode) \\(message.arguments as NSData)\")"
+                        "fatalError(\"Unknown message: opcode=\\(opcode)\")"
                     )
                 }
                 gen.add("}")
@@ -281,17 +273,15 @@ extension Array: Code where Element == EventDeclaration {
 
 private func getArgDecodingExpr(_ arg: WaylandArgumentDeclaration) -> String {
     switch arg.waylandType {
-    case .int: "r.readInt()"
-    case .uint: "r.readUInt()"
-    case .fixed: "r.readFixed()"
-    case .string: "r.readString()"
-    case .fd: "r.readFd()"
-    case .enum: "r.readEnum()"
-    case .object: "connection.get(as: \(arg.swiftType).self, id: r.readObjectId())!"
-    case .newId:
-        // TODO: queue
-        "connection.createProxy(type: \(arg.swiftType).self, version: version, id: r.readNewId())"
-    case .array: "r.readArray()"
+    case .int: "r.int()"
+    case .uint: "r.uint()"
+    case .fixed: "r.fixed()"
+    case .string: "r.string()"
+    case .fd: "r.fd()"
+    case .enum: "r.uint()"
+    case .object: "r.object(type: \(arg.swiftType).self)"
+    case .newId: "r.newId(type: \(arg.swiftType).self)"
+    case .array: "r.array()"
     }
 }
 

@@ -3,9 +3,10 @@ import Foundation
 public protocol Proxy: AnyObject {
     associatedtype Event: Decodable = NoEvent
     associatedtype Request: Encodable = NoRequest
-
-    // associatedtype Queue: EventQueue
     // associatedtype UserData
+    // associatedtype Queue: EventQueue
+
+    var backend: any Backend { get }
 
     // TODO: find a way so it that we dont need to copy this everytime, making it a class???
     static var interface: Interface { get }
@@ -15,20 +16,21 @@ public protocol Proxy: AnyObject {
     var id: UInt32 {
         get
     }
-    var raw: any RawProxy { get }
 
+    var isAlive: Bool { get }
+
+    var raw: any RawProxy { get }
     var onEvent: ((Event) -> Void)? { get }
 
-    // var queue: any EventQueue {
-    //     get
-    // }
+    var queue: any EventQueue {
+        get
+    }
 
     // var userData: UserData {
     //     get
     //     set
     // }
 
-    // init(from: ObjectId) // TODO: version, queue
     init(raw: any RawProxy)
 }
 
@@ -40,10 +42,38 @@ extension Proxy {
     public var id: UInt32 {
         self.raw.id
     }
+
+    public var version: UInt32 {
+        self.raw.version
+    }
+
+    public var isAlive: Bool {
+        self.raw.isAlive
+    }
+
+    public var queue: any EventQueue {
+        self.raw.queue
+    }
 }
 
 public protocol RawProxy {
+    associatedtype B: Backend
+
     var id: UInt32 { get }
+    var version: UInt32 { get }
+    var backend: B { get }
+    var isAlive: Bool { get }
+    var queue: B.Queue { get }
+}
+
+open class BaseProxy {
+    public let backend: any Backend
+    public let raw: any RawProxy
+
+    public required init(raw: any RawProxy) {
+        self.backend = raw.backend
+        self.raw = raw
+    }
 }
 
 public struct NoEvent: Decodable {
@@ -82,9 +112,14 @@ public protocol ArgumentReader {
 }
 
 extension ArgumentReader {
-    func fixed() -> Double {
+    public func fixed() -> Double {
         Double(self.int()) / 256
     }
 }
 
 // fd read into an immediate buffer -> see which object
+
+public enum WaylandProxyError: Error {
+    case destroyed
+    case unsupportedVersion(current: UInt32, required: UInt32)
+}

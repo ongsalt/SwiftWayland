@@ -18,14 +18,17 @@ extension Interface: Code {
         gen.indent {
             gen.add("name: \"\(self.name)\",")
             gen.add("version: \(self.version),")
-            gen.add("enum: [],")
+            gen.add("enums: [],")
 
             gen.add("requests: ")
-            gen.walk(array: self.requests)
+            gen.indent {
+                gen.walk(array: self.requests)
+            }
             gen.add(sameLine: ",")
-
             gen.add("events: ")
-            gen.walk(array: self.requests)
+            gen.indent {
+                gen.walk(array: self.requests)
+            }
             gen.add(sameLine: ",")
         }
         gen.add(")")
@@ -53,7 +56,7 @@ extension Message: Code {
 
 extension Argument: Code {
     func generate(_ gen: Generator) {
-        gen.add("Message(")
+        gen.add("Argument(")
         gen.indent {
             gen.add("name: \"\(self.name)\",")
             gen.add("type: .\(type),")

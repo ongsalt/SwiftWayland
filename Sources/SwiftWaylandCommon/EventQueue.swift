@@ -1,3 +1,3 @@
-protocol EventQueue {
+public protocol EventQueue {
     
 }

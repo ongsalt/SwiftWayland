@@ -51,7 +51,8 @@ let package = Package(
         .target(
             name: "SwiftWayland",
             plugins: [
-                "WaylandScannerPlugin"
+                "WaylandScannerPlugin",
+                "SwiftWaylandCommon"
             ]
         ),
 

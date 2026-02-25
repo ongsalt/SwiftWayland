@@ -47,8 +47,13 @@ struct WaylandScannerPlugin: BuildToolPlugin {
             // if let t = options.namespace {
             //     arguments.append(contentsOf: ["--namespace", t])
             // }
-            if let t = options.importName {
-                arguments.append(contentsOf: ["--import", t])
+            // if let t = options.importName {
+            //     arguments.append(contentsOf: ["--import", t])
+            // }
+            if target.name == "SwiftWayland" {
+                arguments.append(contentsOf: ["--import", "SwiftWaylandCommon"])
+            } else {
+                arguments.append(contentsOf: ["--import", "SwiftWayland"])
             }
             if let t = options.traits {
                 arguments.append(contentsOf: ["--traits", t])

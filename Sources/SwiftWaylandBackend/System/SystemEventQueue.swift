@@ -1,3 +1,5 @@
-class SystemEventQueue {
+import SwiftWaylandCommon
+
+public class SystemEventQueue: EventQueue {
     
 }

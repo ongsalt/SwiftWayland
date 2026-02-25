@@ -3,8 +3,9 @@ import SwiftWaylandCommon
 
 public struct ClassDeclaration {
     var name: String
-    var interfaceName: String
-    var interfaceVersion: UInt32
+    var interface: Interface
+    var interfaceName: String { interface.name }
+    var interfaceVersion: UInt32 { interface.version } 
     var description: Description? = nil
     var methods: [MethodDeclaration]
     var `deinit`: DeinitDeclaration? = nil

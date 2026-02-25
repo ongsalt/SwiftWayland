@@ -1,6 +1,6 @@
 import Foundation
 
-// TODO: naming is hard
+// TODO: naming is hard, this is outgoing only anyway
 // user wont interact with this directly anyway
 public enum Arg {
     case int(Int32)
@@ -10,7 +10,7 @@ public enum Arg {
     case array(Data)
     case fd(FileHandle)  // this need to live until we send it
     case `enum`(UInt32)
-    case object(UInt32)
+    case object(any ObjectIdProtocol)
     case newId(UInt32)
     // case newIdDynamic(interfaceName: String, version: UInt32, id: UInt32)
 
@@ -30,7 +30,7 @@ public enum Arg {
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
         case .object(let id):
-            var v = id
+            var v = id.actualId
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
         case .string(let string):
@@ -57,6 +57,7 @@ public enum Arg {
             var v = enumValue
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }
 
+        // only use in swift backend
         case .newId(let objectId):
             var v = objectId
             withUnsafeBytes(of: &v) { data.append(contentsOf: $0) }

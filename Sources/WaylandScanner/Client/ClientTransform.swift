@@ -12,8 +12,7 @@ public func transform(
 ) -> ClassDeclaration {
     return ClassDeclaration(
         name: interface.name.camel,
-        interfaceName: interface.name,
-        interfaceVersion: interface.version,
+        interface: interface,
         description: interface.description,
         methods: interface.requests.enumerated()
             .filter { !(interface.name == "wl_registry" && $1.name == "bind") }
@@ -56,11 +55,11 @@ public func transform(
                         summary: arg.summary
                     )
 
-                    // if arg.type == .newId {
-                    //     returns.append(decl)
-                    // } else {
+                    if arg.type == .newId {
+                        returns.append(decl)
+                    } else {
                         arguments.append(decl)
-                    // }
+                    }
                 }
 
                 if !returns.isEmpty || !callbacks.isEmpty {

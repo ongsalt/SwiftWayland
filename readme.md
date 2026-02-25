@@ -62,9 +62,10 @@ dnf install wayland-devel
 
 # Todos
 - `libwayland-client` backend becuase its pain in the ass to deal with egl
+    - i might stop doing multiple backend becuase its pain in the ass
 - runtime request and event information??
 - allow-null
-
+- stop doing `Data` and use `UnsafeMutableRawBuffer`
 
 - refactor namespace generation, -> hardcode known prefix into the scanner
 - typed error
