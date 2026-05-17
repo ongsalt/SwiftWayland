@@ -44,6 +44,8 @@ func testConnection() throws {
     try connection.roundtrip()
 
     let xdgWmBase = try registry.bind(version: 6...6, type: XdgWmBase.self)
+
+    xdgWmBase.raw
     xdgWmBase.onEvent = {
         switch $0 {
         case .ping(let serial):
