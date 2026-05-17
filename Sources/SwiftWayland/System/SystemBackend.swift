@@ -142,7 +142,7 @@ public class Connection {
         wl_proxy_destroy(proxy.raw)
     }
 
-    public func flush() async throws {
+    public func flush() throws {
         wl_display_flush(rawDisplay)
     }
 
