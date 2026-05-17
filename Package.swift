@@ -25,10 +25,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
-        // .package(
-        //     url: "https://github.com/swiftlang/swift-syntax.git",
-        //     from: "602.0.0"
-        // ),
     ],
     targets: [
         .target(
@@ -66,16 +62,7 @@ let package = Package(
                 .product(name: "XMLCoder", package: "XMLCoder"),
             ]
         ),
-
-        .executableTarget(
-            name: "Playground",
-            dependencies: [
-                "CWayland",
-                "SwiftWaylandCommon",
-                "SwiftWayland",
-            ]
-        ),
-
+        
         .executableTarget(
             name: "WaylandScannerCLI",
             dependencies: [
@@ -96,12 +83,5 @@ let package = Package(
         //     name: "SwiftWaylandTests",
         //     dependencies: ["SwiftWayland"]
         // ),
-        .executableTarget(
-            name: "Examples",
-            dependencies: [
-                "SwiftWayland",
-                "WaylandProtocols",
-            ],
-        ),
     ]
 )

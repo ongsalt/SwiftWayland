@@ -3,29 +3,22 @@ import Glibc
 import SwiftWayland
 import WaylandProtocols
 
-@main
-@MainActor
-public struct SwiftWaylandExample {
-    public static func main() throws {
-        // try testConnection()
+Task {
+    let connection = Connection()
+    let w = Window(connection: connection)
+    do {
+        try w.start()
+    } catch {
+        print("Error: \(error)")
+    }
 
-        Task {
-            let connection = Connection()
-            let w = Window(connection: connection)
-            do {
-                try await w.start()
-            } catch {
-                print("Error: \(error)")
-            }
-
-            while !Task.isCancelled {
-                try await Task.sleep(for: .microseconds(16))
-                try connection.roundtrip()
-            }
-        }
-        RunLoop.main.run()
+    while !Task.isCancelled {
+        try await Task.sleep(for: .microseconds(16))
+        try connection.roundtrip()
     }
 }
+
+RunLoop.main.run()
 
 func testConnection() throws {
     let connection = Connection()

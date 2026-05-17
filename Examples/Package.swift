@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Examples",
     dependencies: [
-        .package(path: "../")
+        .package(path: "../", traits: ["UNSTABLE", .defaults])
     ],
     targets: [
         .executableTarget(

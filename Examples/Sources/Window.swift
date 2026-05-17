@@ -43,7 +43,7 @@ public final class Window {
         self.connection = connection
     }
 
-    func start() async throws {
+    func start() throws {
         let display = connection.display
         let global = try Globals(connection: connection)
         
@@ -52,7 +52,7 @@ public final class Window {
         compositor = try global.bind(version: 6...6, type: WlCompositor.self)
         shm = try global.bind(version: 2...2, type: WlShm.self)
         xdgWmBase = try global.bind(version: 6...7, type: XdgWmBase.self)
-        self.xdgWmBase?.onEvent = { [weak self] ev in
+        self.xdgWmBase!.onEvent = { [weak self] ev in
             guard let self else { return }
             if case .ping(let serial) = ev {
                 try! self.xdgWmBase?.pong(serial: serial)
@@ -121,35 +121,23 @@ public final class Window {
 
         let data = mmap(nil, size, PROT_READ | PROT_WRITE, MAP_SHARED, file.fileDescriptor, 0)
         if data == MAP_FAILED {
-            throw NSError(
-                domain: "SwiftWayland", code: Int(errno),
-                userInfo: [
-                    NSLocalizedDescriptionKey: "mmap failed"
-                ])
+            fatalError("mmap failed")
         }
 
         fillGradient(buffer: data!, width: width, height: height)
         return (buffer, pool, data!, size)
     }
 
-    private func createShmFile(size: Int) throws -> FileHandle {
+    private func createShmFile(size: Int) -> FileHandle {
         let name = "/swiftwayland-\(UUID().uuidString)"
         let fd = shm_open(name, O_RDWR | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)
         if fd == -1 {
-            throw NSError(
-                domain: "SwiftWayland", code: Int(errno),
-                userInfo: [
-                    NSLocalizedDescriptionKey: "shm_open failed"
-                ])
+            fatalError("shm_open failed")
         }
         _ = shm_unlink(name)
         if ftruncate(fd, off_t(size)) == -1 {
             close(fd)
-            throw NSError(
-                domain: "SwiftWayland", code: Int(errno),
-                userInfo: [
-                    NSLocalizedDescriptionKey: "ftruncate failed"
-                ])
+            fatalError("ftruncate failed")
         }
 
         return FileHandle(fileDescriptor: fd, closeOnDealloc: true)
