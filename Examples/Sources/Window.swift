@@ -44,39 +44,22 @@ public final class Window {
     }
 
     func start() async throws {
-
         let display = connection.display
-        let registry = try display.getRegistry()
+        let global = try Globals(connection: connection)
+        
+        connection.roundtrip()
 
-        registry.onEvent = { [weak self] event in
+        compositor = try global.bind(version: 6...6, type: WlCompositor.self)
+        shm = try global.bind(version: 2...2, type: WlShm.self)
+        xdgWmBase = try global.bind(version: 6...7, type: XdgWmBase.self)
+        self.xdgWmBase?.onEvent = { [weak self] ev in
             guard let self else { return }
-            // print(event)
-            switch event {
-            case .global(let name, let interface, let version):
-                switch interface {
-                case WlCompositor.interface.name:
-                    self.compositor = registry.bind(
-                        name: name, version: version, interface: WlCompositor.self)
-                case WlShm.interface.name:
-                    self.shm = registry.bind(
-                        name: name, version: version, interface: WlShm.self)
-                case XdgWmBase.interface.name:
-                    self.xdgWmBase = registry.bind(
-                        name: name, version: version, interface: XdgWmBase.self)
-                    self.xdgWmBase?.onEvent = { [weak self] ev in
-                        guard let self else { return }
-                        if case .ping(let serial) = ev {
-                            try! self.xdgWmBase?.pong(serial: serial)
-                        }
-                    }
-                default:
-                    break
-                }
-            default: break
+            if case .ping(let serial) = ev {
+                try! self.xdgWmBase?.pong(serial: serial)
             }
         }
 
-        try await connection.roundtrip()
+        connection.roundtrip()
 
         guard
             let compositor = compositor,
@@ -85,14 +68,11 @@ public final class Window {
         else {
             fatalError("Missing required globals")
         }
-        let surface = try! compositor.createSurface()
-        let xdgSurface = try! xdgWmBase.getXdgSurface(surface: surface)
-        let toplevel = try! xdgSurface.getToplevel()
-        try! toplevel.setTitle(title: "SwiftWayland")
 
-        self.surface = surface
-        self.xdgSurface = xdgSurface
-        self.toplevel = toplevel
+        self.surface = try compositor.createSurface()
+        self.xdgSurface = try xdgWmBase.getXdgSurface(surface: surface!)
+        self.toplevel = try xdgSurface!.getToplevel()
+        try toplevel!.setTitle(title: "SwiftWayland")
 
         let initialWidth = 480
         let initialHeight = 320
@@ -104,23 +84,22 @@ public final class Window {
         bufferWidth = initialWidth
         bufferHeight = initialHeight
 
-        xdgSurface.onEvent = { [weak self] event in
+        xdgSurface!.onEvent = { [weak self] event in
             guard let self else { return }
             if case .configure(let serial) = event {
-                try! xdgSurface.ackConfigure(serial: serial)
-                try! surface.attach(buffer: self.buffer!, x: 0, y: 0)
-                try! surface.damage(
+                try! xdgSurface!.ackConfigure(serial: serial)
+                try! surface!.attach(buffer: self.buffer!, x: 0, y: 0)
+                try! surface!.damage(
                     x: 0, y: 0, width: Int32(self.bufferWidth), height: Int32(self.bufferHeight)
                 )
-                try! surface.commit()
+                try! surface!.commit()
 
             }
         }
 
-        try surface.commit()
+        try surface!.commit()
 
-        // print(connection.proxiesList)
-        try await connection.roundtrip()
+        connection.roundtrip()
     }
 
     private func makeShmBuffer(shm: WlShm, width: Int, height: Int) throws -> (

@@ -37,7 +37,7 @@ try connection.roundtrip()
 See `Examples` target for more.
 
 ## Object lifetime
-i forgor. At least every object hold a strong reference to the `Connection` object.
+There is no raii (except for the `Connection` object). You manually call its desctructor(s). Every object hold a strong reference to the `Connection` object. 
 
 ## Code generation
 Code generation was done by a build tool plugin using protocol definitions from [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols)

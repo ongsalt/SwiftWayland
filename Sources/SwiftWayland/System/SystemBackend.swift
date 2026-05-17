@@ -146,19 +146,23 @@ public class Connection {
         wl_proxy_destroy(proxy.raw)
     }
 
-    public func flush() throws {
+    @discardableResult
+    public func flush() -> Int32 {
         wl_display_flush(rawDisplay)
     }
 
-    public func dispatchPending() throws {
+    @discardableResult
+    public func dispatchPending() -> Int32 {
         wl_display_dispatch_pending(rawDisplay)
     }
 
-    public func dispatch() throws {
+    @discardableResult
+    public func dispatch() -> Int32 {
         wl_display_dispatch(rawDisplay)
     }
 
-    public func roundtrip() throws {
+    @discardableResult
+    public func roundtrip() -> Int32 {
         wl_display_roundtrip(rawDisplay)
     }
 
