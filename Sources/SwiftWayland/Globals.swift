@@ -7,8 +7,8 @@ public struct Global {
 }
 
 public enum BindError: Error {
-    case unsupportedVersion
-    case notPresent
+    case unsupportedVersion(requested: ClosedRange<UInt32>, presented: UInt32)
+    case notPresent(requestedProtocol: String)
 }
 
 public class Globals {
@@ -46,14 +46,17 @@ public class Globals {
 
         // mutex???
         guard let global = self.globals.first(where: { type.interface.name == $0.interfaceName }) else {
-            throw .notPresent
+            if globals.count == 0 {
+                print("Please call connection.roundtrip() at least once after initializing a Globals")
+            }
+            throw .notPresent(requestedProtocol: type.interface.name)
         }
 
         if global.version < version.lowerBound {
-            throw .unsupportedVersion
+            throw .unsupportedVersion(requested: version, presented: global.version)
         }
 
-        let version = min(version.upperBound, UInt32(type.interface.version))
+        let version = min(version.upperBound, UInt32(global.version))
 
         return registry.bind(name: global.name, version: version, interface: T.self, queue: queue)
     }
