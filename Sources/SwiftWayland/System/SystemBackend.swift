@@ -142,29 +142,24 @@ public class Connection {
         wl_proxy_destroy(proxy.raw)
     }
 
-    let _queue = DispatchQueue(label: "lt.ongsa.SwiftWayland.libwayland-client-backend")
-
-    // TODO: proper async
     public func flush() async throws {
         wl_display_flush(rawDisplay)
-        // await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
-        // }
     }
 
-    public func dispatchPending() async throws {
-        await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
-            wl_display_dispatch_pending(display.value)
-        }
+    public func dispatchPending() throws {
+        wl_display_dispatch_pending(rawDisplay)
+    }
+
+    public func dispatch() throws {
+        wl_display_dispatch(rawDisplay)
     }
 
     public func roundtrip() throws {
         wl_display_roundtrip(rawDisplay)
-        // await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
-        // }
     }
 
     deinit {
-        print("Connection dropped with live proxies \(knownProxies)")
+        // print("Connection dropped with live proxies \(knownProxies)")
     }
 }
 
@@ -193,8 +188,4 @@ extension Array {
         _ = buffer.initialize(from: self)
         return UnsafeBufferPointer(buffer)
     }
-}
-
-struct TrustMeBro<T>: @unchecked Sendable {
-    let value: T
 }
