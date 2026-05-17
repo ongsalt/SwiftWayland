@@ -33,7 +33,7 @@ public class Globals {
         }
     }
 
-    public func bind<T>(version: Range<UInt32>, type: T.Type, on queue: EventQueue? = nil)
+    public func bind<T>(version: ClosedRange<UInt32>, type: T.Type, on queue: EventQueue? = nil)
         throws(BindError) -> T
     where T: Proxy {
         let queue = queue ?? connection.mainQueue

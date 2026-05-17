@@ -39,7 +39,7 @@ open class BaseProxy {
     public private(set) var isAlive: Bool = true
     public let queue: EventQueue
     public let raw: OpaquePointer
-    public unowned let connection: Connection
+    public let connection: Connection
 
     public typealias Event = NoEvent
 
@@ -50,7 +50,7 @@ open class BaseProxy {
         self.raw = raw
         self.connection = connection
 
-        ensureLoaded()
+        Self.ensureLoaded()
     }
 
     package func markDead() {
@@ -58,7 +58,7 @@ open class BaseProxy {
     }
 
     @_spi(SwiftWaylandPrivate)
-    open func ensureLoaded() {
+    open class func ensureLoaded() {
         
     }
 }

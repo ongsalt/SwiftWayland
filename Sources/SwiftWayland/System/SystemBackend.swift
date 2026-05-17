@@ -42,27 +42,71 @@ public class Connection {
         _ opcode: UInt32,
         _ args: [Arg],
     ) {
-        // TODO: handle queue
-        let arguments = UnsafeMutableBufferPointer<wl_argument>.allocate(capacity: args.count)
-        for (index, arg) in args.enumerated() {
-            arguments[index] =
-                switch arg {
-                case .int(let i): wl_argument(i: i)
-                case .enum(let u): wl_argument(u: u)
-                case .array(let data): wl_argument(a: data.toWlArray())  // just why
-                case .fd(let fd): wl_argument(h: fd.fileDescriptor)
-                case .fixed(let d): wl_argument(f: Int32(d * 256))
-                case .uint(let u): wl_argument(u: u)
-                case .string(let s): wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress)
-                case .object(let id):
-                    wl_argument(o: knownProxies[id]?.raw)  // fuckkkkkkkkk
-                // if we have a newId, create it, then make it a .object instead, we create an object before calling send anyway, sooo sammeeee
-                case .newId(let id):
-                    wl_argument(o: knownProxies[id]?.raw)
-                }
+        var arguments: [wl_argument] = []
+        for arg in args {
+            switch arg {
+            case .int(let i):
+                arguments.append(wl_argument(i: i))
+            case .enum(let u):
+                arguments.append(wl_argument(u: u))
+            case .array(let data):
+                arguments.append(wl_argument(a: data.toWlArray()))  // just why
+            case .fd(let fd):
+                arguments.append(wl_argument(h: fd.fileDescriptor))
+            case .fixed(let d):
+                arguments.append(wl_argument(f: Int32(d * 256)))
+            case .uint(let u):
+                arguments.append(wl_argument(u: u))
+            case .string(let s):
+                arguments.append(wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress))
+            case .object(let id):
+                arguments.append(wl_argument(o: knownProxies[id]!.raw))  // fuckkkkkkkkk
+            // if we have a newId, create it, then make it a .object instead, we create an object before calling send anyway, sooo sammeeee
+            case .newId(let id):
+                arguments.append(wl_argument(o: knownProxies[id]!.raw))
+            }
+        }
+        wl_proxy_marshal_array(proxy.raw, opcode, &arguments)
+    }
+
+    public func sendConstructor<T: Proxy>(
+        _ proxy: any Proxy,
+        _ opcode: UInt32,
+        _ args: [Arg],
+        version: UInt32,
+        interface: T.Type,
+        queue: EventQueue? = nil,
+    ) -> T {
+        var arguments: [wl_argument] = []
+        for arg in args {
+            switch arg {
+            case .int(let i):
+                arguments.append(wl_argument(i: i))
+            case .enum(let u):
+                arguments.append(wl_argument(u: u))
+            case .array(let data):
+                arguments.append(wl_argument(a: data.toWlArray()))  // just why
+            case .fd(let fd):
+                arguments.append(wl_argument(h: fd.fileDescriptor))
+            case .fixed(let d):
+                arguments.append(wl_argument(f: Int32(d * 256)))
+            case .uint(let u):
+                arguments.append(wl_argument(u: u))
+            case .string(let s):
+                arguments.append(wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress))
+            case .object(let id):
+                arguments.append(wl_argument(o: knownProxies[id]!.raw))  // fuckkkkkkkkk
+            case .newId(_):
+                arguments.append(wl_argument(n: 0))
+            }
         }
 
-        wl_proxy_marshal_array(proxy.raw, opcode, arguments.baseAddress)
+        (T.self as? BaseProxy.Type)?.ensureLoaded()
+        let interface = runtimeInfo.interfaces[interface.interface.name]!
+
+        let ptr = wl_proxy_marshal_array_constructor_versioned(
+            proxy.raw, opcode, &arguments, interface, version)
+        return createObj(type: T.self, ptr: ptr!, queue: queue ?? mainQueue)
     }
 
     public func createProxy<T>(
@@ -74,13 +118,20 @@ public class Connection {
         let wrapper = OpaquePointer(
             wl_proxy_create_wrapper(UnsafeMutableRawPointer(parent?.raw ?? rawDisplay)))
         wl_proxy_set_queue(wrapper, queue.raw)
+
+        (T.self as? BaseProxy.Type)?.ensureLoaded()
+
         let ptr = wl_proxy_create(rawDisplay, runtimeInfo.interfaces[type.interface.name]!)
+
+        return createObj(type: type, ptr: ptr!, queue: queue)
+    }
+
+    private func createObj<T: Proxy>(type: T.Type, ptr: OpaquePointer, queue: EventQueue) -> T {
         let obj = T(
-            id: wl_proxy_get_id(ptr), version: wl_proxy_get_version(ptr), queue: queue, raw: ptr!,
+            id: wl_proxy_get_id(ptr), version: wl_proxy_get_version(ptr), queue: queue, raw: ptr,
             connection: self)
 
         wl_proxy_add_dispatcher(ptr, dispatchFn, nil, Unmanaged.passUnretained(obj).toOpaque())
-
         knownProxies[obj.id] = obj
         return obj
     }
@@ -95,9 +146,9 @@ public class Connection {
 
     // TODO: proper async
     public func flush() async throws {
-        await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
-            wl_display_flush(display.value)
-        }
+        wl_display_flush(rawDisplay)
+        // await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
+        // }
     }
 
     public func dispatchPending() async throws {
@@ -106,10 +157,10 @@ public class Connection {
         }
     }
 
-    public func roundtrip() async throws {
-        await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
-            wl_display_roundtrip(display.value)
-        }
+    public func roundtrip() throws {
+        wl_display_roundtrip(rawDisplay)
+        // await AsyncUtils.background(queue: _queue) { [display = TrustMeBro(value: rawDisplay)] in
+        // }
     }
 
     deinit {

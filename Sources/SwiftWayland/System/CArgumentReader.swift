@@ -1,5 +1,5 @@
-import Foundation
 import CWayland
+import Foundation
 
 class CArgumentReader: ArgumentReader {
     var current: UnsafePointer<wl_argument>
@@ -27,11 +27,16 @@ class CArgumentReader: ArgumentReader {
 
     func array() -> Data {
         let array = consume().a!
+        // print(array.pointee)
 
         return Data(
             bytesNoCopy: array.pointee.data,
             count: array.pointee.size,
-            deallocator: .custom { _, _ in wl_array_release(array) }
+            deallocator: .custom { _, _ in
+                // print("will release: \(array.pointee) at \(array)")
+                // who free this????
+                // wl_array_release(array)
+            }
         )
     }
 

@@ -51,7 +51,7 @@ extension ClassDeclaration: Code {
             gen.add(
                 """
                 @_spi(SwiftWaylandPrivate)
-                override public func ensureLoaded() {
+                override public class func ensureLoaded() {
                     CRuntimeInfo.shared.addIfNotExists(protocol: \(self.protocolName.gravedIfNeeded))
                 }
                 """
@@ -185,7 +185,7 @@ extension MethodDeclaration: Code {
                     switch arg.waylandType {
                     case .object, .newId:
                         gen.add(
-                            ".\(arg.waylandType)(\(arg.name.gravedIfNeeded).id),")
+                            ".object(\(arg.name.gravedIfNeeded).id),")
                     case .enum:
                         gen.add(
                             ".\(arg.waylandType)(\(arg.name.gravedIfNeeded).rawValue),"

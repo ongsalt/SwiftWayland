@@ -88,7 +88,10 @@
             "name": "Debug Examples",
             "target": "Examples",
             "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug Examples"
+            "preLaunchTask": "swift: Build Debug Examples",
+            "env": {
+                "WAYLAND_DEBUG": "1"
+            }
         },
         {
             "type": "swift",

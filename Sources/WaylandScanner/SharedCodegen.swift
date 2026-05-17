@@ -44,6 +44,14 @@ extension Message: Code {
                 gen.add("type: .\(type),")
             }
             gen.add("arguments: ")
+            // dynamic newId -> Name|Version|NewId
+            // let array = self.arguments.map { arg in
+            //     if arg.type == .newId && arg.interface == nil {
+            //         [arg]
+            //     } else {
+            //         [arg]
+            //     }
+            // }
             gen.walk(array: self.arguments)
             gen.add(sameLine: ",")
             if let since {
@@ -59,7 +67,10 @@ extension Argument: Code {
         gen.add("Argument(")
         gen.indent {
             gen.add("name: \"\(self.name)\",")
-            gen.add("type: .\(type),")
+            gen.add("type: .\(self.type),")
+            if let interface {
+                gen.add("interface: \"\(interface)\"")
+            }
         }
         gen.add(")")
 

@@ -12,6 +12,7 @@ public final class CRuntimeInfo {
 
     // TODO: interfaces look up
 
+    @discardableResult
     public func addIfNotExists(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
         if let existed = protocolMap[p.name] {
             return UnsafeBufferPointer(existed)
@@ -52,6 +53,7 @@ public final class CRuntimeInfo {
                     // interface not found -> refer to interfaces outside of this protocol like wl_callback
                     if let interface = self.interfaces[name] {
                         typeArray.append(interface)
+                        continue
                     }
                     fatalError("interface \(name) not founded in registry")
                 }
@@ -87,7 +89,7 @@ public final class CRuntimeInfo {
     }
 
     private func alloc(string: String) -> UnsafePointer<CChar> {
-        let bytes = string.utf8CString
+        let bytes = string.cString(using: .utf8)!
         let buffer = UnsafeMutableBufferPointer<CChar>.allocate(capacity: bytes.count)
         _ = buffer.initialize(from: bytes)
         return UnsafePointer(buffer.baseAddress!)
@@ -122,6 +124,7 @@ extension Message {
             case .int:
                 out += "i"
             case .newId:
+                // oh my fucking god
                 if arg.interface == nil {
                     out += "su"
                 }
@@ -135,6 +138,10 @@ extension Message {
             default:
                 break
             }
+        }
+
+        if self.name == "bind" {
+            // print("[debug] \(self.name) - \(out)")
         }
 
         return out

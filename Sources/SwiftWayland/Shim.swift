@@ -5,11 +5,18 @@ extension WlRegistry {
     public func bind<T>(name: UInt32, version: UInt32, interface: T.Type, queue: EventQueue? = nil)
         -> T
     where T: Proxy {
-        let obj = connection.createProxy(type: T.self, version: version, queue: queue ?? self.queue) 
-        connection.send(self, 0, [
-            .string(interface.interface.name),
-            .object(obj.id) // wayland-client do this for us???
-        ])
+        let obj = connection.sendConstructor(
+            self, 0,
+            [
+                .uint(name),
+                .string(interface.interface.name),
+                .uint(version),
+                .newId(1002),  // wayland-client do this for us???
+            ],
+            version: version,
+            interface: interface,
+            queue: queue
+        )
 
         return obj
     }

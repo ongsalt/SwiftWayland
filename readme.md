@@ -59,8 +59,6 @@ dnf install wayland-devel
 ```
 
 # Todos
-- `libwayland-client` backend becuase its pain in the ass to deal with egl
-    - i might stop doing multiple backend becuase its pain in the ass
 - allow-null
 - stop doing `Data` and use `UnsafeMutableRawBuffer`
 - event type="destructor"
