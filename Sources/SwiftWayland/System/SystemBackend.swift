@@ -10,6 +10,10 @@ public class Connection {
     var knownProxies: [UInt32: any Proxy] = [:]
     var knownQueues: [EventQueue] = []  // TODO: queue
 
+    var fd: Int32 {
+        wl_display_get_fd(rawDisplay)
+    }
+
     public private(set) lazy var display: WlDisplay = WlDisplay(
         id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
 
@@ -33,9 +37,9 @@ public class Connection {
         self.init(runtimeInfo: CRuntimeInfo.shared, rawDisplay: wl_display_connect(nil))
     }
 
-    public func createQueue() {
+    // public func createQueue() {
 
-    }
+    // }
 
     public func send(
         _ proxy: any Proxy,
@@ -156,6 +160,10 @@ public class Connection {
 
     public func roundtrip() throws {
         wl_display_roundtrip(rawDisplay)
+    }
+
+    public func makeReadSource() -> any DispatchSourceRead {
+        DispatchSource.makeReadSource(fileDescriptor: fd)
     }
 
     deinit {
