@@ -70,3 +70,6 @@ dnf install wayland-devel
     - gonna steal from wayland-rs
 - proxy
 - version validation
+- enum
+- signature transformation `setMode(mode:)` -> `setMode(_:)`
+- kde and wlr protocol

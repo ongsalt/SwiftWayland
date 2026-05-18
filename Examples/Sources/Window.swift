@@ -45,21 +45,20 @@ public final class Window {
 
     func start() throws {
         let display = connection.display
-        let global = try Globals(connection: connection)
+        let globals = try Globals(connection: connection)
         
         connection.roundtrip()
 
-        compositor = try global.bind(version: 6...6, type: WlCompositor.self)
-        shm = try global.bind(version: 2...2, type: WlShm.self)
-        xdgWmBase = try global.bind(version: 6...7, type: XdgWmBase.self)
+        compositor = try globals.bind(version: 6...6, type: WlCompositor.self)
+        shm = try globals.bind(version: 2...2, type: WlShm.self)
+        xdgWmBase = try globals.bind(version: 6...7, type: XdgWmBase.self)
         self.xdgWmBase!.onEvent = { [weak self] ev in
             guard let self else { return }
             if case .ping(let serial) = ev {
                 try! self.xdgWmBase?.pong(serial: serial)
             }
         }
-
-        connection.roundtrip()
+        
 
         guard
             let compositor = compositor,
@@ -98,6 +97,19 @@ public final class Window {
         }
 
         try surface!.commit()
+        connection.roundtrip()
+
+
+
+        // let decorationManager = try globals.bind(version: 1...2, type: ZxdgDecorationManagerV1.self)
+        // let decoration = try decorationManager.getToplevelDecoration(toplevel: toplevel!)
+        // try decoration.setMode(mode: ZxdgToplevelDecorationV1.Mode.serverSide.rawValue)
+        // decoration.onEvent = { event in
+        //     if case .configure(let mode) = event {
+        //         print("The server want (decoration) mode: \(mode)")
+        //     }
+        // }
+
 
         connection.roundtrip()
     }

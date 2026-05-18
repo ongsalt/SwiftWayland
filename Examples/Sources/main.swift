@@ -38,7 +38,6 @@ func testConnection() throws {
 
     let xdgWmBase = try registry.bind(version: 6...6, type: XdgWmBase.self)
 
-    xdgWmBase.raw
     xdgWmBase.onEvent = {
         switch $0 {
         case .ping(let serial):
@@ -52,6 +51,8 @@ func testConnection() throws {
     try surface.commit()
 
     try connection.roundtrip()
+
+    
 
     // print("[DONE]")
     // print(connection)
