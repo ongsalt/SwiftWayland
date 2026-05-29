@@ -56,6 +56,7 @@ dnf install wayland-devel
 ```
 
 # Todos
+- stop doing build plugin, its buggy af
 - allow-null
 - stop doing `Data` and use `UnsafeMutableRawBuffer`
 - event type="destructor"

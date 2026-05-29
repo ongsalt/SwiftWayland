@@ -23,7 +23,6 @@ import Testing
         }
 
         try! connection.roundtrip()
-        try! connection.roundtrip()
     }
 
 }

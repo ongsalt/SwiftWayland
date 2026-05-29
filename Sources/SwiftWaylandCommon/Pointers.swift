@@ -1,6 +1,6 @@
 import Foundation
 
-public class Box<T> {
+package class Box<T> {
     public let ptr: UnsafeMutablePointer<T>
     public var readonly: UnsafePointer<T> {
         UnsafePointer(ptr)
@@ -83,7 +83,7 @@ class Weak<T: AnyObject> {
     }
 }
 
-public final class Shared<T> {
+package final class Shared<T> {
     public let value: T 
         // yielding borrow {}
     
@@ -94,7 +94,7 @@ public final class Shared<T> {
 
 extension Shared: Sendable where T: Sendable {}
 extension Shared: Equatable where T: Equatable {
-    public static func == (lhs: Shared<T>, rhs: Shared<T>) -> Bool {
+    package static func == (lhs: Shared<T>, rhs: Shared<T>) -> Bool {
         lhs.value == rhs.value
     }
 }

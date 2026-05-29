@@ -1,5 +1,4 @@
-
-class Generator {
+final class Generator {
     var stack: [any Code] = []
     var indentation: Int = 4
     var indentLevel: Int = 0
@@ -41,6 +40,14 @@ class Generator {
         self.indentLevel -= level ?? indentation
     }
 
+    func block(_ prefix: String = "{", endWith subfix: String = "}", _ block: () -> Void) {
+        add(prefix)
+        self.indentLevel += indentation
+        block()
+        self.indentLevel -= indentation
+        add(subfix)
+    }
+
     func walk(node: some Code) {
         stack.append(node)
         node.generate(self)
@@ -56,6 +63,9 @@ class Generator {
         self.add("]")
     }
 
+    static func << (generator: Generator, line: String) {
+        generator.add(line)
+    }
 }
 
 protocol Code {

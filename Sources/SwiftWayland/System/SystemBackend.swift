@@ -46,6 +46,13 @@ public class Connection {
         _ opcode: UInt32,
         _ args: [Arg],
     ) {
+        var freeList: [UnsafeMutableRawPointer] = []
+        defer {
+            for p in freeList {
+                p.deallocate()
+            }
+        }
+
         var arguments: [wl_argument] = []
         for arg in args {
             switch arg {
@@ -54,7 +61,9 @@ public class Connection {
             case .enum(let u):
                 arguments.append(wl_argument(u: u))
             case .array(let data):
-                arguments.append(wl_argument(a: data.toWlArray()))  // just why
+                let arr = data.toWlArrayPtr()
+                freeList.append(arr)
+                arguments.append(wl_argument(a: arr))
             case .fd(let fd):
                 arguments.append(wl_argument(h: fd.fileDescriptor))
             case .fixed(let d):
@@ -81,6 +90,13 @@ public class Connection {
         interface: T.Type,
         queue: EventQueue? = nil,
     ) -> T {
+        var freeList: [UnsafeMutableRawPointer] = []
+        defer {
+            for p in freeList {
+                p.deallocate()
+            }
+        }
+
         var arguments: [wl_argument] = []
         for arg in args {
             switch arg {
@@ -89,7 +105,9 @@ public class Connection {
             case .enum(let u):
                 arguments.append(wl_argument(u: u))
             case .array(let data):
-                arguments.append(wl_argument(a: data.toWlArray()))  // just why
+                let arr = data.toWlArrayPtr()
+                freeList.append(arr)
+                arguments.append(wl_argument(a: arr))  // just why
             case .fd(let fd):
                 arguments.append(wl_argument(h: fd.fileDescriptor))
             case .fixed(let d):
@@ -203,7 +221,7 @@ extension Data {
         )
     }
 
-    fileprivate func toWlArray() -> UnsafeMutablePointer<wl_array> {
+    fileprivate func toWlArrayPtr() -> UnsafeMutablePointer<wl_array> {
         let ptr = UnsafeMutablePointer<wl_array>.allocate(capacity: 1)
         ptr.initialize(to: self.toWlArray())
         return ptr
