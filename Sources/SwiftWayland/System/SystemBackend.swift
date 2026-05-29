@@ -170,6 +170,22 @@ public class Connection {
         DispatchSource.makeReadSource(fileDescriptor: fd)
     }
 
+    @discardableResult
+    public func prepareRead() -> Bool {
+        wl_display_prepare_read(rawDisplay) == 0
+    }
+
+    /// Call if the poll returned an error or you decide not to read.
+    public func cancelRead() {
+        wl_display_cancel_read(rawDisplay)
+    }
+
+    /// Call when the fd is readable (after a successful prepareRead).
+    /// Reads events from the socket into the queue without dispatching them.
+    public func readEvents() {
+        wl_display_read_events(rawDisplay)
+    }
+
     deinit {
         // print("Connection dropped with live proxies \(knownProxies)")
     }
