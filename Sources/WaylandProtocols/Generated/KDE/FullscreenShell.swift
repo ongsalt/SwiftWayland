@@ -184,7 +184,7 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShell)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellProtocol)
     }
     
     public enum Capability: UInt32 {
@@ -284,7 +284,7 @@ public final class WlFullscreenShellModeFeedback: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShell)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellProtocol)
     }
     
     public enum Event: Decodable {
@@ -330,7 +330,7 @@ public final class WlFullscreenShellModeFeedback: BaseProxy, Proxy {
     }
 }
 
-public let FullscreenShell = Protocol(
+public let FullscreenShellProtocol = Protocol(
         name: "fullscreen_shell",
         interfaces: [
             WlFullscreenShell.interface,

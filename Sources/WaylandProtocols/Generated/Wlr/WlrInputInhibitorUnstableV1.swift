@@ -48,7 +48,7 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrInputInhibitUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrInputInhibitUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -99,7 +99,7 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrInputInhibitUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrInputInhibitUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -120,7 +120,7 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let WlrInputInhibitUnstableV1 = Protocol(
+public let WlrInputInhibitUnstableV1Protocol = Protocol(
         name: "wlr_input_inhibit_unstable_v1",
         interfaces: [
             ZwlrInputInhibitManagerV1.interface,

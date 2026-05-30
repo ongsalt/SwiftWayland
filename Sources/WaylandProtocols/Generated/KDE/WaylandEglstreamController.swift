@@ -89,7 +89,7 @@ public final class WlEglstreamController: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlEglstreamController)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlEglstreamControllerProtocol)
     }
     
     public enum PresentMode: UInt32 {
@@ -114,7 +114,7 @@ public final class WlEglstreamController: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let WlEglstreamController = Protocol(
+public let WlEglstreamControllerProtocol = Protocol(
         name: "wl_eglstream_controller",
         interfaces: [
             WlEglstreamController.interface

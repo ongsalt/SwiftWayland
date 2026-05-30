@@ -78,7 +78,7 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -183,7 +183,7 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -204,7 +204,7 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let XdgDialogV1 = Protocol(
+public let XdgDialogV1Protocol = Protocol(
         name: "xdg_dialog_v1",
         interfaces: [
             XdgWmDialogV1.interface,

@@ -92,7 +92,7 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -254,7 +254,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -340,7 +340,7 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1Protocol)
     }
     
     public enum Event: Decodable {
@@ -383,7 +383,7 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
     }
 }
 
-public let ZwpLinuxExplicitSynchronizationUnstableV1 = Protocol(
+public let ZwpLinuxExplicitSynchronizationUnstableV1Protocol = Protocol(
         name: "zwp_linux_explicit_synchronization_unstable_v1",
         interfaces: [
             ZwpLinuxExplicitSynchronizationV1.interface,

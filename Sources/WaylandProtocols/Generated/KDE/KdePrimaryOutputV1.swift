@@ -52,7 +52,7 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdePrimaryOutputV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdePrimaryOutputV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -87,7 +87,7 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
     }
 }
 
-public let KdePrimaryOutputV1 = Protocol(
+public let KdePrimaryOutputV1Protocol = Protocol(
         name: "kde_primary_output_v1",
         interfaces: [
             KdePrimaryOutputV1.interface

@@ -57,7 +57,7 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrForeignToplevelManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrForeignToplevelManagementUnstableV1Protocol)
     }
     
     public enum Event: Decodable {
@@ -398,7 +398,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrForeignToplevelManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrForeignToplevelManagementUnstableV1Protocol)
     }
     
     public enum State: UInt32 {
@@ -513,7 +513,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
     }
 }
 
-public let WlrForeignToplevelManagementUnstableV1 = Protocol(
+public let WlrForeignToplevelManagementUnstableV1Protocol = Protocol(
         name: "wlr_foreign_toplevel_management_unstable_v1",
         interfaces: [
             ZwlrForeignToplevelManagerV1.interface,

@@ -47,7 +47,7 @@ public final class KdeServerDecorationPaletteManager: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationPalette)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationPaletteProtocol)
     }
     
     public typealias Event = NoEvent
@@ -110,7 +110,7 @@ public final class KdeServerDecorationPalette: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationPalette)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationPaletteProtocol)
     }
     
     var destructor: Destructor? = .release
@@ -131,7 +131,7 @@ public final class KdeServerDecorationPalette: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let ServerDecorationPalette = Protocol(
+public let ServerDecorationPaletteProtocol = Protocol(
         name: "server_decoration_palette",
         interfaces: [
             KdeServerDecorationPaletteManager.interface,

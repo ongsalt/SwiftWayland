@@ -373,7 +373,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -647,7 +647,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -800,7 +800,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -965,7 +965,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -1162,7 +1162,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -1721,7 +1721,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -1863,7 +1863,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -2170,7 +2170,7 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     public enum Event: Decodable {
@@ -2341,7 +2341,7 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -2362,7 +2362,7 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let ColorManagementV1 = Protocol(
+public let ColorManagementV1Protocol = Protocol(
         name: "color_management_v1",
         interfaces: [
             WpColorManagerV1.interface,

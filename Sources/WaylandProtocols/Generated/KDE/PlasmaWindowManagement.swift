@@ -191,7 +191,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagement)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
     }
     
     public enum State: UInt32 {
@@ -860,7 +860,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagement)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -1079,7 +1079,7 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagement)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -1161,7 +1161,7 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagement)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -1237,7 +1237,7 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagement)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
     }
     
     public enum Event: Decodable {
@@ -1264,7 +1264,7 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
     }
 }
 
-public let PlasmaWindowManagement = Protocol(
+public let PlasmaWindowManagementProtocol = Protocol(
         name: "plasma_window_management",
         interfaces: [
             OrgKdePlasmaWindowManagement.interface,

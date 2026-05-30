@@ -61,7 +61,7 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeExternalBrightnessV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeExternalBrightnessV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -261,7 +261,7 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeExternalBrightnessV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeExternalBrightnessV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -298,7 +298,7 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
     }
 }
 
-public let KdeExternalBrightnessV1 = Protocol(
+public let KdeExternalBrightnessV1Protocol = Protocol(
         name: "kde_external_brightness_v1",
         interfaces: [
             KdeExternalBrightnessV1.interface,

@@ -60,7 +60,7 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2Protocol)
     }
     
     public enum Error: UInt32 {
@@ -574,7 +574,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2Protocol)
     }
     
     public enum Subpixel: UInt32 {
@@ -1157,7 +1157,7 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2Protocol)
     }
     
     public enum Flags: UInt32 {
@@ -1217,7 +1217,7 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
     }
 }
 
-public let KdeOutputDeviceV2 = Protocol(
+public let KdeOutputDeviceV2Protocol = Protocol(
         name: "kde_output_device_v2",
         interfaces: [
             KdeOutputDeviceRegistryV2.interface,

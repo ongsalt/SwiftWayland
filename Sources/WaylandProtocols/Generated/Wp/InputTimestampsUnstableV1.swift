@@ -150,7 +150,7 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -225,7 +225,7 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -271,7 +271,7 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
     }
 }
 
-public let InputTimestampsUnstableV1 = Protocol(
+public let InputTimestampsUnstableV1Protocol = Protocol(
         name: "input_timestamps_unstable_v1",
         interfaces: [
             ZwpInputTimestampsManagerV1.interface,

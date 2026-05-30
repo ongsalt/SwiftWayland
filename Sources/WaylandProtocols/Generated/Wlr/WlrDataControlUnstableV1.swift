@@ -92,7 +92,7 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -241,7 +241,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -410,7 +410,7 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -540,7 +540,7 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -576,7 +576,7 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
     }
 }
 
-public let WlrDataControlUnstableV1 = Protocol(
+public let WlrDataControlUnstableV1Protocol = Protocol(
         name: "wlr_data_control_unstable_v1",
         interfaces: [
             ZwlrDataControlManagerV1.interface,

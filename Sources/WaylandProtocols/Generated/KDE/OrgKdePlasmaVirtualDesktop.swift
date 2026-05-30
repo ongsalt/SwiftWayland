@@ -138,7 +138,7 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: OrgKdePlasmaVirtualDesktop)
+        CRuntimeInfo.shared.addIfNotExists(protocol: OrgKdePlasmaVirtualDesktopProtocol)
     }
     
     public enum Event: Decodable {
@@ -295,7 +295,7 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: OrgKdePlasmaVirtualDesktop)
+        CRuntimeInfo.shared.addIfNotExists(protocol: OrgKdePlasmaVirtualDesktopProtocol)
     }
     
     public enum Event: Decodable {
@@ -370,7 +370,7 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
     }
 }
 
-public let OrgKdePlasmaVirtualDesktop = Protocol(
+public let OrgKdePlasmaVirtualDesktopProtocol = Protocol(
         name: "org_kde_plasma_virtual_desktop",
         interfaces: [
             OrgKdePlasmaVirtualDesktopManagement.interface,

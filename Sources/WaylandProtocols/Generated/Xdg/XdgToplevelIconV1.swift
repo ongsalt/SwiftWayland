@@ -120,7 +120,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelIconV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelIconV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -289,7 +289,7 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelIconV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelIconV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -321,7 +321,7 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let XdgToplevelIconV1 = Protocol(
+public let XdgToplevelIconV1Protocol = Protocol(
         name: "xdg_toplevel_icon_v1",
         interfaces: [
             XdgToplevelIconManagerV1.interface,

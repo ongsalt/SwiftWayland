@@ -73,7 +73,7 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrExportDmabufUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrExportDmabufUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -239,7 +239,7 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrExportDmabufUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrExportDmabufUnstableV1Protocol)
     }
     
     public enum Flags: UInt32 {
@@ -333,7 +333,7 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
     }
 }
 
-public let WlrExportDmabufUnstableV1 = Protocol(
+public let WlrExportDmabufUnstableV1Protocol = Protocol(
         name: "wlr_export_dmabuf_unstable_v1",
         interfaces: [
             ZwlrExportDmabufManagerV1.interface,

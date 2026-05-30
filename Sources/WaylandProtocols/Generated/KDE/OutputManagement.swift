@@ -74,7 +74,7 @@ public final class KdeOutputmanagement: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Outputmanagement)
+        CRuntimeInfo.shared.addIfNotExists(protocol: OutputmanagementProtocol)
     }
     
     public typealias Event = NoEvent
@@ -446,7 +446,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Outputmanagement)
+        CRuntimeInfo.shared.addIfNotExists(protocol: OutputmanagementProtocol)
     }
     
     public enum VrrPolicy: UInt32 {
@@ -497,7 +497,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
     }
 }
 
-public let Outputmanagement = Protocol(
+public let OutputmanagementProtocol = Protocol(
         name: "outputmanagement",
         interfaces: [
             KdeOutputmanagement.interface,

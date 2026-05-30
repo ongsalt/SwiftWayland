@@ -198,7 +198,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1Protocol)
     }
     
     public enum Capability: UInt32 {
@@ -304,7 +304,7 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1Protocol)
     }
     
     public enum Event: Decodable {
@@ -350,7 +350,7 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
     }
 }
 
-public let FullscreenShellUnstableV1 = Protocol(
+public let FullscreenShellUnstableV1Protocol = Protocol(
         name: "fullscreen_shell_unstable_v1",
         interfaces: [
             ZwpFullscreenShellV1.interface,

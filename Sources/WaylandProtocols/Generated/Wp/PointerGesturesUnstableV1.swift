@@ -147,7 +147,7 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .release
@@ -269,7 +269,7 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -436,7 +436,7 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -588,7 +588,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -637,7 +637,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
     }
 }
 
-public let PointerGesturesUnstableV1 = Protocol(
+public let PointerGesturesUnstableV1Protocol = Protocol(
         name: "pointer_gestures_unstable_v1",
         interfaces: [
             ZwpPointerGesturesV1.interface,

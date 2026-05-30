@@ -100,7 +100,7 @@ public final class WpPresentation: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTime)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTimeProtocol)
     }
     
     public enum Error: UInt32 {
@@ -241,7 +241,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTime)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTimeProtocol)
     }
     
     public struct Kind: OptionSet, @unchecked Sendable {
@@ -333,7 +333,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
     }
 }
 
-public let PresentationTime = Protocol(
+public let PresentationTimeProtocol = Protocol(
         name: "presentation_time",
         interfaces: [
             WpPresentation.interface,

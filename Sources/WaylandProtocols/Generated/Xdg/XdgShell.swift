@@ -139,7 +139,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
     }
     
     public enum Error: UInt32 {
@@ -538,7 +538,7 @@ public final class XdgPositioner: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
     }
     
     public enum Error: UInt32 {
@@ -893,7 +893,7 @@ public final class XdgSurface: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
     }
     
     public enum Error: UInt32 {
@@ -1557,7 +1557,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
     }
     
     public enum Error: UInt32 {
@@ -1932,7 +1932,7 @@ public final class XdgPopup: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
     }
     
     public enum Error: UInt32 {
@@ -2008,7 +2008,7 @@ public final class XdgPopup: BaseProxy, Proxy {
     }
 }
 
-public let XdgShell = Protocol(
+public let XdgShellProtocol = Protocol(
         name: "xdg_shell",
         interfaces: [
             XdgWmBase.interface,

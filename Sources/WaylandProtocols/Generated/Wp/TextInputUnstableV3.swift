@@ -493,7 +493,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3)
+        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3Protocol)
     }
     
     public enum ChangeCause: UInt32 {
@@ -869,7 +869,7 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3)
+        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -890,7 +890,7 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let TextInputUnstableV3 = Protocol(
+public let TextInputUnstableV3Protocol = Protocol(
         name: "text_input_unstable_v3",
         interfaces: [
             ZwpTextInputV3.interface,

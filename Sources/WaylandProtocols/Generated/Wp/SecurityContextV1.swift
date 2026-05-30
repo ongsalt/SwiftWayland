@@ -97,7 +97,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -273,7 +273,7 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -305,7 +305,7 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let SecurityContextV1 = Protocol(
+public let SecurityContextV1Protocol = Protocol(
         name: "security_context_v1",
         interfaces: [
             WpSecurityContextManagerV1.interface,

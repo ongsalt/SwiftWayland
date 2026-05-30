@@ -86,7 +86,7 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -190,7 +190,7 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -222,7 +222,7 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let CommitTimingV1 = Protocol(
+public let CommitTimingV1Protocol = Protocol(
         name: "commit_timing_v1",
         interfaces: [
             WpCommitTimingManagerV1.interface,

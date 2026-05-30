@@ -353,7 +353,7 @@ public final class KdeFakeInput: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FakeInput)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FakeInputProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -374,7 +374,7 @@ public final class KdeFakeInput: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let FakeInput = Protocol(
+public let FakeInputProtocol = Protocol(
         name: "fake_input",
         interfaces: [
             KdeFakeInput.interface

@@ -296,7 +296,7 @@ public final class ZwlrVirtualPointerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrVirtualPointerUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrVirtualPointerUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -432,7 +432,7 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrVirtualPointerUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrVirtualPointerUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -453,7 +453,7 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let WlrVirtualPointerUnstableV1 = Protocol(
+public let WlrVirtualPointerUnstableV1Protocol = Protocol(
         name: "wlr_virtual_pointer_unstable_v1",
         interfaces: [
             ZwlrVirtualPointerV1.interface,

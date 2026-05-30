@@ -63,7 +63,7 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -250,7 +250,7 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -442,7 +442,7 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -495,7 +495,7 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
     }
 }
 
-public let ExtSessionLockV1 = Protocol(
+public let ExtSessionLockV1Protocol = Protocol(
         name: "ext_session_lock_v1",
         interfaces: [
             ExtSessionLockManagerV1.interface,

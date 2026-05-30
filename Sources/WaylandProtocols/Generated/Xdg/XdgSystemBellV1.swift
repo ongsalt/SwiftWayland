@@ -70,7 +70,7 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgSystemBellV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgSystemBellV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -91,7 +91,7 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let XdgSystemBellV1 = Protocol(
+public let XdgSystemBellV1Protocol = Protocol(
         name: "xdg_system_bell_v1",
         interfaces: [
             XdgSystemBellV1.interface

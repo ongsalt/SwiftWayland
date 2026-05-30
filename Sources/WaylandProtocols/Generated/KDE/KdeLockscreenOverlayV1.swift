@@ -63,7 +63,7 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeLockscreenOverlayV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeLockscreenOverlayV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -89,7 +89,7 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let KdeLockscreenOverlayV1 = Protocol(
+public let KdeLockscreenOverlayV1Protocol = Protocol(
         name: "kde_lockscreen_overlay_v1",
         interfaces: [
             KdeLockscreenOverlayV1.interface

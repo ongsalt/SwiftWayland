@@ -44,7 +44,7 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: SurfaceExtension)
+        CRuntimeInfo.shared.addIfNotExists(protocol: SurfaceExtensionProtocol)
     }
     
     public typealias Event = NoEvent
@@ -172,7 +172,7 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: SurfaceExtension)
+        CRuntimeInfo.shared.addIfNotExists(protocol: SurfaceExtensionProtocol)
     }
     
     public enum Orientation: UInt32 {
@@ -217,7 +217,7 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
     }
 }
 
-public let SurfaceExtension = Protocol(
+public let SurfaceExtensionProtocol = Protocol(
         name: "surface_extension",
         interfaces: [
             QtSurfaceExtension.interface,

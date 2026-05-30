@@ -63,7 +63,7 @@ public final class KdeBlurManager: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Blur)
+        CRuntimeInfo.shared.addIfNotExists(protocol: BlurProtocol)
     }
     
     public typealias Event = NoEvent
@@ -129,7 +129,7 @@ public final class KdeBlur: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Blur)
+        CRuntimeInfo.shared.addIfNotExists(protocol: BlurProtocol)
     }
     
     var destructor: Destructor? = .release
@@ -150,7 +150,7 @@ public final class KdeBlur: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let Blur = Protocol(
+public let BlurProtocol = Protocol(
         name: "blur",
         interfaces: [
             KdeBlurManager.interface,

@@ -69,7 +69,7 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrGammaControlUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrGammaControlUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -172,7 +172,7 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrGammaControlUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrGammaControlUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -226,7 +226,7 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
     }
 }
 
-public let WlrGammaControlUnstableV1 = Protocol(
+public let WlrGammaControlUnstableV1Protocol = Protocol(
         name: "wlr_gamma_control_unstable_v1",
         interfaces: [
             ZwlrGammaControlManagerV1.interface,

@@ -75,7 +75,7 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -171,7 +171,7 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -197,7 +197,7 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let AlphaModifierV1 = Protocol(
+public let AlphaModifierV1Protocol = Protocol(
         name: "alpha_modifier_v1",
         interfaces: [
             WpAlphaModifierV1.interface,

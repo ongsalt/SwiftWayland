@@ -78,7 +78,7 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
     }
     
     public enum Error: UInt32 {
@@ -176,7 +176,7 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -244,7 +244,7 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -351,7 +351,7 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
     }
     
     public enum Error: UInt32 {
@@ -394,7 +394,7 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
     }
 }
 
-public let XdgForeignUnstableV2 = Protocol(
+public let XdgForeignUnstableV2Protocol = Protocol(
         name: "xdg_foreign_unstable_v2",
         interfaces: [
             ZxdgExporterV2.interface,

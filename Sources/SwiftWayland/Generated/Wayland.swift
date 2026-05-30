@@ -109,7 +109,7 @@ public final class WlDisplay: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -233,7 +233,7 @@ public final class WlRegistry: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Event: Decodable {
@@ -300,7 +300,7 @@ public final class WlCallback: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Event: Decodable {
@@ -387,7 +387,7 @@ public final class WlCompositor: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public typealias Event = NoEvent
@@ -529,7 +529,7 @@ public final class WlShmPool: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -643,7 +643,7 @@ public final class WlShm: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -1102,7 +1102,7 @@ public final class WlBuffer: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -1374,7 +1374,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -1612,7 +1612,7 @@ public final class WlDataSource: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -1951,7 +1951,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -2146,7 +2146,7 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public struct DndAction: OptionSet, @unchecked Sendable {
@@ -2230,7 +2230,7 @@ public final class WlShell: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -2667,7 +2667,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public struct Resize: OptionSet, @unchecked Sendable {
@@ -3378,7 +3378,7 @@ public final class WlSurface: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -3623,7 +3623,7 @@ public final class WlSeat: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public struct Capability: OptionSet, @unchecked Sendable {
@@ -3991,7 +3991,7 @@ public final class WlPointer: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -4445,7 +4445,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum KeymapFormat: UInt32 {
@@ -4741,7 +4741,7 @@ public final class WlTouch: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     var destructor: Destructor? = .release
@@ -5008,7 +5008,7 @@ public final class WlOutput: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Subpixel: UInt32 {
@@ -5340,7 +5340,7 @@ public final class WlRegion: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -5465,7 +5465,7 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -5719,7 +5719,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     public enum Error: UInt32 {
@@ -5808,7 +5808,7 @@ public final class WlFixes: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -5829,7 +5829,7 @@ public final class WlFixes: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let Wayland = Protocol(
+public let WaylandProtocol = Protocol(
         name: "wayland",
         interfaces: [
             WlDisplay.interface,

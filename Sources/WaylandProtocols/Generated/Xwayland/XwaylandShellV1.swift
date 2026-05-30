@@ -85,7 +85,7 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -194,7 +194,7 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -223,7 +223,7 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let XwaylandShellV1 = Protocol(
+public let XwaylandShellV1Protocol = Protocol(
         name: "xwayland_shell_v1",
         interfaces: [
             XwaylandShellV1.interface,

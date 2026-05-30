@@ -63,7 +63,7 @@ public final class KdeSlideManager: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Slide)
+        CRuntimeInfo.shared.addIfNotExists(protocol: SlideProtocol)
     }
     
     public typealias Event = NoEvent
@@ -152,7 +152,7 @@ public final class KdeSlide: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Slide)
+        CRuntimeInfo.shared.addIfNotExists(protocol: SlideProtocol)
     }
     
     public enum Location: UInt32 {
@@ -183,7 +183,7 @@ public final class KdeSlide: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let Slide = Protocol(
+public let SlideProtocol = Protocol(
         name: "slide",
         interfaces: [
             KdeSlideManager.interface,

@@ -74,7 +74,7 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -167,7 +167,7 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1Protocol)
     }
     
     public enum `Type`: UInt32 {
@@ -198,7 +198,7 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let ContentTypeV1 = Protocol(
+public let ContentTypeV1Protocol = Protocol(
         name: "content_type_v1",
         interfaces: [
             WpContentTypeManagerV1.interface,

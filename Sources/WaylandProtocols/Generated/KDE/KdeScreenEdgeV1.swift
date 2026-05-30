@@ -93,7 +93,7 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeScreenEdgeV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeScreenEdgeV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -212,7 +212,7 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeScreenEdgeV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: KdeScreenEdgeV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -233,7 +233,7 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let KdeScreenEdgeV1 = Protocol(
+public let KdeScreenEdgeV1Protocol = Protocol(
         name: "kde_screen_edge_v1",
         interfaces: [
             KdeScreenEdgeManagerV1.interface,

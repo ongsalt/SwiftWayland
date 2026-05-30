@@ -116,7 +116,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
     }
     
     public enum Event: Decodable {
@@ -261,7 +261,7 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -427,7 +427,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -502,7 +502,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -561,7 +561,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     }
 }
 
-public let DrmLeaseV1 = Protocol(
+public let DrmLeaseV1Protocol = Protocol(
         name: "drm_lease_v1",
         interfaces: [
             WpDrmLeaseDeviceV1.interface,

@@ -77,7 +77,7 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -170,7 +170,7 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -238,7 +238,7 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -344,7 +344,7 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -382,7 +382,7 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
     }
 }
 
-public let XdgForeignUnstableV1 = Protocol(
+public let XdgForeignUnstableV1Protocol = Protocol(
         name: "xdg_foreign_unstable_v1",
         interfaces: [
             ZxdgExporterV1.interface,

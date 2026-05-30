@@ -82,7 +82,7 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -197,7 +197,7 @@ public final class WpFifoV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -223,7 +223,7 @@ public final class WpFifoV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let FifoV1 = Protocol(
+public let FifoV1Protocol = Protocol(
         name: "fifo_v1",
         interfaces: [
             WpFifoManagerV1.interface,

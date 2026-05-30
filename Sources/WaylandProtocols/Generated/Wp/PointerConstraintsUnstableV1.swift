@@ -190,7 +190,7 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -342,7 +342,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -477,7 +477,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -525,7 +525,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     }
 }
 
-public let PointerConstraintsUnstableV1 = Protocol(
+public let PointerConstraintsUnstableV1Protocol = Protocol(
         name: "pointer_constraints_unstable_v1",
         interfaces: [
             ZwpPointerConstraintsV1.interface,

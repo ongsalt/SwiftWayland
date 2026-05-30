@@ -12,7 +12,7 @@ extension ProtocolDeclaration: Code {
         gen.add()
         gen.add(
             """
-            public let \(self.name.gravedIfNeeded) = Protocol(
+            public let \(self.name.gravedIfNeeded)Protocol = Protocol(
                     name: "\(self.protocol.name)",
                     interfaces: [
                         \(self.classes.map { "\($0.name).interface" }.joined(separator: ",\n"))
@@ -51,7 +51,7 @@ extension ClassDeclaration: Code {
 
                 @_spi(SwiftWaylandPrivate)
                 override public class func ensureLoaded() {
-                    CRuntimeInfo.shared.addIfNotExists(protocol: \(self.protocolName.gravedIfNeeded))
+                    CRuntimeInfo.shared.addIfNotExists(protocol: \(self.protocolName.gravedIfNeeded)Protocol)
                 }
 
                 """

@@ -74,7 +74,7 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FractionalScaleV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FractionalScaleV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -144,7 +144,7 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FractionalScaleV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: FractionalScaleV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -181,7 +181,7 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
     }
 }
 
-public let FractionalScaleV1 = Protocol(
+public let FractionalScaleV1Protocol = Protocol(
         name: "fractional_scale_v1",
         interfaces: [
             WpFractionalScaleManagerV1.interface,

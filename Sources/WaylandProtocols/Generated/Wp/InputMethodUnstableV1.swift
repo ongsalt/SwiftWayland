@@ -537,7 +537,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -636,7 +636,7 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1Protocol)
     }
     
     public enum Event: Decodable {
@@ -710,7 +710,7 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1Protocol)
     }
     
     public typealias Event = NoEvent
@@ -774,7 +774,7 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1Protocol)
     }
     
     public enum Position: UInt32 {
@@ -784,7 +784,7 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let InputMethodUnstableV1 = Protocol(
+public let InputMethodUnstableV1Protocol = Protocol(
         name: "input_method_unstable_v1",
         interfaces: [
             ZwpInputMethodContextV1.interface,

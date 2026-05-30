@@ -133,7 +133,7 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrScreencopyUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrScreencopyUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -347,7 +347,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrScreencopyUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrScreencopyUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -465,7 +465,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
     }
 }
 
-public let WlrScreencopyUnstableV1 = Protocol(
+public let WlrScreencopyUnstableV1Protocol = Protocol(
         name: "wlr_screencopy_unstable_v1",
         interfaces: [
             ZwlrScreencopyManagerV1.interface,

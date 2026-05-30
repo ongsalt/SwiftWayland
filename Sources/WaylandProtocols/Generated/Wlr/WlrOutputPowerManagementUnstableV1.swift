@@ -69,7 +69,7 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputPowerManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputPowerManagementUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -162,7 +162,7 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputPowerManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputPowerManagementUnstableV1Protocol)
     }
     
     public enum Mode: UInt32 {
@@ -229,7 +229,7 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
     }
 }
 
-public let WlrOutputPowerManagementUnstableV1 = Protocol(
+public let WlrOutputPowerManagementUnstableV1Protocol = Protocol(
         name: "wlr_output_power_management_unstable_v1",
         interfaces: [
             ZwlrOutputPowerManagerV1.interface,

@@ -79,7 +79,7 @@ public final class WpViewporter: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Viewporter)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ViewporterProtocol)
     }
     
     public enum Error: UInt32 {
@@ -266,7 +266,7 @@ public final class WpViewport: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Viewporter)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ViewporterProtocol)
     }
     
     public enum Error: UInt32 {
@@ -301,7 +301,7 @@ public final class WpViewport: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let Viewporter = Protocol(
+public let ViewporterProtocol = Protocol(
         name: "viewporter",
         interfaces: [
             WpViewporter.interface,

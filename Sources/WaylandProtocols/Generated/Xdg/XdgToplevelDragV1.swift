@@ -103,7 +103,7 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -211,7 +211,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -240,7 +240,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let XdgToplevelDragV1 = Protocol(
+public let XdgToplevelDragV1Protocol = Protocol(
         name: "xdg_toplevel_drag_v1",
         interfaces: [
             XdgToplevelDragManagerV1.interface,

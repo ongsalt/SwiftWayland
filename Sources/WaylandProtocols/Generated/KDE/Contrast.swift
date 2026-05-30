@@ -63,7 +63,7 @@ public final class KdeContrastManager: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Contrast)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ContrastProtocol)
     }
     
     public typealias Event = NoEvent
@@ -242,7 +242,7 @@ public final class KdeContrast: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: Contrast)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ContrastProtocol)
     }
     
     var destructor: Destructor? = .release
@@ -263,7 +263,7 @@ public final class KdeContrast: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let Contrast = Protocol(
+public let ContrastProtocol = Protocol(
         name: "contrast",
         interfaces: [
             KdeContrastManager.interface,

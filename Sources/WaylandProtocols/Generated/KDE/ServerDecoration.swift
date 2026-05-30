@@ -72,7 +72,7 @@ public final class KdeServerDecorationManager: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecoration)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationProtocol)
     }
     
     public enum Mode: UInt32 {
@@ -168,7 +168,7 @@ public final class KdeServerDecoration: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecoration)
+        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationProtocol)
     }
     
     public enum Mode: UInt32 {
@@ -224,7 +224,7 @@ public final class KdeServerDecoration: BaseProxy, Proxy {
     }
 }
 
-public let ServerDecoration = Protocol(
+public let ServerDecorationProtocol = Protocol(
         name: "server_decoration",
         interfaces: [
             KdeServerDecorationManager.interface,

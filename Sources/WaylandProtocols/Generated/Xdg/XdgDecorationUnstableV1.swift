@@ -101,7 +101,7 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDecorationUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDecorationUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -224,7 +224,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDecorationUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDecorationUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -286,7 +286,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
     }
 }
 
-public let XdgDecorationUnstableV1 = Protocol(
+public let XdgDecorationUnstableV1Protocol = Protocol(
         name: "xdg_decoration_unstable_v1",
         interfaces: [
             ZxdgDecorationManagerV1.interface,

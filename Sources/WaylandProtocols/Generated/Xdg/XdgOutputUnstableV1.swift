@@ -68,7 +68,7 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -180,7 +180,7 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -303,7 +303,7 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
     }
 }
 
-public let XdgOutputUnstableV1 = Protocol(
+public let XdgOutputUnstableV1Protocol = Protocol(
         name: "xdg_output_unstable_v1",
         interfaces: [
             ZxdgOutputManagerV1.interface,

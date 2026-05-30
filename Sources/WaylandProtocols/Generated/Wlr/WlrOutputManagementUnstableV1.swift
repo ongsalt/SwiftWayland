@@ -112,7 +112,7 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
     }
     
     public enum Event: Decodable {
@@ -340,7 +340,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
     }
     
     public enum AdaptiveSyncState: UInt32 {
@@ -630,7 +630,7 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
     }
     
     var destructor: Destructor? = .release
@@ -849,7 +849,7 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -1092,7 +1092,7 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -1118,7 +1118,7 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let WlrOutputManagementUnstableV1 = Protocol(
+public let WlrOutputManagementUnstableV1Protocol = Protocol(
         name: "wlr_output_management_unstable_v1",
         interfaces: [
             ZwlrOutputManagerV1.interface,

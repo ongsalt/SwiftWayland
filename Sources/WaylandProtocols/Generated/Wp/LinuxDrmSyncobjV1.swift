@@ -111,7 +111,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -176,7 +176,7 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1Protocol)
     }
     
     var destructor: Destructor? = .destroy
@@ -371,7 +371,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1)
+        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1Protocol)
     }
     
     public enum Error: UInt32 {
@@ -412,7 +412,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     public typealias Event = NoEvent
 }
 
-public let LinuxDrmSyncobjV1 = Protocol(
+public let LinuxDrmSyncobjV1Protocol = Protocol(
         name: "linux_drm_syncobj_v1",
         interfaces: [
             WpLinuxDrmSyncobjManagerV1.interface,
