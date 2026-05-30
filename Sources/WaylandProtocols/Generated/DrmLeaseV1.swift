@@ -90,9 +90,6 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     /// 
     /// Creates a lease request object.
     /// See the documentation for wp_drm_lease_request_v1 for details.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func createLeaseRequest(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseRequestV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpDrmLeaseRequestV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -116,10 +113,12 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
     }
+    
     public enum Event: Decodable {
         /// Open A Non-Master Fd For This Drm Node
         /// 
@@ -252,16 +251,18 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
     /// "withdrawn" event so that the server can release the resources
     /// associated with this connector offer. Neither existing lease requests
     /// nor leases will be affected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
     }
+    
     public enum Event: Decodable {
         /// Name
         /// 
@@ -397,10 +398,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     /// lease object, clients cannot expect an immediate response.
     /// Not requesting any connectors before submitting the lease request
     /// will raise the empty_lease error.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    public consuming func submit(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseV1 {
+    public func submit(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpDrmLeaseV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 1, [
@@ -409,10 +407,12 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
     }
+    
     public enum Error: UInt32 {
         /// requested a connector from a different lease device
         case wrongDevice = 0
@@ -475,16 +475,18 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     /// Upon destruction, the compositor should advertise the connector for
     /// leasing again by sending the connector event through the
     /// wp_drm_lease_device_v1 interface.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1)
     }
+    
     public enum Event: Decodable {
         /// Shares The Drm File Descriptor
         /// 

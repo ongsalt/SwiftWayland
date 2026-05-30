@@ -74,7 +74,7 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     /// Informs the server that the client will no longer be using this
     /// protocol object. Existing objects created by this object are not
     /// affected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -92,7 +92,6 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - keyboard: the wl_keyboard object for which to get timestamp events
-    ///   - queue: queue to associated with created objects
     public func getKeyboardTimestamps(keyboard: WlKeyboard, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpInputTimestampsV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -115,7 +114,6 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - pointer: the wl_pointer object for which to get timestamp events
-    ///   - queue: queue to associated with created objects
     public func getPointerTimestamps(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpInputTimestampsV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -138,7 +136,6 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - touch: the wl_touch object for which to get timestamp events
-    ///   - queue: queue to associated with created objects
     public func getTouchTimestamps(touch: WlTouch, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpInputTimestampsV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -149,10 +146,12 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Context Object For Input Timestamps
@@ -200,16 +199,18 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
     /// Informs the server that the client will no longer be using this
     /// protocol object. After the server processes the request, no more
     /// timestamp events will be emitted.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// High-Resolution Timestamp Event
         /// 

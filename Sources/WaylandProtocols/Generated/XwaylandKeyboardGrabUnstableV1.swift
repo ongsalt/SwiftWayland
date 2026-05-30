@@ -46,7 +46,7 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     /// Destroy The Keyboard Grab Manager
     /// 
     /// Destroy the keyboard grab manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -74,7 +74,6 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     ///   - surface: surface to report keyboard events to
     ///   - seat: the seat for which the keyboard should be grabbed
-    ///   - queue: queue to associated with created objects
     public func grabKeyboard(surface: WlSurface, seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpXwaylandKeyboardGrabV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpXwaylandKeyboardGrabV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -86,10 +85,12 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandKeyboardGrabUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Interface For Grabbing The Keyboard
@@ -117,16 +118,18 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     /// 
     /// Destroy the grabbed keyboard object. If applicable, the compositor
     /// will ungrab the keyboard.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandKeyboardGrabUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 

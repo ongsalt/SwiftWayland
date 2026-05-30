@@ -51,7 +51,7 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     /// Informs the server that the client will no longer be using
     /// this protocol object. Existing objects created by this object
     /// are not affected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -68,7 +68,6 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     /// performing wl_surface.attach operations should use this protocol.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getFifo(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpFifoV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpFifoV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -79,10 +78,12 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1)
     }
+    
     public enum Error: UInt32 {
         /// fifo manager already exists for surface
         case alreadyExists = 0
@@ -170,16 +171,18 @@ public final class WpFifoV1: BaseProxy, Proxy {
     /// this protocol object.
     /// Surface state changes previously made by this protocol are
     /// unaffected by this object's destruction.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1)
     }
+    
     public enum Error: UInt32 {
         /// the associated surface no longer exists
         case surfaceDestroyed = 0

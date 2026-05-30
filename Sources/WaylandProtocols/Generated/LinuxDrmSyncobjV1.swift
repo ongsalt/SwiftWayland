@@ -58,7 +58,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy this explicit synchronization factory object. Other objects
     /// shall not be affected by this request.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -78,7 +78,6 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: the surface
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new synchronization surface object id
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpLinuxDrmSyncobjSurfaceV1 {
@@ -98,7 +97,6 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - fd: drm_syncobj file descriptor
-    ///   - queue: queue to associated with created objects
     public func importTimeline(fd: FileHandle, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpLinuxDrmSyncobjTimelineV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpLinuxDrmSyncobjTimelineV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -109,10 +107,12 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1)
     }
+    
     public enum Error: UInt32 {
         /// the surface already has a synchronization object associated
         case surfaceExists = 0
@@ -150,16 +150,18 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     /// Destroy the synchronization object timeline. Other objects are not
     /// affected by this request, in particular timeline points set by
     /// set_acquire_point and set_release_point are not unset.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Per-Surface Explicit Synchronization
@@ -245,7 +247,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     /// set_release_point since the last commit may be discarded by the
     /// compositor. Any timeline point set by this object before the last
     /// commit will not be affected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -333,10 +335,12 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1)
     }
+    
     public enum Error: UInt32 {
         /// the associated wl_surface was destroyed
         case noSurface = 1

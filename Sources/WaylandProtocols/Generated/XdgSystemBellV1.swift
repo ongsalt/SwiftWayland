@@ -40,7 +40,7 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     /// Destroy The System Bell Object
     /// 
     /// Notify that the object will no longer be used.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -59,17 +59,19 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: associated surface
-    public func ring(surface: WlSurface) throws(WaylandProxyError) {
+    public func ring(surface: WlSurface? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
+            .object(surface?.id ?? 0),
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgSystemBellV1)
     }
+    
     public typealias Event = NoEvent
 }
 

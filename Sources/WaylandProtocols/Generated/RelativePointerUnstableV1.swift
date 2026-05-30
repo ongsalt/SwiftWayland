@@ -43,7 +43,7 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     /// 
     /// Used by the client to notify the server that it will no longer use this
     /// relative pointer manager object.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -55,7 +55,6 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     /// wp_relative_pointer interface for more details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getRelativePointer(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpRelativePointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpRelativePointerV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -66,10 +65,12 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: RelativePointerUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Relative Pointer Object
@@ -128,16 +129,18 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
     /// Release The Relative Pointer Object
     /// 
     /// 
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: RelativePointerUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Relative Pointer Motion
         /// 

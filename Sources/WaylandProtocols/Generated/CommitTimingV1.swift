@@ -59,7 +59,7 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     /// Informs the server that the client will no longer be using
     /// this protocol object. Existing objects created by this object
     /// are not affected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -72,7 +72,6 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     /// commit_timer_exists protocol error will be generated.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getTimer(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpCommitTimerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpCommitTimerV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -83,10 +82,12 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1)
     }
+    
     public enum Error: UInt32 {
         /// commit timer already exists for surface
         case commitTimerExists = 0
@@ -163,16 +164,18 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
     /// Informs the server that the client will no longer be using
     /// this protocol object.
     /// Existing timing constraints are not affected by the destruction.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1)
     }
+    
     public enum Error: UInt32 {
         /// timestamp contains an invalid value
         case invalidTimestamp = 0

@@ -64,7 +64,7 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy this toplevel tag manager object. This request has no other
     /// effects.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -115,10 +115,12 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelTagV1)
     }
+    
     public typealias Event = NoEvent
 }
 

@@ -72,7 +72,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the wp_color_representation_manager_v1 object. This does not
     /// affect any other objects in any way.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -87,7 +87,6 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     /// See the wp_color_representation_surface_v1 interface for more details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorRepresentationSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorRepresentationSurfaceV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -98,10 +97,12 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorRepresentationV1)
     }
+    
     public enum Error: UInt32 {
         /// color representation surface exists already
         case surfaceExists = 1
@@ -114,7 +115,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         /// for each alpha mode the compositor supports.
         /// For the definition of the supported values, see the
         /// wp_color_representation_surface_v1::alpha_mode enum.
-        case supportedAlphaMode(alphaMode: UInt32)
+        case supportedAlphaMode(alphaMode: WpColorRepresentationSurfaceV1.AlphaMode)
 
         /// Supported Matrix Coefficients And Ranges
         /// 
@@ -124,7 +125,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         /// For the definition of the supported values, see the
         /// wp_color_representation_surface_v1::coefficients and
         /// wp_color_representation_surface_v1::range enums.
-        case supportedCoefficientsAndRanges(coefficients: UInt32, range: UInt32)
+        case supportedCoefficientsAndRanges(coefficients: WpColorRepresentationSurfaceV1.Coefficients, range: WpColorRepresentationSurfaceV1.Range)
 
         /// All Features Have Been Sent
         /// 
@@ -134,9 +135,9 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.supportedAlphaMode(alphaMode: r.uint())
+                self = Self.supportedAlphaMode(alphaMode: try _parseEnum(into: WpColorRepresentationSurfaceV1.AlphaMode.self, r.uint()))
             case 1:
-                self = Self.supportedCoefficientsAndRanges(coefficients: r.uint(), range: r.uint())
+                self = Self.supportedCoefficientsAndRanges(coefficients: try _parseEnum(into: WpColorRepresentationSurfaceV1.Coefficients.self, r.uint()), range: try _parseEnum(into: WpColorRepresentationSurfaceV1.Range.self, r.uint()))
             case 2:
                 self = Self.done
             default:
@@ -212,7 +213,7 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// description for how a compositor handles a surface without color
     /// representation metadata. Unsetting is double-buffered state, see
     /// wl_surface.commit.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -231,10 +232,10 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - alphaMode: alpha mode
-    public func setAlphaMode(alphaMode: UInt32) throws(WaylandProxyError) {
+    public func setAlphaMode(alphaMode: AlphaMode) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .uint(alphaMode),
+            .uint(alphaMode.rawValue),
         ])
     }
 
@@ -264,11 +265,11 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// - Parameters:
     ///   - coefficients: matrix coefficients
     ///   - range: range
-    public func setCoefficientsAndRange(coefficients: UInt32, range: UInt32) throws(WaylandProxyError) {
+    public func setCoefficientsAndRange(coefficients: Coefficients, range: Range) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .uint(coefficients),
-            .uint(range),
+            .uint(coefficients.rawValue),
+            .uint(range.rawValue),
         ])
     }
 
@@ -289,17 +290,19 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - chromaLocation: chroma sample location
-    public func setChromaLocation(chromaLocation: UInt32) throws(WaylandProxyError) {
+    public func setChromaLocation(chromaLocation: ChromaLocation) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .uint(chromaLocation),
+            .uint(chromaLocation.rawValue),
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorRepresentationV1)
     }
+    
     public enum Error: UInt32 {
         /// unsupported alpha mode
         case alphaMode = 1

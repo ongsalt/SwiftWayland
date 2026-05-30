@@ -95,7 +95,7 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     /// 
     /// Used by the client to notify the server that it will no longer use this
     /// pointer constraints object.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -137,16 +137,15 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     ///   - pointer: the pointer that should be locked
     ///   - region: region of surface
     ///   - lifetime: lock lifetime
-    ///   - queue: queue to associated with created objects
-    public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLockedPointerV1 {
+    public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion? = nil, lifetime: Lifetime, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLockedPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpLockedPointerV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 1, [
             .object(id.id),
             .object(surface.id),
             .object(pointer.id),
-            .object(region.id),
-            .uint(lifetime),
+            .object(region?.id ?? 0),
+            .uint(lifetime.rawValue),
         ])
         return id
     }
@@ -174,24 +173,25 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     ///   - pointer: the pointer that should be confined
     ///   - region: region of surface
     ///   - lifetime: confinement lifetime
-    ///   - queue: queue to associated with created objects
-    public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion, lifetime: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpConfinedPointerV1 {
+    public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion? = nil, lifetime: Lifetime, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpConfinedPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpConfinedPointerV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 2, [
             .object(id.id),
             .object(surface.id),
             .object(pointer.id),
-            .object(region.id),
-            .uint(lifetime),
+            .object(region?.id ?? 0),
+            .uint(lifetime.rawValue),
         ])
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
     }
+    
     public enum Error: UInt32 {
         /// pointer constraint already requested on that surface
         case alreadyConstrained = 1
@@ -279,7 +279,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the locked pointer object. If applicable, the compositor will
     /// unlock the pointer.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -315,17 +315,19 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - region: region of surface
-    public func setRegion(region: WlRegion) throws(WaylandProxyError) {
+    public func setRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(region.id),
+            .object(region?.id ?? 0),
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Lock Activation Event
         /// 
@@ -411,7 +413,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the confined pointer object. If applicable, the compositor will
     /// unconfine the pointer.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -432,17 +434,19 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - region: region of surface
-    public func setRegion(region: WlRegion) throws(WaylandProxyError) {
+    public func setRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(region.id),
+            .object(region?.id ?? 0),
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Pointer Confined
         /// 

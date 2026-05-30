@@ -138,7 +138,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     /// 
     /// Objects created through this interface, especially wl_buffers, will
     /// remain valid.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -150,9 +150,6 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     /// a single batch to create a wl_buffer. It can only be used once and
     /// should be destroyed after a 'created' or 'failed' event has been
     /// received.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: id for the newly created zwp_linux_buffer_params_v1
     public func createParams(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxBufferParamsV1 {
@@ -170,9 +167,6 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     /// to a particular surface. This object will deliver feedback about dmabuf
     /// parameters to use if the client doesn't support per-surface feedback
     /// (see get_surface_feedback).
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getDefaultFeedback(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxDmabufFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
@@ -192,7 +186,6 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     /// the feedback object becomes inert.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getSurfaceFeedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxDmabufFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
@@ -204,10 +197,12 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDmabufV1)
     }
+    
     public enum Event: Decodable {
         /// Supported Buffer Format
         /// 
@@ -397,7 +392,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     /// 
     /// Cleans up the temporary data sent to the server for dmabuf-based
     /// wl_buffer creation.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -498,13 +493,13 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     ///   - height: base plane height in pixels
     ///   - format: DRM_FORMAT code
     ///   - flags: see enum flags
-    public func create(width: Int32, height: Int32, format: UInt32, flags: UInt32) throws(WaylandProxyError) {
+    public func create(width: Int32, height: Int32, format: UInt32, flags: Flags) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
             .int(width),
             .int(height),
             .uint(format),
-            .uint(flags),
+            .uint(flags.rawValue),
         ])
     }
 
@@ -536,10 +531,9 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     ///   - height: base plane height in pixels
     ///   - format: DRM_FORMAT code
     ///   - flags: see enum flags
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: id for the newly created wl_buffer
-    public func createImmed(width: Int32, height: Int32, format: UInt32, flags: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
+    public func createImmed(width: Int32, height: Int32, format: UInt32, flags: Flags, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let bufferId = connection.createProxy(type: WlBuffer.self, version: self.version, queue: _queue ?? self.queue)
@@ -548,7 +542,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
             .int(width),
             .int(height),
             .uint(format),
-            .uint(flags),
+            .uint(flags.rawValue),
         ])
         return bufferId
     }
@@ -576,10 +570,12 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDmabufV1)
     }
+    
     public enum Error: UInt32 {
         /// the zwp_linux_buffer_params_v1 object has already been used to create a wl_buffer
         case alreadyUsed = 0
@@ -609,15 +605,20 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         case invalidDevTSize = 8
     }
 
-    public enum Flags: UInt32 {
+    public struct Flags: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// contents are y-inverted
-        case yInvert = 1
+        static let yInvert: Flags = []
 
         /// content is interlaced
-        case interlaced = 2
+        static let interlaced = Flags(rawValue: 2)
 
         /// bottom field first
-        case bottomFirst = 4
+        static let bottomFirst = Flags(rawValue: 4)
     }
 
     public enum Event: Decodable {
@@ -756,20 +757,27 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
     /// 
     /// Using this request a client can tell the server that it is not going to
     /// use the zwp_linux_dmabuf_feedback_v1 object anymore.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDmabufV1)
     }
-    public enum TrancheFlags: UInt32 {
-        case scanout = 1
+    
+    public struct TrancheFlags: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
 
-        case sampling = 2
+        static let scanout: TrancheFlags = []
+
+        static let sampling = TrancheFlags(rawValue: 2)
     }
 
     public enum Event: Decodable {
@@ -882,7 +890,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         /// preference tranche, see the tranche_done event.
         /// With version 6 and above, the compositor must set at least one flag
         /// in each tranche.
-        case trancheFlags(flags: UInt32)
+        case trancheFlags(flags: TrancheFlags)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -899,7 +907,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
             case 5:
                 self = Self.trancheFormats(indices: r.array())
             case 6:
-                self = Self.trancheFlags(flags: r.uint())
+                self = Self.trancheFlags(flags: try _parseEnum(into: TrancheFlags.self, r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }

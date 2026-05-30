@@ -55,7 +55,7 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     /// Destroy this tearing control factory object. Other objects, including
     /// wp_tearing_control_v1 objects created by this factory, are not affected
     /// by this request.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -69,7 +69,6 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     /// associated, the tearing_control_exists protocol error is raised.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getTearingControl(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpTearingControlV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpTearingControlV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -80,10 +79,12 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: TearingControlV1)
     }
+    
     public enum Error: UInt32 {
         /// the surface already has a tearing object associated
         case tearingControlExists = 0
@@ -136,10 +137,10 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
     /// user preferences.
     /// 
     /// - Parameters:
-    public func setPresentationHint(hint: UInt32) throws(WaylandProxyError) {
+    public func setPresentationHint(hint: PresentationHint) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .uint(hint),
+            .uint(hint.rawValue),
         ])
     }
 
@@ -147,16 +148,18 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
     /// 
     /// Destroy this surface tearing object and revert the presentation hint to
     /// vsync. The change will be applied on the next wl_surface.commit.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: TearingControlV1)
     }
+    
     public enum PresentationHint: UInt32 {
         case vsync = 0
 

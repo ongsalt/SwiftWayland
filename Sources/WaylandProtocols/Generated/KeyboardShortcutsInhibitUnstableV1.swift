@@ -46,7 +46,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     /// Destroy The Keyboard Shortcuts Inhibitor Object
     /// 
     /// Destroy the keyboard shortcuts inhibitor manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -62,7 +62,6 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     ///   - surface: the surface that inhibits the keyboard shortcuts behavior
     ///   - seat: the wl_seat for which keyboard shortcuts should be disabled
-    ///   - queue: queue to associated with created objects
     public func inhibitShortcuts(surface: WlSurface, seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpKeyboardShortcutsInhibitorV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpKeyboardShortcutsInhibitorV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -74,10 +73,12 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: KeyboardShortcutsInhibitUnstableV1)
     }
+    
     public enum Error: UInt32 {
         /// the shortcuts are already inhibited for this surface
         case alreadyInhibited = 0
@@ -146,16 +147,18 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
     /// Destroy The Keyboard Shortcuts Inhibitor Object
     /// 
     /// Remove the keyboard shortcuts inhibitor from the associated wl_surface.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: KeyboardShortcutsInhibitUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Shortcuts Are Inhibited
         /// 

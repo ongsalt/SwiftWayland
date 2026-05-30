@@ -108,7 +108,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     /// This destroys the server-side object and frees this binding.  If
     /// the client binds to wl_fullscreen_shell multiple times, it may wish
     /// to free some of those bindings.
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -135,12 +135,12 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     /// error.
     /// 
     /// - Parameters:
-    public func presentSurface(surface: WlSurface, method: UInt32, output: WlOutput) throws(WaylandProxyError) {
+    public func presentSurface(surface: WlSurface? = nil, method: PresentMethod, output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
-            .uint(method),
-            .object(output.id),
+            .object(surface?.id ?? 0),
+            .uint(method.rawValue),
+            .object(output?.id ?? 0),
         ])
     }
 
@@ -182,7 +182,6 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     /// error.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpFullscreenShellModeFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let feedback = connection.createProxy(type: ZwpFullscreenShellModeFeedbackV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -195,10 +194,12 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         return feedback
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1)
     }
+    
     public enum Capability: UInt32 {
         /// compositor is capable of almost any output mode
         case arbitraryModes = 1
@@ -242,12 +243,12 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         /// advantage of any of these capabilities, they should use a
         /// wl_display.sync request immediately after binding to ensure that they
         /// receive all the capability events.
-        case capability(capability: UInt32)
+        case capability(capability: Capability)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.capability(capability: r.uint())
+                self = Self.capability(capability: try _parseEnum(into: Capability.self, r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -284,10 +285,12 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
                 ),
                 ],
         )
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Mode Switch Succeeded
         /// 

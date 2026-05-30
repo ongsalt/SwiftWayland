@@ -43,7 +43,7 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     /// 
     /// Notify the compositor that the xdg_exporter object will no longer be
     /// used.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -61,7 +61,6 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: the surface to export
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new xdg_exported object
     public func export(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgExportedV1 {
@@ -74,10 +73,12 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Interface For Importing Surfaces
@@ -121,7 +122,7 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     /// 
     /// Notify the compositor that the xdg_importer object will no longer be
     /// used.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -137,7 +138,6 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - handle: the exported surface handle
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new xdg_imported object
     public func `import`(handle: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgImportedV1 {
@@ -150,10 +150,12 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// An Exported Surface Handle
@@ -194,16 +196,18 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
     /// Revoke the previously exported surface. This invalidates any
     /// relationship the importer may have set up using the xdg_imported created
     /// given the handle sent via xdg_exported.handle.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// The Exported Surface Handle
         /// 
@@ -266,7 +270,7 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
     /// Notify the compositor that it will no longer use the xdg_imported
     /// object. Any relationship that may have been set up will at this point
     /// be invalidated.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -288,10 +292,12 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// The Imported Surface Handle Has Been Destroyed
         /// 

@@ -71,7 +71,7 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     /// Destroy this xdg_toplevel_drag_manager_v1 object. Other objects,
     /// including xdg_toplevel_drag_v1 objects created by this factory, are not
     /// affected by this request.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -89,7 +89,6 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     /// xdg_toplevel_drag is undefined.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getXdgToplevelDrag(dataSource: WlDataSource, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevelDragV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgToplevelDragV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -100,10 +99,12 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1)
     }
+    
     public enum Error: UInt32 {
         /// data_source already used for toplevel drag
         case invalidSource = 0
@@ -156,7 +157,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
     /// called after the underlying wl_data_source drag has ended, as indicated
     /// by the dnd_drop_performed or cancelled events. In any other case an
     /// ongoing_drag error is raised.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -190,10 +191,12 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1)
     }
+    
     public enum Error: UInt32 {
         /// valid toplevel already attached
         case toplevelAttached = 0

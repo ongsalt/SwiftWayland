@@ -50,7 +50,7 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     /// 
     /// Destroys the xdg_wm_dialog_v1 object. This does not affect
     /// the xdg_dialog_v1 objects generated through it.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -64,7 +64,6 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     /// create multiple xdg_dialog_v1 objects for the same xdg_toplevel.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getXdgDialog(toplevel: XdgToplevel, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgDialogV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgDialogV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -75,10 +74,12 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1)
     }
+    
     public enum Error: UInt32 {
         /// the xdg_toplevel object has already been used to create a xdg_dialog_v1
         case alreadyUsed = 0
@@ -129,7 +130,7 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     /// Destroys the xdg_dialog_v1 object. If this object is destroyed
     /// before the related xdg_toplevel, the compositor should unapply its
     /// effects.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -162,10 +163,12 @@ public final class XdgDialogV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1)
     }
+    
     public typealias Event = NoEvent
 }
 

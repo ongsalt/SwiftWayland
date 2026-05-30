@@ -255,7 +255,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// 
     /// Destroy the wp_text_input object. Also disables all surfaces enabled
     /// through this wp_text_input object.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -353,10 +353,10 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// The initial value of cause is input_method.
     /// 
     /// - Parameters:
-    public func setTextChangeCause(cause: UInt32) throws(WaylandProxyError) {
+    public func setTextChangeCause(cause: ChangeCause) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .uint(cause),
+            .uint(cause.rawValue),
         ])
     }
 
@@ -373,11 +373,11 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// is normal.
     /// 
     /// - Parameters:
-    public func setContentType(hint: UInt32, purpose: UInt32) throws(WaylandProxyError) {
+    public func setContentType(hint: ContentHint, purpose: ContentPurpose) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
-            .uint(hint),
-            .uint(purpose),
+            .uint(hint.rawValue),
+            .uint(purpose.rawValue),
         ])
     }
 
@@ -489,10 +489,12 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3)
     }
+    
     public enum ChangeCause: UInt32 {
         /// input method caused the change
         case inputMethod = 0
@@ -501,48 +503,53 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         case other = 1
     }
 
-    public enum ContentHint: UInt32 {
+    public struct ContentHint: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// no special behavior
-        case `none` = 0
+        static let `none`: ContentHint = []
 
         /// suggest word completions
-        case completion = 1
+        static let completion = ContentHint(rawValue: 1)
 
         /// suggest word corrections
-        case spellcheck = 2
+        static let spellcheck = ContentHint(rawValue: 2)
 
         /// switch to uppercase letters at the start of a sentence
-        case autoCapitalization = 4
+        static let autoCapitalization = ContentHint(rawValue: 4)
 
         /// prefer lowercase letters
-        case lowercase = 8
+        static let lowercase = ContentHint(rawValue: 8)
 
         /// prefer uppercase letters
-        case uppercase = 16
+        static let uppercase = ContentHint(rawValue: 16)
 
         /// prefer casing for titles and headings (can be language dependent)
-        case titlecase = 32
+        static let titlecase = ContentHint(rawValue: 32)
 
         /// characters should be hidden
-        case hiddenText = 64
+        static let hiddenText = ContentHint(rawValue: 64)
 
         /// typed text should not be stored
-        case sensitiveData = 128
+        static let sensitiveData = ContentHint(rawValue: 128)
 
         /// just Latin characters should be entered
-        case latin = 256
+        static let latin = ContentHint(rawValue: 256)
 
         /// the text input is multiline
-        case multiline = 512
+        static let multiline = ContentHint(rawValue: 512)
 
         /// an on-screen way to fill in the input is already provided by the client
-        case onScreenInputProvided = 1024
+        static let onScreenInputProvided = ContentHint(rawValue: 1024)
 
         /// prefer not offering emoji support
-        case noEmoji = 2048
+        static let noEmoji = ContentHint(rawValue: 2048)
 
         /// the text input will display preedit text in place
-        case preeditShown = 4096
+        static let preeditShown = ContentHint(rawValue: 4096)
     }
 
     public enum ContentPurpose: UInt32 {
@@ -725,7 +732,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         /// Values set with this event are double-buffered. They must be applied
         /// and reset to initial on the next zwp_text_input_v3.done event.
         /// The initial value of action is none.
-        case action(action: UInt32, serial: UInt32)
+        case action(action: Action, serial: UInt32)
 
         /// Notify Of Language Selection
         /// 
@@ -754,7 +761,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         /// keep the preedit_shown content hint disabled.
         /// Values set with this event are double-buffered. They must be applied
         /// and reset on the next zwp_text_input_v3.done event.
-        case preeditHint(start: UInt32, end: UInt32, hint: UInt32)
+        case preeditHint(start: UInt32, end: UInt32, hint: PreeditHint)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -771,11 +778,11 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
             case 5:
                 self = Self.done(serial: r.uint())
             case 6:
-                self = Self.action(action: r.uint(), serial: r.uint())
+                self = Self.action(action: try _parseEnum(into: Action.self, r.uint()), serial: r.uint())
             case 7:
                 self = Self.language(language: r.string())
             case 8:
-                self = Self.preeditHint(start: r.uint(), end: r.uint(), hint: r.uint())
+                self = Self.preeditHint(start: r.uint(), end: r.uint(), hint: try _parseEnum(into: PreeditHint.self, r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -821,7 +828,7 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     /// Destroy The Wp_Text_Input_Manager
     /// 
     /// Destroy the wp_text_input_manager object.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -832,7 +839,6 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     /// Creates a new text-input object for a given seat.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getTextInput(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV3 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpTextInputV3.self, version: self.version, queue: _queue ?? self.queue)
@@ -843,10 +849,12 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3)
     }
+    
     public typealias Event = NoEvent
 }
 

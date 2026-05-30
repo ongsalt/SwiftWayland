@@ -43,7 +43,7 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     /// Using this request a client can tell the server that it is not
     /// going to use the xdg_output_manager object anymore.
     /// Any objects already created through this instance are not affected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -54,7 +54,6 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     /// This creates a new xdg_output object for the given wl_output.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getXdgOutput(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgOutputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgOutputV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -65,10 +64,12 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Compositor Logical Output Region
@@ -153,16 +154,18 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
     /// 
     /// Using this request a client can tell the server that it is not
     /// going to use the xdg_output object anymore.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Position Of The Output Within The Global Compositor Space
         /// 

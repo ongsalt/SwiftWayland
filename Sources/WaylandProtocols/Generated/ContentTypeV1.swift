@@ -47,7 +47,7 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the content type manager. This doesn't destroy objects created
     /// with the manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -60,7 +60,6 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     /// attached is a client error: already_constructed.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getSurfaceContentType(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpContentTypeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpContentTypeV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -71,10 +70,12 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1)
     }
+    
     public enum Error: UInt32 {
         /// wl_surface already has a content type object
         case alreadyConstructed = 0
@@ -122,7 +123,7 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     /// Switch back to not specifying the content type of this surface. This is
     /// equivalent to setting the content type to none, including double
     /// buffering semantics. See set_content_type for details.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -139,17 +140,19 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - contentType: the content type
-    public func setContentType(contentType: UInt32) throws(WaylandProxyError) {
+    public func setContentType(contentType: Type) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .uint(contentType),
+            .uint(contentType.rawValue),
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1)
     }
+    
     public enum `Type`: UInt32 {
         case `none` = 0
 

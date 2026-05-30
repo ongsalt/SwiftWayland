@@ -175,7 +175,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the wp_color_manager_v1 object. This does not affect any other
     /// objects in any way.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -188,7 +188,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// See the wp_color_management_output_v1 interface for more details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getOutput(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementOutputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorManagementOutputV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -208,7 +207,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// See the wp_color_management_surface_v1 interface for more details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorManagementSurfaceV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -227,7 +225,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getSurfaceFeedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementSurfaceFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpColorManagementSurfaceFeedbackV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -248,9 +245,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// wp_color_manager_v1.feature.icc_v2_v4.
     /// Otherwise this request raises the protocol error unsupported_feature.
     /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    /// 
     /// - Returns: the new creator object
     public func createIccCreator(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionCreatorIccV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -270,9 +264,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// This request can be used when the compositor advertises
     /// wp_color_manager_v1.feature.parametric.
     /// Otherwise this request raises the protocol error unsupported_feature.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new creator object
     public func createParametricCreator(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionCreatorParamsV1 {
@@ -321,9 +312,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// Otherwise this request raises the protocol error unsupported_feature.
     /// The resulting image description object does not allow get_information
     /// request. The wp_image_description_v1.ready event shall be sent.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func createWindowsScrgb(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -340,7 +328,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// creates the reference allows it.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getImageDescription(reference: WpImageDescriptionReferenceV1, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
@@ -372,9 +359,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// Otherwise this request raises the protocol error unsupported_feature.
     /// The resulting image description object does not allow get_information
     /// request. The wp_image_description_v1.ready event shall be sent.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func createWindowsBt2100(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
@@ -385,10 +369,12 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         return imageDescription
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Error: UInt32 {
         /// request not supported
         case unsupportedFeature = 0
@@ -502,7 +488,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         /// for each rendering intent the compositor supports.
         /// A compositor must not advertise intents that are deprecated in the
         /// bound version of the interface.
-        case supportedIntent(renderIntent: UInt32)
+        case supportedIntent(renderIntent: RenderIntent)
 
         /// Supported Features
         /// 
@@ -510,7 +496,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         /// for each compositor supported feature listed in the enumeration.
         /// A compositor must not advertise features that are deprecated in the
         /// bound version of the interface.
-        case supportedFeature(feature: UInt32)
+        case supportedFeature(feature: Feature)
 
         /// Supported Named Transfer Characteristic
         /// 
@@ -519,7 +505,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         /// parametric image description creator.
         /// A compositor must not advertise transfer functions that are deprecated
         /// in the bound version of the interface.
-        case supportedTfNamed(tf: UInt32)
+        case supportedTfNamed(tf: TransferFunction)
 
         /// Supported Named Primaries
         /// 
@@ -528,7 +514,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         /// parametric image description creator.
         /// A compositor must not advertise names that are deprecated in the
         /// bound version of the interface.
-        case supportedPrimariesNamed(primaries: UInt32)
+        case supportedPrimariesNamed(primaries: Primaries)
 
         /// All Features Have Been Sent
         /// 
@@ -539,13 +525,13 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.supportedIntent(renderIntent: r.uint())
+                self = Self.supportedIntent(renderIntent: try _parseEnum(into: RenderIntent.self, r.uint()))
             case 1:
-                self = Self.supportedFeature(feature: r.uint())
+                self = Self.supportedFeature(feature: try _parseEnum(into: Feature.self, r.uint()))
             case 2:
-                self = Self.supportedTfNamed(tf: r.uint())
+                self = Self.supportedTfNamed(tf: try _parseEnum(into: TransferFunction.self, r.uint()))
             case 3:
-                self = Self.supportedPrimariesNamed(primaries: r.uint())
+                self = Self.supportedPrimariesNamed(primaries: try _parseEnum(into: Primaries.self, r.uint()))
             case 4:
                 self = Self.done
             default:
@@ -599,7 +585,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     /// 
     /// Destroy the color wp_color_management_output_v1 object. This does not
     /// affect any remaining protocol objects.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -632,9 +618,6 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     /// description object shall immediately deliver the
     /// wp_image_description_v1.failed event with the low_version cause.
     /// Otherwise the object shall immediately deliver the ready event.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getImageDescription(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -644,10 +627,12 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
         return imageDescription
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Event: Decodable {
         /// Image Description Changed
         /// 
@@ -716,7 +701,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     /// 
     /// Destroy the wp_color_management_surface_v1 object and do the same as
     /// unset_image_description.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -758,11 +743,11 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - renderIntent: rendering intent
-    public func setImageDescription(imageDescription: WpImageDescriptionV1, renderIntent: UInt32) throws(WaylandProxyError) {
+    public func setImageDescription(imageDescription: WpImageDescriptionV1, renderIntent: WpColorManagerV1.RenderIntent) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .object(imageDescription.id),
-            .uint(renderIntent),
+            .uint(renderIntent.rawValue),
         ])
     }
 
@@ -779,10 +764,12 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Error: UInt32 {
         /// unsupported rendering intent
         case renderIntent = 0
@@ -866,7 +853,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     /// Destroy The Color Management Interface For A Surface
     /// 
     /// Destroy the wp_color_management_surface_feedback_v1 object.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -901,9 +888,6 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     /// description object shall immediately deliver the
     /// wp_image_description_v1.failed event with the low_version cause,
     /// otherwise the object shall immediately deliver the ready event.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getPreferred(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -920,9 +904,6 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     /// clients that can only deal with parametric image descriptions.
     /// If the compositor doesn't support parametric image descriptions, the
     /// unsupported_feature error is emitted.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getPreferredParametric(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -932,10 +913,12 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
         return imageDescription
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Error: UInt32 {
         /// forbidden request on inert object
         case inert = 0
@@ -1055,10 +1038,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
     /// This request destroys the wp_image_description_creator_icc_v1 object.
     /// The resulting image description object does not allow get_information
     /// request.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    public consuming func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
+    public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
@@ -1114,10 +1094,12 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Error: UInt32 {
         /// incomplete parameter set
         case incompleteSet = 0
@@ -1371,10 +1353,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// object.
     /// The resulting image description object does not allow get_information
     /// request.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    public consuming func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
+    public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
@@ -1397,10 +1376,10 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - tf: named transfer function
-    public func setTfNamed(tf: UInt32) throws(WaylandProxyError) {
+    public func setTfNamed(tf: WpColorManagerV1.TransferFunction) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .uint(tf),
+            .uint(tf.rawValue),
         ])
     }
 
@@ -1443,10 +1422,10 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - primaries: named primaries
-    public func setPrimariesNamed(primaries: UInt32) throws(WaylandProxyError) {
+    public func setPrimariesNamed(primaries: WpColorManagerV1.Primaries) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .uint(primaries),
+            .uint(primaries.rawValue),
         ])
     }
 
@@ -1673,10 +1652,12 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Error: UInt32 {
         /// incomplete parameter set
         case incompleteSet = 0
@@ -1789,7 +1770,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     /// Destroying a wp_image_description_v1 object has no side-effects, not
     /// even if a wp_color_management_surface_v1.set_image_description has not
     /// yet been followed by a wl_surface.commit.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -1803,9 +1784,6 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     /// request. Whether it is allowed or not is defined by the request that
     /// created the object. If get_information is not allowed, the protocol
     /// error no_information is raised.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getInformation(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionInfoV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let information = connection.createProxy(type: WpImageDescriptionInfoV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -1815,10 +1793,12 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         return information
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Error: UInt32 {
         /// attempted to use an object which is not ready
         case notReady = 0
@@ -1852,7 +1832,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         /// successfully formed.
         /// Once this event has been sent, the wp_image_description_v1 object will
         /// never become ready and it can only be destroyed.
-        case failed(cause: UInt32, msg: String)
+        case failed(cause: Cause, msg: String)
 
         /// The Object Is Ready To Be Used (32-Bit)
         /// 
@@ -1893,7 +1873,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.failed(cause: r.uint(), msg: r.string())
+                self = Self.failed(cause: try _parseEnum(into: Cause.self, r.uint()), msg: r.string())
             case 1:
                 self = Self.ready(identity: r.uint())
             case 2:
@@ -2105,10 +2085,12 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
                 ),
                 ],
         )
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public enum Event: Decodable {
         /// End Of Information
         /// 
@@ -2138,7 +2120,7 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
         /// 
         /// Delivers the primary color volume primaries and white point using an
         /// explicitly enumerated named set.
-        case primariesNamed(primaries: UInt32)
+        case primariesNamed(primaries: WpColorManagerV1.Primaries)
 
         /// Transfer Characteristic As A Power Curve
         /// 
@@ -2154,7 +2136,7 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
         /// 
         /// Delivers the transfer characteristic using an explicitly enumerated
         /// named function.
-        case tfNamed(tf: UInt32)
+        case tfNamed(tf: WpColorManagerV1.TransferFunction)
 
         /// Primary Color Volume Luminance Range And Reference White
         /// 
@@ -2217,11 +2199,11 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
             case 2:
                 self = Self.primaries(rX: r.int(), rY: r.int(), gX: r.int(), gY: r.int(), bX: r.int(), bY: r.int(), wX: r.int(), wY: r.int())
             case 3:
-                self = Self.primariesNamed(primaries: r.uint())
+                self = Self.primariesNamed(primaries: try _parseEnum(into: WpColorManagerV1.Primaries.self, r.uint()))
             case 4:
                 self = Self.tfPower(eexp: r.uint())
             case 5:
-                self = Self.tfNamed(tf: r.uint())
+                self = Self.tfNamed(tf: try _parseEnum(into: WpColorManagerV1.TransferFunction.self, r.uint()))
             case 6:
                 self = Self.luminances(minLum: r.uint(), maxLum: r.uint(), referenceLum: r.uint())
             case 7:
@@ -2267,16 +2249,18 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     /// 
     /// Destroy this object. This has no effect on the referenced image
     /// description.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
+    
     public typealias Event = NoEvent
 }
 

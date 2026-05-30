@@ -53,7 +53,7 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     /// 
     /// Destroy the xwayland_shell_v1 object.
     /// The child objects created via this interface are unaffected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -71,7 +71,6 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     /// about what an xwayland_surface_v1 is and how it is used.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getXwaylandSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XwaylandSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XwaylandSurfaceV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -82,10 +81,12 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1)
     }
+    
     public enum Error: UInt32 {
         /// given wl_surface has another role
         case role = 0
@@ -167,16 +168,18 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     /// 
     /// Destroy the xwayland_surface_v1 object.
     /// Any already existing associations are unaffected by this action.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1)
     }
+    
     public enum Error: UInt32 {
         /// given wl_surface is already associated with an X11 window
         case alreadyAssociated = 0

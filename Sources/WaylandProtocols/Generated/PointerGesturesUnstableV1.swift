@@ -89,7 +89,6 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     /// wl_pointer_gesture_swipe interface for details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getSwipeGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGestureSwipeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpPointerGestureSwipeV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -106,7 +105,6 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     /// wl_pointer_gesture_pinch interface for details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getPinchGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGesturePinchV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpPointerGesturePinchV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -121,7 +119,7 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     /// 
     /// Destroy the pointer gesture object. Swipe, pinch and hold objects
     /// created via this gesture object remain valid.
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 2, [
@@ -134,7 +132,6 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     /// wl_pointer_gesture_hold interface for details.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getHoldGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGestureHoldV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
@@ -146,10 +143,12 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// A Swipe Gesture Object
@@ -244,16 +243,18 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
     /// Destroy The Pointer Swipe Gesture Object
     /// 
     /// 
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Multi-Finger Swipe Begin
         /// 
@@ -393,16 +394,18 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
     /// Destroy The Pinch Gesture Object
     /// 
     /// 
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Multi-Finger Pinch Begin
         /// 
@@ -526,17 +529,19 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
     /// Destroy The Hold Gesture Object
     /// 
     /// 
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Multi-Finger Hold Begin
         /// 

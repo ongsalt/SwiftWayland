@@ -48,7 +48,7 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     /// 
     /// Destroy the alpha modifier manager. This doesn't destroy objects
     /// created with the manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -61,7 +61,6 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     /// the wl_surface, the already_constructed error will be raised.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpAlphaModifierSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpAlphaModifierSurfaceV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -72,10 +71,12 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1)
     }
+    
     public enum Error: UInt32 {
         /// wl_surface already has a alpha modifier object
         case alreadyConstructed = 0
@@ -123,7 +124,7 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
     /// This destroys the object, and is equivalent to set_multiplier with
     /// a value of UINT32_MAX, with the same double-buffered semantics as
     /// set_multiplier.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -150,10 +151,12 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1)
     }
+    
     public enum Error: UInt32 {
         /// wl_surface was destroyed
         case noSurface = 0

@@ -65,7 +65,7 @@ public final class WpPresentation: BaseProxy, Proxy {
     /// Informs the server that the client will no longer be using
     /// this protocol object. Existing objects created by this object
     /// are not affected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -83,7 +83,6 @@ public final class WpPresentation: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: target surface
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: new feedback object
     public func feedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpPresentationFeedback {
@@ -96,10 +95,12 @@ public final class WpPresentation: BaseProxy, Proxy {
         return callback
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTime)
     }
+    
     public enum Error: UInt32 {
         /// invalid value in tv_nsec
         case invalidTimestamp = 0
@@ -220,18 +221,25 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
                 ),
                 ],
         )
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTime)
     }
-    public enum Kind: UInt32 {
-        case vsync = 1
+    
+    public struct Kind: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
 
-        case hwClock = 2
+        static let vsync: Kind = []
 
-        case hwCompletion = 4
+        static let hwClock = Kind(rawValue: 2)
 
-        case zeroCopy = 8
+        static let hwCompletion = Kind(rawValue: 4)
+
+        static let zeroCopy = Kind(rawValue: 8)
     }
 
     public enum Event: Decodable {
@@ -286,7 +294,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         /// refresh cycle, or the output device is self-refreshing without
         /// a way to query the refresh count, then the arguments seq_hi
         /// and seq_lo must be zero.
-        case presented(tvSecHi: UInt32, tvSecLo: UInt32, tvNsec: UInt32, refresh: UInt32, seqHi: UInt32, seqLo: UInt32, flags: UInt32)
+        case presented(tvSecHi: UInt32, tvSecLo: UInt32, tvNsec: UInt32, refresh: UInt32, seqHi: UInt32, seqLo: UInt32, flags: Kind)
 
         /// The Content Update Was Not Displayed
         /// 
@@ -298,7 +306,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             case 0:
                 self = Self.syncOutput(output: r.object(type: WlOutput.self))
             case 1:
-                self = Self.presented(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint(), refresh: r.uint(), seqHi: r.uint(), seqLo: r.uint(), flags: r.uint())
+                self = Self.presented(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint(), refresh: r.uint(), seqHi: r.uint(), seqLo: r.uint(), flags: try _parseEnum(into: Kind.self, r.uint()))
             case 2:
                 self = Self.discarded
             default:

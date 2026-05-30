@@ -59,7 +59,7 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the decoration manager. This doesn't destroy objects created
     /// with the manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -87,7 +87,6 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     /// destroyed, the decoration mode is assumed to be client-side.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getToplevelDecoration(toplevel: XdgToplevel, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgToplevelDecorationV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZxdgToplevelDecorationV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -98,10 +97,12 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgDecorationUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Decoration Object For A Toplevel Surface
@@ -157,7 +158,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
     /// Switch back to a mode without any server-side decorations at the next
     /// commit, unless a new xdg_toplevel_decoration is created for the surface
     /// first.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -185,10 +186,10 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - mode: the decoration mode
-    public func setMode(mode: UInt32) throws(WaylandProxyError) {
+    public func setMode(mode: Mode) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .uint(mode),
+            .uint(mode.rawValue),
         ])
     }
 
@@ -203,10 +204,12 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgDecorationUnstableV1)
     }
+    
     public enum Error: UInt32 {
         /// xdg_toplevel has a buffer attached before configure
         case unconfiguredBuffer = 0
@@ -238,12 +241,12 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         /// xdg_surface.ack_configure for details.
         /// A configure event can be sent at any time. The specified mode must be
         /// obeyed by the client.
-        case configure(mode: UInt32)
+        case configure(mode: Mode)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.configure(mode: r.uint())
+                self = Self.configure(mode: try _parseEnum(into: Mode.self, r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }

@@ -306,7 +306,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
                 ),
                 ],
         )
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -455,9 +455,6 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
     /// key events to generate text events (with pre-edit) over the wire. This
     /// allows input methods which compose multiple key events for inputting
     /// text like it is done for CJK languages.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func grabKeyboard(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlKeyboard {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let keyboard = connection.createProxy(type: WlKeyboard.self, version: self.version, queue: _queue ?? self.queue)
@@ -536,10 +533,12 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Surrounding Text Event
         /// 
@@ -618,10 +617,12 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
                 ),
                 ],
         )
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Activate Event
         /// 
@@ -680,7 +681,6 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getInputPanelSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputPanelSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpInputPanelSurfaceV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -691,10 +691,12 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
@@ -753,10 +755,12 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
     }
+    
     public enum Position: UInt32 {
         case centerBottom = 0
     }

@@ -47,7 +47,7 @@ public final class WpViewporter: BaseProxy, Proxy {
     /// Informs the server that the client will not be using this
     /// protocol object anymore. This does not affect any other objects,
     /// wp_viewport objects included.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -62,7 +62,6 @@ public final class WpViewporter: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: the surface
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new viewport interface id
     public func getViewport(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpViewport {
@@ -75,10 +74,12 @@ public final class WpViewporter: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Viewporter)
     }
+    
     public enum Error: UInt32 {
         /// the surface already has a viewport object associated
         case viewportExists = 0
@@ -190,7 +191,7 @@ public final class WpViewport: BaseProxy, Proxy {
     /// 
     /// The associated wl_surface's crop and scale state is removed.
     /// The change is applied on the next wl_surface.commit.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -244,10 +245,12 @@ public final class WpViewport: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Viewporter)
     }
+    
     public enum Error: UInt32 {
         /// negative or zero values in width or height
         case badValue = 0

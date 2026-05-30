@@ -75,7 +75,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// Destroying a bound xdg_wm_base object while there are surfaces
     /// still alive created by this xdg_wm_base object instance is illegal
     /// and will result in a defunct_surfaces error.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -86,9 +86,6 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// Create a positioner object. A positioner object is used to position
     /// surfaces relative to some parent surface. See the interface description
     /// and xdg_surface.get_popup for details.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func createPositioner(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgPositioner {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgPositioner.self, version: self.version, queue: _queue ?? self.queue)
@@ -112,7 +109,6 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// xdg_surface is and how it is used.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getXdgSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgSurface.self, version: self.version, queue: _queue ?? self.queue)
@@ -138,10 +134,12 @@ public final class XdgWmBase: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
     }
+    
     public enum Error: UInt32 {
         /// given wl_surface has another role
         case role = 0
@@ -334,7 +332,7 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// Destroy The Xdg_Positioner Object
     /// 
     /// Notify the compositor that the xdg_positioner will no longer be used.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -395,10 +393,10 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - anchor: anchor point
-    public func setAnchor(anchor: UInt32) throws(WaylandProxyError) {
+    public func setAnchor(anchor: Anchor) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .uint(anchor),
+            .uint(anchor.rawValue),
         ])
     }
 
@@ -414,10 +412,10 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - gravity: gravity direction
-    public func setGravity(gravity: UInt32) throws(WaylandProxyError) {
+    public func setGravity(gravity: Gravity) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .uint(gravity),
+            .uint(gravity.rawValue),
         ])
     }
 
@@ -436,10 +434,10 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - constraintAdjustment: bit mask of constraint adjustments
-    public func setConstraintAdjustment(constraintAdjustment: UInt32) throws(WaylandProxyError) {
+    public func setConstraintAdjustment(constraintAdjustment: ConstraintAdjustment) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
-            .uint(constraintAdjustment),
+            .uint(constraintAdjustment.rawValue),
         ])
     }
 
@@ -519,10 +517,12 @@ public final class XdgPositioner: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
     }
+    
     public enum Error: UInt32 {
         /// invalid input provided
         case invalidInput = 0
@@ -568,20 +568,25 @@ public final class XdgPositioner: BaseProxy, Proxy {
         case bottomRight = 8
     }
 
-    public enum ConstraintAdjustment: UInt32 {
-        case `none` = 0
+    public struct ConstraintAdjustment: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
 
-        case slideX = 1
+        static let `none`: ConstraintAdjustment = []
 
-        case slideY = 2
+        static let slideX = ConstraintAdjustment(rawValue: 1)
 
-        case flipX = 4
+        static let slideY = ConstraintAdjustment(rawValue: 2)
 
-        case flipY = 8
+        static let flipX = ConstraintAdjustment(rawValue: 4)
 
-        case resizeX = 22
+        static let flipY = ConstraintAdjustment(rawValue: 8)
 
-        case resizeY = 50
+        static let resizeX = ConstraintAdjustment(rawValue: 22)
+
+        static let resizeY = ConstraintAdjustment(rawValue: 50)
     }
 
     public typealias Event = NoEvent
@@ -719,7 +724,7 @@ public final class XdgSurface: BaseProxy, Proxy {
     /// Destroy the xdg_surface object. An xdg_surface must only be destroyed
     /// after its role object has been destroyed, otherwise
     /// a defunct_role_object error is raised.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -731,9 +736,6 @@ public final class XdgSurface: BaseProxy, Proxy {
     /// the associated wl_surface the xdg_toplevel role.
     /// See the documentation of xdg_toplevel for more details about what an
     /// xdg_toplevel is and how it is used.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getToplevel(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevel {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgToplevel.self, version: self.version, queue: _queue ?? self.queue)
@@ -755,13 +757,12 @@ public final class XdgSurface: BaseProxy, Proxy {
     /// - Parameters:
     ///   - parent: parent surface for this popup
     ///   - positioner: positioner for this popup
-    ///   - queue: queue to associated with created objects
-    public func getPopup(parent: XdgSurface, positioner: XdgPositioner, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgPopup {
+    public func getPopup(parent: XdgSurface? = nil, positioner: XdgPositioner, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgPopup {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgPopup.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 2, [
             .object(id.id),
-            .object(parent.id),
+            .object(parent?.id ?? 0),
             .object(positioner.id),
         ])
         return id
@@ -855,10 +856,12 @@ public final class XdgSurface: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
     }
+    
     public enum Error: UInt32 {
         /// Surface was not fully constructed
         case notConstructed = 1
@@ -1133,7 +1136,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// 
     /// This request destroys the role surface and unmaps the surface;
     /// see "Unmapping" behavior in interface section for details.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -1160,10 +1163,10 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - parent: parent surface for this surface
-    public func setParent(parent: XdgToplevel) throws(WaylandProxyError) {
+    public func setParent(parent: XdgToplevel? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(parent.id),
+            .object(parent?.id ?? 0),
         ])
     }
 
@@ -1301,12 +1304,12 @@ public final class XdgToplevel: BaseProxy, Proxy {
     ///   - seat: the wl_seat of the user event
     ///   - serial: the serial of the user event
     ///   - edges: which edge or corner is being dragged
-    public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) throws(WaylandProxyError) {
+    public func resize(seat: WlSeat, serial: UInt32, edges: ResizeEdge) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 6, [
             .object(seat.id),
             .uint(serial),
-            .uint(edges),
+            .uint(edges.rawValue),
         ])
     }
 
@@ -1458,10 +1461,10 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - output: preferred output to place surface on
-    public func setFullscreen(output: WlOutput) throws(WaylandProxyError) {
+    public func setFullscreen(output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 11, [
-            .object(output.id),
+            .object(output?.id ?? 0),
         ])
     }
 
@@ -1501,10 +1504,12 @@ public final class XdgToplevel: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
     }
+    
     public enum Error: UInt32 {
         /// provided value is         not a valid variant of the resize_edge enum
         case invalidResizeEdge = 0
@@ -1776,7 +1781,7 @@ public final class XdgPopup: BaseProxy, Proxy {
     /// object will also dismiss the popup, and unmap the surface.
     /// If this xdg_popup is not the "topmost" popup, the
     /// xdg_wm_base.not_the_topmost_popup protocol error will be sent.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -1858,10 +1863,12 @@ public final class XdgPopup: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgShell)
     }
+    
     public enum Error: UInt32 {
         /// tried to grab after being mapped
         case invalidGrab = 0

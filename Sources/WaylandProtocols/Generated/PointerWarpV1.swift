@@ -62,7 +62,7 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     /// Destroy The Warp Manager
     /// 
     /// Destroy the pointer warp manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -95,10 +95,12 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerWarpV1)
     }
+    
     public typealias Event = NoEvent
 }
 

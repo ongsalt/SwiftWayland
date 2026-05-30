@@ -43,7 +43,7 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     /// Informs the server that the client will not be using this protocol
     /// object anymore. This does not affect any other objects,
     /// wp_fractional_scale_v1 objects included.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -58,7 +58,6 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: the surface
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new surface scale info interface id
     public func getFractionalScale(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpFractionalScaleV1 {
@@ -71,10 +70,12 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: FractionalScaleV1)
     }
+    
     public enum Error: UInt32 {
         /// the surface already has a fractional_scale object associated
         case fractionalScaleExists = 0
@@ -117,16 +118,18 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
     /// 
     /// Destroy the fractional scale object. When this object is destroyed,
     /// preferred_scale events will no longer be sent.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: FractionalScaleV1)
     }
+    
     public enum Event: Decodable {
         /// Notify Of New Preferred Scale
         /// 

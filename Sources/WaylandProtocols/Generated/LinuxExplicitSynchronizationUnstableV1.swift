@@ -56,7 +56,7 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     /// Destroy this explicit synchronization factory object. Other objects,
     /// including zwp_linux_surface_synchronization_v1 objects created by this
     /// factory, shall not be affected by this request.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -76,7 +76,6 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: the surface
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new synchronization interface id
     public func getSynchronization(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxSurfaceSynchronizationV1 {
@@ -89,10 +88,12 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1)
     }
+    
     public enum Error: UInt32 {
         /// the surface already has a synchronization object associated
         case synchronizationExists = 0
@@ -172,7 +173,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     /// before the last commit are not affected.
     /// zwp_linux_buffer_release_v1 objects created by this object are not
     /// affected by this request.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -223,9 +224,6 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     /// If at surface commit time there is no buffer attached, a NO_BUFFER
     /// error is raised.
     /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    /// 
     /// - Returns: new zwp_linux_buffer_release_v1 object
     public func getRelease(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxBufferReleaseV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -236,10 +234,12 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
         return release
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1)
     }
+    
     public enum Error: UInt32 {
         /// the fence specified by the client could not be imported
         case invalidFence = 0
@@ -305,10 +305,12 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
                 ),
                 ],
         )
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Release Buffer With Fence
         /// 

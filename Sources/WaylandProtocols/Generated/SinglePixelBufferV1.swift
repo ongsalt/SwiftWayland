@@ -54,7 +54,7 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the wp_single_pixel_buffer_manager_v1 object.
     /// The child objects created via this interface are unaffected.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -78,7 +78,6 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     ///   - g: value of the buffer's green channel
     ///   - b: value of the buffer's blue channel
     ///   - a: value of the buffer's alpha channel
-    ///   - queue: queue to associated with created objects
     public func createU32RgbaBuffer(r: UInt32, g: UInt32, b: UInt32, a: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlBuffer.self, version: self.version, queue: _queue ?? self.queue)
@@ -92,10 +91,12 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: SinglePixelBufferV1)
     }
+    
     public typealias Event = NoEvent
 }
 

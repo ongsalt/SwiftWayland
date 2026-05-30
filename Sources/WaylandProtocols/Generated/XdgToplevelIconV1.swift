@@ -67,7 +67,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the toplevel icon manager.
     /// This does not destroy objects created with the manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -77,9 +77,6 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     /// 
     /// Creates a new icon object. This icon can then be attached to a
     /// xdg_toplevel via the 'set_icon' request.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func createIcon(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevelIconV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: XdgToplevelIconV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -111,18 +108,20 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - toplevel: the toplevel to act on
-    public func setIcon(toplevel: XdgToplevel, icon: XdgToplevelIconV1) throws(WaylandProxyError) {
+    public func setIcon(toplevel: XdgToplevel, icon: XdgToplevelIconV1? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
             .object(toplevel.id),
-            .object(icon.id),
+            .object(icon?.id ?? 0),
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelIconV1)
     }
+    
     public enum Event: Decodable {
         /// Describes A Supported & Preferred Icon Size
         /// 
@@ -210,7 +209,7 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
     /// Destroys the 'xdg_toplevel_icon_v1' object.
     /// The icon must still remain set on every toplevel it was assigned to,
     /// until the toplevel icon is reset explicitly.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -270,10 +269,12 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelIconV1)
     }
+    
     public enum Error: UInt32 {
         /// the provided buffer does not satisfy requirements
         case invalidBuffer = 1

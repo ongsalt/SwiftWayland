@@ -54,9 +54,6 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     /// Create A New Primary Selection Source
     /// 
     /// Create a new primary selection source.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func createSource(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPrimarySelectionSourceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpPrimarySelectionSourceV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -71,7 +68,6 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     /// Create a new data device for a given seat.
     /// 
     /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func getDevice(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPrimarySelectionDeviceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpPrimarySelectionDeviceV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -85,16 +81,18 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     /// Destroy The Primary Selection Device Manager
     /// 
     /// Destroy the primary selection device manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
@@ -157,10 +155,10 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - serial: serial of the event that triggered this request
-    public func setSelection(source: ZwpPrimarySelectionSourceV1, serial: UInt32) throws(WaylandProxyError) {
+    public func setSelection(source: ZwpPrimarySelectionSourceV1? = nil, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(source.id),
+            .object(source?.id ?? 0),
             .uint(serial),
         ])
     }
@@ -168,16 +166,18 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     /// Destroy The Primary Selection Device
     /// 
     /// Destroy the primary selection device.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Introduce A New Wp_Primary_Selection_Offer
         /// 
@@ -282,16 +282,18 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
     /// Destroy The Primary Selection Offer
     /// 
     /// Destroy the primary selection offer.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Advertise Offered Mime Type
         /// 
@@ -377,16 +379,18 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
     /// Destroy The Primary Selection Source
     /// 
     /// Destroy the primary selection source.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
+    
     public enum Event: Decodable {
         /// Send The Primary Selection Contents
         /// 

@@ -418,11 +418,11 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
     /// should be assumed.
     /// 
     /// - Parameters:
-    public func setContentType(hint: UInt32, purpose: UInt32) throws(WaylandProxyError) {
+    public func setContentType(hint: ContentHint, purpose: ContentPurpose) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 6, [
-            .uint(hint),
-            .uint(purpose),
+            .uint(hint.rawValue),
+            .uint(purpose.rawValue),
         ])
     }
 
@@ -475,49 +475,56 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV1)
     }
-    public enum ContentHint: UInt32 {
+    
+    public struct ContentHint: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// no special behaviour
-        case `none` = 0
+        static let `none`: ContentHint = []
 
         /// auto completion, correction and capitalization
-        case `default` = 7
+        static let `default` = ContentHint(rawValue: 7)
 
         /// hidden and sensitive text
-        case password = 192
+        static let password = ContentHint(rawValue: 192)
 
         /// suggest word completions
-        case autoCompletion = 1
+        static let autoCompletion = ContentHint(rawValue: 1)
 
         /// suggest word corrections
-        case autoCorrection = 2
+        static let autoCorrection = ContentHint(rawValue: 2)
 
         /// switch to uppercase letters at the start of a sentence
-        case autoCapitalization = 4
+        static let autoCapitalization = ContentHint(rawValue: 4)
 
         /// prefer lowercase letters
-        case lowercase = 8
+        static let lowercase = ContentHint(rawValue: 8)
 
         /// prefer uppercase letters
-        case uppercase = 16
+        static let uppercase = ContentHint(rawValue: 16)
 
         /// prefer casing for titles and headings (can be language dependent)
-        case titlecase = 32
+        static let titlecase = ContentHint(rawValue: 32)
 
         /// characters should be hidden
-        case hiddenText = 64
+        static let hiddenText = ContentHint(rawValue: 64)
 
         /// typed text should not be stored
-        case sensitiveData = 128
+        static let sensitiveData = ContentHint(rawValue: 128)
 
         /// just latin characters should be entered
-        case latin = 256
+        static let latin = ContentHint(rawValue: 256)
 
         /// the text input is multiline
-        case multiline = 512
+        static let multiline = ContentHint(rawValue: 512)
     }
 
     public enum ContentPurpose: UInt32 {
@@ -637,7 +644,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         /// be applied to a composing text by sending multiple preedit_styling
         /// events.
         /// This event is handled as part of a following preedit_string event.
-        case preeditStyling(index: UInt32, length: UInt32, style: UInt32)
+        case preeditStyling(index: UInt32, length: UInt32, style: PreeditStyle)
 
         /// Pre-Edit Cursor
         /// 
@@ -696,7 +703,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         /// It is mainly needed for showing an input cursor on the correct side of
         /// the editor when there is no input done yet and making sure neutral
         /// direction text is laid out properly.
-        case textDirection(serial: UInt32, direction: UInt32)
+        case textDirection(serial: UInt32, direction: TextDirection)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -711,7 +718,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
             case 4:
                 self = Self.preeditString(serial: r.uint(), text: r.string(), commit: r.string())
             case 5:
-                self = Self.preeditStyling(index: r.uint(), length: r.uint(), style: r.uint())
+                self = Self.preeditStyling(index: r.uint(), length: r.uint(), style: try _parseEnum(into: PreeditStyle.self, r.uint()))
             case 6:
                 self = Self.preeditCursor(index: r.int())
             case 7:
@@ -725,7 +732,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
             case 11:
                 self = Self.language(serial: r.uint(), language: r.string())
             case 12:
-                self = Self.textDirection(serial: r.uint(), direction: r.uint())
+                self = Self.textDirection(serial: r.uint(), direction: try _parseEnum(into: TextDirection.self, r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -760,9 +767,6 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
     /// Create Text Input
     /// 
     /// Creates a new text_input object.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     public func createTextInput(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpTextInputV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -772,10 +776,12 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 

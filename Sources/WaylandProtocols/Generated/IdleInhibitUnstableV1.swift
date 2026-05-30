@@ -51,7 +51,7 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     /// Destroy The Idle Inhibitor Object
     /// 
     /// Destroy the inhibit manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -63,7 +63,6 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: the surface that inhibits the idle behavior
-    ///   - queue: queue to associated with created objects
     public func createInhibitor(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpIdleInhibitorV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: ZwpIdleInhibitorV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -74,10 +73,12 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: IdleInhibitUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 /// Context Object For Inhibiting Idle Behavior
@@ -114,16 +115,18 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
     /// Destroy The Idle Inhibitor Object
     /// 
     /// Remove the inhibitor effect from the associated wl_surface.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: IdleInhibitUnstableV1)
     }
+    
     public typealias Event = NoEvent
 }
 

@@ -59,7 +59,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     /// 
     /// Destroy the manager. This doesn't destroy objects created with the
     /// manager.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -82,7 +82,6 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     ///   - listenFd: listening socket FD
     ///   - closeFd: FD signaling when done
-    ///   - queue: queue to associated with created objects
     public func createListener(listenFd: FileHandle, closeFd: FileHandle, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpSecurityContextV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WpSecurityContextV1.self, version: self.version, queue: _queue ?? self.queue)
@@ -94,10 +93,12 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1)
     }
+    
     public enum Error: UInt32 {
         /// listening socket FD is invalid
         case invalidListenFd = 1
@@ -171,7 +172,7 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     /// Destroy The Security Context Object
     /// 
     /// Destroy the security context object.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -252,10 +253,12 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1)
     }
+    
     public enum Error: UInt32 {
         /// security context has already been committed
         case alreadyUsed = 1
