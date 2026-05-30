@@ -44,6 +44,7 @@ struct EventDeclaration {
     var name: String
     var description: Description?
     var arguments: [WaylandArgumentDeclaration]
+    var isDestructor: Bool = false
 }
 
 struct ArgumentDeclaration {
@@ -59,6 +60,7 @@ struct WaylandArgumentDeclaration {
     var name: String
     var waylandType: Primitive
     var swiftType: String
+    var nullable: Bool = false
     // do this have since field
 }
 

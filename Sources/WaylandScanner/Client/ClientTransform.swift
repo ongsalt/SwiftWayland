@@ -38,7 +38,7 @@ public func transform(
                         continue
                     }
 
-                    let swiftType: String =
+                    let baseType: String =
                         switch arg.type {
                         case .string: "String"
                         case .array: "Data"
@@ -52,6 +52,7 @@ public func transform(
                         // TODO: bare proxy maybe
                         // case .newId: (arg.interface?.camel) ?? "any Proxy"
                         }
+                    let swiftType = arg.nullable ? "\(baseType)?" : baseType
 
                     let decl = ArgumentDeclaration(
                         name: arg.name.lowerCamel,
@@ -63,6 +64,15 @@ public func transform(
                         returns.append(decl)
                     } else {
                         arguments.append(decl)
+                    }
+                }
+
+                // setFoo(foo:) → setFoo(_:): suppress external label when method == "set" + argName
+                if arguments.count == 1 {
+                    let methodLower = request.name.lowercased().replacingOccurrences(of: "_", with: "")
+                    let argLower = arguments[0].name.lowercased()
+                    if methodLower == "set" + argLower {
+                        arguments[0].externalName = "_"
                     }
                 }
 
@@ -82,7 +92,8 @@ public func transform(
                     WaylandArgumentDeclaration(
                         name: arg.name.lowerCamel,
                         waylandType: arg.type,
-                        swiftType: "__ignored"
+                        swiftType: "__ignored",
+                        nullable: arg.nullable
                     )
                 }
 
@@ -125,7 +136,7 @@ public func transform(
                     name: event.name.lowerCamel,
                     description: event.description,
                     arguments: event.arguments.map { arg in
-                        let swiftType: String =
+                        let baseType: String =
                             switch arg.type {
                             case .string: "String"
                             case .array: "Data"
@@ -134,17 +145,19 @@ public func transform(
                             case .uint: "UInt32"
                             case .fixed: "Double"
                             case .enum: arg.enum!.camel
-                            // TODO: fix this
-                            case .object: arg.interface?.camel ?? "any Proxy"  // nullable when its wl_display.error
+                            case .object: arg.interface?.camel ?? "any Proxy"
                             case .newId: arg.interface!.camel
                             }
+                        let swiftType = arg.nullable ? "\(baseType)?" : baseType
 
                         return WaylandArgumentDeclaration(
                             name: arg.name.lowerCamel,
                             waylandType: arg.type,
-                            swiftType: swiftType,  // for object/newId
+                            swiftType: swiftType,
+                            nullable: arg.nullable
                         )
-                    }
+                    },
+                    isDestructor: event.type == .destructor
                 )
             }
     )

@@ -72,6 +72,12 @@ extension ClassDeclaration: Code {
                     }
                     gen.add("}")
                     gen.add("self._finishStream = { continuation.finish() }")
+                    let destructorOpcodes = self.events.enumerated()
+                        .filter { $1.isDestructor }
+                        .map { String($0.offset) }
+                    if !destructorOpcodes.isEmpty {
+                        gen.add("self._destructorOpcodes = [\(destructorOpcodes.joined(separator: ", "))]")
+                    }
                 }
                 gen.add("}")
             }
@@ -203,8 +209,17 @@ extension MethodDeclaration: Code {
                 for arg in self.messageArguments {
                     switch arg.waylandType {
                     case .object, .newId:
-                        gen.add(
-                            ".object(\(arg.name.gravedIfNeeded).id),")
+                        if arg.nullable {
+                            gen.add(".nullableObject(\(arg.name.gravedIfNeeded)?.id),")
+                        } else {
+                            gen.add(".object(\(arg.name.gravedIfNeeded).id),")
+                        }
+                    case .string:
+                        if arg.nullable {
+                            gen.add(".nullableString(\(arg.name.gravedIfNeeded)),")
+                        } else {
+                            gen.add(".string(\(arg.name.gravedIfNeeded)),")
+                        }
                     case .enum:
                         gen.add(
                             ".\(arg.waylandType)(\(arg.name.gravedIfNeeded).rawValue),"
@@ -243,16 +258,30 @@ extension MethodDeclaration: Code {
 
 extension EnumDeclaration: Code {
     func generate(_ gen: Generator) {
-        gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
-        gen.indent {
-            for (index, c) in self.cases.enumerated() {
-                gen.walk(node: c)
-                if index != self.cases.count - 1 {
-                    gen.add()
+        if bitfield {
+            gen.add("public struct \(self.name.gravedIfNeeded): OptionSet, Sendable {")
+            gen.indent {
+                gen.add("public let rawValue: UInt32")
+                gen.add("public init(rawValue: UInt32) { self.rawValue = rawValue }")
+                gen.add()
+                for c in self.cases {
+                    if let summary = c.summary { gen.add(docc: summary) }
+                    gen.add("public static let \(c.name.gravedIfNeeded) = Self(rawValue: \(c.value))")
                 }
             }
+            gen.add("}")
+        } else {
+            gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
+            gen.indent {
+                for (index, c) in self.cases.enumerated() {
+                    gen.walk(node: c)
+                    if index != self.cases.count - 1 {
+                        gen.add()
+                    }
+                }
+            }
+            gen.add("}")
         }
-        gen.add("}")
     }
 }
 
@@ -323,20 +352,21 @@ extension Array: Code where Element == EventDeclaration {
 
 private func getArgDecodingExpr(_ arg: WaylandArgumentDeclaration) -> String {
     switch arg.waylandType {
-    case .int: "r.int()"
-    case .uint: "r.uint()"
-    case .fixed: "r.fixed()"
-    case .string: "r.string()"
-    case .fd: "r.fd()"
-    case .enum: "r.uint()"
+    case .int: return "r.int()"
+    case .uint: return "r.uint()"
+    case .fixed: return "r.fixed()"
+    case .string: return arg.nullable ? "r.optionalString()" : "r.string()"
+    case .fd: return "r.fd()"
+    case .enum: return "r.uint()"
     case .object:
-        if arg.swiftType == "any Proxy" {
-            "r.object()"
+        if arg.nullable {
+            let baseType = arg.swiftType.hasSuffix("?") ? String(arg.swiftType.dropLast()) : arg.swiftType
+            return baseType == "any Proxy" ? "r.optionalObject()" : "r.optionalObject(type: \(baseType).self)"
         } else {
-            "r.object(type: \(arg.swiftType).self)"
+            return arg.swiftType == "any Proxy" ? "r.object()" : "r.object(type: \(arg.swiftType).self)"
         }
-    case .newId: "r.newId(type: \(arg.swiftType).self)"
-    case .array: "r.array()"
+    case .newId: return "r.newId(type: \(arg.swiftType).self)"
+    case .array: return "r.array()"
     }
 }
 

@@ -12,6 +12,8 @@ public enum Arg {
     case `enum`(UInt32)
     case object(UInt32)
     case newId(UInt32)
+    case nullableObject(UInt32?)
+    case nullableString(String?)
 }
 
 private func put(_ string: String, into data: inout Data) {

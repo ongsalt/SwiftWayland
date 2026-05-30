@@ -44,6 +44,11 @@ class CArgumentReader: ArgumentReader {
         String(cString: consume().s)
     }
 
+    func optionalString() -> String? {
+        guard let ptr = consume().s else { return nil }
+        return String(cString: ptr)
+    }
+
     func object() -> any Proxy {
         Unmanaged<AnyObject>.fromOpaque(
             wl_proxy_get_user_data(consume().o!)
@@ -52,6 +57,17 @@ class CArgumentReader: ArgumentReader {
 
     func object<P>(type: P.Type) -> P where P: Proxy {
         object() as! P
+    }
+
+    func optionalObject() -> (any Proxy)? {
+        guard let o = consume().o else { return nil }
+        return Unmanaged<AnyObject>.fromOpaque(
+            wl_proxy_get_user_data(o)
+        ).takeUnretainedValue() as? any Proxy
+    }
+
+    func optionalObject<P: Proxy>(type: P.Type) -> P? {
+        optionalObject() as? P
     }
 
     func newId<P>(type t: P.Type) -> P where P: Proxy {

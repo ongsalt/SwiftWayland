@@ -47,6 +47,8 @@ open class BaseProxy {
     package var _emitEvent: ((Any) -> Void)?
     /// Called by the generated subclass to finish the stream on teardown.
     package var _finishStream: (() -> Void)?
+    /// Opcodes that trigger proxy destruction when the server sends them.
+    package var _destructorOpcodes: Set<UInt32> = []
 
     public required init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection) {
         self.id = id
@@ -98,9 +100,12 @@ public protocol ArgumentReader {
     func fd() -> FileHandle
     func array() -> Data
     func string() -> String
+    func optionalString() -> String?
 
     func object() -> any Proxy
     func object<P: Proxy>(type: P.Type) -> P
+    func optionalObject() -> (any Proxy)?
+    func optionalObject<P: Proxy>(type: P.Type) -> P?
     func newId<P: Proxy>(type: P.Type) -> P  // version???
 }
 

@@ -23,6 +23,9 @@ extension Proxy {
             let event = try Self.Event.init(from: CArgumentReader(args), opcode: opcode)
             self.onEvent?(event)
             (self as? BaseProxy)?._emitEvent?(event)
+            if (self as? BaseProxy)?._destructorOpcodes.contains(opcode) == true {
+                self.connection.destroy(proxy: self)
+            }
         } catch {
             print(error)
         }
