@@ -77,7 +77,6 @@ public final class WlDisplay: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - callback: callback object for the sync request
-    ///   - queue: queue to associated with created objects
     public func sync(callback: @escaping (UInt32) -> Void, queue _queue: EventQueue? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue ?? self.queue)
@@ -96,9 +95,6 @@ public final class WlDisplay: BaseProxy, Proxy {
     /// client disconnects, not when the client side proxy is destroyed.
     /// Therefore, clients should invoke get_registry as infrequently as
     /// possible to avoid wasting memory.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: global registry object
     public func getRegistry(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlRegistry {
@@ -364,9 +360,6 @@ public final class WlCompositor: BaseProxy, Proxy {
     /// 
     /// Ask the compositor to create a new surface.
     /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    /// 
     /// - Returns: the new surface
     public func createSurface(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -380,9 +373,6 @@ public final class WlCompositor: BaseProxy, Proxy {
     /// Create New Region
     /// 
     /// Ask the compositor to create a new region.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new region
     public func createRegion(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlRegion {
@@ -486,10 +476,9 @@ public final class WlShmPool: BaseProxy, Proxy {
     ///   - height: buffer height, in pixels
     ///   - stride: number of bytes from the beginning of one row to the beginning of the next row
     ///   - format: buffer pixel format
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: buffer to create
-    public func createBuffer(offset: Int32, width: Int32, height: Int32, stride: Int32, format: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
+    public func createBuffer(offset: Int32, width: Int32, height: Int32, stride: Int32, format: WlShm.Format, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.createProxy(type: WlBuffer.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
@@ -498,7 +487,7 @@ public final class WlShmPool: BaseProxy, Proxy {
             .int(width),
             .int(height),
             .int(stride),
-            .uint(format),
+            .uint(format.rawValue),
         ])
         return id
     }
@@ -609,7 +598,6 @@ public final class WlShm: BaseProxy, Proxy {
     /// - Parameters:
     ///   - fd: file descriptor for the pool
     ///   - size: pool size, in bytes
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: pool to create
     public func createPool(fd: FileHandle, size: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlShmPool {
@@ -1017,12 +1005,12 @@ public final class WlShm: BaseProxy, Proxy {
         /// Informs the client about a valid pixel format that
         /// can be used for buffers. Known formats include
         /// argb8888 and xrgb8888.
-        case format(format: UInt32)
+        case format(format: Format)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.format(format: r.uint())
+                self = Self.format(format: try Format._parseEnum(r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -1325,12 +1313,12 @@ public final class WlDataOffer: BaseProxy, Proxy {
     /// - Parameters:
     ///   - dndActions: actions supported by the destination client
     ///   - preferredAction: action preferred by the destination client
-    public func setActions(dndActions: UInt32, preferredAction: UInt32) throws(WaylandProxyError) {
+    public func setActions(dndActions: WlDataDeviceManager.DndAction, preferredAction: WlDataDeviceManager.DndAction) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 4, [
-            .uint(dndActions),
-            .uint(preferredAction),
+            .uint(dndActions.rawValue),
+            .uint(preferredAction.rawValue),
         ])
     }
 
@@ -1367,7 +1355,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
         /// will be sent immediately after creating the wl_data_offer object,
         /// or anytime the source side changes its offered actions through
         /// wl_data_source.set_actions.
-        case sourceActions(sourceActions: UInt32)
+        case sourceActions(sourceActions: WlDataDeviceManager.DndAction)
 
         /// Notify The Selected Action
         /// 
@@ -1400,16 +1388,16 @@ public final class WlDataOffer: BaseProxy, Proxy {
         /// user (e.g. popping up a menu with the available options). The
         /// final wl_data_offer.set_actions and wl_data_offer.accept requests
         /// must happen before the call to wl_data_offer.finish.
-        case action(dndAction: UInt32)
+        case action(dndAction: WlDataDeviceManager.DndAction)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.offer(mimeType: r.string())
             case 1:
-                self = Self.sourceActions(sourceActions: r.uint())
+                self = Self.sourceActions(sourceActions: try WlDataDeviceManager.DndAction._parseEnum(r.uint()))
             case 2:
-                self = Self.action(dndAction: r.uint())
+                self = Self.action(dndAction: try WlDataDeviceManager.DndAction._parseEnum(r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -1548,11 +1536,11 @@ public final class WlDataSource: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - dndActions: actions supported by the data source
-    public func setActions(dndActions: UInt32) throws(WaylandProxyError) {
+    public func setActions(dndActions: WlDataDeviceManager.DndAction) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 2, [
-            .uint(dndActions),
+            .uint(dndActions.rawValue),
         ])
     }
 
@@ -1648,7 +1636,7 @@ public final class WlDataSource: BaseProxy, Proxy {
         /// always be applied in wl_data_offer.dnd_finished.
         /// Clients can trigger cursor surface changes from this point, so
         /// they reflect the current action.
-        case action(dndAction: UInt32)
+        case action(dndAction: WlDataDeviceManager.DndAction)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -1663,7 +1651,7 @@ public final class WlDataSource: BaseProxy, Proxy {
             case 4:
                 self = Self.dndFinished
             case 5:
-                self = Self.action(dndAction: r.uint())
+                self = Self.action(dndAction: try WlDataDeviceManager.DndAction._parseEnum(r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -2031,9 +2019,6 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     /// 
     /// Create a new data source.
     /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    /// 
     /// - Returns: data source to create
     public func createDataSource(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlDataSource {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -2050,7 +2035,6 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - seat: seat associated with the data device
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: data device to create
     public func getDataDevice(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlDataDevice {
@@ -2130,7 +2114,6 @@ public final class WlShell: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - surface: surface to be given the shell surface role
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: shell surface to create
     public func getShellSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlShellSurface {
@@ -2398,12 +2381,12 @@ public final class WlShellSurface: BaseProxy, Proxy {
     ///   - seat: seat whose pointer is used
     ///   - serial: serial number of the implicit grab on the pointer
     ///   - edges: which edge or corner is being dragged
-    public func resize(seat: WlSeat, serial: UInt32, edges: UInt32) throws(WaylandProxyError) {
+    public func resize(seat: WlSeat, serial: UInt32, edges: Resize) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
             .object(seat.id),
             .uint(serial),
-            .uint(edges),
+            .uint(edges.rawValue),
         ])
     }
 
@@ -2430,13 +2413,13 @@ public final class WlShellSurface: BaseProxy, Proxy {
     ///   - x: surface-local x coordinate
     ///   - y: surface-local y coordinate
     ///   - flags: transient surface behavior
-    public func setTransient(parent: WlSurface, x: Int32, y: Int32, flags: UInt32) throws(WaylandProxyError) {
+    public func setTransient(parent: WlSurface, x: Int32, y: Int32, flags: Transient) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
             .object(parent.id),
             .int(x),
             .int(y),
-            .uint(flags),
+            .uint(flags.rawValue),
         ])
     }
 
@@ -2474,10 +2457,10 @@ public final class WlShellSurface: BaseProxy, Proxy {
     ///   - method: method for resolving size conflict
     ///   - framerate: framerate in mHz
     ///   - output: output on which the surface is to be fullscreen
-    public func setFullscreen(method: UInt32, framerate: UInt32, output: WlOutput? = nil) throws(WaylandProxyError) {
+    public func setFullscreen(method: FullscreenMethod, framerate: UInt32, output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
-            .uint(method),
+            .uint(method.rawValue),
             .uint(framerate),
             .object(output?.id ?? 0),
         ])
@@ -2508,7 +2491,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
     ///   - x: surface-local x coordinate
     ///   - y: surface-local y coordinate
     ///   - flags: transient surface behavior
-    public func setPopup(seat: WlSeat, serial: UInt32, parent: WlSurface, x: Int32, y: Int32, flags: UInt32) throws(WaylandProxyError) {
+    public func setPopup(seat: WlSeat, serial: UInt32, parent: WlSurface, x: Int32, y: Int32, flags: Transient) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 6, [
             .object(seat.id),
@@ -2516,7 +2499,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
             .object(parent.id),
             .int(x),
             .int(y),
-            .uint(flags),
+            .uint(flags.rawValue),
         ])
     }
 
@@ -2656,7 +2639,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         /// event it received.
         /// The width and height arguments specify the size of the window
         /// in surface-local coordinates.
-        case configure(edges: UInt32, width: Int32, height: Int32)
+        case configure(edges: Resize, width: Int32, height: Int32)
 
         /// Popup Interaction Is Done
         /// 
@@ -2670,7 +2653,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
             case 0:
                 self = Self.ping(serial: r.uint())
             case 1:
-                self = Self.configure(edges: r.uint(), width: r.int(), height: r.int())
+                self = Self.configure(edges: try Resize._parseEnum(r.uint()), width: r.int(), height: r.int())
             case 2:
                 self = Self.popupDone
             default:
@@ -3051,7 +3034,6 @@ public final class WlSurface: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - callback: callback object for the frame request
-    ///   - queue: queue to associated with created objects
     public func frame(callback: @escaping (UInt32) -> Void, queue _queue: EventQueue? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue ?? self.queue)
@@ -3347,7 +3329,7 @@ public final class WlSurface: BaseProxy, Proxy {
         /// Applying this transformation to the surface buffer contents and using
         /// wl_surface.set_buffer_transform might allow the compositor to use the
         /// surface buffer more efficiently.
-        case preferredBufferTransform(transform: UInt32)
+        case preferredBufferTransform(transform: WlOutput.Transform)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -3358,7 +3340,7 @@ public final class WlSurface: BaseProxy, Proxy {
             case 2:
                 self = Self.preferredBufferScale(factor: r.int())
             case 3:
-                self = Self.preferredBufferTransform(transform: r.uint())
+                self = Self.preferredBufferTransform(transform: try WlOutput.Transform._parseEnum(r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -3449,9 +3431,6 @@ public final class WlSeat: BaseProxy, Proxy {
     /// never had the pointer capability. The missing_capability error will
     /// be sent in this case.
     /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    /// 
     /// - Returns: seat pointer
     public func getPointer(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlPointer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -3472,9 +3451,6 @@ public final class WlSeat: BaseProxy, Proxy {
     /// never had the keyboard capability. The missing_capability error will
     /// be sent in this case.
     /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
-    /// 
     /// - Returns: seat keyboard
     public func getKeyboard(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlKeyboard {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -3494,9 +3470,6 @@ public final class WlSeat: BaseProxy, Proxy {
     /// It is a protocol violation to issue this request on a seat that has
     /// never had the touch capability. The missing_capability error will
     /// be sent in this case.
-    /// 
-    /// - Parameters:
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: seat touch interface
     public func getTouch(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlTouch {
@@ -3565,7 +3538,7 @@ public final class WlSeat: BaseProxy, Proxy {
         /// recent event notifying the client of an added pointer capability.
         /// The above behavior also applies to wl_keyboard and wl_touch with the
         /// keyboard and touch capabilities, respectively.
-        case capabilities(capabilities: UInt32)
+        case capabilities(capabilities: Capability)
 
         /// Unique Identifier For This Seat
         /// 
@@ -3586,7 +3559,7 @@ public final class WlSeat: BaseProxy, Proxy {
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.capabilities(capabilities: r.uint())
+                self = Self.capabilities(capabilities: try Capability._parseEnum(r.uint()))
             case 1:
                 self = Self.name(name: r.string())
             default:
@@ -3953,7 +3926,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// kernel's event code list. All other button codes above 0xFFFF are
         /// currently undefined but may be used in future versions of this
         /// protocol.
-        case button(serial: UInt32, time: UInt32, button: UInt32, state: UInt32)
+        case button(serial: UInt32, time: UInt32, button: UInt32, state: ButtonState)
 
         /// Axis Event
         /// 
@@ -3969,7 +3942,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// equivalent to a motion event vector.
         /// When applicable, a client can transform its content relative to the
         /// scroll distance.
-        case axis(time: UInt32, axis: UInt32, value: Double)
+        case axis(time: UInt32, axis: Axis, value: Double)
 
         /// End Of A Pointer Event Sequence
         /// 
@@ -4027,7 +4000,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// Only one wl_pointer.axis_source event is permitted per frame.
         /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
         /// not guaranteed.
-        case axisSource(axisSource: UInt32)
+        case axisSource(axisSource: AxisSource)
 
         /// Axis Stop Event
         /// 
@@ -4042,7 +4015,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// The timestamp is to be interpreted identical to the timestamp in the
         /// wl_pointer.axis event. The timestamp value may be the same as a
         /// preceding wl_pointer.axis event.
-        case axisStop(time: UInt32, axis: UInt32)
+        case axisStop(time: UInt32, axis: Axis)
 
         /// Axis Click Event
         /// 
@@ -4069,7 +4042,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// axis event.
         /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
         /// not guaranteed.
-        case axisDiscrete(axis: UInt32, discrete: Int32)
+        case axisDiscrete(axis: Axis, discrete: Int32)
 
         /// Axis High-Resolution Scroll Event
         /// 
@@ -4089,7 +4062,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// wl_pointer.frame, the axis source applies to this event.
         /// The order of wl_pointer.axis_value120 and wl_pointer.axis_source is
         /// not guaranteed.
-        case axisValue120(axis: UInt32, value120: Int32)
+        case axisValue120(axis: Axis, value120: Int32)
 
         /// Axis Relative Physical Direction Event
         /// 
@@ -4123,7 +4096,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// The order of wl_pointer.axis_relative_direction,
         /// wl_pointer.axis_discrete and wl_pointer.axis_source is not
         /// guaranteed.
-        case axisRelativeDirection(axis: UInt32, direction: UInt32)
+        case axisRelativeDirection(axis: Axis, direction: AxisRelativeDirection)
 
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -4134,21 +4107,21 @@ public final class WlPointer: BaseProxy, Proxy {
             case 2:
                 self = Self.motion(time: r.uint(), surfaceX: r.fixed(), surfaceY: r.fixed())
             case 3:
-                self = Self.button(serial: r.uint(), time: r.uint(), button: r.uint(), state: r.uint())
+                self = Self.button(serial: r.uint(), time: r.uint(), button: r.uint(), state: try ButtonState._parseEnum(r.uint()))
             case 4:
-                self = Self.axis(time: r.uint(), axis: r.uint(), value: r.fixed())
+                self = Self.axis(time: r.uint(), axis: try Axis._parseEnum(r.uint()), value: r.fixed())
             case 5:
                 self = Self.frame
             case 6:
-                self = Self.axisSource(axisSource: r.uint())
+                self = Self.axisSource(axisSource: try AxisSource._parseEnum(r.uint()))
             case 7:
-                self = Self.axisStop(time: r.uint(), axis: r.uint())
+                self = Self.axisStop(time: r.uint(), axis: try Axis._parseEnum(r.uint()))
             case 8:
-                self = Self.axisDiscrete(axis: r.uint(), discrete: r.int())
+                self = Self.axisDiscrete(axis: try Axis._parseEnum(r.uint()), discrete: r.int())
             case 9:
-                self = Self.axisValue120(axis: r.uint(), value120: r.int())
+                self = Self.axisValue120(axis: try Axis._parseEnum(r.uint()), value120: r.int())
             case 10:
-                self = Self.axisRelativeDirection(axis: r.uint(), direction: r.uint())
+                self = Self.axisRelativeDirection(axis: try Axis._parseEnum(r.uint()), direction: try AxisRelativeDirection._parseEnum(r.uint()))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -4337,7 +4310,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         /// description.
         /// From version 7 onwards, the fd must be mapped with MAP_PRIVATE by
         /// the recipient, as MAP_SHARED may fail.
-        case keymap(format: UInt32, fd: FileHandle, size: UInt32)
+        case keymap(format: KeymapFormat, fd: FileHandle, size: UInt32)
 
         /// Enter Event
         /// 
@@ -4386,7 +4359,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         /// key state when a wl_keyboard.repeat_info event with a rate argument of
         /// 0 has been received. This allows the compositor to take over the
         /// responsibility of key repetition.
-        case key(serial: UInt32, time: UInt32, key: UInt32, state: UInt32)
+        case key(serial: UInt32, time: UInt32, key: UInt32, state: KeyState)
 
         /// Modifier And Group State
         /// 
@@ -4419,13 +4392,13 @@ public final class WlKeyboard: BaseProxy, Proxy {
         public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.keymap(format: r.uint(), fd: r.fd(), size: r.uint())
+                self = Self.keymap(format: try KeymapFormat._parseEnum(r.uint()), fd: r.fd(), size: r.uint())
             case 1:
                 self = Self.enter(serial: r.uint(), surface: r.object(type: WlSurface.self), keys: r.array())
             case 2:
                 self = Self.leave(serial: r.uint(), surface: r.object(type: WlSurface.self))
             case 3:
-                self = Self.key(serial: r.uint(), time: r.uint(), key: r.uint(), state: r.uint())
+                self = Self.key(serial: r.uint(), time: r.uint(), key: r.uint(), state: try KeyState._parseEnum(r.uint()))
             case 4:
                 self = Self.modifiers(serial: r.uint(), modsDepressed: r.uint(), modsLatched: r.uint(), modsLocked: r.uint(), group: r.uint())
             case 5:
@@ -4944,7 +4917,7 @@ public final class WlOutput: BaseProxy, Proxy {
         /// Note: this information is not always meaningful for all outputs. Some
         /// compositors, such as those exposing virtual outputs, might fake the
         /// refresh rate or the size.
-        case mode(flags: UInt32, width: Int32, height: Int32, refresh: Int32)
+        case mode(flags: Mode, width: Int32, height: Int32, refresh: Int32)
 
         /// Sent All Information About Output
         /// 
@@ -5019,7 +4992,7 @@ public final class WlOutput: BaseProxy, Proxy {
             case 0:
                 self = Self.geometry(x: r.int(), y: r.int(), physicalWidth: r.int(), physicalHeight: r.int(), subpixel: r.int(), make: r.string(), model: r.string(), transform: r.int())
             case 1:
-                self = Self.mode(flags: r.uint(), width: r.int(), height: r.int(), refresh: r.int())
+                self = Self.mode(flags: try Mode._parseEnum(r.uint()), width: r.int(), height: r.int(), refresh: r.int())
             case 2:
                 self = Self.done
             case 3:
@@ -5242,7 +5215,6 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     /// - Parameters:
     ///   - surface: the surface to be turned into a sub-surface
     ///   - parent: the parent surface
-    ///   - queue: queue to associated with created objects
     /// 
     /// - Returns: the new sub-surface object ID
     public func getSubsurface(surface: WlSurface, parent: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlSubsurface {

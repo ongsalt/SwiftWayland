@@ -90,7 +90,7 @@ extension MethodDeclaration: Code {
         if !self.arguments.isEmpty {
             var lines = ["- Parameters:"]
             for arg in self.arguments {
-                if let summary = arg.summary {
+                if let summary = arg.arg.summary {
                     lines.append("  - \(arg.externalName ?? arg.name): \(summary)")
                 }
             }
@@ -101,7 +101,7 @@ extension MethodDeclaration: Code {
         // returns docc
         // TODO: multipl return value docc
         if !self.returns.isEmpty {
-            if let summary = self.returns[0].summary {
+            if let summary = self.returns[0].arg.summary {
                 gen.add(docc: "")
                 gen.add(docc: "- Returns: \(summary)")
             }
@@ -114,36 +114,40 @@ extension MethodDeclaration: Code {
         // }
 
         functionHeader += "public func \(self.name.gravedIfNeeded)("
-        if !arguments.isEmpty {
-            let params = arguments.map { arg in
-                var ty = arg.swiftType
-                if arg.nullable { ty += "?" }
+        var params = arguments.map { arg in
+            var ty = arg.swiftType
+            if arg.arg.nullable { ty += "?" }
 
-                let defaultValue =
-                    if arg.nullable {
-                        "nil"
-                    } else {
-                        arg.defaultValue
-                    }
+            let defaultValue =
+                if arg.arg.nullable {
+                    "nil"
+                } else {
+                    arg.defaultValue
+                }
 
-                let defaultValueString =
-                    if let defaultValue {
-                        " = \(defaultValue)"
-                    } else {
-                        ""
-                    }
+            let defaultValueString =
+                if let defaultValue {
+                    " = \(defaultValue)"
+                } else {
+                    ""
+                }
 
-                let externalName =
-                    if let externalName = arg.externalName {
-                        "\(externalName.gravedIfNeeded) "
-                    } else {
-                        ""
-                    }
+            let externalName =
+                if let externalName = arg.externalName {
+                    "\(externalName.gravedIfNeeded) "
+                } else {
+                    ""
+                }
 
-                return "\(externalName)\(arg.name.gravedIfNeeded): \(ty)\(defaultValueString)"
-            }.joined(separator: ", ")
-            functionHeader += params
+            return "\(externalName)\(arg.name.gravedIfNeeded): \(ty)\(defaultValueString)"
         }
+
+        if !returns.isEmpty || !callbacks.isEmpty {
+            params.append("queue \(QUEUE_INNER_NAME): EventQueue? = nil")
+        }
+
+        functionHeader += params.joined(separator: ", ")
+
         // TODO: throwing
         functionHeader += ") throws(WaylandProxyError)"
 
@@ -198,25 +202,26 @@ extension MethodDeclaration: Code {
             )
             gen.indent {
                 for arg in self.messageArguments {
-                    switch arg.waylandType {
+                    switch arg.arg.type {
                     case .object, .newId:
-                        if arg.nullable {
+                        if arg.arg.nullable {
                             gen << ".object(\(arg.name.gravedIfNeeded)?.id ?? 0),"
                         } else {
                             gen << ".object(\(arg.name.gravedIfNeeded).id),"
                         }
                     case .string:
-                        if arg.nullable {
+                        if arg.arg.nullable {
                             gen << ".string(\(arg.name.gravedIfNeeded) ?? \"\"),"
                         } else {
                             gen << ".string(\(arg.name.gravedIfNeeded)),"
                         }
-                    case .enum:
+                    case .uint:
+                        var rawValueString = arg.arg.enum != nil ? ".rawValue" : ""
                         gen.add(
-                            ".\(arg.waylandType)(\(arg.name.gravedIfNeeded).rawValue),"
+                            ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)\(rawValueString)),"
                         )
                     default:
-                        gen.add(".\(arg.waylandType)(\(arg.name.gravedIfNeeded)),")
+                        gen.add(".\(arg.arg.type)(\(arg.name.gravedIfNeeded)),")
                     }
                 }
             }
@@ -249,16 +254,21 @@ extension MethodDeclaration: Code {
 
 extension EnumDeclaration: Code {
     func generate(_ gen: Generator) {
-        gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
-        gen.indent {
-            for (index, c) in self.cases.enumerated() {
-                gen.walk(node: c)
-                if index != self.cases.count - 1 {
-                    gen.add()
+        if !self.bitfield {
+
+            gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
+            gen.indent {
+                for (index, c) in self.cases.enumerated() {
+                    gen.walk(node: c)
+                    if index != self.cases.count - 1 {
+                        gen.add()
+                    }
                 }
             }
+            gen.add("}")
+        } else {
+
         }
-        gen.add("}")
     }
 }
 
@@ -327,10 +337,15 @@ extension Array: Code where Element == EventDeclaration {
     }
 }
 
-private func getArgDecodingExpr(_ arg: WaylandArgumentDeclaration) -> String {
-    switch arg.waylandType {
+private func getArgDecodingExpr(_ arg: ArgumentDeclaration) -> String {
+    switch arg.arg.type {
     case .int: "r.int()"
-    case .uint: "r.uint()"
+    case .uint:
+        if let e = arg.arg.enum {
+            "try \(parseEnumName(e))._parseEnum(r.uint())"
+        } else {
+            "r.uint()"
+        }
     case .fixed: "r.fixed()"
     case .string: "r.string()"
     case .fd: "r.fd()"

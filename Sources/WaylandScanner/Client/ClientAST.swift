@@ -31,7 +31,7 @@ struct MethodDeclaration {
     var arguments: [ArgumentDeclaration]
     var returns: [ArgumentDeclaration] // TODO: make a type for this
     var callbacks: [CallbackDeclaration]
-    var messageArguments: [WaylandArgumentDeclaration]
+    var messageArguments: [ArgumentDeclaration]
     var description: Description?
     var `throws`: String?
 }
@@ -43,7 +43,7 @@ struct CallbackDeclaration {
 struct EventDeclaration {
     var name: String
     var description: Description?
-    var arguments: [WaylandArgumentDeclaration]
+    var arguments: [ArgumentDeclaration]
 }
 
 struct ArgumentDeclaration {
@@ -51,19 +51,10 @@ struct ArgumentDeclaration {
     var externalName: String? = nil
     var swiftType: String
     var defaultValue: String? = nil
-    var summary: String? = nil
-    var nullable: Bool = false
+    var arg: Argument
     // do this have since field
 }
 
-// runtime info
-struct WaylandArgumentDeclaration {
-    var name: String
-    var waylandType: Primitive
-    var swiftType: String
-    var nullable: Bool = false
-    // do this have since field
-}
 
 struct DeinitDeclaration {
     var selectedMethod: String

@@ -76,6 +76,7 @@ public struct NoRequest: Encodable {
 public enum DecodingError: Error {
     case unknownOpcode(UInt32)
     case objectNotFound(id: UInt32)
+    case unknownEnumCase(case: UInt32, enumName: String)
 }
 
 public protocol Decodable {

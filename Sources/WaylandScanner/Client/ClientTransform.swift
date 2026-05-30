@@ -31,34 +31,23 @@ public func transform(
                             ArgumentDeclaration(
                                 name: arg.name.lowerCamel,
                                 swiftType: CALLBACK_TYPE,
-                                summary: arg.summary,
-                                nullable: arg.nullable
+                                arg: arg,
                             )
                         )
                         callbacks.append(CallbackDeclaration(name: arg.name.lowerCamel))
                         continue
                     }
 
-                    let swiftType: String =
-                        switch arg.type {
-                        case .string: "String"
-                        case .array: "Data"
-                        case .fd: "FileHandle"
-                        case .int: "Int32"
-                        case .uint: "UInt32"
-                        case .fixed: "Double"
-                        case .enum: arg.enum!.camel
-                        case .object: arg.interface!.camel
-                        case .newId: arg.interface!.camel  // dynamic newId in wl_registry.bind is excluded
-                        // TODO: bare proxy maybe
-                        // case .newId: (arg.interface?.camel) ?? "any Proxy"
-                        }
+                    let swiftType = arg.getSwiftType(isEvent: false)
+
+                    // if let en = arg.enum {
+                    //     print(en, swiftType)
+                    // }
 
                     let decl = ArgumentDeclaration(
                         name: arg.name.lowerCamel,
                         swiftType: swiftType,
-                        summary: arg.summary,
-                        nullable: arg.nullable
+                        arg: arg,
                     )
 
                     if arg.type == .newId {
@@ -68,24 +57,11 @@ public func transform(
                     }
                 }
 
-                if !returns.isEmpty || !callbacks.isEmpty {
-                    // which queue to create those object
-                    arguments.append(
-                        ArgumentDeclaration(
-                            name: QUEUE_INNER_NAME,
-                            externalName: "queue",
-                            swiftType: "EventQueue?",
-                            defaultValue: "nil",
-                            summary: "queue to associated with created objects",
-                        ))
-                }
-
                 let messageArguments = request.arguments.map { arg in
-                    WaylandArgumentDeclaration(
+                    ArgumentDeclaration(
                         name: arg.name.lowerCamel,
-                        waylandType: arg.type,
                         swiftType: "__ignored",
-                        nullable: arg.nullable
+                        arg: arg,
                     )
                 }
 
@@ -128,25 +104,12 @@ public func transform(
                     name: event.name.lowerCamel,
                     description: event.description,
                     arguments: event.arguments.map { arg in
-                        let swiftType: String =
-                            switch arg.type {
-                            case .string: "String"
-                            case .array: "Data"
-                            case .fd: "FileHandle"
-                            case .int: "Int32"
-                            case .uint: "UInt32"
-                            case .fixed: "Double"
-                            case .enum: arg.enum!.camel
-                            // TODO: fix this
-                            case .object: arg.interface?.camel ?? "any Proxy"  // nullable when its wl_display.error
-                            case .newId: arg.interface!.camel
-                            }
+                        let swiftType = arg.getSwiftType(isEvent: true)
 
-                        return WaylandArgumentDeclaration(
+                        return ArgumentDeclaration(
                             name: arg.name.lowerCamel,
-                            waylandType: arg.type,
                             swiftType: swiftType,  // for object/newId
-                            nullable: arg.nullable
+                            arg: arg,
                         )
                     }
                 )
@@ -167,4 +130,43 @@ public func transform(
             transform(interface: $0, trim: transformName, protocolName: p.name.camel)
         }
     )
+}
+
+extension Argument {
+    func getSwiftType(isEvent: Bool) -> String {
+        switch self.type {
+        case .string:
+            return "String"
+        case .array:
+            return "Data"
+        case .fd:
+            return "FileHandle"
+        case .int:
+            return "Int32"
+        case .uint:
+            if let e = self.enum {
+                return parseEnumName(e)
+            }
+            return "UInt32"
+        case .fixed:
+            return "Double"
+
+        // TODO: namespace?
+        case .enum:
+            fatalError("there should not be an enum here")
+        case .object:
+            if isEvent {
+                return self.interface?.camel ?? "any Proxy"
+            } else {
+                return self.interface!.camel
+            }
+        case .newId:
+            return self.interface!.camel  // dynamic newId in wl_registry.bind is excluded
+        }
+
+    }
+}
+
+func parseEnumName(_ name: String) -> String {
+    name.split(separator: ".").map { String($0).camel }.joined(separator: ".")
 }
