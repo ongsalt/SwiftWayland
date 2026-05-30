@@ -26,7 +26,7 @@ struct MethodDeclaration {
     var name: String
     var requestName: String
     var requestId: UInt32
-    var consuming: Bool
+    var isDestructor: Bool
     var since: UInt32?
     var arguments: [ArgumentDeclaration]
     var returns: [ArgumentDeclaration] // TODO: make a type for this

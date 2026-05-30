@@ -53,6 +53,7 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     /// Destroy the inhibit manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -117,6 +118,7 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
     /// Remove the inhibitor effect from the associated wl_surface.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

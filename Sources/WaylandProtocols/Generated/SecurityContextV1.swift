@@ -61,6 +61,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     /// manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -174,6 +175,7 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     /// Destroy the security context object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

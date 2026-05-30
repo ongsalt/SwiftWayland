@@ -60,6 +60,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     /// shall not be affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -152,6 +153,7 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     /// set_acquire_point and set_release_point are not unset.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -249,6 +251,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     /// commit will not be affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

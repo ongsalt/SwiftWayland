@@ -45,6 +45,7 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     /// Any objects already created through this instance are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -156,6 +157,7 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
     /// going to use the xdg_output object anymore.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

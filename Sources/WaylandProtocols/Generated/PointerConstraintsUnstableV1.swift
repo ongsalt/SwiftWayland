@@ -97,6 +97,7 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     /// pointer constraints object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -281,6 +282,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     /// unlock the pointer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -415,6 +417,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     /// unconfine the pointer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

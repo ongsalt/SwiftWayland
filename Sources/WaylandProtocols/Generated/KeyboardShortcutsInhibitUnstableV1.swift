@@ -48,6 +48,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     /// Destroy the keyboard shortcuts inhibitor manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -149,6 +150,7 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
     /// Remove the keyboard shortcuts inhibitor from the associated wl_surface.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

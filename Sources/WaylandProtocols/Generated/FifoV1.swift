@@ -53,6 +53,7 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     /// are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -173,6 +174,7 @@ public final class WpFifoV1: BaseProxy, Proxy {
     /// unaffected by this object's destruction.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 2, [
         ])
     }

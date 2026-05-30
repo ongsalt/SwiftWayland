@@ -122,6 +122,7 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
+        self.markDead()
         connection.send(self, 2, [
         ])
     }
@@ -245,6 +246,7 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -396,6 +398,7 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -532,6 +535,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

@@ -76,6 +76,7 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     /// affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -201,6 +202,7 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
     /// timestamp events will be emitted.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

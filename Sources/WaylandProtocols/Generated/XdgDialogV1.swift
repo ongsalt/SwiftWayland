@@ -52,6 +52,7 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     /// the xdg_dialog_v1 objects generated through it.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -132,6 +133,7 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     /// effects.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

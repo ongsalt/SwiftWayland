@@ -61,6 +61,7 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     /// with the manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -160,6 +161,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
     /// first.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

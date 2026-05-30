@@ -73,6 +73,7 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     /// affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -159,6 +160,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
     /// ongoing_drag error is raised.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

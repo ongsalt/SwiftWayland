@@ -45,6 +45,7 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
     /// used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -130,6 +131,7 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     /// used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -204,6 +206,7 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
     /// given the handle sent via xdg_exported.handle.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -278,6 +281,7 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
     /// be invalidated.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

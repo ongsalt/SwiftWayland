@@ -107,7 +107,7 @@ extension MethodDeclaration: Code {
 
         // signature
         var functionHeader = ""
-        // if self.consuming {
+        // if self.isDestructor {
         //     functionHeader.append("consuming")
         // }
 
@@ -176,6 +176,10 @@ extension MethodDeclaration: Code {
                 )
             }
 
+            if self.isDestructor {
+                gen << "self.markDead()"
+            }
+
             // create any thing involving newId (infer from returns)
             for object in self.returns {
                 // type of return is always newId, so a swift class type
@@ -225,7 +229,7 @@ extension MethodDeclaration: Code {
             }
             gen.add("])")
 
-            if self.consuming {
+            if self.isDestructor {
                 // TODO: read docs about destructor behavior
                 // gen.add(
                 //     """

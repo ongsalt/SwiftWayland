@@ -58,6 +58,7 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     /// factory, shall not be affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -175,6 +176,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     /// affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

@@ -67,6 +67,7 @@ public final class WpPresentation: BaseProxy, Proxy {
     /// are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

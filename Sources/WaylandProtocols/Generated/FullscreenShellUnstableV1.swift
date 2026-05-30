@@ -110,6 +110,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     /// to free some of those bindings.
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

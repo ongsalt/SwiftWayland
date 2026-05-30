@@ -56,6 +56,7 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     /// The child objects created via this interface are unaffected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

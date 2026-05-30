@@ -45,6 +45,7 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     /// relative pointer manager object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -131,6 +132,7 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

@@ -56,8 +56,8 @@ dnf install wayland-devel
 ```
 
 # Todos
+- queue
 - event type="destructor"
-
 - better error handling in general
 - generate more documentation
     - throws

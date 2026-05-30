@@ -69,6 +69,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     /// This does not destroy objects created with the manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -211,6 +212,7 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
     /// until the toplevel icon is reset explicitly.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

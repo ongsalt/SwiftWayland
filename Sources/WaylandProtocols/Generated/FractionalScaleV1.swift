@@ -45,6 +45,7 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     /// wp_fractional_scale_v1 objects included.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -120,6 +121,7 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
     /// preferred_scale events will no longer be sent.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

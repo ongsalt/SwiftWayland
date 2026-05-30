@@ -66,6 +66,7 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
     /// effects.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

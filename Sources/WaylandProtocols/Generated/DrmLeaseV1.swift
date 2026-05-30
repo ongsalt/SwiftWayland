@@ -253,6 +253,7 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
     /// nor leases will be affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -400,6 +401,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     /// will raise the empty_lease error.
     public func submit(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         let id = connection.createProxy(type: WpDrmLeaseV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 1, [
             .object(id.id),
@@ -477,6 +479,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     /// wp_drm_lease_device_v1 interface.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

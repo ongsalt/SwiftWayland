@@ -48,6 +48,7 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     /// Destroy the keyboard grab manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -120,6 +121,7 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     /// will ungrab the keyboard.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

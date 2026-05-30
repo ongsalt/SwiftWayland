@@ -64,6 +64,7 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     /// Destroy the pointer warp manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

@@ -77,6 +77,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// and will result in a defunct_surfaces error.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -334,6 +335,7 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// Notify the compositor that the xdg_positioner will no longer be used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -726,6 +728,7 @@ public final class XdgSurface: BaseProxy, Proxy {
     /// a defunct_role_object error is raised.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -1138,6 +1141,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// see "Unmapping" behavior in interface section for details.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -1783,6 +1787,7 @@ public final class XdgPopup: BaseProxy, Proxy {
     /// xdg_wm_base.not_the_topmost_popup protocol error will be sent.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

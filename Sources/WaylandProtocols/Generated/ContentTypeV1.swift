@@ -49,6 +49,7 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     /// with the manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -125,6 +126,7 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     /// buffering semantics. See set_content_type for details.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

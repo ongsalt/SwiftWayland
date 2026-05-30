@@ -42,6 +42,7 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     /// Notify that the object will no longer be used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

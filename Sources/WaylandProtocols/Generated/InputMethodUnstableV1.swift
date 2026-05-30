@@ -308,6 +308,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
         )
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

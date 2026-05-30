@@ -177,6 +177,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// objects in any way.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -587,6 +588,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     /// affect any remaining protocol objects.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -703,6 +705,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     /// unset_image_description.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -855,6 +858,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     /// Destroy the wp_color_management_surface_feedback_v1 object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -1040,6 +1044,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
     /// request.
     public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(imageDescription.id),
@@ -1355,6 +1360,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// request.
     public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         let imageDescription = connection.createProxy(type: WpImageDescriptionV1.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(imageDescription.id),
@@ -1772,6 +1778,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     /// yet been followed by a wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -2251,6 +2258,7 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     /// description.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

@@ -500,6 +500,7 @@ public final class WlShmPool: BaseProxy, Proxy {
     /// are gone.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -619,6 +620,7 @@ public final class WlShm: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -1062,6 +1064,7 @@ public final class WlBuffer: BaseProxy, Proxy {
     /// For possible side-effects to a surface, see wl_surface.attach.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -1258,6 +1261,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
     /// Destroy the data offer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 2, [
         ])
     }
@@ -1516,6 +1520,7 @@ public final class WlDataSource: BaseProxy, Proxy {
     /// Destroy the data source.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -1863,6 +1868,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
+        self.markDead()
         connection.send(self, 2, [
         ])
     }
@@ -2909,6 +2915,7 @@ public final class WlSurface: BaseProxy, Proxy {
     /// Deletes the surface and invalidates its object ID.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -3503,6 +3510,7 @@ public final class WlSeat: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
+        self.markDead()
         connection.send(self, 3, [
         ])
     }
@@ -3855,6 +3863,7 @@ public final class WlPointer: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -4293,6 +4302,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -4573,6 +4583,7 @@ public final class WlTouch: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -4824,6 +4835,7 @@ public final class WlOutput: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -5102,6 +5114,7 @@ public final class WlRegion: BaseProxy, Proxy {
     /// Destroy the region.  This will invalidate the object ID.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -5215,6 +5228,7 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     /// objects, wl_subsurface objects included.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -5383,6 +5397,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
     /// to the parent is deleted. The wl_surface is unmapped immediately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -5541,6 +5556,7 @@ public final class WlFixes: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

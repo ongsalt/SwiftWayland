@@ -73,7 +73,7 @@ public func transform(
                     name: request.name.lowerCamel,
                     requestName: request.name,
                     requestId: UInt32(index),
-                    consuming: request.type == .destructor,
+                    isDestructor: request.type == .destructor,
                     since: request.since,
                     arguments: arguments,
                     returns: returns,

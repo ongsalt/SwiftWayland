@@ -57,6 +57,7 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     /// by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -150,6 +151,7 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
     /// vsync. The change will be applied on the next wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }

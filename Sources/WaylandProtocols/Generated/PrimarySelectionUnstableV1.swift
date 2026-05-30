@@ -83,6 +83,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     /// Destroy the primary selection device manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 2, [
         ])
     }
@@ -168,6 +169,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     /// Destroy the primary selection device.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -284,6 +286,7 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
     /// Destroy the primary selection offer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -381,6 +384,7 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
     /// Destroy the primary selection source.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }

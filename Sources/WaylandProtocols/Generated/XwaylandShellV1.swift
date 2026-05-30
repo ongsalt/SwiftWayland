@@ -55,6 +55,7 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     /// The child objects created via this interface are unaffected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -170,6 +171,7 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     /// Any already existing associations are unaffected by this action.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }

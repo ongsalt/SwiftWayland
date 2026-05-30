@@ -140,6 +140,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     /// remain valid.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -394,6 +395,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     /// wl_buffer creation.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -759,6 +761,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
     /// use the zwp_linux_dmabuf_feedback_v1 object anymore.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

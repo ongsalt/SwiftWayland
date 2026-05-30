@@ -74,6 +74,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     /// affect any other objects in any way.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -215,6 +216,7 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

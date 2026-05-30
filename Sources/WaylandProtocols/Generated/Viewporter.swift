@@ -49,6 +49,7 @@ public final class WpViewporter: BaseProxy, Proxy {
     /// wp_viewport objects included.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -193,6 +194,7 @@ public final class WpViewport: BaseProxy, Proxy {
     /// The change is applied on the next wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

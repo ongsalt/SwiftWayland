@@ -257,6 +257,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// through this wp_text_input object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -830,6 +831,7 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     /// Destroy the wp_text_input_manager object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }

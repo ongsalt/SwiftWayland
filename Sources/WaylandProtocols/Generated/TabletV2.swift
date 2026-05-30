@@ -62,6 +62,7 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     /// object are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -133,6 +134,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
     /// object are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -486,6 +488,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this tool object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -885,6 +888,7 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this tablet object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -1099,6 +1103,7 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this ring object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -1282,6 +1287,7 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this strip object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -1478,6 +1484,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
     /// are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -1782,6 +1789,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
     /// are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
@@ -1975,6 +1983,7 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this dial object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }

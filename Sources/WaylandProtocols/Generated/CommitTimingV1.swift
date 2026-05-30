@@ -61,6 +61,7 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     /// are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 0, [
         ])
     }
@@ -166,6 +167,7 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
     /// Existing timing constraints are not affected by the destruction.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        self.markDead()
         connection.send(self, 1, [
         ])
     }
