@@ -8,12 +8,6 @@ let package = Package(
     products: [
         // .executable(name: "WaylandScanner", targets: ["WaylandScanner"]),
         .library(name: "SwiftWayland", targets: ["SwiftWayland", "WaylandProtocols"]),
-        .plugin(
-            name: "WaylandScannerPlugin",
-            targets: [
-                "WaylandScannerPlugin"
-            ]
-        ),
     ],
     traits: [
         .trait(name: "CLIENT"),
@@ -38,11 +32,10 @@ let package = Package(
 
         .target(
             name: "SwiftWayland",
-            plugins: [
-                "WaylandScannerPlugin",
+            dependencies: [
                 "SwiftWaylandCommon",
-                "CWayland"
-            ]
+                "CWayland",
+            ],
         ),
 
         .target(
@@ -50,9 +43,6 @@ let package = Package(
             dependencies: [
                 "SwiftWayland"
             ],
-            plugins: [
-                "WaylandScannerPlugin"
-            ]
         ),
 
         .target(
@@ -62,20 +52,12 @@ let package = Package(
                 .product(name: "XMLCoder", package: "XMLCoder"),
             ]
         ),
-        
+
         .executableTarget(
             name: "WaylandScannerCLI",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 "WaylandScanner",
-            ]
-        ),
-
-        .plugin(
-            name: "WaylandScannerPlugin",
-            capability: .buildTool(),
-            dependencies: [
-                "WaylandScannerCLI"
             ]
         ),
 
