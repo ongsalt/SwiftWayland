@@ -153,6 +153,21 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Context Object For Input Timestamps
@@ -213,6 +228,21 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputTimestampsUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// High-Resolution Timestamp Event
         /// 

@@ -540,6 +540,21 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: InputMethodUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Surrounding Text Event
         /// 

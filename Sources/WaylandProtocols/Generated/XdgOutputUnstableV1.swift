@@ -71,6 +71,21 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Compositor Logical Output Region
@@ -168,6 +183,21 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgOutputUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Position Of The Output Within The Global Compositor Space
         /// 

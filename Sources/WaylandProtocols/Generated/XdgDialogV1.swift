@@ -86,6 +86,21 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
         case alreadyUsed = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Dialog Object
@@ -171,6 +186,21 @@ public final class XdgDialogV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 

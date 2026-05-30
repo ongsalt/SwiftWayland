@@ -50,6 +50,7 @@ PROTOCOLS = [
     "./Protocols/staging/fifo/fifo-v1.xml",
     "./Protocols/staging/commit-timing/commit-timing-v1.xml",
     "./Protocols/staging/pointer-warp/pointer-warp-v1.xml",
+    "./Protocols/staging/ext-session-lock/ext-session-lock-v1.xml",
 ]
 
 
@@ -67,7 +68,7 @@ def get_traits(path: str) -> str | None:
 
 
 def run(cli: str, args: list[str]) -> bool:
-    print(args[2])
+    # print(args[2])
     return subprocess.run([cli] + args).returncode == 0
 
 

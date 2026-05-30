@@ -74,6 +74,21 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: TabletUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Controller Object For Graphic Tablet Devices Of A Seat
@@ -136,6 +151,21 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: TabletUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// New Device Notification
         /// 
@@ -536,6 +566,21 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         case role = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Tool Type
         /// 
@@ -867,6 +912,21 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: TabletUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Tablet Device Name
         /// 

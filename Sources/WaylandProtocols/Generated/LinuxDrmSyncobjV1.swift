@@ -122,6 +122,21 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
         case invalidTimeline = 1
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Synchronization Object Timeline
@@ -164,6 +179,21 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Per-Surface Explicit Synchronization
@@ -362,6 +392,21 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
 
         /// acquire and release timeline points are in conflict
         case conflictingPoints = 6
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

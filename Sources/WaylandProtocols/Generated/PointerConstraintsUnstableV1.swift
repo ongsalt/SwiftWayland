@@ -204,6 +204,21 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
         case persistent = 2
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Receive Relative Pointer Motion Events
@@ -330,6 +345,21 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Lock Activation Event
         /// 
@@ -450,6 +480,21 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerConstraintsUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Pointer Confined
         /// 

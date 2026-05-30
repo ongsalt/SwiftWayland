@@ -111,6 +111,21 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
         case invalidSource = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Object Representing A Toplevel Move During A Drag
@@ -205,6 +220,21 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
 
         /// drag has not ended
         case ongoingDrag = 1
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

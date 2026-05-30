@@ -92,6 +92,21 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandKeyboardGrabUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Interface For Grabbing The Keyboard
@@ -132,6 +147,21 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandKeyboardGrabUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 

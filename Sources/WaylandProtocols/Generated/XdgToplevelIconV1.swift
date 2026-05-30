@@ -123,6 +123,21 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelIconV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Describes A Supported & Preferred Icon Size
         /// 
@@ -286,6 +301,21 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
 
         /// the provided buffer has been destroyed before the toplevel icon
         case noBuffer = 3
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

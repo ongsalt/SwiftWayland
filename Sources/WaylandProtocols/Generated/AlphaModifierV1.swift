@@ -83,6 +83,21 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
         case alreadyConstructed = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Alpha Modifier Object For A Surface
@@ -162,6 +177,21 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// wl_surface was destroyed
         case noSurface = 0
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

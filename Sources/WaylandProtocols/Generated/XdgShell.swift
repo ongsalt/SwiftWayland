@@ -164,6 +164,21 @@ public final class XdgWmBase: BaseProxy, Proxy {
         case unresponsive = 6
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Check If The Client Is Alive
         /// 
@@ -591,6 +606,21 @@ public final class XdgPositioner: BaseProxy, Proxy {
         static let resizeY = ConstraintAdjustment(rawValue: 50)
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Desktop User Interface Surface Base Interface
@@ -883,6 +913,21 @@ public final class XdgSurface: BaseProxy, Proxy {
 
         /// Surface was destroyed before its role object
         case defunctRoleObject = 6
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {
@@ -1591,6 +1636,21 @@ public final class XdgToplevel: BaseProxy, Proxy {
         case minimize = 4
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Suggest A Surface Change
         /// 
@@ -1877,6 +1937,21 @@ public final class XdgPopup: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// tried to grab after being mapped
         case invalidGrab = 0
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {

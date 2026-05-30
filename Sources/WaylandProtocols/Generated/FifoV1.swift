@@ -90,6 +90,21 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
         case alreadyExists = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Fifo Interface
@@ -188,6 +203,21 @@ public final class WpFifoV1: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// the associated surface no longer exists
         case surfaceDestroyed = 0
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

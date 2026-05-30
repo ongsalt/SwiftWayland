@@ -532,6 +532,21 @@ public final class WlShmPool: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Shared Memory Support
@@ -1001,6 +1016,21 @@ public final class WlShm: BaseProxy, Proxy {
         case p030 = 808661072
     }
 
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Pixel Format Description
         /// 
@@ -1075,6 +1105,21 @@ public final class WlBuffer: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Compositor Releases Buffer
         /// 
@@ -1346,6 +1391,21 @@ public final class WlDataOffer: BaseProxy, Proxy {
         case invalidOffer = 3
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Advertise Offered Mime Type
         /// 
@@ -1561,6 +1621,21 @@ public final class WlDataSource: BaseProxy, Proxy {
 
         /// source doesn't accept this request
         case invalidSource = 1
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {
@@ -1885,6 +1960,21 @@ public final class WlDataDevice: BaseProxy, Proxy {
 
         /// source has already been used
         case usedSource = 1
+    }
+
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {
@@ -3308,6 +3398,21 @@ public final class WlSurface: BaseProxy, Proxy {
         case defunctRoleObject = 4
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Surface Enters An Output
         /// 
@@ -3540,6 +3645,21 @@ public final class WlSeat: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// get_pointer, get_keyboard or get_touch called on seat without the matching capability
         case missingCapability = 0
+    }
+
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {
@@ -3915,6 +4035,21 @@ public final class WlPointer: BaseProxy, Proxy {
 
         /// physical motion is the inverse of the axis direction
         case inverted = 1
+    }
+
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {
@@ -4332,6 +4467,21 @@ public final class WlKeyboard: BaseProxy, Proxy {
         case repeated = 2
     }
 
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Keyboard Mapping
         /// 
@@ -4594,6 +4744,21 @@ public final class WlTouch: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Touch Down Event And Beginning Of A Touch Sequence
         /// 
@@ -4905,6 +5070,21 @@ public final class WlOutput: BaseProxy, Proxy {
         static let preferred = Mode(rawValue: 2)
     }
 
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Properties Of The Output
         /// 
@@ -5163,6 +5343,21 @@ public final class WlRegion: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Sub-Surface Compositing
@@ -5279,6 +5474,21 @@ public final class WlSubcompositor: BaseProxy, Proxy {
 
         /// the to-be sub-surface parent is invalid
         case badParent = 1
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent
@@ -5517,6 +5727,21 @@ public final class WlSubsurface: BaseProxy, Proxy {
         case badSurface = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Wayland Protocol Fixes
@@ -5586,6 +5811,21 @@ public final class WlFixes: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 

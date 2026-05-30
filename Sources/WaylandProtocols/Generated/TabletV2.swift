@@ -73,6 +73,21 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Controller Object For Graphic Tablet Devices Of A Seat
@@ -145,6 +160,21 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// New Device Notification
         /// 
@@ -558,6 +588,21 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         case role = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Tool Type
         /// 
@@ -916,6 +961,21 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         case i2c = 36
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Tablet Device Name
         /// 
@@ -1119,6 +1179,21 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         case finger = 1
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Ring Event Source
         /// 
@@ -1301,6 +1376,21 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
     public enum Source: UInt32 {
         /// finger
         case finger = 1
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {
@@ -1495,6 +1585,21 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Buttons Announced
         /// 
@@ -1808,6 +1913,21 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         case pressed = 1
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Group Announced
         /// 
@@ -1994,6 +2114,21 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Delta Movement
         /// 

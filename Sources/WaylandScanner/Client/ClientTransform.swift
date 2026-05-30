@@ -13,6 +13,13 @@ public func transform(
     trim transformName: Bool,
     protocolName: String
 ) -> ClassDeclaration {
+    let destructors = interface.requests
+        .filter { $0.arguments.count == 0 && $0.type == .destructor }
+    let deinitDecl: DeinitDeclaration? =
+        if destructors.isEmpty { nil } else {
+            DeinitDeclaration(destructors: destructors.map(\.name.lowerCamel))
+        }
+
     return ClassDeclaration(
         name: interface.name.camel,
         interface: interface,
@@ -42,7 +49,9 @@ public func transform(
                     // setMode(mode:) -> setMode(_:)
                     if index == 0 {
                         let parts = request.name.split(separator: "_")
-                        if parts.count >= 2 && parts[0] == "set" && parts[1...].joined(separator: "_") == arg.name {
+                        if parts.count >= 2 && parts[0] == "set"
+                            && parts[1...].joined(separator: "_") == arg.name
+                        {
                             externalName = "_"
                         }
                     }
@@ -83,9 +92,7 @@ public func transform(
                     throws: nil,
                 )
             },
-        // deinit: interface.requests
-        //     .first { $0.arguments.count == 0 && $0.type == .destructor }
-        //     .map { DeinitDeclaration(selectedMethod: $0.name.lowerCamel) },
+        deinit: deinitDecl,
         enums: interface.enums.map { e in
             EnumDeclaration(
                 name: e.name.camel,

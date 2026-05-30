@@ -305,15 +305,25 @@ extension EnumCaseDeclaration: Code {
 
 extension DeinitDeclaration: Code {
     func generate(_ gen: Generator) {
-        gen.add("deinit {")
-        gen.indent {
-            gen.add("if self.isAlive {")
-            gen.indent {
-                gen.add("try? self.\(self.selectedMethod.gravedIfNeeded)()")
+        gen << "var destructor: Destructor? = .\(destructors[0])"
+        gen.add()
+
+        gen.block("enum Destructor {", endWith: "}") {
+            for m in destructors {
+                gen << "case \(m)"
             }
-            gen.add("}")
         }
-        gen.add("}")
+        gen.add()
+        gen.block("deinit {", endWith: "}") {
+            gen.block("if self.isAlive {", endWith: "}") {
+                gen.block("switch self.destructor {", endWith: "}") {
+                    for m in destructors {
+                        gen << "case .\(m): try? self.\(m.gravedIfNeeded)()"
+                    }
+                    gen << "case nil: break"
+                }
+            }
+        }
     }
 }
 

@@ -109,6 +109,21 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         case surfaceExists = 1
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Supported Alpha Modes
         /// 
@@ -368,6 +383,21 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
         case type4 = 5
 
         case type5 = 6
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

@@ -91,6 +91,21 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
         case tearingControlExists = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Per-Surface Tearing Control Interface
@@ -166,6 +181,21 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
         case vsync = 0
 
         case `async` = 1
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

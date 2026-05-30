@@ -80,6 +80,21 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Interface For Importing Surfaces
@@ -158,6 +173,21 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// An Exported Surface Handle
@@ -211,6 +241,21 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// The Exported Surface Handle
         /// 
@@ -302,6 +347,21 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// The Imported Surface Handle Has Been Destroyed
         /// 

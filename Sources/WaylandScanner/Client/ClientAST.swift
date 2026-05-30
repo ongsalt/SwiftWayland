@@ -57,7 +57,7 @@ struct ArgumentDeclaration {
 
 
 struct DeinitDeclaration {
-    var selectedMethod: String
+    var destructors: [String]
 }
 
 struct EnumDeclaration {

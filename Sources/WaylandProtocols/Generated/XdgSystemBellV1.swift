@@ -73,6 +73,21 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgSystemBellV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 

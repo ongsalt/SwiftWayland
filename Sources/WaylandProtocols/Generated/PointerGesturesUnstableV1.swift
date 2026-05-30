@@ -150,6 +150,21 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
     
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// A Swipe Gesture Object
@@ -257,6 +272,21 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Multi-Finger Swipe Begin
         /// 
@@ -409,6 +439,21 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Multi-Finger Pinch Begin
         /// 
@@ -546,6 +591,21 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: PointerGesturesUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Multi-Finger Hold Begin
         /// 

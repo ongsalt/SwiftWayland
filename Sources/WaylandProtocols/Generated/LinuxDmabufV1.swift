@@ -204,6 +204,21 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDmabufV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Supported Buffer Format
         /// 
@@ -623,6 +638,21 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         static let bottomFirst = Flags(rawValue: 4)
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Buffer Creation Succeeded
         /// 
@@ -781,6 +811,21 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         static let scanout = TrancheFlags(rawValue: 1)
 
         static let sampling = TrancheFlags(rawValue: 2)
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {

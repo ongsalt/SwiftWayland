@@ -149,8 +149,13 @@ public class Connection {
 
     private func createObj<T: Proxy>(type: T.Type, ptr: OpaquePointer, queue: EventQueue) -> T {
         let obj = T(
-            id: wl_proxy_get_id(ptr), version: wl_proxy_get_version(ptr), queue: queue, raw: ptr,
-            connection: self)
+            id: wl_proxy_get_id(ptr),
+            version: wl_proxy_get_version(ptr),
+            queue: queue,
+            raw: ptr,
+            // should i put parent here? so that it dont get destroy on deinit
+            connection: self
+        )
 
         wl_proxy_add_dispatcher(ptr, dispatchFn, nil, Unmanaged.passUnretained(obj).toOpaque())
         knownProxies[obj.id] = obj

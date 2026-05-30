@@ -58,6 +58,7 @@ dnf install wayland-devel
 # Todos
 - queue
 - think about raii
+- destructor event
 - better error handling in general
 - generate more documentation when returns multiple object (probably never????)
 - more version validation

@@ -86,6 +86,21 @@ public final class WpViewporter: BaseProxy, Proxy {
         case viewportExists = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Crop And Scale Interface To A Wl_Surface
@@ -265,6 +280,21 @@ public final class WpViewport: BaseProxy, Proxy {
 
         /// the wl_surface was destroyed
         case noSurface = 3
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

@@ -86,6 +86,21 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
         case invalidSurface = 0
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Interface For Importing Surfaces
@@ -164,6 +179,21 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// An Exported Surface Handle
@@ -217,6 +247,21 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// The Exported Surface Handle
         /// 
@@ -312,6 +357,21 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// surface is not an xdg_toplevel
         case invalidSurface = 0
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {

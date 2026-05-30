@@ -108,6 +108,21 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
         case nested = 2
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Client Security Context
@@ -270,6 +285,21 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
 
         /// metadata is invalid
         case invalidMetadata = 3
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public typealias Event = NoEvent

@@ -482,6 +482,21 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         case compoundPower24 = 20
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Supported Rendering Intent
         /// 
@@ -635,6 +650,21 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Image Description Changed
         /// 
@@ -784,6 +814,21 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
         case inert = 2
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 /// Color Management Extension To A Surface
@@ -929,6 +974,21 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
 
         /// attempted to use an unsupported feature
         case unsupportedFeature = 1
+    }
+
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
     }
 
     public enum Event: Decodable {
@@ -1828,6 +1888,21 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         case noOutput = 3
     }
 
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Graceful Error On Creating The Image Description
         /// 
@@ -2269,6 +2344,21 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 

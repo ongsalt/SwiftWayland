@@ -234,6 +234,21 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         case role = 1
     }
 
+    var destructor: Destructor? = .release
+
+    enum Destructor {
+        case release
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .release: try? self.release()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Advertises A Capability Of The Compositor
         /// 

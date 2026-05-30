@@ -94,6 +94,21 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public typealias Event = NoEvent
 }
 public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
@@ -180,6 +195,21 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Introduce A New Wp_Primary_Selection_Offer
         /// 
@@ -297,6 +327,21 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Advertise Offered Mime Type
         /// 
@@ -395,6 +440,21 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1)
     }
     
+    var destructor: Destructor? = .destroy
+
+    enum Destructor {
+        case destroy
+    }
+
+    deinit {
+        if self.isAlive {
+            switch self.destructor {
+                case .destroy: try? self.destroy()
+                case nil: break
+            }
+        }
+    }
+
     public enum Event: Decodable {
         /// Send The Primary Selection Contents
         /// 
