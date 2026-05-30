@@ -524,37 +524,37 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         }
 
         /// no special behaviour
-        static let `none`: ContentHint = []
+        public static let `none`: ContentHint = []
 
         /// suggest word completions
-        static let autoCompletion = ContentHint(rawValue: 1)
+        public static let autoCompletion = ContentHint(rawValue: 1)
 
         /// suggest word corrections
-        static let autoCorrection = ContentHint(rawValue: 2)
+        public static let autoCorrection = ContentHint(rawValue: 2)
 
         /// switch to uppercase letters at the start of a sentence
-        static let autoCapitalization = ContentHint(rawValue: 4)
+        public static let autoCapitalization = ContentHint(rawValue: 4)
 
         /// prefer lowercase letters
-        static let lowercase = ContentHint(rawValue: 8)
+        public static let lowercase = ContentHint(rawValue: 8)
 
         /// prefer uppercase letters
-        static let uppercase = ContentHint(rawValue: 16)
+        public static let uppercase = ContentHint(rawValue: 16)
 
         /// prefer casing for titles and headings (can be language dependent)
-        static let titlecase = ContentHint(rawValue: 32)
+        public static let titlecase = ContentHint(rawValue: 32)
 
         /// characters should be hidden
-        static let hiddenText = ContentHint(rawValue: 64)
+        public static let hiddenText = ContentHint(rawValue: 64)
 
         /// typed text should not be stored
-        static let sensitiveData = ContentHint(rawValue: 128)
+        public static let sensitiveData = ContentHint(rawValue: 128)
 
         /// just latin characters should be entered
-        static let latin = ContentHint(rawValue: 256)
+        public static let latin = ContentHint(rawValue: 256)
 
         /// the text input is multiline
-        static let multiline = ContentHint(rawValue: 512)
+        public static let multiline = ContentHint(rawValue: 512)
     }
 
     public enum ContentPurpose: UInt32 {

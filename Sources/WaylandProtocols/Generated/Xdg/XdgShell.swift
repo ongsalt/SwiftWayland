@@ -592,19 +592,19 @@ public final class XdgPositioner: BaseProxy, Proxy {
             self.rawValue = rawValue
         }
 
-        static let `none`: ConstraintAdjustment = []
+        public static let `none`: ConstraintAdjustment = []
 
-        static let slideX = ConstraintAdjustment(rawValue: 1)
+        public static let slideX = ConstraintAdjustment(rawValue: 1)
 
-        static let slideY = ConstraintAdjustment(rawValue: 2)
+        public static let slideY = ConstraintAdjustment(rawValue: 2)
 
-        static let flipX = ConstraintAdjustment(rawValue: 4)
+        public static let flipX = ConstraintAdjustment(rawValue: 4)
 
-        static let flipY = ConstraintAdjustment(rawValue: 8)
+        public static let flipY = ConstraintAdjustment(rawValue: 8)
 
-        static let resizeX = ConstraintAdjustment(rawValue: 22)
+        public static let resizeX = ConstraintAdjustment(rawValue: 22)
 
-        static let resizeY = ConstraintAdjustment(rawValue: 50)
+        public static let resizeY = ConstraintAdjustment(rawValue: 50)
     }
 
     var destructor: Destructor? = .destroy

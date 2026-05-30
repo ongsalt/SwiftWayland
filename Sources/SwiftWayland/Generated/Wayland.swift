@@ -2156,16 +2156,16 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
         }
 
         /// no action
-        static let `none`: DndAction = []
+        public static let `none`: DndAction = []
 
         /// copy action
-        static let `copy` = DndAction(rawValue: 1)
+        public static let `copy` = DndAction(rawValue: 1)
 
         /// move action
-        static let move = DndAction(rawValue: 2)
+        public static let move = DndAction(rawValue: 2)
 
         /// ask action
-        static let ask = DndAction(rawValue: 4)
+        public static let ask = DndAction(rawValue: 4)
     }
 
     public typealias Event = NoEvent
@@ -2677,31 +2677,31 @@ public final class WlShellSurface: BaseProxy, Proxy {
         }
 
         /// no edge
-        static let `none`: Resize = []
+        public static let `none`: Resize = []
 
         /// top edge
-        static let top = Resize(rawValue: 1)
+        public static let top = Resize(rawValue: 1)
 
         /// bottom edge
-        static let bottom = Resize(rawValue: 2)
+        public static let bottom = Resize(rawValue: 2)
 
         /// left edge
-        static let `left` = Resize(rawValue: 4)
+        public static let `left` = Resize(rawValue: 4)
 
         /// top and left edges
-        static let topLeft = Resize(rawValue: 5)
+        public static let topLeft = Resize(rawValue: 5)
 
         /// bottom and left edges
-        static let bottomLeft = Resize(rawValue: 6)
+        public static let bottomLeft = Resize(rawValue: 6)
 
         /// right edge
-        static let `right` = Resize(rawValue: 8)
+        public static let `right` = Resize(rawValue: 8)
 
         /// top and right edges
-        static let topRight = Resize(rawValue: 9)
+        public static let topRight = Resize(rawValue: 9)
 
         /// bottom and right edges
-        static let bottomRight = Resize(rawValue: 16)
+        public static let bottomRight = Resize(rawValue: 16)
     }
 
     public struct Transient: OptionSet, @unchecked Sendable {
@@ -2711,7 +2711,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         }
 
         /// do not set keyboard focus
-        static let inactive = Transient(rawValue: 1)
+        public static let inactive = Transient(rawValue: 1)
     }
 
     public enum FullscreenMethod: UInt32 {
@@ -3633,13 +3633,13 @@ public final class WlSeat: BaseProxy, Proxy {
         }
 
         /// the seat has pointer devices
-        static let pointer = Capability(rawValue: 1)
+        public static let pointer = Capability(rawValue: 1)
 
         /// the seat has one or more keyboards
-        static let keyboard = Capability(rawValue: 2)
+        public static let keyboard = Capability(rawValue: 2)
 
         /// the seat has touch devices
-        static let touch = Capability(rawValue: 4)
+        public static let touch = Capability(rawValue: 4)
     }
 
     public enum Error: UInt32 {
@@ -5064,10 +5064,10 @@ public final class WlOutput: BaseProxy, Proxy {
         }
 
         /// indicates this is the current mode
-        static let current = Mode(rawValue: 1)
+        public static let current = Mode(rawValue: 1)
 
         /// indicates this is the preferred mode
-        static let preferred = Mode(rawValue: 2)
+        public static let preferred = Mode(rawValue: 2)
     }
 
     var destructor: Destructor? = .release

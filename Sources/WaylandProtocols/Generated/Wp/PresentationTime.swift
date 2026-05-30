@@ -250,13 +250,13 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             self.rawValue = rawValue
         }
 
-        static let vsync = Kind(rawValue: 1)
+        public static let vsync = Kind(rawValue: 1)
 
-        static let hwClock = Kind(rawValue: 2)
+        public static let hwClock = Kind(rawValue: 2)
 
-        static let hwCompletion = Kind(rawValue: 4)
+        public static let hwCompletion = Kind(rawValue: 4)
 
-        static let zeroCopy = Kind(rawValue: 8)
+        public static let zeroCopy = Kind(rawValue: 8)
     }
 
     public enum Event: Decodable {

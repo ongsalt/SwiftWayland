@@ -541,16 +541,16 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
         }
 
         /// the top edge of the anchor rectangle
-        static let top = Anchor(rawValue: 1)
+        public static let top = Anchor(rawValue: 1)
 
         /// the bottom edge of the anchor rectangle
-        static let bottom = Anchor(rawValue: 2)
+        public static let bottom = Anchor(rawValue: 2)
 
         /// the left edge of the anchor rectangle
-        static let `left` = Anchor(rawValue: 4)
+        public static let `left` = Anchor(rawValue: 4)
 
         /// the right edge of the anchor rectangle
-        static let `right` = Anchor(rawValue: 8)
+        public static let `right` = Anchor(rawValue: 8)
     }
 
     var destructor: Destructor? = .destroy

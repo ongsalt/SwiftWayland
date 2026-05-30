@@ -616,54 +616,54 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         }
 
         /// if this output_device can use overscan
-        static let overscan = Capability(rawValue: 1)
+        public static let overscan = Capability(rawValue: 1)
 
         /// if this outputdevice supports variable refresh rate
-        static let vrr = Capability(rawValue: 2)
+        public static let vrr = Capability(rawValue: 2)
 
         /// if setting the rgb range is possible
-        static let rgbRange = Capability(rawValue: 4)
+        public static let rgbRange = Capability(rawValue: 4)
 
         /// if this outputdevice supports high dynamic range
-        static let highDynamicRange = Capability(rawValue: 8)
+        public static let highDynamicRange = Capability(rawValue: 8)
 
         /// if this outputdevice supports a wide color gamut
-        static let wideColorGamut = Capability(rawValue: 16)
+        public static let wideColorGamut = Capability(rawValue: 16)
 
         /// if this outputdevice supports autorotation
-        static let autoRotate = Capability(rawValue: 32)
+        public static let autoRotate = Capability(rawValue: 32)
 
         /// if this outputdevice supports icc profiles
-        static let iccProfile = Capability(rawValue: 64)
+        public static let iccProfile = Capability(rawValue: 64)
 
         /// if this outputdevice supports the brightness setting
-        static let brightness = Capability(rawValue: 128)
+        public static let brightness = Capability(rawValue: 128)
 
         /// if this outputdevice supports the built-in color profile
-        static let builtInColor = Capability(rawValue: 256)
+        public static let builtInColor = Capability(rawValue: 256)
 
         /// if this outputdevice supports DDC/CI
-        static let ddcCi = Capability(rawValue: 512)
+        public static let ddcCi = Capability(rawValue: 512)
 
         /// if this outputdevice supports setting max bpc
-        static let maxBitsPerColor = Capability(rawValue: 1024)
+        public static let maxBitsPerColor = Capability(rawValue: 1024)
 
         /// if this outputdevice supports EDR
-        static let edr = Capability(rawValue: 2048)
+        public static let edr = Capability(rawValue: 2048)
 
         /// if this outputdevice supports the sharpness setting
-        static let sharpness = Capability(rawValue: 4096)
+        public static let sharpness = Capability(rawValue: 4096)
 
         /// if this outputdevice supports custom modes
-        static let customModes = Capability(rawValue: 8192)
+        public static let customModes = Capability(rawValue: 8192)
 
-        static let autoBrightness = Capability(rawValue: 16384)
+        public static let autoBrightness = Capability(rawValue: 16384)
 
         /// if this outputdevice supports HDR ICC profiles
-        static let hdrIccProfile = Capability(rawValue: 32768)
+        public static let hdrIccProfile = Capability(rawValue: 32768)
 
         /// if this outputdevice supports the abm level setting
-        static let abmLevel = Capability(rawValue: 65536)
+        public static let abmLevel = Capability(rawValue: 65536)
     }
 
     public enum VrrPolicy: UInt32 {

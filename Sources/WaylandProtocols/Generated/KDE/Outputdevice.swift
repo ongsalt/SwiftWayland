@@ -269,10 +269,10 @@ public final class KdeOutputdevice: BaseProxy, Proxy {
         }
 
         /// if this outputdevice can use overscan
-        static let overscan = Capability(rawValue: 1)
+        public static let overscan = Capability(rawValue: 1)
 
         /// if this outputdevice supports variable refresh rate
-        static let vrr = Capability(rawValue: 2)
+        public static let vrr = Capability(rawValue: 2)
     }
 
     public enum VrrPolicy: UInt32 {

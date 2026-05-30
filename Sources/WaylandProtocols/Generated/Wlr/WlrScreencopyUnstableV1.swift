@@ -365,7 +365,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
         }
 
         /// contents are y-inverted
-        static let yInvert = Flags(rawValue: 1)
+        public static let yInvert = Flags(rawValue: 1)
     }
 
     var destructor: Destructor? = .destroy
