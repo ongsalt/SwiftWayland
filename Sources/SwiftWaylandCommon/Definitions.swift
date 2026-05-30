@@ -159,10 +159,14 @@ public struct Argument: Codable, Sendable {
     public let `enum`: String?
     public let summary: String?
     public let description: Description?
+    private var _nullable: Bool?
+    public var nullable: Bool {
+        _nullable ?? false
+    }
 
     public init(
         name: String, `type`: Primitive, interface: String? = nil, `enum`: String? = nil,
-        summary: String? = nil, description: Description? = nil
+        summary: String? = nil, description: Description? = nil, nullable: Bool = false
     ) {
         self.name = name
         self.`type` = `type`
@@ -170,14 +174,13 @@ public struct Argument: Codable, Sendable {
         self.`enum` = `enum`
         self.summary = summary
         self.description = description
+        self._nullable = nullable
     }
 
-    // TODO: codegen: nullable
-    public let nullable: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case name, type, interface, `enum`, summary, description
-        case nullable = "allow_null"
+        case _nullable = "allow-null"
     }
 }
 

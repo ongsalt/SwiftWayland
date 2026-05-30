@@ -4,7 +4,6 @@ import sys
 import os
 from pathlib import Path
 
-# Keep in sync with Plugins/WaylandScannerPlugin/Mapping.swift
 PROTOCOLS = [
     # XDG
     "./Protocols/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml",
@@ -91,21 +90,21 @@ def main():
     if not ok:
         errors += 1
 
-    for proto_path in PROTOCOLS:
-        name = to_camel(Path(proto_path).stem)
-        output = f"Sources/WaylandProtocols/Generated/{name}.swift"
-        args = ["client", proto_path, output, "--import", "SwiftWayland"]
-        traits = get_traits(proto_path)
-        if traits:
-            args += ["--traits", traits]
-        if not run(cli, args):
-            errors += 1
+    # for proto_path in PROTOCOLS:
+    #     name = to_camel(Path(proto_path).stem)
+    #     output = f"Sources/WaylandProtocols/Generated/{name}.swift"
+    #     args = ["client", proto_path, output, "--import", "SwiftWayland"]
+    #     traits = get_traits(proto_path)
+    #     if traits:
+    #         args += ["--traits", traits]
+    #     if not run(cli, args):
+    #         errors += 1
 
-    if errors:
-        print(f"\n{errors} error(s).")
-        sys.exit(1)
-    else:
-        print("\nDone.")
+    # if errors:
+    #     print(f"\n{errors} error(s).")
+    #     sys.exit(1)
+    # else:
+    #     print("\nDone.")
 
 
 if __name__ == "__main__":

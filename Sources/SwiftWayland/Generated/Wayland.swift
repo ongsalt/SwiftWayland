@@ -110,10 +110,12 @@ public final class WlDisplay: BaseProxy, Proxy {
         return registry
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// server couldn't find object
         case invalidObject = 0
@@ -232,10 +234,12 @@ public final class WlRegistry: BaseProxy, Proxy {
                 ),
                 ],
         )
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Event: Decodable {
         /// Announce Global Object
         /// 
@@ -297,10 +301,12 @@ public final class WlCallback: BaseProxy, Proxy {
                 ),
                 ],
         )
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Event: Decodable {
         /// Done Event
         /// 
@@ -388,10 +394,12 @@ public final class WlCompositor: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public typealias Event = NoEvent
 }
 /// A Shared Memory Pool
@@ -501,7 +509,7 @@ public final class WlShmPool: BaseProxy, Proxy {
     /// The mmapped memory will be released when all
     /// buffers that have been created from this pool
     /// are gone.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
@@ -528,10 +536,12 @@ public final class WlShmPool: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public typealias Event = NoEvent
 }
 /// Shared Memory Support
@@ -618,17 +628,19 @@ public final class WlShm: BaseProxy, Proxy {
     /// Using this request a client can tell the server that it is not going to
     /// use the shm object anymore.
     /// Objects created via this interface remain unaffected.
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// buffer format is not known
         case invalidFormat = 0
@@ -1060,16 +1072,18 @@ public final class WlBuffer: BaseProxy, Proxy {
     /// Destroy a buffer. If and how you need to release the backing
     /// storage is defined by the buffer factory interface.
     /// For possible side-effects to a surface, see wl_surface.attach.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Event: Decodable {
         /// Compositor Releases Buffer
         /// 
@@ -1216,11 +1230,11 @@ public final class WlDataOffer: BaseProxy, Proxy {
     /// - Parameters:
     ///   - serial: serial number of the accept request
     ///   - mimeType: mime type accepted by the client
-    public func accept(serial: UInt32, mimeType: String) throws(WaylandProxyError) {
+    public func accept(serial: UInt32, mimeType: String? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .uint(serial),
-            .string(mimeType),
+            .string(mimeType ?? ""),
         ])
     }
 
@@ -1254,7 +1268,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
     /// Destroy Data Offer
     /// 
     /// Destroy the data offer.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
         ])
@@ -1320,10 +1334,12 @@ public final class WlDataOffer: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// finish request was called untimely
         case invalidFinish = 0
@@ -1510,7 +1526,7 @@ public final class WlDataSource: BaseProxy, Proxy {
     /// Destroy The Data Source
     /// 
     /// Destroy the data source.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
         ])
@@ -1540,10 +1556,12 @@ public final class WlDataSource: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// action mask contains invalid values
         case invalidActionMask = 0
@@ -1821,12 +1839,12 @@ public final class WlDataDevice: BaseProxy, Proxy {
     ///   - origin: surface where the drag originates
     ///   - icon: drag-and-drop icon surface
     ///   - serial: serial number of the implicit grab on the origin
-    public func startDrag(source: WlDataSource, origin: WlSurface, icon: WlSurface, serial: UInt32) throws(WaylandProxyError) {
+    public func startDrag(source: WlDataSource? = nil, origin: WlSurface, icon: WlSurface? = nil, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(source.id),
+            .object(source?.id ?? 0),
             .object(origin.id),
-            .object(icon.id),
+            .object(icon?.id ?? 0),
             .uint(serial),
         ])
     }
@@ -1843,10 +1861,10 @@ public final class WlDataDevice: BaseProxy, Proxy {
     /// - Parameters:
     ///   - source: data source for the selection
     ///   - serial: serial number of the event that triggered this request
-    public func setSelection(source: WlDataSource, serial: UInt32) throws(WaylandProxyError) {
+    public func setSelection(source: WlDataSource? = nil, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(source.id),
+            .object(source?.id ?? 0),
             .uint(serial),
         ])
     }
@@ -1854,17 +1872,19 @@ public final class WlDataDevice: BaseProxy, Proxy {
     /// Destroy Data Device
     /// 
     /// This request destroys the data device.
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 2, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// given wl_surface has another role
         case role = 0
@@ -2043,10 +2063,12 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum DndAction: UInt32 {
         /// no action
         case `none` = 0
@@ -2121,10 +2143,12 @@ public final class WlShell: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// given wl_surface has another role
         case role = 0
@@ -2450,12 +2474,12 @@ public final class WlShellSurface: BaseProxy, Proxy {
     ///   - method: method for resolving size conflict
     ///   - framerate: framerate in mHz
     ///   - output: output on which the surface is to be fullscreen
-    public func setFullscreen(method: UInt32, framerate: UInt32, output: WlOutput) throws(WaylandProxyError) {
+    public func setFullscreen(method: UInt32, framerate: UInt32, output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
             .uint(method),
             .uint(framerate),
-            .object(output.id),
+            .object(output?.id ?? 0),
         ])
     }
 
@@ -2515,10 +2539,10 @@ public final class WlShellSurface: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - output: output on which the surface is to be maximized
-    public func setMaximized(output: WlOutput) throws(WaylandProxyError) {
+    public func setMaximized(output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 7, [
-            .object(output.id),
+            .object(output?.id ?? 0),
         ])
     }
 
@@ -2556,10 +2580,12 @@ public final class WlShellSurface: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Resize: UInt32 {
         /// no edge
         case `none` = 0
@@ -2883,7 +2909,7 @@ public final class WlSurface: BaseProxy, Proxy {
     /// Delete Surface
     /// 
     /// Deletes the surface and invalidates its object ID.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -2951,10 +2977,10 @@ public final class WlSurface: BaseProxy, Proxy {
     ///   - buffer: buffer of surface contents
     ///   - x: surface-local x coordinate
     ///   - y: surface-local y coordinate
-    public func attach(buffer: WlBuffer, x: Int32, y: Int32) throws(WaylandProxyError) {
+    public func attach(buffer: WlBuffer? = nil, x: Int32, y: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(buffer.id),
+            .object(buffer?.id ?? 0),
             .int(x),
             .int(y),
         ])
@@ -3057,10 +3083,10 @@ public final class WlSurface: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - region: opaque region of the surface
-    public func setOpaqueRegion(region: WlRegion) throws(WaylandProxyError) {
+    public func setOpaqueRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .object(region.id),
+            .object(region?.id ?? 0),
         ])
     }
 
@@ -3086,10 +3112,10 @@ public final class WlSurface: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - region: input region of the surface
-    public func setInputRegion(region: WlRegion) throws(WaylandProxyError) {
+    public func setInputRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
-            .object(region.id),
+            .object(region?.id ?? 0),
         ])
     }
 
@@ -3255,10 +3281,12 @@ public final class WlSurface: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// buffer scale value is invalid
         case invalidScale = 0
@@ -3484,17 +3512,19 @@ public final class WlSeat: BaseProxy, Proxy {
     /// 
     /// Using this request a client can tell the server that it is not going to
     /// use the seat object anymore.
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
         connection.send(self, 3, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Capability: UInt32 {
         /// the seat has pointer devices
         case pointer = 1
@@ -3813,11 +3843,11 @@ public final class WlPointer: BaseProxy, Proxy {
     ///   - surface: pointer surface
     ///   - hotspotX: surface-local x coordinate
     ///   - hotspotY: surface-local y coordinate
-    public func setCursor(serial: UInt32, surface: WlSurface, hotspotX: Int32, hotspotY: Int32) throws(WaylandProxyError) {
+    public func setCursor(serial: UInt32, surface: WlSurface? = nil, hotspotX: Int32, hotspotY: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .uint(serial),
-            .object(surface.id),
+            .object(surface?.id ?? 0),
             .int(hotspotX),
             .int(hotspotY),
         ])
@@ -3829,17 +3859,19 @@ public final class WlPointer: BaseProxy, Proxy {
     /// use the pointer object anymore.
     /// This request destroys the pointer proxy object, so clients must not call
     /// wl_pointer_destroy() after using this request.
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 1, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// given wl_surface has another role
         case role = 0
@@ -4265,17 +4297,19 @@ public final class WlKeyboard: BaseProxy, Proxy {
     /// Release The Keyboard Object
     /// 
     /// 
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum KeymapFormat: UInt32 {
         /// no keymap; client must understand how to interpret the raw keycode
         case noKeymap = 0
@@ -4543,17 +4577,19 @@ public final class WlTouch: BaseProxy, Proxy {
     /// Release The Touch Object
     /// 
     /// 
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Event: Decodable {
         /// Touch Down Event And Beginning Of A Touch Sequence
         /// 
@@ -4792,17 +4828,19 @@ public final class WlOutput: BaseProxy, Proxy {
     /// 
     /// Using this request a client can tell the server that it is not going to
     /// use the output object anymore.
-    public consuming func release() throws(WaylandProxyError) {
+    public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 0, [
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Subpixel: UInt32 {
         /// unknown geometry
         case unknown = 0
@@ -5064,7 +5102,7 @@ public final class WlRegion: BaseProxy, Proxy {
     /// Destroy Region
     /// 
     /// Destroy the region.  This will invalidate the object ID.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -5108,10 +5146,12 @@ public final class WlRegion: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public typealias Event = NoEvent
 }
 /// Sub-Surface Compositing
@@ -5175,7 +5215,7 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     /// Informs the server that the client will not be using this
     /// protocol object anymore. This does not affect any other
     /// objects, wl_subsurface objects included.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -5216,10 +5256,12 @@ public final class WlSubcompositor: BaseProxy, Proxy {
         return id
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// the to-be sub-surface is invalid
         case badSurface = 0
@@ -5342,7 +5384,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
     /// that was turned into a sub-surface with a
     /// wl_subcompositor.get_subsurface request. The wl_surface's association
     /// to the parent is deleted. The wl_surface is unmapped immediately.
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -5452,10 +5494,12 @@ public final class WlSubsurface: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public enum Error: UInt32 {
         /// wl_surface is not a sibling or the parent
         case badSurface = 0
@@ -5498,7 +5542,7 @@ public final class WlFixes: BaseProxy, Proxy {
     /// Destroys This Object
     /// 
     /// 
-    public consuming func destroy() throws(WaylandProxyError) {
+    public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
         ])
@@ -5523,10 +5567,12 @@ public final class WlFixes: BaseProxy, Proxy {
         ])
     }
 
+    
     @_spi(SwiftWaylandPrivate)
     override public class func ensureLoaded() {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
+    
     public typealias Event = NoEvent
 }
 

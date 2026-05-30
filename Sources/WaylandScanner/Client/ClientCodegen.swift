@@ -11,7 +11,7 @@ extension ProtocolDeclaration: Code {
 
         // Initilaization code
         gen.add()
-        // this shit is either lazy or get treeshake away 
+        // this shit is either lazy or get treeshake away
         gen.add(
             """
             public let \(self.name.gravedIfNeeded) = Protocol(
@@ -50,10 +50,12 @@ extension ClassDeclaration: Code {
 
             gen.add(
                 """
+
                 @_spi(SwiftWaylandPrivate)
                 override public class func ensureLoaded() {
                     CRuntimeInfo.shared.addIfNotExists(protocol: \(self.protocolName.gravedIfNeeded))
                 }
+
                 """
             )
 
@@ -106,30 +108,44 @@ extension MethodDeclaration: Code {
         }
 
         // signature
-        var functionHeader: [String] = ["public"]
-        if self.consuming {
-            functionHeader.append("consuming")
-        }
+        var functionHeader = ""
+        // if self.consuming {
+        //     functionHeader.append("consuming")
+        // }
 
-        functionHeader.append("func")
-        if arguments.isEmpty {
-            functionHeader.append("\(self.name.gravedIfNeeded)()")
-        } else {
+        functionHeader += "public func \(self.name.gravedIfNeeded)("
+        if !arguments.isEmpty {
             let params = arguments.map { arg in
-                var str = "\(arg.name.gravedIfNeeded): \(arg.swiftType)"
-                if let externalName = arg.externalName {
-                    str = "\(externalName.gravedIfNeeded) \(str)"
-                }
-                if let defaultValue = arg.defaultValue {
-                    str = "\(str) = \(defaultValue)"
-                }
-                return str
-            }.joined(separator: ", ")
-            functionHeader.append("\(self.name.gravedIfNeeded)(\(params))")
-        }
+                var ty = arg.swiftType
+                if arg.nullable { ty += "?" }
 
+                let defaultValue =
+                    if arg.nullable {
+                        "nil"
+                    } else {
+                        arg.defaultValue
+                    }
+
+                let defaultValueString =
+                    if let defaultValue {
+                        " = \(defaultValue)"
+                    } else {
+                        ""
+                    }
+
+                let externalName =
+                    if let externalName = arg.externalName {
+                        "\(externalName.gravedIfNeeded) "
+                    } else {
+                        ""
+                    }
+
+                return "\(externalName)\(arg.name.gravedIfNeeded): \(ty)\(defaultValueString)"
+            }.joined(separator: ", ")
+            functionHeader += params
+        }
         // TODO: throwing
-        functionHeader.append("throws(WaylandProxyError)")
+        functionHeader += ") throws(WaylandProxyError)"
 
         if !returns.isEmpty {
             let ret =
@@ -139,12 +155,12 @@ extension MethodDeclaration: Code {
                 default:
                     "(\(returns.map {"\($0.name.gravedIfNeeded): \($0.swiftType)"}.joined(separator: ", ")))"
                 }
-            functionHeader.append("->")
-            functionHeader.append(ret)
+            functionHeader += " -> \(ret)"
         }
 
-        functionHeader.append("{")
-        gen.add(functionHeader.joined(separator: " "))
+        functionHeader.append(" {")
+        gen.add(functionHeader)
+
         gen.indent {
             // State check
             gen.add(
@@ -184,8 +200,17 @@ extension MethodDeclaration: Code {
                 for arg in self.messageArguments {
                     switch arg.waylandType {
                     case .object, .newId:
-                        gen.add(
-                            ".object(\(arg.name.gravedIfNeeded).id),")
+                        if arg.nullable {
+                            gen << ".object(\(arg.name.gravedIfNeeded)?.id ?? 0),"
+                        } else {
+                            gen << ".object(\(arg.name.gravedIfNeeded).id),"
+                        }
+                    case .string:
+                        if arg.nullable {
+                            gen << ".string(\(arg.name.gravedIfNeeded) ?? \"\"),"
+                        } else {
+                            gen << ".string(\(arg.name.gravedIfNeeded)),"
+                        }
                     case .enum:
                         gen.add(
                             ".\(arg.waylandType)(\(arg.name.gravedIfNeeded).rawValue),"

@@ -9,7 +9,7 @@ import SwiftWaylandCommon
 // }
 
 public func transform(
-    interface: Interface, 
+    interface: Interface,
     trim transformName: Bool,
     protocolName: String
 ) -> ClassDeclaration {
@@ -31,7 +31,8 @@ public func transform(
                             ArgumentDeclaration(
                                 name: arg.name.lowerCamel,
                                 swiftType: CALLBACK_TYPE,
-                                summary: arg.summary
+                                summary: arg.summary,
+                                nullable: arg.nullable
                             )
                         )
                         callbacks.append(CallbackDeclaration(name: arg.name.lowerCamel))
@@ -56,7 +57,8 @@ public func transform(
                     let decl = ArgumentDeclaration(
                         name: arg.name.lowerCamel,
                         swiftType: swiftType,
-                        summary: arg.summary
+                        summary: arg.summary,
+                        nullable: arg.nullable
                     )
 
                     if arg.type == .newId {
@@ -74,7 +76,7 @@ public func transform(
                             externalName: "queue",
                             swiftType: "EventQueue?",
                             defaultValue: "nil",
-                            summary: "queue to associated with created objects"
+                            summary: "queue to associated with created objects",
                         ))
                 }
 
@@ -82,7 +84,8 @@ public func transform(
                     WaylandArgumentDeclaration(
                         name: arg.name.lowerCamel,
                         waylandType: arg.type,
-                        swiftType: "__ignored"
+                        swiftType: "__ignored",
+                        nullable: arg.nullable
                     )
                 }
 
@@ -143,6 +146,7 @@ public func transform(
                             name: arg.name.lowerCamel,
                             waylandType: arg.type,
                             swiftType: swiftType,  // for object/newId
+                            nullable: arg.nullable
                         )
                     }
                 )
@@ -159,6 +163,8 @@ public func transform(
         copyright: p.copyright,
         description: p.description,
         protocol: p,
-        classes: p.interfaces.map { transform(interface: $0, trim: transformName, protocolName: p.name.camel) }
+        classes: p.interfaces.map {
+            transform(interface: $0, trim: transformName, protocolName: p.name.camel)
+        }
     )
 }

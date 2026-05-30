@@ -56,8 +56,6 @@ dnf install wayland-devel
 ```
 
 # Todos
-- stop doing build plugin, its buggy af
-- allow-null
 - event type="destructor"
 
 - typed error

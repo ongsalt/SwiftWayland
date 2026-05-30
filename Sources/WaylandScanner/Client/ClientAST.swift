@@ -52,13 +52,16 @@ struct ArgumentDeclaration {
     var swiftType: String
     var defaultValue: String? = nil
     var summary: String? = nil
+    var nullable: Bool = false
     // do this have since field
 }
 
+// runtime info
 struct WaylandArgumentDeclaration {
     var name: String
     var waylandType: Primitive
     var swiftType: String
+    var nullable: Bool = false
     // do this have since field
 }
 
