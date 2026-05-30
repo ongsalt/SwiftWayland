@@ -158,6 +158,10 @@ public class Connection {
         return obj
     }
 
+func createEventQueue() {
+      
+}
+
     func destroy(proxy: some Proxy) {
         (proxy as? BaseProxy)?.markDead()
         knownProxies[proxy.id] = nil
