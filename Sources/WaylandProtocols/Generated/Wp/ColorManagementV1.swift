@@ -449,7 +449,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
 
         case displayP3 = 9
 
-        case adobeRgb = 16
+        case adobeRgb = 10
     }
 
     public enum TransferFunction: UInt32 {
@@ -471,15 +471,15 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
 
         case srgb = 9
 
-        case extSrgb = 16
+        case extSrgb = 10
 
-        case st2084Pq = 17
+        case st2084Pq = 11
 
-        case st428 = 18
+        case st428 = 12
 
-        case hlg = 19
+        case hlg = 13
 
-        case compoundPower24 = 20
+        case compoundPower24 = 14
     }
 
     var destructor: Destructor? = .destroy

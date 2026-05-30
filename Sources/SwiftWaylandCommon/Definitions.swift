@@ -121,12 +121,15 @@ public struct EnumEntry: Codable, Sendable {
 
     // TODO: remove this
     public var intValue: UInt32 {
-        if let value = UInt32(value.trim("0x", nil), radix: 16) ?? UInt32(value) {
+        if value.contains("0x"), let value = UInt32(value.trim("0x", nil), radix: 16) {
             return value
         }
 
-        fatalError("Cant decode \(value) name: \(name), summary: \(summary)")
+        if let value = UInt32(value) {
+            return value
+        }
 
+        fatalError("Cant decode \(value) name: \(name), summary: \(summary ?? "-")")
     }
 }
 

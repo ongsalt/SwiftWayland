@@ -956,10 +956,10 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         case virtual = 6
 
         /// Serial
-        case serial = 23
+        case serial = 17
 
         /// I2C
-        case i2c = 36
+        case i2c = 24
     }
 
     var destructor: Destructor? = .destroy

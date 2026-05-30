@@ -602,9 +602,9 @@ public final class XdgPositioner: BaseProxy, Proxy {
 
         public static let flipY = ConstraintAdjustment(rawValue: 8)
 
-        public static let resizeX = ConstraintAdjustment(rawValue: 22)
+        public static let resizeX = ConstraintAdjustment(rawValue: 16)
 
-        public static let resizeY = ConstraintAdjustment(rawValue: 50)
+        public static let resizeY = ConstraintAdjustment(rawValue: 32)
     }
 
     var destructor: Destructor? = .destroy
@@ -1588,7 +1588,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
 
         case topRight = 9
 
-        case bottomRight = 16
+        case bottomRight = 10
     }
 
     public enum State: UInt32 {
@@ -1614,13 +1614,13 @@ public final class XdgToplevel: BaseProxy, Proxy {
 
         case suspended = 9
 
-        case constrainedLeft = 16
+        case constrainedLeft = 10
 
-        case constrainedRight = 17
+        case constrainedRight = 11
 
-        case constrainedTop = 18
+        case constrainedTop = 12
 
-        case constrainedBottom = 19
+        case constrainedBottom = 13
     }
 
     public enum WmCapabilities: UInt32 {

@@ -589,13 +589,13 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         case date = 9
 
         /// input a time
-        case time = 16
+        case time = 10
 
         /// input a date and time
-        case datetime = 17
+        case datetime = 11
 
         /// input for a terminal
-        case terminal = 18
+        case terminal = 12
     }
 
     public enum UpdateState: UInt32 {

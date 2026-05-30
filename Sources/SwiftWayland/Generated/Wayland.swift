@@ -2701,7 +2701,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         public static let topRight = Resize(rawValue: 9)
 
         /// bottom and right edges
-        public static let bottomRight = Resize(rawValue: 16)
+        public static let bottomRight = Resize(rawValue: 10)
     }
 
     public struct Transient: OptionSet, @unchecked Sendable {

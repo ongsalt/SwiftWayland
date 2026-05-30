@@ -585,16 +585,16 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         case pin = 9
 
         /// input a date
-        case date = 16
+        case date = 10
 
         /// input a time
-        case time = 17
+        case time = 11
 
         /// input a date and time
-        case datetime = 18
+        case datetime = 12
 
         /// input for a terminal
-        case terminal = 19
+        case terminal = 13
     }
 
     public enum Error: UInt32 {
