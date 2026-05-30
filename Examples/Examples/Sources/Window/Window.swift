@@ -2,17 +2,18 @@ import Foundation
 import SwiftWayland
 import WaylandProtocols
 
-// copilot wrote most of this
 public final class Window {
     public let connection: Connection
 
     private var compositor: WlCompositor?
     private var shm: WlShm?
     private var xdgWmBase: XdgWmBase?
+    private var decorationManager: KdeServerDecorationManager?
 
     private var surface: WlSurface?
     private var xdgSurface: XdgSurface?
     private var toplevel: XdgToplevel?
+    private var decoration: KdeServerDecoration?
 
     private var shmPool: WlShmPool?
     private var buffer: WlBuffer?
@@ -21,61 +22,43 @@ public final class Window {
     private var bufferWidth: Int = 0
     private var bufferHeight: Int = 0
 
-    private var file: FileHandle?
-
-    deinit {
-        if let bufferData = bufferData, bufferSize > 0 {
-            munmap(bufferData, bufferSize)
-        }
-        try? file?.close()
-
-        try? buffer?.destroy()
-        try? shmPool?.destroy()
-        try? toplevel?.destroy()
-        try? xdgSurface?.destroy()
-        try? surface?.destroy()
-        try? xdgWmBase?.destroy()
-        try? shm?.release()
-
-    }
-
     public init(connection: Connection) {
         self.connection = connection
     }
 
     func start() throws {
-        let display = connection.display
         let globals = try Globals(connection: connection)
-        
         connection.roundtrip()
 
-        compositor = try globals.bind(version: 6...6, type: WlCompositor.self)
-        shm = try globals.bind(version: 2...2, type: WlShm.self)
-        xdgWmBase = try globals.bind(version: 6...7, type: XdgWmBase.self)
-        self.xdgWmBase!.onEvent = { [weak self] ev in
+        compositor = try globals.bind(to: WlCompositor.self, version: 6...6)
+        shm = try globals.bind(to: WlShm.self, version: 1...2)
+        xdgWmBase = try globals.bind(to: XdgWmBase.self, version: 6...7)
+        xdgWmBase!.onEvent = { [weak self] ev in
             guard let self else { return }
             if case .ping(let serial) = ev {
                 try! self.xdgWmBase?.pong(serial: serial)
             }
         }
-        
 
-        guard
-            let compositor = compositor,
-            let xdgWmBase = xdgWmBase,
-            let shm = shm
-        else {
+        decorationManager = try? globals.bind(to: KdeServerDecorationManager.self, version: 1...1)
+
+        guard let compositor, let xdgWmBase, let shm else {
             fatalError("Missing required globals")
         }
 
-        self.surface = try compositor.createSurface()
-        self.xdgSurface = try xdgWmBase.getXdgSurface(surface: surface!)
-        self.toplevel = try xdgSurface!.getToplevel()
-        try toplevel!.setTitle(title: "SwiftWayland")
+        surface = try compositor.createSurface()
+        xdgSurface = try xdgWmBase.getXdgSurface(surface: surface!)
+        toplevel = try xdgSurface!.getToplevel()
+        try toplevel!.setTitle("SwiftWayland")
 
+        if let decorationManager {
+            decoration = try decorationManager.create(surface: surface!)
+            try decoration!.requestMode(mode: KdeServerDecorationManager.Mode.server.rawValue)
+        }
+ 
         let initialWidth = 480
         let initialHeight = 320
-        let bufferInfo = try! makeShmBuffer(shm: shm, width: initialWidth, height: initialHeight)
+        let bufferInfo = makeShmBuffer(shm: shm, width: initialWidth, height: initialHeight)
         shmPool = bufferInfo.pool
         buffer = bufferInfo.buffer
         bufferData = bufferInfo.data
@@ -86,72 +69,50 @@ public final class Window {
         xdgSurface!.onEvent = { [weak self] event in
             guard let self else { return }
             if case .configure(let serial) = event {
-                try! xdgSurface!.ackConfigure(serial: serial)
-                try! surface!.attach(buffer: self.buffer!, x: 0, y: 0)
-                try! surface!.damage(
+                try! self.xdgSurface!.ackConfigure(serial: serial)
+                try! self.surface!.attach(buffer: self.buffer!, x: 0, y: 0)
+                try! self.surface!.damage(
                     x: 0, y: 0, width: Int32(self.bufferWidth), height: Int32(self.bufferHeight)
                 )
-                try! surface!.commit()
-
+                try! self.surface!.commit()
             }
         }
 
         try surface!.commit()
         connection.roundtrip()
-
-
-
-        // let decorationManager = try globals.bind(version: 1...2, type: ZxdgDecorationManagerV1.self)
-        // let decoration = try decorationManager.getToplevelDecoration(toplevel: toplevel!)
-        // try decoration.setMode(mode: ZxdgToplevelDecorationV1.Mode.serverSide.rawValue)
-        // decoration.onEvent = { event in
-        //     if case .configure(let mode) = event {
-        //         print("The server want (decoration) mode: \(mode)")
-        //     }
-        // }
-
-
         connection.roundtrip()
     }
 
-    private func makeShmBuffer(shm: WlShm, width: Int, height: Int) throws -> (
+    private func makeShmBuffer(shm: WlShm, width: Int, height: Int) -> (
         buffer: WlBuffer, pool: WlShmPool, data: UnsafeMutableRawPointer, size: Int
     ) {
         let stride = width * 4
         let size = stride * height
 
-        let file: FileHandle = try! createShmFile(size: size)
-        // self.file = file
+        let file = createShmFile(size: size)
         let pool = try! shm.createPool(fd: file, size: Int32(size))
         let buffer = try! pool.createBuffer(
             offset: 0,
             width: Int32(width),
             height: Int32(height),
             stride: Int32(stride),
-            format: WlShm.Format.xrgb8888.rawValue
+            format: .xrgb8888
         )
 
-        let data = mmap(nil, size, PROT_READ | PROT_WRITE, MAP_SHARED, file.fileDescriptor, 0)
-        if data == MAP_FAILED {
-            fatalError("mmap failed")
-        }
-
-        fillGradient(buffer: data!, width: width, height: height)
-        return (buffer, pool, data!, size)
+        let data = mmap(nil, size, PROT_READ | PROT_WRITE, MAP_SHARED, file.fileDescriptor, 0)!
+        fillGradient(buffer: data, width: width, height: height)
+        return (buffer, pool, data, size)
     }
 
     private func createShmFile(size: Int) -> FileHandle {
         let name = "/swiftwayland-\(UUID().uuidString)"
         let fd = shm_open(name, O_RDWR | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)
-        if fd == -1 {
-            fatalError("shm_open failed")
-        }
+        if fd == -1 { fatalError("shm_open failed") }
         _ = shm_unlink(name)
         if ftruncate(fd, off_t(size)) == -1 {
             close(fd)
             fatalError("ftruncate failed")
         }
-
         return FileHandle(fileDescriptor: fd, closeOnDealloc: true)
     }
 

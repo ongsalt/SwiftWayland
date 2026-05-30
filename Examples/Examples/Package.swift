@@ -6,13 +6,13 @@ import PackageDescription
 let package = Package(
     name: "Examples",
     dependencies: [
-        .package(path: "../..", traits: ["UNSTABLE", .defaults])
+        .package(path: "../..", traits: ["UNSTABLE", "KDE", .defaults])
     ],
     targets: [
         .executableTarget(
             name: "Window",
             dependencies: [
-                .product(name: "SwiftWayland", package: "SwiftWayland")
+                .product(name: "SwiftWayland", package: "SwiftWayland"),
             ],
         ),
     ],
