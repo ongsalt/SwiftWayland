@@ -58,7 +58,6 @@ dnf install wayland-devel
 # Todos
 - stop doing build plugin, its buggy af
 - allow-null
-- stop doing `Data` and use `UnsafeMutableRawBuffer`
 - event type="destructor"
 
 - typed error
@@ -67,9 +66,6 @@ dnf install wayland-devel
 - generate more documentation
     - throws
     - when returns multiple object (probably never????)
-- test
-    - gonna steal from wayland-rs
-- proxy
 - version validation
 - enum
 - signature transformation `setMode(mode:)` -> `setMode(_:)`

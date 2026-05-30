@@ -90,7 +90,7 @@ public struct Enum: Codable, Sendable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case name, description, since
+        case name, description, since, bitfield
         case entries = "entry"
     }
 }
