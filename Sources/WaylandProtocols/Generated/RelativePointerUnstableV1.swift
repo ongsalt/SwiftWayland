@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Get Relative Pointer Objects
 /// 
 /// A global interface used for getting the relative pointer object for a

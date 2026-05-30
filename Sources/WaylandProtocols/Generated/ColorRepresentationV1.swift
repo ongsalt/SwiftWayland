@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Color Representation Manager Singleton
 /// 
 /// A singleton global interface used for getting color representation

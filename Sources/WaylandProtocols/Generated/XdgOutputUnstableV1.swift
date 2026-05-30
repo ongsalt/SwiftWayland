@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if XDG
 /// Manage Xdg_Output Objects
 /// 
 /// A global factory interface for xdg_output objects.

@@ -1,6 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
+#if WP
 /// Controller Object For Graphic Tablet Devices
 /// 
 /// An object that provides access to the graphics tablets available on this
@@ -2182,3 +2183,5 @@ ZwpTabletPadV2.interface,
 ZwpTabletPadDialV2.interface
         ]
     )
+
+#endif

@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if XDG
 /// Window Decoration Manager
 /// 
 /// This interface allows a compositor to announce support for server-side

@@ -14,7 +14,12 @@ let package = Package(
         .trait(name: "SERVER"),
         .trait(name: "STAGING"),
         .trait(name: "UNSTABLE"),
-        .default(enabledTraits: ["CLIENT"]),
+        .trait(name: "XDG"),
+        .trait(name: "WP"),
+        .trait(name: "XWAYLAND"),
+        .trait(name: "KDE"),
+        .trait(name: "WLR"),
+        .default(enabledTraits: ["CLIENT", "XDG"]),
     ],
     dependencies: [
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),

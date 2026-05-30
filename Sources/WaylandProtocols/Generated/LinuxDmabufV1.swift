@@ -1,6 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
+#if WP
 /// Factory For Creating Dmabuf-Based Wl_Buffers
 /// 
 /// This interface offers ways to create generic dmabuf-based wl_buffers.
@@ -971,3 +972,5 @@ ZwpLinuxBufferParamsV1.interface,
 ZwpLinuxDmabufFeedbackV1.interface
         ]
     )
+
+#endif

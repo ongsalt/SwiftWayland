@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Controller Object For Graphic Tablet Devices
 /// 
 /// An object that provides access to the graphics tablets available on this

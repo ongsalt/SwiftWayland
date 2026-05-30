@@ -1,3 +1,9 @@
 [submodule "Protocols"]
 	path = Protocols
 	url = https://gitlab.freedesktop.org/wayland/wayland-protocols.git
+[submodule "ProtocolsKDE"]
+	path = ProtocolsKDE
+	url = https://invent.kde.org/libraries/plasma-wayland-protocols.git
+[submodule "ProtocolsWlr"]
+	path = ProtocolsWlr
+	url = https://gitlab.freedesktop.org/wlroots/wlr-protocols.git

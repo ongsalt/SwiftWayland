@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Fractional Surface Scale Information
 /// 
 /// A global interface for requesting surfaces to use fractional scales.

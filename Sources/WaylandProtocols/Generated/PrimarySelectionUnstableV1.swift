@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// X Primary Selection Emulation
 /// 
 /// The primary selection device manager is a singleton global object that

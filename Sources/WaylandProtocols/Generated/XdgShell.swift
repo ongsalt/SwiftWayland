@@ -1,6 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
+#if XDG
 /// Create Desktop-Style Surfaces
 /// 
 /// The xdg_wm_base interface is exposed as a global object enabling clients
@@ -2017,3 +2018,5 @@ XdgToplevel.interface,
 XdgPopup.interface
         ]
     )
+
+#endif

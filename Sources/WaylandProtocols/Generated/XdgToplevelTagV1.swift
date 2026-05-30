@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if XDG
 /// Protocol For Setting Toplevel Tags
 /// 
 /// In order to make some window properties like position, size,

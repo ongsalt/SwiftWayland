@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Context Object For High-Resolution Input Timestamps
 /// 
 /// A global interface used for requesting high-resolution timestamps

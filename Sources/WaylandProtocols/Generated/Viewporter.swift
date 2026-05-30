@@ -1,6 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
+#if WP
 /// Surface Cropping And Scaling
 /// 
 /// The global interface exposing surface cropping and scaling
@@ -307,3 +308,5 @@ public let Viewporter = Protocol(
 WpViewport.interface
         ]
     )
+
+#endif

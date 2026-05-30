@@ -4,8 +4,7 @@ import sys
 import os
 from pathlib import Path
 
-PROTOCOLS = [
-    # XDG
+XDG_PROTOCOLS = [
     "./Protocols/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml",
     "./Protocols/unstable/xdg-foreign/xdg-foreign-unstable-v1.xml",
     "./Protocols/unstable/xdg-foreign/xdg-foreign-unstable-v2.xml",
@@ -16,10 +15,14 @@ PROTOCOLS = [
     "./Protocols/staging/xdg-toplevel-icon/xdg-toplevel-icon-v1.xml",
     "./Protocols/staging/xdg-toplevel-tag/xdg-toplevel-tag-v1.xml",
     "./Protocols/staging/xdg-system-bell/xdg-system-bell-v1.xml",
-    # Xwayland
+]
+
+XWAYLAND_PROTOCOLS = [
     "./Protocols/staging/xwayland-shell/xwayland-shell-v1.xml",
     "./Protocols/unstable/xwayland-keyboard-grab/xwayland-keyboard-grab-unstable-v1.xml",
-    # WP
+]
+
+WP_PROTOCOLS = [
     "./Protocols/staging/content-type/content-type-v1.xml",
     "./Protocols/staging/color-management/color-management-v1.xml",
     "./Protocols/staging/color-representation/color-representation-v1.xml",
@@ -53,28 +56,79 @@ PROTOCOLS = [
     "./Protocols/staging/ext-session-lock/ext-session-lock-v1.xml",
 ]
 
+KDE_PROTOCOLS = [
+    "./ProtocolsKDE/src/protocols/appmenu.xml",
+    "./ProtocolsKDE/src/protocols/blur.xml",
+    "./ProtocolsKDE/src/protocols/contrast.xml",
+    "./ProtocolsKDE/src/protocols/dpms.xml",
+    "./ProtocolsKDE/src/protocols/fake-input.xml",
+    "./ProtocolsKDE/src/protocols/fullscreen-shell.xml",
+    "./ProtocolsKDE/src/protocols/idle.xml",
+    "./ProtocolsKDE/src/protocols/kde-external-brightness-v1.xml",
+    "./ProtocolsKDE/src/protocols/kde-lockscreen-overlay-v1.xml",
+    "./ProtocolsKDE/src/protocols/kde-output-device-v2.xml",
+    "./ProtocolsKDE/src/protocols/kde-output-management-v2.xml",
+    "./ProtocolsKDE/src/protocols/kde-output-order-v1.xml",
+    "./ProtocolsKDE/src/protocols/kde-primary-output-v1.xml",
+    "./ProtocolsKDE/src/protocols/kde-screen-edge-v1.xml",
+    "./ProtocolsKDE/src/protocols/keystate.xml",
+    "./ProtocolsKDE/src/protocols/org-kde-plasma-virtual-desktop.xml",
+    "./ProtocolsKDE/src/protocols/outputdevice.xml",
+    "./ProtocolsKDE/src/protocols/output-management.xml",
+    "./ProtocolsKDE/src/protocols/plasma-shell.xml",
+    "./ProtocolsKDE/src/protocols/plasma-window-management.xml",
+    "./ProtocolsKDE/src/protocols/remote-access.xml",
+    "./ProtocolsKDE/src/protocols/server-decoration-palette.xml",
+    "./ProtocolsKDE/src/protocols/server-decoration.xml",
+    "./ProtocolsKDE/src/protocols/shadow.xml",
+    "./ProtocolsKDE/src/protocols/slide.xml",
+    "./ProtocolsKDE/src/protocols/surface-extension.xml",
+    "./ProtocolsKDE/src/protocols/text-input-unstable-v2.xml",
+    "./ProtocolsKDE/src/protocols/text-input.xml",
+    "./ProtocolsKDE/src/protocols/wayland-eglstream-controller.xml",
+    "./ProtocolsKDE/src/protocols/zkde-screencast-unstable-v1.xml",
+]
+
+WLR_PROTOCOLS = [
+    "./ProtocolsWlr/unstable/wlr-data-control-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-export-dmabuf-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-foreign-toplevel-management-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-gamma-control-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-input-inhibitor-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-layer-shell-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-output-management-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-output-power-management-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-screencopy-unstable-v1.xml",
+    "./ProtocolsWlr/unstable/wlr-virtual-pointer-unstable-v1.xml",
+]
+
 
 def to_camel(stem: str) -> str:
     return "".join(part.capitalize() for part in stem.split("-"))
 
 
-def get_traits(path: str) -> str | None:
-    parts = Path(path).parts
-    for i, part in enumerate(parts):
-        if part == "Protocols" and i + 1 < len(parts):
-            stability = parts[i + 1].upper()
-            return None if stability == "STABLE" else stability
-    return None
-
-
 def run(cli: str, args: list[str]) -> bool:
-    # print(args[2])
     return subprocess.run([cli] + args).returncode == 0
+
+
+def generate_group(cli: str, protocols: list[str], output_dir: str, trait: str | None) -> int:
+    errors = 0
+    for proto_path in protocols:
+        name = to_camel(Path(proto_path).stem)
+        output = f"{output_dir}/{name}.swift"
+        args = ["client", proto_path, output, "--import", "SwiftWayland"]
+        if trait:
+            args += ["--traits", trait]
+        if not run(cli, args):
+            errors += 1
+    return errors
 
 
 def main():
     os.makedirs("Sources/SwiftWayland/Generated", exist_ok=True)
     os.makedirs("Sources/WaylandProtocols/Generated", exist_ok=True)
+    os.makedirs("Sources/WaylandProtocols/Generated/KDE", exist_ok=True)
+    os.makedirs("Sources/WaylandProtocols/Generated/Wlr", exist_ok=True)
 
     print("Building WaylandScannerCLI...")
     subprocess.run(["swift", "build", "--product", "WaylandScannerCLI"], check=True)
@@ -91,15 +145,11 @@ def main():
     if not ok:
         errors += 1
 
-    for proto_path in PROTOCOLS:
-        name = to_camel(Path(proto_path).stem)
-        output = f"Sources/WaylandProtocols/Generated/{name}.swift"
-        args = ["client", proto_path, output, "--import", "SwiftWayland"]
-        traits = get_traits(proto_path)
-        if traits:
-            args += ["--traits", traits]
-        if not run(cli, args):
-            errors += 1
+    errors += generate_group(cli, XDG_PROTOCOLS, "Sources/WaylandProtocols/Generated", "XDG")
+    errors += generate_group(cli, XWAYLAND_PROTOCOLS, "Sources/WaylandProtocols/Generated", "XWAYLAND")
+    errors += generate_group(cli, WP_PROTOCOLS, "Sources/WaylandProtocols/Generated", "WP")
+    errors += generate_group(cli, KDE_PROTOCOLS, "Sources/WaylandProtocols/Generated/KDE", "KDE")
+    errors += generate_group(cli, WLR_PROTOCOLS, "Sources/WaylandProtocols/Generated/Wlr", "WLR")
 
     if errors:
         print(f"\n{errors} error(s).")

@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Reposition The Pointer To A Location On A Surface
 /// 
 /// This global interface allows applications to request the pointer to be

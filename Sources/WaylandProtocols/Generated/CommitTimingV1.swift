@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Commit Timing
 /// 
 /// When a compositor latches on to new content updates it will check for

@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Lease Device
 /// 
 /// This protocol is used by Wayland compositors which act as Direct

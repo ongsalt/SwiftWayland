@@ -17,7 +17,6 @@ public struct Options: Sendable {
         self.importName = importName
         self.traits = traits
     }
-
 }
 
 public func generateClasses(_ xml: String, options: Options) throws -> String {

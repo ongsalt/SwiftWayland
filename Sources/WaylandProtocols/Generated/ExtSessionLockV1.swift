@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Used To Lock The Session
 /// 
 /// This interface is used to request that the session be locked.

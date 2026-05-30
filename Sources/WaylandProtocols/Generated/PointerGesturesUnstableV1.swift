@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Touchpad Gestures
 /// 
 /// A global interface to provide semantic touchpad gestures for a given

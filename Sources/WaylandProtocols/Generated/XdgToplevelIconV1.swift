@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if XDG
 /// Interface To Manage Toplevel Icons
 /// 
 /// This interface allows clients to create toplevel window icons and set

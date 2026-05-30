@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Text Input
 /// 
 /// The zwp_text_input_v3 interface represents text input and input methods

@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Global Factory For Single-Pixel Buffers
 /// 
 /// The wp_single_pixel_buffer_manager_v1 interface is a factory for

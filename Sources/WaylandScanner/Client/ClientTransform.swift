@@ -4,10 +4,6 @@ import SwiftWaylandCommon
 // - generate deint
 // - wl_callback -> `@escaping () -> Void`
 
-// func transform(p: Protocol) -> ProtocolDeclaration {
-// TODO: license and other protocol level stuff
-// }
-
 public func transform(
     interface: Interface,
     trim transformName: Bool,

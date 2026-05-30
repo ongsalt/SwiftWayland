@@ -1,6 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
+#if WP
 /// Timed Presentation Related Wl_Surface Requests
 /// 
 /// The main feature of this interface is accurate presentation
@@ -339,3 +340,5 @@ public let PresentationTime = Protocol(
 WpPresentationFeedback.interface
         ]
     )
+
+#endif

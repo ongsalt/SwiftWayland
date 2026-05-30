@@ -12,9 +12,7 @@ A Wayland client library for Swift.
 let connection = try! Connection()
 let display = connection.display
 
-try display.sync { data in
-    print(data)
-}
+try display.sync { print($0) }
 
 let globals = try Globals(connection: connection)
 try connection.roundtrip()

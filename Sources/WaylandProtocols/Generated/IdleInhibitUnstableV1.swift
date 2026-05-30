@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Control Behavior When Display Idles
 /// 
 /// This interface permits inhibiting the idle behavior such as screen

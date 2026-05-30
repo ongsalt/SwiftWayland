@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if XDG
 /// Move A Window During A Drag
 /// 
 /// This protocol enhances normal drag and drop with the ability to move a

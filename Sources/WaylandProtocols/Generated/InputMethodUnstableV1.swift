@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Input Method Context
 /// 
 /// Corresponds to a text input on the input method side. An input method context

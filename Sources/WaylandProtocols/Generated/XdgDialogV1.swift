@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if XDG
 /// Create Dialogs Related To Other Toplevels
 /// 
 /// The xdg_wm_dialog_v1 interface is exposed as a global object allowing

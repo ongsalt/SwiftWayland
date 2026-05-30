@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Client Security Context Manager
 /// 
 /// This interface allows a client to register a new Wayland connection to

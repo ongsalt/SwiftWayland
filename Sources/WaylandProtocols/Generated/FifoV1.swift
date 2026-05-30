@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Protocol For Fifo Constraints
 /// 
 /// When a Wayland compositor considers applying a content update,

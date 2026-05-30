@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if XDG
 /// Interface For Exporting Surfaces
 /// 
 /// A global interface used for exporting surfaces that can later be imported

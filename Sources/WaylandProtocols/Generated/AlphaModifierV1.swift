@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Surface Alpha Modifier Manager
 /// 
 /// This interface allows a client to set a factor for the alpha values on a

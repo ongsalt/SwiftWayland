@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Context Object For Keyboard Grab_Manager
 /// 
 /// A global interface used for inhibiting the compositor keyboard shortcuts.

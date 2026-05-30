@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if XWAYLAND
 /// Context Object For Xwayland Shell
 /// 
 /// xwayland_shell_v1 is a singleton global object that

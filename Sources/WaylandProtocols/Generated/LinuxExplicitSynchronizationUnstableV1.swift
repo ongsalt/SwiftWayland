@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Protocol For Providing Explicit Synchronization
 /// 
 /// This global is a factory interface, allowing clients to request

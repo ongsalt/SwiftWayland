@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if XWAYLAND
 /// Context Object For Keyboard Grab Manager
 /// 
 /// A global interface used for grabbing the keyboard.

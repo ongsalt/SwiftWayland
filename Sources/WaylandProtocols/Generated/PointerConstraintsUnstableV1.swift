@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if UNSTABLE
+#if WP
 /// Constrain The Movement Of A Pointer
 /// 
 /// The global interface exposing pointer constraining functionality. It

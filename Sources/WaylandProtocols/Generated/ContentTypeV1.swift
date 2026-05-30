@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Surface Content Type Manager
 /// 
 /// This interface allows a client to describe the kind of content a surface

@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if XDG
 /// System Bell
 /// 
 /// This global interface enables clients to ring the system bell.

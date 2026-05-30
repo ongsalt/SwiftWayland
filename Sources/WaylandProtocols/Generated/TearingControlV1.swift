@@ -1,7 +1,7 @@
 import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
-#if STAGING
+#if WP
 /// Protocol For Tearing Control
 /// 
 /// For some use cases like games or drawing tablets it can make sense to
