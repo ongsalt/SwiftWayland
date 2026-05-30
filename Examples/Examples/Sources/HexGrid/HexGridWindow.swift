@@ -12,14 +12,17 @@ public final class HexGridWindow {
     private var pointer: WlPointer?
     private var gestureManager: ZwpPointerGesturesV1?
     private var pinchGesture: ZwpPointerGesturePinchV1?
-    private var decorationManager: KdeServerDecorationManager?
+
+    #if SSD
+        private var decorationManager: KdeServerDecorationManager?
+    #endif
 
     private var surface: WlSurface?
     private var xdgSurface: XdgSurface?
     private var toplevel: XdgToplevel?
     private var contentBuffer: ShmBuffer?
 
-    private var width:  Int { contentBuffer?.width  ?? 640 }
+    private var width: Int { contentBuffer?.width ?? 640 }
     private var height: Int { contentBuffer?.height ?? 480 }
     private var pendingSize: (width: Int, height: Int) = (0, 0)
 
@@ -54,9 +57,9 @@ public final class HexGridWindow {
     }
 
     private let palette: [UInt32] = [
-        0xFFFF5F57, 0xFFFFBD2E, 0xFF28C840, 0xFF7AA2F7,
-        0xFFBB9AF7, 0xFF73DACA, 0xFFE0AF68, 0xFFF7768E,
-        0xFF9ECE6A, 0xFF7DCFFF, 0xFFFF9E64, 0xFF89DDFF,
+        0xFFFF_5F57, 0xFFFF_BD2E, 0xFF28_C840, 0xFF7A_A2F7,
+        0xFFBB_9AF7, 0xFF73_DACA, 0xFFE0_AF68, 0xFFF7_768E,
+        0xFF9E_CE6A, 0xFF7D_CFFF, 0xFFFF_9E64, 0xFF89_DDFF,
     ]
 
     public init(connection: Connection) {
@@ -68,11 +71,14 @@ public final class HexGridWindow {
         connection.roundtrip()
 
         compositor = try globals.bind(to: WlCompositor.self, version: 6...6)
-        shm        = try globals.bind(to: WlShm.self,       version: 1...2)
-        xdgWmBase  = try globals.bind(to: XdgWmBase.self,   version: 6...7)
-        seat       = try globals.bind(to: WlSeat.self,      version: 7...9)
-        gestureManager  = try? globals.bind(to: ZwpPointerGesturesV1.self,        version: 3...3)
-        decorationManager = try? globals.bind(to: KdeServerDecorationManager.self, version: 1...1)
+        shm = try globals.bind(to: WlShm.self, version: 1...2)
+        xdgWmBase = try globals.bind(to: XdgWmBase.self, version: 6...7)
+        seat = try globals.bind(to: WlSeat.self, version: 7...9)
+        gestureManager = try? globals.bind(to: ZwpPointerGesturesV1.self, version: 3...3)
+        #if SSD
+            decorationManager = try? globals.bind(
+                to: KdeServerDecorationManager.self, version: 1...1)
+        #endif
 
         xdgWmBase!.onEvent = { [weak self] ev in
             if case .ping(let serial) = ev { try! self?.xdgWmBase?.pong(serial: serial) }
@@ -82,16 +88,19 @@ public final class HexGridWindow {
             fatalError("Missing required globals")
         }
 
-        surface    = try compositor.createSurface()
+        surface = try compositor.createSurface()
+        try surface!.setOpaqueRegion(region: nil)  // tell compositor this surface has alpha
         xdgSurface = try xdgWmBase.getXdgSurface(surface: surface!)
-        toplevel   = try xdgSurface!.getToplevel()
+        toplevel = try xdgSurface!.getToplevel()
         try toplevel!.setTitle("App Launcher")
         try toplevel!.setMinSize(width: 200, height: 200)
 
-        if let decorationManager {
-            let deco = try decorationManager.create(surface: surface!)
-            try deco.requestMode(mode: KdeServerDecorationManager.Mode.client.rawValue)
-        }
+        #if SSD
+            if let decorationManager {
+                let deco = try decorationManager.create(surface: surface!)
+                try deco.requestMode(mode: KdeServerDecorationManager.Mode.client.rawValue)
+            }
+        #endif
 
         toplevel!.onEvent = { [weak self] event in
             guard let self else { return }
@@ -202,8 +211,11 @@ public final class HexGridWindow {
                 case .finger, .continuous:
                     // Touchpad: pan
                     let speed = 3.0 / self.zoomLevel
-                    if axis == .verticalScroll { self.panY += value * speed }
-                    else                       { self.panX += value * speed }
+                    if axis == .verticalScroll {
+                        self.panY += value * speed
+                    } else {
+                        self.panX += value * speed
+                    }
                 case .wheel, .wheelTilt:
                     // Mouse wheel: zoom toward cursor
                     guard axis == .verticalScroll else { break }
@@ -239,7 +251,7 @@ public final class HexGridWindow {
 
     // Zoom by `factor` keeping the screen point (cx, cy) fixed in world space
     private func zoom(by factor: Double, aroundScreenX cx: Double, y cy: Double) {
-        let contentCX = Double(width)  / 2
+        let contentCX = Double(width) / 2
         let contentCY = Double(titleBarHeight) + Double(height - titleBarHeight) / 2
         // World point under the anchor before zoom
         let wx = (cx - contentCX) / zoomLevel + panX
@@ -253,18 +265,20 @@ public final class HexGridWindow {
     private func resizeEdge(at x: Double, y: Double) -> XdgToplevel.ResizeEdge {
         guard !isMaximized else { return .none }
         let e = Double(resizeEdgeSize)
-        let l = x < e, r = x > Double(width) - e
-        let t = y < e, b = y > Double(height) - e
+        let l = x < e
+        let r = x > Double(width) - e
+        let t = y < e
+        let b = y > Double(height) - e
         switch (t, b, l, r) {
-        case (true,  false, true,  false): return .topLeft
-        case (true,  false, false, true):  return .topRight
-        case (false, true,  true,  false): return .bottomLeft
-        case (false, true,  false, true):  return .bottomRight
-        case (true,  false, false, false): return .top
-        case (false, true,  false, false): return .bottom
-        case (false, false, true,  false): return .left
-        case (false, false, false, true):  return .right
-        default:                           return .none
+        case (true, false, true, false): return .topLeft
+        case (true, false, false, true): return .topRight
+        case (false, true, true, false): return .bottomLeft
+        case (false, true, false, true): return .bottomRight
+        case (true, false, false, false): return .top
+        case (false, true, false, false): return .bottom
+        case (false, false, true, false): return .left
+        case (false, false, false, true): return .right
+        default: return .none
         }
     }
 
@@ -275,7 +289,8 @@ public final class HexGridWindow {
             return
         }
         if y < Double(titleBarHeight) {
-            let bx = Double(width), by = Double(titleBarHeight) / 2
+            let bx = Double(width)
+            let by = Double(titleBarHeight) / 2
             if (x - (bx - 20)) * (x - (bx - 20)) + (y - by) * (y - by) <= 64 { exit(0) }
             if (x - (bx - 48)) * (x - (bx - 48)) + (y - by) * (y - by) <= 64 {
                 isMaximized ? try! toplevel!.unsetMaximized() : try! toplevel!.setMaximized()
@@ -293,7 +308,9 @@ public final class HexGridWindow {
     // Scale = 1 everywhere except within `edgeZone` pixels of any screen edge
     // (title bar counts as the top edge), where it tapers linearly 1 → 0.
     private func edgeScale(sx: Double, sy: Double) -> Double {
-        let w = Double(width), h = Double(height), tb = Double(titleBarHeight)
+        let w = Double(width)
+        let h = Double(height)
+        let tb = Double(titleBarHeight)
         let fx = min(sx, w - sx) / (edgeZone * zoomLevel)
         let fy = min(sy - tb, h - sy) / (edgeZone * zoomLevel)
         return max(0, min(1, min(fx, fy)))
@@ -304,35 +321,42 @@ public final class HexGridWindow {
     private func redraw() {
         guard let data = contentBuffer?.data else { return }
         var ctx = PixelContext(buffer: data, width: width, height: height)
-        ctx.fill(color: 0xC01A1B26)
+        ctx.fill(color: 0xC01A_1B26)
         drawHexGrid(ctx: &ctx)
         drawTitleBar(ctx: &ctx)
         if currentEdge != .none { drawEdgeHighlight(ctx: &ctx, edge: currentEdge) }
     }
 
     private func drawEdgeHighlight(ctx: inout PixelContext, edge: XdgToplevel.ResizeEdge) {
-        let c: UInt32 = 0xFF6C7DC4, t = 2, w = width, h = height
+        let c: UInt32 = 0xFF6C_7DC4
+        let t = 2
+        let w = width
+        let h = height
         switch edge {
-        case .top:         ctx.fillRect(x: 0,     y: 0,     w: w, h: t, color: c)
-        case .bottom:      ctx.fillRect(x: 0,     y: h - t, w: w, h: t, color: c)
-        case .left:        ctx.fillRect(x: 0,     y: 0,     w: t, h: h, color: c)
-        case .right:       ctx.fillRect(x: w - t, y: 0,     w: t, h: h, color: c)
-        case .topLeft:     ctx.fillRect(x: 0,     y: 0,     w: w, h: t, color: c)
-                           ctx.fillRect(x: 0,     y: 0,     w: t, h: h, color: c)
-        case .topRight:    ctx.fillRect(x: 0,     y: 0,     w: w, h: t, color: c)
-                           ctx.fillRect(x: w - t, y: 0,     w: t, h: h, color: c)
-        case .bottomLeft:  ctx.fillRect(x: 0,     y: h - t, w: w, h: t, color: c)
-                           ctx.fillRect(x: 0,     y: 0,     w: t, h: h, color: c)
-        case .bottomRight: ctx.fillRect(x: 0,     y: h - t, w: w, h: t, color: c)
-                           ctx.fillRect(x: w - t, y: 0,     w: t, h: h, color: c)
+        case .top: ctx.fillRect(x: 0, y: 0, w: w, h: t, color: c)
+        case .bottom: ctx.fillRect(x: 0, y: h - t, w: w, h: t, color: c)
+        case .left: ctx.fillRect(x: 0, y: 0, w: t, h: h, color: c)
+        case .right: ctx.fillRect(x: w - t, y: 0, w: t, h: h, color: c)
+        case .topLeft:
+            ctx.fillRect(x: 0, y: 0, w: w, h: t, color: c)
+            ctx.fillRect(x: 0, y: 0, w: t, h: h, color: c)
+        case .topRight:
+            ctx.fillRect(x: 0, y: 0, w: w, h: t, color: c)
+            ctx.fillRect(x: w - t, y: 0, w: t, h: h, color: c)
+        case .bottomLeft:
+            ctx.fillRect(x: 0, y: h - t, w: w, h: t, color: c)
+            ctx.fillRect(x: 0, y: 0, w: t, h: h, color: c)
+        case .bottomRight:
+            ctx.fillRect(x: 0, y: h - t, w: w, h: t, color: c)
+            ctx.fillRect(x: w - t, y: 0, w: t, h: h, color: c)
         default: break
         }
     }
 
     // Avalanche hash: deterministic per (row, col), looks random
     private func cellHash(row: Int, col: Int) -> UInt32 {
-        var h = UInt32(bitPattern: Int32(truncatingIfNeeded: row)) &* 2654435761
-        h ^= UInt32(bitPattern: Int32(truncatingIfNeeded: col)) &* 2246822519
+        var h = UInt32(bitPattern: Int32(truncatingIfNeeded: row)) &* 2_654_435_761
+        h ^= UInt32(bitPattern: Int32(truncatingIfNeeded: col)) &* 2_246_822_519
         h ^= h >> 16
         h &*= 0x45d9f3b
         h ^= h >> 16
@@ -340,39 +364,45 @@ public final class HexGridWindow {
     }
 
     private func drawTitleBar(ctx: inout PixelContext) {
-        ctx.fillRect(x: 0, y: 0, w: width, h: titleBarHeight, color: 0xFF24283A)
-        ctx.fillRect(x: 0, y: titleBarHeight - 1, w: width, h: 1, color: 0xFF414868)
-        ctx.fillCircle(cx: width - 20, cy: titleBarHeight / 2, r: 7, color: 0xFFFF5F57)
-        ctx.fillCircle(cx: width - 48, cy: titleBarHeight / 2, r: 7,
-                       color: isMaximized ? 0xFFFFBD2E : 0xFF28C840)
+        ctx.fillRect(x: 0, y: 0, w: width, h: titleBarHeight, color: 0xFF24_283A)
+        ctx.fillRect(x: 0, y: titleBarHeight - 1, w: width, h: 1, color: 0xFF41_4868)
+        ctx.fillCircle(cx: width - 20, cy: titleBarHeight / 2, r: 7, color: 0xFFFF_5F57)
+        ctx.fillCircle(
+            cx: width - 48, cy: titleBarHeight / 2, r: 7,
+            color: isMaximized ? 0xFFFF_BD2E : 0xFF28_C840)
     }
 
     private func drawHexGrid(ctx: inout PixelContext) {
-        let hexH   = hexSpacing * sqrt(3) / 2
-        let cx     = Double(width)  / 2
-        let cy     = Double(titleBarHeight) + Double(height - titleBarHeight) / 2
+        let hexH = hexSpacing * sqrt(3) / 2
+        let cx = Double(width) / 2
+        let cy = Double(titleBarHeight) + Double(height - titleBarHeight) / 2
 
         // World bounds visible on screen, accounting for zoom
         let margin = hexSpacing * 2
         let screenHalfW = cx / zoomLevel + margin
         let screenHalfH = (Double(height) - Double(titleBarHeight)) / 2 / zoomLevel + margin
-        let wx0 = panX - screenHalfW, wx1 = panX + screenHalfW
-        let wy0 = panY - screenHalfH, wy1 = panY + screenHalfH
+        let wx0 = panX - screenHalfW
+        let wx1 = panX + screenHalfW
+        let wy0 = panY - screenHalfH
+        let wy1 = panY + screenHalfH
 
         let rowMin = Int(floor(wy0 / hexH)) - 1
-        let rowMax = Int(ceil(wy1  / hexH)) + 1
+        let rowMax = Int(ceil(wy1 / hexH)) + 1
 
-        struct Icon { let sx, sy, scale: Double; let color: UInt32 }
+        struct Icon {
+            let sx, sy, scale: Double
+            let color: UInt32
+        }
         var icons: [Icon] = []
 
-        for row in rowMin ... rowMax {
-            let wy      = Double(row) * hexH
+        for row in rowMin...rowMax {
+            let wy = Double(row) * hexH
             let offsetX = row.isMultiple(of: 2) ? 0.0 : hexSpacing / 2
 
             let colMin = Int(floor((wx0 - offsetX) / hexSpacing)) - 1
-            let colMax = Int(ceil( (wx1 - offsetX) / hexSpacing)) + 1
+            let colMax = Int(ceil((wx1 - offsetX) / hexSpacing)) + 1
 
-            for col in colMin ... colMax {
+            for col in colMin...colMax {
                 let wx = Double(col) * hexSpacing + offsetX
 
                 // World → screen (linear pan + zoom)
