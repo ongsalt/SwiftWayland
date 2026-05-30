@@ -72,10 +72,10 @@ public class Connection {
             case .string(let s):
                 arguments.append(wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress))
             case .object(let id):
-                arguments.append(wl_argument(o: knownProxies[id]!.raw))  // fuckkkkkkkkk
+                arguments.append(wl_argument(o: id == 0 ? nil : knownProxies[id]?.raw))
             // if we have a newId, create it, then make it a .object instead, we create an object before calling send anyway, sooo sammeeee
             case .newId(let id):
-                arguments.append(wl_argument(o: knownProxies[id]!.raw))
+                arguments.append(wl_argument(o: knownProxies[id]?.raw))
             }
         }
         wl_proxy_marshal_array(proxy.raw, opcode, &arguments)
@@ -116,7 +116,7 @@ public class Connection {
             case .string(let s):
                 arguments.append(wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress))
             case .object(let id):
-                arguments.append(wl_argument(o: knownProxies[id]!.raw))  // fuckkkkkkkkk
+                arguments.append(wl_argument(o: id == 0 ? nil : knownProxies[id]?.raw))
             case .newId(_):
                 arguments.append(wl_argument(n: 0))
             }
