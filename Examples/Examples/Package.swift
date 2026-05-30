@@ -16,7 +16,7 @@ let package = Package(
             ],
         ),
         .executableTarget(
-            name: "Drawing",
+            name: "HexGrid",
             dependencies: [
                 .product(name: "SwiftWayland", package: "SwiftWayland"),
             ],

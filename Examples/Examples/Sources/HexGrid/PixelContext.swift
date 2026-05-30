@@ -20,6 +20,7 @@ struct PixelContext {
     func fillRect(x: Int, y: Int, w: Int, h: Int, color: UInt32) {
         let x0 = max(x, 0), y0 = max(y, 0)
         let x1 = min(x + w, width), y1 = min(y + h, height)
+        guard x0 < x1, y0 < y1 else { return }
         for py in y0..<y1 {
             for px in x0..<x1 {
                 pixels[py * width + px] = color
@@ -28,6 +29,7 @@ struct PixelContext {
     }
 
     func fillCircle(cx: Int, cy: Int, r: Int, color: UInt32) {
+        guard r > 0 else { return }
         let r2 = r * r
         for py in (cy - r)..<(cy + r) {
             for px in (cx - r)..<(cx + r) {

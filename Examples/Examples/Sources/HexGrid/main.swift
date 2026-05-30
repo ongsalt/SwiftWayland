@@ -3,7 +3,7 @@ import SwiftWayland
 import WaylandProtocols
 
 let connection = Connection()
-let w = Window(connection: connection)
+let w = HexGridWindow(connection: connection)
 do {
     try w.start()
 } catch {
