@@ -114,7 +114,7 @@ public final class HexGridWindow {
                 try! self.xdgSurface!.ackConfigure(serial: serial)
                 let (w, h) = self.pendingSize
                 if w > 0, h > 0, w != self.width || h != self.height {
-                    self.contentBuffer = ShmBuffer(shm: shm, width: w, height: h)
+                    self.contentBuffer = ShmBuffer(shm: shm, width: w, height: h, format: .argb8888)
                 }
                 self.frameCallbackPending = false
                 self.presentFrame()
@@ -304,7 +304,7 @@ public final class HexGridWindow {
     private func redraw() {
         guard let data = contentBuffer?.data else { return }
         var ctx = PixelContext(buffer: data, width: width, height: height)
-        ctx.fill(color: 0xFF1A1B26)
+        ctx.fill(color: 0xC01A1B26)
         drawHexGrid(ctx: &ctx)
         drawTitleBar(ctx: &ctx)
         if currentEdge != .none { drawEdgeHighlight(ctx: &ctx, edge: currentEdge) }
