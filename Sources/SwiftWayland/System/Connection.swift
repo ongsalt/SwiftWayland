@@ -157,9 +157,16 @@ public class Connection {
         return obj
     }
 
-func createEventQueue() {
-      
-}
+    func createEventQueue(name: String? = nil) -> EventQueue {
+        let handle =
+            if let name {
+                wl_display_create_queue_with_name(rawDisplay, name)
+            } else {
+                wl_display_create_queue(rawDisplay)
+            }
+
+        return EventQueue(raw: handle!, display: rawDisplay)
+    }
 
     func destroy(proxy: some Proxy) {
         (proxy as? BaseProxy)?.markDead()
@@ -207,8 +214,12 @@ func createEventQueue() {
         wl_display_read_events(rawDisplay)
     }
 
+    public func disconnect() {
+        wl_display_disconnect(self.rawDisplay)
+    }
+
     deinit {
-        // print("Connection dropped with live proxies \(knownProxies)")
+        disconnect()
     }
 }
 
