@@ -58,13 +58,9 @@ dnf install wayland-devel
 # Todos
 - event type="destructor"
 
-- typed error
-    - and better error handling in general
-- bitfield
+- better error handling in general
 - generate more documentation
     - throws
     - when returns multiple object (probably never????)
 - version validation
-- enum
-- signature transformation `setMode(mode:)` -> `setMode(_:)`
 - kde and wlr protocol

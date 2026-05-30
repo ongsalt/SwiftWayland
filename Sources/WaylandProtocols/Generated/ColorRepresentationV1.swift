@@ -231,8 +231,8 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// Alpha mode is double buffered, see wl_surface.commit.
     /// 
     /// - Parameters:
-    ///   - alphaMode: alpha mode
-    public func setAlphaMode(alphaMode: AlphaMode) throws(WaylandProxyError) {
+    ///   - _: alpha mode
+    public func setAlphaMode(_ alphaMode: AlphaMode) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .uint(alphaMode.rawValue),
@@ -289,8 +289,8 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// The chroma location type is double-buffered, see wl_surface.commit.
     /// 
     /// - Parameters:
-    ///   - chromaLocation: chroma sample location
-    public func setChromaLocation(chromaLocation: ChromaLocation) throws(WaylandProxyError) {
+    ///   - _: chroma sample location
+    public func setChromaLocation(_ chromaLocation: ChromaLocation) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
             .uint(chromaLocation.rawValue),

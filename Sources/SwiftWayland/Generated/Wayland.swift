@@ -2543,8 +2543,8 @@ public final class WlShellSurface: BaseProxy, Proxy {
     /// The string must be encoded in UTF-8.
     /// 
     /// - Parameters:
-    ///   - title: surface title
-    public func setTitle(title: String) throws(WaylandProxyError) {
+    ///   - _: surface title
+    public func setTitle(_ title: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 8, [
             .string(title),

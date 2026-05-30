@@ -454,8 +454,8 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// Initially, no actions are available.
     /// 
     /// - Parameters:
-    ///   - availableActions: available actions
-    public func setAvailableActions(availableActions: Data) throws(WaylandProxyError) {
+    ///   - _: available actions
+    public func setAvailableActions(_ availableActions: Data) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 8, [

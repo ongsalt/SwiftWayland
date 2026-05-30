@@ -743,7 +743,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - renderIntent: rendering intent
-    public func setImageDescription(imageDescription: WpImageDescriptionV1, renderIntent: WpColorManagerV1.RenderIntent) throws(WaylandProxyError) {
+    public func setImageDescription(_ imageDescription: WpImageDescriptionV1, renderIntent: WpColorManagerV1.RenderIntent) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .object(imageDescription.id),
@@ -1629,8 +1629,8 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// max_cll is undefined by default.
     /// 
     /// - Parameters:
-    ///   - maxCll: Maximum content light level (cd/m²)
-    public func setMaxCll(maxCll: UInt32) throws(WaylandProxyError) {
+    ///   - _: Maximum content light level (cd/m²)
+    public func setMaxCll(_ maxCll: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 8, [
             .uint(maxCll),
@@ -1644,8 +1644,8 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// max_fall is undefined by default.
     /// 
     /// - Parameters:
-    ///   - maxFall: Maximum frame-average light level (cd/m²)
-    public func setMaxFall(maxFall: UInt32) throws(WaylandProxyError) {
+    ///   - _: Maximum frame-average light level (cd/m²)
+    public func setMaxFall(_ maxFall: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 9, [
             .uint(maxFall),

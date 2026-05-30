@@ -25,7 +25,7 @@ public func transform(
                 var returns: [ArgumentDeclaration] = []
                 var callbacks: [CallbackDeclaration] = []
 
-                for arg in request.arguments {
+                for (index, arg) in request.arguments.enumerated() {
                     if arg.interface == "wl_callback" {
                         arguments.append(
                             ArgumentDeclaration(
@@ -38,15 +38,19 @@ public func transform(
                         continue
                     }
 
-                    let swiftType = arg.getSwiftType(isEvent: false)
-
-                    // if let en = arg.enum {
-                    //     print(en, swiftType)
-                    // }
+                    var externalName: String? = nil
+                    // setMode(mode:) -> setMode(_:)
+                    if index == 0 {
+                        let parts = request.name.split(separator: "_")
+                        if parts.count >= 2 && parts[0] == "set" && parts[1...].joined(separator: "_") == arg.name {
+                            externalName = "_"
+                        }
+                    }
 
                     let decl = ArgumentDeclaration(
                         name: arg.name.lowerCamel,
-                        swiftType: swiftType,
+                        externalName: externalName,
+                        swiftType: arg.getSwiftType(isEvent: false),
                         arg: arg,
                     )
 
@@ -98,22 +102,21 @@ public func transform(
             )
         },
         // interface.name == "wl_display" ? []
-        events:
-            interface.events.map { event in
-                EventDeclaration(
-                    name: event.name.lowerCamel,
-                    description: event.description,
-                    arguments: event.arguments.map { arg in
-                        let swiftType = arg.getSwiftType(isEvent: true)
+        events: interface.events.map { event in
+            EventDeclaration(
+                name: event.name.lowerCamel,
+                description: event.description,
+                arguments: event.arguments.map { arg in
+                    let swiftType = arg.getSwiftType(isEvent: true)
 
-                        return ArgumentDeclaration(
-                            name: arg.name.lowerCamel,
-                            swiftType: swiftType,  // for object/newId
-                            arg: arg,
-                        )
-                    }
-                )
-            }
+                    return ArgumentDeclaration(
+                        name: arg.name.lowerCamel,
+                        swiftType: swiftType,  // for object/newId
+                        arg: arg,
+                    )
+                }
+            )
+        }
     )
 }
 

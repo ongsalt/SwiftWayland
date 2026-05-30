@@ -209,8 +209,8 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     /// error is sent in this case.
     /// 
     /// - Parameters:
-    ///   - appId: the application ID
-    public func setAppId(appId: String) throws(WaylandProxyError) {
+    ///   - _: the application ID
+    public func setAppId(_ appId: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
             .string(appId),
@@ -229,8 +229,8 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     /// error is sent in this case.
     /// 
     /// - Parameters:
-    ///   - instanceId: the instance ID
-    public func setInstanceId(instanceId: String) throws(WaylandProxyError) {
+    ///   - _: the instance ID
+    public func setInstanceId(_ instanceId: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
             .string(instanceId),

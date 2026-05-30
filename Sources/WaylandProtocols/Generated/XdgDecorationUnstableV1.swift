@@ -185,8 +185,8 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
     /// error is raised by the compositor.
     /// 
     /// - Parameters:
-    ///   - mode: the decoration mode
-    public func setMode(mode: Mode) throws(WaylandProxyError) {
+    ///   - _: the decoration mode
+    public func setMode(_ mode: Mode) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .uint(mode.rawValue),

@@ -392,8 +392,8 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// edge, or in the center of the anchor rectangle if no edge is specified.
     /// 
     /// - Parameters:
-    ///   - anchor: anchor point
-    public func setAnchor(anchor: Anchor) throws(WaylandProxyError) {
+    ///   - _: anchor point
+    public func setAnchor(_ anchor: Anchor) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
             .uint(anchor.rawValue),
@@ -411,8 +411,8 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// invalid_input error is raised.
     /// 
     /// - Parameters:
-    ///   - gravity: gravity direction
-    public func setGravity(gravity: Gravity) throws(WaylandProxyError) {
+    ///   - _: gravity direction
+    public func setGravity(_ gravity: Gravity) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
             .uint(gravity.rawValue),
@@ -433,8 +433,8 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// The default adjustment is none.
     /// 
     /// - Parameters:
-    ///   - constraintAdjustment: bit mask of constraint adjustments
-    public func setConstraintAdjustment(constraintAdjustment: ConstraintAdjustment) throws(WaylandProxyError) {
+    ///   - _: bit mask of constraint adjustments
+    public func setConstraintAdjustment(_ constraintAdjustment: ConstraintAdjustment) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
             .uint(constraintAdjustment.rawValue),
@@ -1162,8 +1162,8 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// otherwise the invalid_parent protocol error is raised.
     /// 
     /// - Parameters:
-    ///   - parent: parent surface for this surface
-    public func setParent(parent: XdgToplevel? = nil) throws(WaylandProxyError) {
+    ///   - _: parent surface for this surface
+    public func setParent(_ parent: XdgToplevel? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .object(parent?.id ?? 0),
@@ -1179,8 +1179,8 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// The string must be encoded in UTF-8.
     /// 
     /// - Parameters:
-    ///   - title: title of the surface
-    public func setTitle(title: String) throws(WaylandProxyError) {
+    ///   - _: title of the surface
+    public func setTitle(_ title: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
             .string(title),
@@ -1208,8 +1208,8 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// [0] https://standards.freedesktop.org/desktop-entry-spec/
     /// 
     /// - Parameters:
-    ///   - appId: application identifier surface belongs to
-    public func setAppId(appId: String) throws(WaylandProxyError) {
+    ///   - _: application identifier surface belongs to
+    public func setAppId(_ appId: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
             .string(appId),

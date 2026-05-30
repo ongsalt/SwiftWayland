@@ -139,8 +139,8 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     /// details.
     /// 
     /// - Parameters:
-    ///   - contentType: the content type
-    public func setContentType(contentType: Type) throws(WaylandProxyError) {
+    ///   - _: the content type
+    public func setContentType(_ contentType: Type) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .uint(contentType.rawValue),

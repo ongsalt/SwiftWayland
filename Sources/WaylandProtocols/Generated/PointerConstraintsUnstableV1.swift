@@ -314,8 +314,8 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     /// For details about the lock region, see wp_locked_pointer.
     /// 
     /// - Parameters:
-    ///   - region: region of surface
-    public func setRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
+    ///   - _: region of surface
+    public func setRegion(_ region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
             .object(region?.id ?? 0),
@@ -433,8 +433,8 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     /// For details about the confine region, see wp_confined_pointer.
     /// 
     /// - Parameters:
-    ///   - region: region of surface
-    public func setRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
+    ///   - _: region of surface
+    public func setRegion(_ region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .object(region?.id ?? 0),

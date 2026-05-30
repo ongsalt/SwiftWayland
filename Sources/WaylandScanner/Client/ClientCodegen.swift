@@ -9,9 +9,7 @@ extension ProtocolDeclaration: Code {
             gen.walk(node: c)
         }
 
-        // Initilaization code
         gen.add()
-        // this shit is either lazy or get treeshake away
         gen.add(
             """
             public let \(self.name.gravedIfNeeded) = Protocol(
