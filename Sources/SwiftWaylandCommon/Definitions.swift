@@ -77,20 +77,26 @@ public struct Enum: Codable, Sendable {
     public let name: String
     public let entries: [EnumEntry]
     public let description: Description?
-    public let bitfield: Bool = false
+    public let _bitfield: Bool?
+    public var bitfield: Bool {
+        _bitfield ?? false
+    }
     public let since: UInt32?
 
     public init(
-        name: String, entries: [EnumEntry], description: Description? = nil, since: UInt32? = nil
+        name: String, entries: [EnumEntry], description: Description? = nil, since: UInt32? = nil,
+        bitfield: Bool = false
     ) {
         self.name = name
         self.entries = entries
         self.description = description
         self.since = since
+        self._bitfield = bitfield
     }
 
     enum CodingKeys: String, CodingKey {
-        case name, description, since, bitfield
+        case name, description, since
+        case _bitfield = "bitfield"
         case entries = "entry"
     }
 }
@@ -120,7 +126,7 @@ public struct EnumEntry: Codable, Sendable {
         }
 
         fatalError("Cant decode \(value) name: \(name), summary: \(summary)")
-        
+
     }
 }
 
@@ -176,7 +182,6 @@ public struct Argument: Codable, Sendable {
         self.description = description
         self._nullable = nullable
     }
-
 
     enum CodingKeys: String, CodingKey {
         case name, type, interface, `enum`, summary, description

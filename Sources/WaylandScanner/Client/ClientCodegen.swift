@@ -255,7 +255,6 @@ extension MethodDeclaration: Code {
 extension EnumDeclaration: Code {
     func generate(_ gen: Generator) {
         if !self.bitfield {
-
             gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
             gen.indent {
                 for (index, c) in self.cases.enumerated() {
@@ -267,7 +266,28 @@ extension EnumDeclaration: Code {
             }
             gen.add("}")
         } else {
-
+            // OptionSet
+            let name = self.name.gravedIfNeeded
+            gen.block("public struct \(name): OptionSet, @unchecked Sendable {", endWith: "}") {
+                gen << "public let rawValue: UInt32"
+                gen.block("public init(rawValue: UInt32) {", endWith: "}") {
+                    gen << "self.rawValue = rawValue"
+                }
+                gen.add()
+                for (index, c) in self.cases.enumerated() {
+                    if let summary = c.summary {
+                        gen.add(docc: summary)
+                    }
+                    if index == 0 {
+                        gen << "static let \(c.name.gravedIfNeeded): \(name) = []"
+                    } else {
+                        gen << "static let \(c.name.gravedIfNeeded) = \(name)(rawValue: \(c.value))"
+                    }
+                    if index != self.cases.count - 1 {
+                        gen.add()
+                    }
+                }
+            }
         }
     }
 }

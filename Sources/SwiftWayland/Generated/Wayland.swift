@@ -2053,18 +2053,23 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
-    public enum DndAction: UInt32 {
+    public struct DndAction: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// no action
-        case `none` = 0
+        static let `none`: DndAction = []
 
         /// copy action
-        case `copy` = 1
+        static let `copy` = DndAction(rawValue: 1)
 
         /// move action
-        case move = 2
+        static let move = DndAction(rawValue: 2)
 
         /// ask action
-        case ask = 4
+        static let ask = DndAction(rawValue: 4)
     }
 
     public typealias Event = NoEvent
@@ -2569,38 +2574,48 @@ public final class WlShellSurface: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
-    public enum Resize: UInt32 {
+    public struct Resize: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// no edge
-        case `none` = 0
+        static let `none`: Resize = []
 
         /// top edge
-        case top = 1
+        static let top = Resize(rawValue: 1)
 
         /// bottom edge
-        case bottom = 2
+        static let bottom = Resize(rawValue: 2)
 
         /// left edge
-        case `left` = 4
+        static let `left` = Resize(rawValue: 4)
 
         /// top and left edges
-        case topLeft = 5
+        static let topLeft = Resize(rawValue: 5)
 
         /// bottom and left edges
-        case bottomLeft = 6
+        static let bottomLeft = Resize(rawValue: 6)
 
         /// right edge
-        case `right` = 8
+        static let `right` = Resize(rawValue: 8)
 
         /// top and right edges
-        case topRight = 9
+        static let topRight = Resize(rawValue: 9)
 
         /// bottom and right edges
-        case bottomRight = 16
+        static let bottomRight = Resize(rawValue: 16)
     }
 
-    public enum Transient: UInt32 {
+    public struct Transient: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// do not set keyboard focus
-        case inactive = 1
+        static let inactive: Transient = []
     }
 
     public enum FullscreenMethod: UInt32 {
@@ -3498,15 +3513,20 @@ public final class WlSeat: BaseProxy, Proxy {
         CRuntimeInfo.shared.addIfNotExists(protocol: Wayland)
     }
     
-    public enum Capability: UInt32 {
+    public struct Capability: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// the seat has pointer devices
-        case pointer = 1
+        static let pointer: Capability = []
 
         /// the seat has one or more keyboards
-        case keyboard = 2
+        static let keyboard = Capability(rawValue: 2)
 
         /// the seat has touch devices
-        case touch = 4
+        static let touch = Capability(rawValue: 4)
     }
 
     public enum Error: UInt32 {
@@ -4860,12 +4880,17 @@ public final class WlOutput: BaseProxy, Proxy {
         case flipped270 = 7
     }
 
-    public enum Mode: UInt32 {
+    public struct Mode: OptionSet, @unchecked Sendable {
+        public let rawValue: UInt32
+        public init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+
         /// indicates this is the current mode
-        case current = 1
+        static let current: Mode = []
 
         /// indicates this is the preferred mode
-        case preferred = 2
+        static let preferred = Mode(rawValue: 2)
     }
 
     public enum Event: Decodable {
