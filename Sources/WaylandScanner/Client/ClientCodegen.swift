@@ -362,7 +362,7 @@ private func getArgDecodingExpr(_ arg: ArgumentDeclaration) -> String {
     case .int: "r.int()"
     case .uint:
         if let e = arg.arg.enum {
-            "try \(parseEnumName(e))._parseEnum(r.uint())"
+            "try _parseEnum(into: \(parseEnumName(e)).self, r.uint())"
         } else {
             "r.uint()"
         }
