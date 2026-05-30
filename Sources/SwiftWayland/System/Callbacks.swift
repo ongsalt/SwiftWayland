@@ -22,6 +22,7 @@ extension Proxy {
         do {
             let event = try Self.Event.init(from: CArgumentReader(args), opcode: opcode)
             self.onEvent?(event)
+            (self as? BaseProxy)?._emitEvent?(event)
         } catch {
             print(error)
         }

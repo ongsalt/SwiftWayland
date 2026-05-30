@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol Proxy: AnyObject {
-    associatedtype Event: Decodable = NoEvent
+    associatedtype Event: Decodable & Sendable = NoEvent
     associatedtype Request: Encodable = NoRequest
 
     var connection: Connection { get }
@@ -43,6 +43,11 @@ open class BaseProxy {
 
     public typealias Event = NoEvent
 
+    /// Type-erased emit hook. Set by each generated subclass to drive its AsyncStream.
+    package var _emitEvent: ((Any) -> Void)?
+    /// Called by the generated subclass to finish the stream on teardown.
+    package var _finishStream: (() -> Void)?
+
     public required init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection) {
         self.id = id
         self.version = version
@@ -55,6 +60,7 @@ open class BaseProxy {
 
     package func markDead() {
         self.isAlive = false
+        _finishStream?()
     }
 
     @_spi(SwiftWaylandPrivate)
@@ -63,7 +69,7 @@ open class BaseProxy {
     }
 }
 
-public struct NoEvent: Decodable {
+public struct NoEvent: Decodable, Sendable {
     public init(from reader: any ArgumentReader, opcode: UInt32) throws(DecodingError) {}
 }
 

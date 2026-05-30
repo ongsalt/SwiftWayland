@@ -20,8 +20,9 @@ public class Connection {
     public init(runtimeInfo: CRuntimeInfo, rawDisplay: OpaquePointer) {
         self.runtimeInfo = runtimeInfo
         self.rawDisplay = rawDisplay
-        self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay))
+        self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay), isMain: true)
         knownQueues.append(mainQueue)
+        mainQueue.connection = self
 
         self.display.onEvent = { e in
             switch e {
@@ -158,9 +159,11 @@ public class Connection {
         return obj
     }
 
-func createEventQueue() {
-      
-}
+    public func makeQueue() -> EventQueue {
+        let queue = EventQueue(raw: wl_display_create_queue(rawDisplay), connection: self)
+        knownQueues.append(queue)
+        return queue
+    }
 
     func destroy(proxy: some Proxy) {
         (proxy as? BaseProxy)?.markDead()

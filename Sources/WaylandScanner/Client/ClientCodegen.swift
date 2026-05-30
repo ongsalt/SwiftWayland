@@ -32,12 +32,12 @@ extension ClassDeclaration: Code {
         }
         gen.add("public final class \(self.name): BaseProxy, Proxy {")
         gen.indent {
-            gen.add(
-                """
-                public var onEvent: ((Event) -> Void)?
-                public static let interface: Interface =
-                """
-            )
+            gen.add("public var onEvent: ((Event) -> Void)?")
+            if !self.events.isEmpty {
+                gen.add("public let events: AsyncStream<Event>")
+                gen.add("private let _eventsContinuation: AsyncStream<Event>.Continuation")
+            }
+            gen.add("public static let interface: Interface =")
             gen.indent {
                 gen.walk(node: self.interface)
             }
@@ -56,6 +56,25 @@ extension ClassDeclaration: Code {
                 }
                 """
             )
+
+            if !self.events.isEmpty {
+                gen.add()
+                gen.add("public required init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection) {")
+                gen.indent {
+                    gen.add("let (stream, continuation) = AsyncStream<Event>.makeStream()")
+                    gen.add("self.events = stream")
+                    gen.add("self._eventsContinuation = continuation")
+                    gen.add("super.init(id: id, version: version, queue: queue, raw: raw, connection: connection)")
+                    gen.add("self._emitEvent = { [continuation] any in")
+                    gen.indent {
+                        gen.add("guard let event = any as? Event else { return }")
+                        gen.add("continuation.yield(event)")
+                    }
+                    gen.add("}")
+                    gen.add("self._finishStream = { continuation.finish() }")
+                }
+                gen.add("}")
+            }
 
             for e in self.enums {
                 gen.walk(node: e)
@@ -263,7 +282,7 @@ extension DeinitDeclaration: Code {
 extension Array: Code where Element == EventDeclaration {
     func generate(_ gen: Generator) {
         // luckily there is no enum named `event`
-        gen.add("public enum Event: Decodable {")
+        gen.add("public enum Event: Decodable, @unchecked Sendable {")
         gen.indent {
             for event in self {
                 gen.walk(node: event)
