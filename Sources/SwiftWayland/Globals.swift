@@ -48,10 +48,7 @@ public class Globals {
         guard let global = self.globals.first(where: { type.interface.name == $0.interfaceName }) else {
             if globals.count == 0 {
                 print("Please call connection.roundtrip() at least once after initializing a Globals")
-            } else {
-                print(self.globals.map(\.interfaceName))
-            }
-            
+            } 
             throw .notPresent(requestedProtocol: type.interface.name)
         }
 
