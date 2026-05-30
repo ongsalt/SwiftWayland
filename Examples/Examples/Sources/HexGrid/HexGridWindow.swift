@@ -128,7 +128,7 @@ public final class HexGridWindow {
                 try! self.xdgSurface!.ackConfigure(serial: serial)
                 try! self.surface!.setOpaqueRegion(region: nil)
                 let (w, h) = self.pendingSize
-                if w > 0, h > 0, w != self.width || h != self.height {
+                if w > 0, h > 0, (self.contentBuffer == nil || w != self.width || h != self.height) {
                     self.contentBuffer = ShmBuffer(shm: shm, width: w, height: h, format: .argb8888)
                 }
                 self.frameCallbackPending = false
@@ -137,8 +137,6 @@ public final class HexGridWindow {
         }
 
         setupPointer(seat: seat)
-        contentBuffer = ShmBuffer(shm: shm, width: 640, height: 480)
-
         try surface!.commit()
         connection.roundtrip()
         connection.roundtrip()
@@ -147,6 +145,7 @@ public final class HexGridWindow {
     // MARK: - Frame pacing
 
     private func presentFrame() {
+        guard let contentBuffer else { return }
         redraw()
         try! surface!.frame { [weak self] _ in
             guard let self else { return }
@@ -156,7 +155,7 @@ public final class HexGridWindow {
                 self.presentFrame()
             }
         }
-        try! surface!.attach(buffer: contentBuffer!.buffer, x: 0, y: 0)
+        try! surface!.attach(buffer: contentBuffer.buffer, x: 0, y: 0)
         try! surface!.damage(x: 0, y: 0, width: Int32(width), height: Int32(height))
         try! surface!.commit()
         frameCallbackPending = true
