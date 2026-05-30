@@ -281,9 +281,9 @@ extension EnumDeclaration: Code {
                         gen.add(docc: summary)
                     }
                     if index == 0 && c.value == 0 {
-                        gen << "static let \(c.name.gravedIfNeeded): \(name) = []"
+                        gen << "public static let \(c.name.gravedIfNeeded): \(name) = []"
                     } else {
-                        gen << "static let \(c.name.gravedIfNeeded) = \(name)(rawValue: \(c.value))"
+                        gen << "public static let \(c.name.gravedIfNeeded) = \(name)(rawValue: \(c.value))"
                     }
                     if index != self.cases.count - 1 {
                         gen.add()
