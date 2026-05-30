@@ -56,6 +56,12 @@ public final class HexGridWindow {
         iconRadius * 1.8
     }
 
+    // GNOME's libinput axis scaling is ~6x higher than other compositors
+    private let touchpadSpeed: Double = {
+        let desktop = ProcessInfo.processInfo.environment["XDG_CURRENT_DESKTOP"] ?? ""
+        return desktop.contains("GNOME") ? 1.0 : 3.0
+    }()
+
     private let palette: [UInt32] = [
         0xFFFF_5F57, 0xFFFF_BD2E, 0xFF28_C840, 0xFF7A_A2F7,
         0xFFBB_9AF7, 0xFF73_DACA, 0xFFE0_AF68, 0xFFF7_768E,
@@ -89,7 +95,6 @@ public final class HexGridWindow {
         }
 
         surface = try compositor.createSurface()
-        try surface!.setOpaqueRegion(region: nil)  // tell compositor this surface has alpha
         xdgSurface = try xdgWmBase.getXdgSurface(surface: surface!)
         toplevel = try xdgSurface!.getToplevel()
         try toplevel!.setTitle("App Launcher")
@@ -121,6 +126,7 @@ public final class HexGridWindow {
             guard let self else { return }
             if case .configure(let serial) = event {
                 try! self.xdgSurface!.ackConfigure(serial: serial)
+                try! self.surface!.setOpaqueRegion(region: nil)
                 let (w, h) = self.pendingSize
                 if w > 0, h > 0, w != self.width || h != self.height {
                     self.contentBuffer = ShmBuffer(shm: shm, width: w, height: h, format: .argb8888)
@@ -210,7 +216,7 @@ public final class HexGridWindow {
                 switch self.axisSource {
                 case .finger, .continuous:
                     // Touchpad: pan
-                    let speed = 3.0 / self.zoomLevel
+                    let speed = self.touchpadSpeed / self.zoomLevel
                     if axis == .verticalScroll {
                         self.panY += value * speed
                     } else {
