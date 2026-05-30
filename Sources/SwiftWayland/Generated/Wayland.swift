@@ -2615,7 +2615,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         }
 
         /// do not set keyboard focus
-        static let inactive: Transient = []
+        static let inactive = Transient(rawValue: 1)
     }
 
     public enum FullscreenMethod: UInt32 {
@@ -3520,7 +3520,7 @@ public final class WlSeat: BaseProxy, Proxy {
         }
 
         /// the seat has pointer devices
-        static let pointer: Capability = []
+        static let pointer = Capability(rawValue: 1)
 
         /// the seat has one or more keyboards
         static let keyboard = Capability(rawValue: 2)
@@ -4887,7 +4887,7 @@ public final class WlOutput: BaseProxy, Proxy {
         }
 
         /// indicates this is the current mode
-        static let current: Mode = []
+        static let current = Mode(rawValue: 1)
 
         /// indicates this is the preferred mode
         static let preferred = Mode(rawValue: 2)

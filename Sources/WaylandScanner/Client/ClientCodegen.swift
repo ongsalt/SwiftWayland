@@ -276,7 +276,7 @@ extension EnumDeclaration: Code {
                     if let summary = c.summary {
                         gen.add(docc: summary)
                     }
-                    if index == 0 {
+                    if index == 0 && c.value == 0 {
                         gen << "static let \(c.name.gravedIfNeeded): \(name) = []"
                     } else {
                         gen << "static let \(c.name.gravedIfNeeded) = \(name)(rawValue: \(c.value))"

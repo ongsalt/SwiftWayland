@@ -612,7 +612,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         }
 
         /// contents are y-inverted
-        static let yInvert: Flags = []
+        static let yInvert = Flags(rawValue: 1)
 
         /// content is interlaced
         static let interlaced = Flags(rawValue: 2)
@@ -775,7 +775,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
             self.rawValue = rawValue
         }
 
-        static let scanout: TrancheFlags = []
+        static let scanout = TrancheFlags(rawValue: 1)
 
         static let sampling = TrancheFlags(rawValue: 2)
     }

@@ -233,7 +233,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             self.rawValue = rawValue
         }
 
-        static let vsync: Kind = []
+        static let vsync = Kind(rawValue: 1)
 
         static let hwClock = Kind(rawValue: 2)
 
