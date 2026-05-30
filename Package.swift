@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "SwiftWayland",
     products: [
-        // .executable(name: "WaylandScanner", targets: ["WaylandScanner"]),
         .library(name: "SwiftWayland", targets: ["SwiftWayland", "WaylandProtocols"]),
+        .executable(name: "WaylandScannerCLI", targets: ["WaylandScannerCLI"]),
     ],
     traits: [
         .trait(name: "CLIENT"),

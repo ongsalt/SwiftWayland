@@ -1,12 +1,12 @@
 # SwiftWayland
-Wayland client library for swift. The package structure is very much inspired by [wayland-rs](https://github.com/Smithay/wayland-rs). Some part of SwiftWayland was directly ported from that. 
+A Wayland client library for Swift.
 
-experimental. use at your own risk.
+> Experimental — use at your own risk.
 
 
-# Usages
-- request is a method
-- register a `onEvent` callback to deal with event from server  
+# Usage
+- Requests are methods on the proxy object.
+- Register an `onEvent` callback to handle events from the server.
 
 ```swift
 let connection = try! Connection()
@@ -16,39 +16,44 @@ try display.sync { data in
     print(data)
 }
 
-let registry = try Globals(connection: connection)
+let globals = try Globals(connection: connection)
 try connection.roundtrip()
 
-let compositor = try registry.bind(version: 1...6, type: WlCompositor.self)
+let compositor = try globals.bind(to: WlCompositor.self, version: 1...6, )
 let surface = try compositor.createSurface()
 try connection.roundtrip()
 
-let xdgWmBase = try registry.bind(version: 6...6, type: XdgWmBase.self)
+let xdgWmBase = try globals.bind(to: XdgWmBase.self, version: 6...6)
 xdgWmBase.onEvent = {
     switch $0 {
     case .ping(let serial):
-        print("ping \(serial)")
         try? xdgWmBase.pong(serial: serial)
     }
 }
 try connection.roundtrip()
 ```
 
-See `Examples` target for more.
+See the `Examples` target for more.
 
-## Object lifetime
-There is no raii (except for the `Connection` object). You manually call its desctructor(s). Every object hold a strong reference to the `Connection` object. 
+# Features
 
-## Code generation
-Code generation was done by a build tool plugin using protocol definitions from [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols)
+## Object Lifetime
+When a proxy is deinitialized, it automatically calls its destructor. Some interfaces expose multiple destructor variants; you can select which one to use (or none) via the `destructor` property.
 
-There is no server side code generation yet and probably won't be any time soon.
+## Name Translation
+Some signatures are transformed into more idiomatic Swift — for example, `setMode(mode:)` becomes `setMode(_:)`.
 
-If you need to do custom protocol, see `WaylandScannerCLI`. (not yet exported)
+
+# Code Generation
+Code generation is handled by a build tool plugin using protocol definitions from [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols).
+
+There is no server-side code generation yet, and there likely won't be any time soon.
+
+If you need to add a custom protocol, see `WaylandScannerCLI`.
 
 
 # Dependencies
-Please get wayland development header from your package manager
+Install the Wayland development headers from your package manager.
 
 ## Fedora
 ```bash
@@ -56,7 +61,6 @@ dnf install wayland-devel
 ```
 
 # Todos
-- queue
 - think about raii
 - destructor event
 - better error handling in general
