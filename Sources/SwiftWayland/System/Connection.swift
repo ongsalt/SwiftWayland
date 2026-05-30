@@ -4,11 +4,10 @@ import SwiftWaylandCommon
 
 public class Connection {
     let runtimeInfo: CRuntimeInfo
-    // let display: WlDisplay
     let rawDisplay: OpaquePointer
-    public private(set) var mainQueue: EventQueue  // its actually SystemEventQueue
+    public private(set) var mainQueue: EventQueue
     var knownProxies: [UInt32: any Proxy] = [:]
-    var knownQueues: [EventQueue] = []  // TODO: queue
+    var knownQueues: [EventQueue] = []
 
     var fd: Int32 {
         wl_display_get_fd(rawDisplay)
@@ -20,7 +19,7 @@ public class Connection {
     public init(runtimeInfo: CRuntimeInfo, rawDisplay: OpaquePointer) {
         self.runtimeInfo = runtimeInfo
         self.rawDisplay = rawDisplay
-        self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay))
+        self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay), display: rawDisplay)
         knownQueues.append(mainQueue)
 
         self.display.onEvent = { e in

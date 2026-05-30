@@ -65,5 +65,6 @@ let package = Package(
         //     name: "SwiftWaylandTests",
         //     dependencies: ["SwiftWayland"]
         // ),
-    ]
+    ],
+    swiftLanguageModes: [.v6],
 )

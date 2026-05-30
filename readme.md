@@ -57,10 +57,8 @@ dnf install wayland-devel
 
 # Todos
 - queue
-- event type="destructor"
+- think about raii
 - better error handling in general
-- generate more documentation
-    - throws
-    - when returns multiple object (probably never????)
-- version validation
+- generate more documentation when returns multiple object (probably never????)
+- more version validation
 - kde and wlr protocol
