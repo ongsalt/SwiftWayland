@@ -26,7 +26,7 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     Argument(
                         name: "r",

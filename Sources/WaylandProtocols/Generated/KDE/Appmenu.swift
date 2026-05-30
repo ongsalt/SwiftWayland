@@ -20,12 +20,12 @@ public final class KdeAppmenuManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_appmenu"
+                        interface: "org_kde_kwin_appmenu",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

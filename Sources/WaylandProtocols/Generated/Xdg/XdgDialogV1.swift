@@ -33,12 +33,12 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "xdg_dialog_v1"
+                        interface: "xdg_dialog_v1",
                     ),
                     Argument(
                         name: "toplevel",
                         type: .object,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
                     ),
                     ],
                 ),

@@ -41,12 +41,12 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_commit_timer_v1"
+                        interface: "wp_commit_timer_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

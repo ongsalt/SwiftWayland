@@ -35,12 +35,12 @@ public final class WlTextInput: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -50,7 +50,7 @@ public final class WlTextInput: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),
@@ -159,7 +159,7 @@ public final class WlTextInput: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -743,7 +743,7 @@ public final class WlTextInputManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_text_input"
+                        interface: "wl_text_input",
                     ),
                     ],
                 ),

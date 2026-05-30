@@ -39,7 +39,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_security_context_v1"
+                        interface: "wp_security_context_v1",
                     ),
                     Argument(
                         name: "listen_fd",

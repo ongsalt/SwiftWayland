@@ -26,12 +26,12 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_input_timestamps_v1"
+                        interface: "zwp_input_timestamps_v1",
                     ),
                     Argument(
                         name: "keyboard",
                         type: .object,
-                        interface: "wl_keyboard"
+                        interface: "wl_keyboard",
                     ),
                     ],
                 ),
@@ -41,12 +41,12 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_input_timestamps_v1"
+                        interface: "zwp_input_timestamps_v1",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     ],
                 ),
@@ -56,12 +56,12 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_input_timestamps_v1"
+                        interface: "zwp_input_timestamps_v1",
                     ),
                     Argument(
                         name: "touch",
                         type: .object,
-                        interface: "wl_touch"
+                        interface: "wl_touch",
                     ),
                     ],
                 ),

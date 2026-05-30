@@ -52,7 +52,8 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
+                        nullable: true,
                     ),
                     Argument(
                         name: "method",
@@ -61,7 +62,8 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -71,12 +73,12 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     Argument(
                         name: "framerate",
@@ -85,7 +87,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
                     Argument(
                         name: "feedback",
                         type: .newId,
-                        interface: "zwp_fullscreen_shell_mode_feedback_v1"
+                        interface: "zwp_fullscreen_shell_mode_feedback_v1",
                     ),
                     ],
                 ),

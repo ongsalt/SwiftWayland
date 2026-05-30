@@ -16,7 +16,7 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_plasma_virtual_desktop"
+                        interface: "org_kde_plasma_virtual_desktop",
                     ),
                     Argument(
                         name: "desktop_id",

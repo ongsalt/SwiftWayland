@@ -31,12 +31,12 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_alpha_modifier_surface_v1"
+                        interface: "wp_alpha_modifier_surface_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

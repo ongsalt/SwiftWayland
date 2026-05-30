@@ -36,7 +36,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_plasma_window"
+                        interface: "org_kde_plasma_window",
                     ),
                     Argument(
                         name: "internal_window_id",
@@ -50,7 +50,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_plasma_window"
+                        interface: "org_kde_plasma_window",
                     ),
                     Argument(
                         name: "internal_window_uuid",
@@ -65,7 +65,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                     Argument(
                         name: "stacking_order",
                         type: .newId,
-                        interface: "org_kde_plasma_stacking_order"
+                        interface: "org_kde_plasma_stacking_order",
                     ),
                     ],
                     since: 17
@@ -341,7 +341,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     Argument(
                         name: "panel",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "x",
@@ -367,7 +367,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     Argument(
                         name: "panel",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -457,7 +457,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                     since: 15
@@ -526,7 +526,8 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     Argument(
                         name: "parent",
                         type: .object,
-                        interface: "org_kde_plasma_window"
+                        interface: "org_kde_plasma_window",
+                        nullable: true,
                     ),
                     ],
                     since: 5
@@ -1059,7 +1060,7 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_plasma_activation"
+                        interface: "org_kde_plasma_activation",
                     ),
                     ],
                 ),

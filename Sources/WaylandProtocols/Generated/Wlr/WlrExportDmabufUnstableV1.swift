@@ -19,7 +19,7 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "frame",
                         type: .newId,
-                        interface: "zwlr_export_dmabuf_frame_v1"
+                        interface: "zwlr_export_dmabuf_frame_v1",
                     ),
                     Argument(
                         name: "overlay_cursor",
@@ -28,7 +28,7 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),

@@ -19,7 +19,7 @@ public final class KdeRemoteAccessManager: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .newId,
-                        interface: "org_kde_kwin_remote_buffer"
+                        interface: "org_kde_kwin_remote_buffer",
                     ),
                     Argument(
                         name: "internal_buffer_id",
@@ -46,7 +46,7 @@ public final class KdeRemoteAccessManager: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                     since: 1

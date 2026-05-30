@@ -25,17 +25,17 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_xwayland_keyboard_grab_v1"
+                        interface: "zwp_xwayland_keyboard_grab_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),

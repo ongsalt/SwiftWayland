@@ -39,7 +39,7 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_output_configuration_v1"
+                        interface: "zwlr_output_configuration_v1",
                     ),
                     Argument(
                         name: "serial",
@@ -60,7 +60,7 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "head",
                         type: .newId,
-                        interface: "zwlr_output_head_v1"
+                        interface: "zwlr_output_head_v1",
                     ),
                     ],
                 ),
@@ -224,7 +224,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
                     Argument(
                         name: "mode",
                         type: .newId,
-                        interface: "zwlr_output_mode_v1"
+                        interface: "zwlr_output_mode_v1",
                     ),
                     ],
                 ),
@@ -243,7 +243,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
                     Argument(
                         name: "mode",
                         type: .object,
-                        interface: "zwlr_output_mode_v1"
+                        interface: "zwlr_output_mode_v1",
                     ),
                     ],
                 ),
@@ -715,12 +715,12 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_output_configuration_head_v1"
+                        interface: "zwlr_output_configuration_head_v1",
                     ),
                     Argument(
                         name: "head",
                         type: .object,
-                        interface: "zwlr_output_head_v1"
+                        interface: "zwlr_output_head_v1",
                     ),
                     ],
                 ),
@@ -730,7 +730,7 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
                     Argument(
                         name: "head",
                         type: .object,
-                        interface: "zwlr_output_head_v1"
+                        interface: "zwlr_output_head_v1",
                     ),
                     ],
                 ),
@@ -938,7 +938,7 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
                     Argument(
                         name: "mode",
                         type: .object,
-                        interface: "zwlr_output_mode_v1"
+                        interface: "zwlr_output_mode_v1",
                     ),
                     ],
                 ),

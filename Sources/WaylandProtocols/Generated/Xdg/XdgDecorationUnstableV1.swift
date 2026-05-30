@@ -42,12 +42,12 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zxdg_toplevel_decoration_v1"
+                        interface: "zxdg_toplevel_decoration_v1",
                     ),
                     Argument(
                         name: "toplevel",
                         type: .object,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
                     ),
                     ],
                 ),

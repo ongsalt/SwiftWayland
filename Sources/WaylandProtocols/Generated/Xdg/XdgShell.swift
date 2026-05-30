@@ -29,7 +29,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "xdg_positioner"
+                        interface: "xdg_positioner",
                     ),
                     ],
                 ),
@@ -39,12 +39,12 @@ public final class XdgWmBase: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "xdg_surface"
+                        interface: "xdg_surface",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -685,7 +685,7 @@ public final class XdgSurface: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
                     ),
                     ],
                 ),
@@ -695,17 +695,18 @@ public final class XdgSurface: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "xdg_popup"
+                        interface: "xdg_popup",
                     ),
                     Argument(
                         name: "parent",
                         type: .object,
-                        interface: "xdg_surface"
+                        interface: "xdg_surface",
+                        nullable: true,
                     ),
                     Argument(
                         name: "positioner",
                         type: .object,
-                        interface: "xdg_positioner"
+                        interface: "xdg_positioner",
                     ),
                     ],
                 ),
@@ -999,7 +1000,8 @@ public final class XdgToplevel: BaseProxy, Proxy {
                     Argument(
                         name: "parent",
                         type: .object,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -1027,7 +1029,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "serial",
@@ -1049,7 +1051,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "serial",
@@ -1063,7 +1065,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "serial",
@@ -1117,7 +1119,8 @@ public final class XdgToplevel: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -1777,7 +1780,7 @@ public final class XdgPopup: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "serial",
@@ -1791,7 +1794,7 @@ public final class XdgPopup: BaseProxy, Proxy {
                     Argument(
                         name: "positioner",
                         type: .object,
-                        interface: "xdg_positioner"
+                        interface: "xdg_positioner",
                     ),
                     Argument(
                         name: "token",

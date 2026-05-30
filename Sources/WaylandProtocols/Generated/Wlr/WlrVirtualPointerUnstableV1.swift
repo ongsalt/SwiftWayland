@@ -341,12 +341,13 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
+                        nullable: true,
                     ),
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_virtual_pointer_v1"
+                        interface: "zwlr_virtual_pointer_v1",
                     ),
                     ],
                 ),
@@ -363,17 +364,19 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
+                        nullable: true,
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_virtual_pointer_v1"
+                        interface: "zwlr_virtual_pointer_v1",
                     ),
                     ],
                     since: 2

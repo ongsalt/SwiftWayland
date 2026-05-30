@@ -61,7 +61,10 @@ extension Argument: Code {
             gen.add("name: \"\(self.name)\",")
             gen.add("type: .\(self.type),")
             if let interface {
-                gen.add("interface: \"\(interface)\"")
+                gen.add("interface: \"\(interface)\",")
+            }
+            if self.nullable {
+                gen << "nullable: \(self.nullable),"
             }
         }
         gen.add(")")

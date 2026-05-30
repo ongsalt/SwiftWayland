@@ -16,12 +16,12 @@ public final class KdeShadowManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_shadow"
+                        interface: "org_kde_kwin_shadow",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -31,7 +31,7 @@ public final class KdeShadowManager: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -120,7 +120,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -130,7 +130,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -140,7 +140,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -150,7 +150,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -160,7 +160,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -170,7 +170,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -180,7 +180,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -190,7 +190,7 @@ public final class KdeShadow: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),

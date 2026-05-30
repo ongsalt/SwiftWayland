@@ -22,12 +22,12 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
                     Argument(
                         name: "stream",
                         type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1"
+                        interface: "zkde_screencast_stream_unstable_v1",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     Argument(
                         name: "pointer",
@@ -41,7 +41,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
                     Argument(
                         name: "stream",
                         type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1"
+                        interface: "zkde_screencast_stream_unstable_v1",
                     ),
                     Argument(
                         name: "window_uuid",
@@ -65,7 +65,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
                     Argument(
                         name: "stream",
                         type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1"
+                        interface: "zkde_screencast_stream_unstable_v1",
                     ),
                     Argument(
                         name: "name",
@@ -96,7 +96,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
                     Argument(
                         name: "stream",
                         type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1"
+                        interface: "zkde_screencast_stream_unstable_v1",
                     ),
                     Argument(
                         name: "x",
@@ -131,7 +131,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
                     Argument(
                         name: "stream",
                         type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1"
+                        interface: "zkde_screencast_stream_unstable_v1",
                     ),
                     Argument(
                         name: "name",

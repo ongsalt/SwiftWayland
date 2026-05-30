@@ -26,12 +26,12 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zxdg_exported_v2"
+                        interface: "zxdg_exported_v2",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -128,7 +128,7 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zxdg_imported_v2"
+                        interface: "zxdg_imported_v2",
                     ),
                     Argument(
                         name: "handle",
@@ -306,7 +306,7 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

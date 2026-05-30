@@ -50,7 +50,7 @@ public final class KdeOutputmanagement: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_outputconfiguration"
+                        interface: "org_kde_kwin_outputconfiguration",
                     ),
                     ],
                 ),
@@ -105,7 +105,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "enable",
@@ -119,7 +119,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "mode_id",
@@ -133,7 +133,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "transform",
@@ -147,7 +147,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "x",
@@ -165,7 +165,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "scale",
@@ -184,7 +184,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "scale",
@@ -199,7 +199,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "red",
@@ -229,7 +229,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "overscan",
@@ -244,7 +244,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "org_kde_kwin_outputdevice"
+                        interface: "org_kde_kwin_outputdevice",
                     ),
                     Argument(
                         name: "policy",

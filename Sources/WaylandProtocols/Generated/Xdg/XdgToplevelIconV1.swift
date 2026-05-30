@@ -26,7 +26,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "xdg_toplevel_icon_v1"
+                        interface: "xdg_toplevel_icon_v1",
                     ),
                     ],
                 ),
@@ -36,12 +36,13 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "toplevel",
                         type: .object,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
                     ),
                     Argument(
                         name: "icon",
                         type: .object,
-                        interface: "xdg_toplevel_icon_v1"
+                        interface: "xdg_toplevel_icon_v1",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -208,7 +209,7 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     Argument(
                         name: "scale",

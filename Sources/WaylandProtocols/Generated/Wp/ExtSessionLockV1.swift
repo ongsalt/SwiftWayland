@@ -25,7 +25,7 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "ext_session_lock_v1"
+                        interface: "ext_session_lock_v1",
                     ),
                     ],
                 ),
@@ -145,17 +145,17 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "ext_session_lock_surface_v1"
+                        interface: "ext_session_lock_surface_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),

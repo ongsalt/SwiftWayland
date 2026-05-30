@@ -20,7 +20,7 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "frame",
                         type: .newId,
-                        interface: "zwlr_screencopy_frame_v1"
+                        interface: "zwlr_screencopy_frame_v1",
                     ),
                     Argument(
                         name: "overlay_cursor",
@@ -29,7 +29,7 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),
@@ -39,7 +39,7 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "frame",
                         type: .newId,
-                        interface: "zwlr_screencopy_frame_v1"
+                        interface: "zwlr_screencopy_frame_v1",
                     ),
                     Argument(
                         name: "overlay_cursor",
@@ -48,7 +48,7 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     Argument(
                         name: "x",
@@ -181,7 +181,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),
@@ -197,7 +197,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                     since: 2

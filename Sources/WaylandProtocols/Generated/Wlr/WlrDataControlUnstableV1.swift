@@ -20,7 +20,7 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_data_control_source_v1"
+                        interface: "zwlr_data_control_source_v1",
                     ),
                     ],
                 ),
@@ -30,12 +30,12 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_data_control_device_v1"
+                        interface: "zwlr_data_control_device_v1",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),
@@ -130,7 +130,8 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "source",
                         type: .object,
-                        interface: "zwlr_data_control_source_v1"
+                        interface: "zwlr_data_control_source_v1",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -146,7 +147,8 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "source",
                         type: .object,
-                        interface: "zwlr_data_control_source_v1"
+                        interface: "zwlr_data_control_source_v1",
+                        nullable: true,
                     ),
                     ],
                     since: 2
@@ -159,7 +161,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_data_control_offer_v1"
+                        interface: "zwlr_data_control_offer_v1",
                     ),
                     ],
                 ),
@@ -169,7 +171,8 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .object,
-                        interface: "zwlr_data_control_offer_v1"
+                        interface: "zwlr_data_control_offer_v1",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -184,7 +187,8 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .object,
-                        interface: "zwlr_data_control_offer_v1"
+                        interface: "zwlr_data_control_offer_v1",
+                        nullable: true,
                     ),
                     ],
                     since: 2

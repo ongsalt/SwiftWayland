@@ -28,7 +28,7 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "kde_external_brightness_device_v1"
+                        interface: "kde_external_brightness_device_v1",
                     ),
                     ],
                 ),

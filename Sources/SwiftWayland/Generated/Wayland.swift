@@ -19,7 +19,7 @@ public final class WlDisplay: BaseProxy, Proxy {
                     Argument(
                         name: "callback",
                         type: .newId,
-                        interface: "wl_callback"
+                        interface: "wl_callback",
                     ),
                     ],
                 ),
@@ -29,7 +29,7 @@ public final class WlDisplay: BaseProxy, Proxy {
                     Argument(
                         name: "registry",
                         type: .newId,
-                        interface: "wl_registry"
+                        interface: "wl_registry",
                     ),
                     ],
                 ),
@@ -338,7 +338,7 @@ public final class WlCompositor: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -348,7 +348,7 @@ public final class WlCompositor: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_region"
+                        interface: "wl_region",
                     ),
                     ],
                 ),
@@ -415,7 +415,7 @@ public final class WlShmPool: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     Argument(
                         name: "offset",
@@ -572,7 +572,7 @@ public final class WlShm: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_shm_pool"
+                        interface: "wl_shm_pool",
                     ),
                     Argument(
                         name: "fd",
@@ -1173,6 +1173,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
                     Argument(
                         name: "mime_type",
                         type: .string,
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -1515,6 +1516,7 @@ public final class WlDataSource: BaseProxy, Proxy {
                     Argument(
                         name: "mime_type",
                         type: .string,
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -1758,17 +1760,19 @@ public final class WlDataDevice: BaseProxy, Proxy {
                     Argument(
                         name: "source",
                         type: .object,
-                        interface: "wl_data_source"
+                        interface: "wl_data_source",
+                        nullable: true,
                     ),
                     Argument(
                         name: "origin",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "icon",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
+                        nullable: true,
                     ),
                     Argument(
                         name: "serial",
@@ -1782,7 +1786,8 @@ public final class WlDataDevice: BaseProxy, Proxy {
                     Argument(
                         name: "source",
                         type: .object,
-                        interface: "wl_data_source"
+                        interface: "wl_data_source",
+                        nullable: true,
                     ),
                     Argument(
                         name: "serial",
@@ -1805,7 +1810,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_data_offer"
+                        interface: "wl_data_offer",
                     ),
                     ],
                 ),
@@ -1819,7 +1824,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "x",
@@ -1832,7 +1837,8 @@ public final class WlDataDevice: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .object,
-                        interface: "wl_data_offer"
+                        interface: "wl_data_offer",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -1869,7 +1875,8 @@ public final class WlDataDevice: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .object,
-                        interface: "wl_data_offer"
+                        interface: "wl_data_offer",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -2088,7 +2095,7 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_data_source"
+                        interface: "wl_data_source",
                     ),
                     ],
                 ),
@@ -2098,12 +2105,12 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_data_device"
+                        interface: "wl_data_device",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),
@@ -2193,12 +2200,12 @@ public final class WlShell: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_shell_surface"
+                        interface: "wl_shell_surface",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -2274,7 +2281,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "serial",
@@ -2288,7 +2295,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "serial",
@@ -2311,7 +2318,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
                     Argument(
                         name: "parent",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "x",
@@ -2341,7 +2348,8 @@ public final class WlShellSurface: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -2351,7 +2359,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "serial",
@@ -2360,7 +2368,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
                     Argument(
                         name: "parent",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "x",
@@ -2382,7 +2390,8 @@ public final class WlShellSurface: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -2832,7 +2841,8 @@ public final class WlSurface: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
+                        nullable: true,
                     ),
                     Argument(
                         name: "x",
@@ -2871,7 +2881,7 @@ public final class WlSurface: BaseProxy, Proxy {
                     Argument(
                         name: "callback",
                         type: .newId,
-                        interface: "wl_callback"
+                        interface: "wl_callback",
                     ),
                     ],
                 ),
@@ -2881,7 +2891,8 @@ public final class WlSurface: BaseProxy, Proxy {
                     Argument(
                         name: "region",
                         type: .object,
-                        interface: "wl_region"
+                        interface: "wl_region",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -2891,7 +2902,8 @@ public final class WlSurface: BaseProxy, Proxy {
                     Argument(
                         name: "region",
                         type: .object,
-                        interface: "wl_region"
+                        interface: "wl_region",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -2964,7 +2976,7 @@ public final class WlSurface: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),
@@ -2974,7 +2986,7 @@ public final class WlSurface: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),
@@ -3494,7 +3506,7 @@ public final class WlSeat: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     ],
                 ),
@@ -3504,7 +3516,7 @@ public final class WlSeat: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_keyboard"
+                        interface: "wl_keyboard",
                     ),
                     ],
                 ),
@@ -3514,7 +3526,7 @@ public final class WlSeat: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_touch"
+                        interface: "wl_touch",
                     ),
                     ],
                 ),
@@ -3743,7 +3755,8 @@ public final class WlPointer: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
+                        nullable: true,
                     ),
                     Argument(
                         name: "hotspot_x",
@@ -3774,7 +3787,7 @@ public final class WlPointer: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "surface_x",
@@ -3796,7 +3809,7 @@ public final class WlPointer: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -4347,7 +4360,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "keys",
@@ -4365,7 +4378,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -4629,7 +4642,7 @@ public final class WlTouch: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "id",
@@ -5398,17 +5411,17 @@ public final class WlSubcompositor: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wl_subsurface"
+                        interface: "wl_subsurface",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "parent",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -5571,7 +5584,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
                     Argument(
                         name: "sibling",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -5581,7 +5594,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
                     Argument(
                         name: "sibling",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -5768,7 +5781,7 @@ public final class WlFixes: BaseProxy, Proxy {
                     Argument(
                         name: "registry",
                         type: .object,
-                        interface: "wl_registry"
+                        interface: "wl_registry",
                     ),
                     ],
                 ),

@@ -27,12 +27,12 @@ public final class KdeDpmsManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_dpms"
+                        interface: "org_kde_kwin_dpms",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),

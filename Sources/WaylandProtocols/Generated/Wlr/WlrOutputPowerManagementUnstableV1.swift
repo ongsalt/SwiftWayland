@@ -20,12 +20,12 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_output_power_v1"
+                        interface: "zwlr_output_power_v1",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),

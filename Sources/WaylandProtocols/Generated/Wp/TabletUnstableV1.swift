@@ -21,12 +21,12 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "tablet_seat",
                         type: .newId,
-                        interface: "zwp_tablet_seat_v1"
+                        interface: "zwp_tablet_seat_v1",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),
@@ -118,7 +118,7 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_tablet_v1"
+                        interface: "zwp_tablet_v1",
                     ),
                     ],
                 ),
@@ -128,7 +128,7 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_tablet_tool_v1"
+                        interface: "zwp_tablet_tool_v1",
                     ),
                     ],
                 ),
@@ -232,7 +232,8 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
+                        nullable: true,
                     ),
                     Argument(
                         name: "hotspot_x",
@@ -316,12 +317,12 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
                     Argument(
                         name: "tablet",
                         type: .object,
-                        interface: "zwp_tablet_v1"
+                        interface: "zwp_tablet_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

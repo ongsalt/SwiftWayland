@@ -53,12 +53,12 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "xdg_toplevel_drag_v1"
+                        interface: "xdg_toplevel_drag_v1",
                     ),
                     Argument(
                         name: "data_source",
                         type: .object,
-                        interface: "wl_data_source"
+                        interface: "wl_data_source",
                     ),
                     ],
                 ),
@@ -151,7 +151,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
                     Argument(
                         name: "toplevel",
                         type: .object,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
                     ),
                     Argument(
                         name: "x_offset",

@@ -36,7 +36,7 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .newId,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     ],
                     since: 21
@@ -172,7 +172,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
                     Argument(
                         name: "mode",
                         type: .object,
-                        interface: "kde_output_device_mode_v2"
+                        interface: "kde_output_device_mode_v2",
                     ),
                     ],
                 ),
@@ -182,7 +182,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
                     Argument(
                         name: "mode",
                         type: .newId,
-                        interface: "kde_output_device_mode_v2"
+                        interface: "kde_output_device_mode_v2",
                     ),
                     ],
                 ),

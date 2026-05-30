@@ -19,12 +19,12 @@ public final class KdeServerDecorationPaletteManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_server_decoration_palette"
+                        interface: "org_kde_kwin_server_decoration_palette",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

@@ -34,7 +34,7 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "toplevel",
                         type: .object,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
                     ),
                     Argument(
                         name: "tag",
@@ -48,7 +48,7 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "toplevel",
                         type: .object,
-                        interface: "xdg_toplevel"
+                        interface: "xdg_toplevel",
                     ),
                     Argument(
                         name: "description",

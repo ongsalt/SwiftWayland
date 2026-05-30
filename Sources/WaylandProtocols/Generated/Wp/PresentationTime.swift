@@ -39,12 +39,12 @@ public final class WpPresentation: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "callback",
                         type: .newId,
-                        interface: "wp_presentation_feedback"
+                        interface: "wp_presentation_feedback",
                     ),
                     ],
                 ),
@@ -192,7 +192,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),

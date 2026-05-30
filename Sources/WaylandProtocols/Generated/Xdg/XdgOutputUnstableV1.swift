@@ -25,12 +25,12 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zxdg_output_v1"
+                        interface: "zxdg_output_v1",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),

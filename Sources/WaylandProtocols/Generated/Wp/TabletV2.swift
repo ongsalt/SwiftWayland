@@ -21,12 +21,12 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
                     Argument(
                         name: "tablet_seat",
                         type: .newId,
-                        interface: "zwp_tablet_seat_v2"
+                        interface: "zwp_tablet_seat_v2",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),
@@ -118,7 +118,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_tablet_v2"
+                        interface: "zwp_tablet_v2",
                     ),
                     ],
                 ),
@@ -128,7 +128,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_tablet_tool_v2"
+                        interface: "zwp_tablet_tool_v2",
                     ),
                     ],
                 ),
@@ -138,7 +138,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_tablet_pad_v2"
+                        interface: "zwp_tablet_pad_v2",
                     ),
                     ],
                 ),
@@ -257,7 +257,8 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
+                        nullable: true,
                     ),
                     Argument(
                         name: "hotspot_x",
@@ -341,12 +342,12 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
                     Argument(
                         name: "tablet",
                         type: .object,
-                        interface: "zwp_tablet_v2"
+                        interface: "zwp_tablet_v2",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -1511,7 +1512,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
                     Argument(
                         name: "ring",
                         type: .newId,
-                        interface: "zwp_tablet_pad_ring_v2"
+                        interface: "zwp_tablet_pad_ring_v2",
                     ),
                     ],
                 ),
@@ -1521,7 +1522,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
                     Argument(
                         name: "strip",
                         type: .newId,
-                        interface: "zwp_tablet_pad_strip_v2"
+                        interface: "zwp_tablet_pad_strip_v2",
                     ),
                     ],
                 ),
@@ -1562,7 +1563,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
                     Argument(
                         name: "dial",
                         type: .newId,
-                        interface: "zwp_tablet_pad_dial_v2"
+                        interface: "zwp_tablet_pad_dial_v2",
                     ),
                     ],
                     since: 2
@@ -1769,7 +1770,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
                     Argument(
                         name: "pad_group",
                         type: .newId,
-                        interface: "zwp_tablet_pad_group_v2"
+                        interface: "zwp_tablet_pad_group_v2",
                     ),
                     ],
                 ),
@@ -1823,12 +1824,12 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
                     Argument(
                         name: "tablet",
                         type: .object,
-                        interface: "zwp_tablet_v2"
+                        interface: "zwp_tablet_v2",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -1842,7 +1843,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

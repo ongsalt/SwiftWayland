@@ -34,12 +34,12 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     Argument(
                         name: "x",

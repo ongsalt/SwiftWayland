@@ -35,22 +35,23 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_locked_pointer_v1"
+                        interface: "zwp_locked_pointer_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     Argument(
                         name: "region",
                         type: .object,
-                        interface: "wl_region"
+                        interface: "wl_region",
+                        nullable: true,
                     ),
                     Argument(
                         name: "lifetime",
@@ -64,22 +65,23 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_confined_pointer_v1"
+                        interface: "zwp_confined_pointer_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     Argument(
                         name: "region",
                         type: .object,
-                        interface: "wl_region"
+                        interface: "wl_region",
+                        nullable: true,
                     ),
                     Argument(
                         name: "lifetime",
@@ -273,7 +275,8 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
                     Argument(
                         name: "region",
                         type: .object,
-                        interface: "wl_region"
+                        interface: "wl_region",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -423,7 +426,8 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
                     Argument(
                         name: "region",
                         type: .object,
-                        interface: "wl_region"
+                        interface: "wl_region",
+                        nullable: true,
                     ),
                     ],
                 ),

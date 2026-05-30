@@ -20,12 +20,12 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_gamma_control_v1"
+                        interface: "zwlr_gamma_control_v1",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),

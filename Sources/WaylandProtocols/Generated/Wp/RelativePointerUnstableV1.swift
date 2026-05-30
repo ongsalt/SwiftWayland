@@ -26,12 +26,12 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_relative_pointer_v1"
+                        interface: "zwp_relative_pointer_v1",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     ],
                 ),

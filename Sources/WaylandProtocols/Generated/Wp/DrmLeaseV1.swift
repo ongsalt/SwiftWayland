@@ -43,7 +43,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_drm_lease_request_v1"
+                        interface: "wp_drm_lease_request_v1",
                     ),
                     ],
                 ),
@@ -69,7 +69,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_drm_lease_connector_v1"
+                        interface: "wp_drm_lease_connector_v1",
                     ),
                     ],
                 ),
@@ -366,7 +366,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
                     Argument(
                         name: "connector",
                         type: .object,
-                        interface: "wp_drm_lease_connector_v1"
+                        interface: "wp_drm_lease_connector_v1",
                     ),
                     ],
                 ),
@@ -377,7 +377,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_drm_lease_v1"
+                        interface: "wp_drm_lease_v1",
                     ),
                     ],
                 ),

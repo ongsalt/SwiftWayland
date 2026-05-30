@@ -16,12 +16,12 @@ public final class KdeBlurManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_blur"
+                        interface: "org_kde_kwin_blur",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -31,7 +31,7 @@ public final class KdeBlurManager: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -87,7 +87,8 @@ public final class KdeBlur: BaseProxy, Proxy {
                     Argument(
                         name: "region",
                         type: .object,
-                        interface: "wl_region"
+                        interface: "wl_region",
+                        nullable: true,
                     ),
                     ],
                 ),

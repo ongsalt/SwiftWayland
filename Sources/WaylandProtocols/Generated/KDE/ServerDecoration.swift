@@ -24,12 +24,12 @@ public final class KdeServerDecorationManager: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_server_decoration"
+                        interface: "org_kde_kwin_server_decoration",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

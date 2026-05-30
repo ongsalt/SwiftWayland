@@ -16,12 +16,12 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "qt_extended_surface"
+                        interface: "qt_extended_surface",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

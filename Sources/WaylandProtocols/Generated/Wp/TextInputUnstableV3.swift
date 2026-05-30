@@ -145,7 +145,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -155,7 +155,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -165,6 +165,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
                     Argument(
                         name: "text",
                         type: .string,
+                        nullable: true,
                     ),
                     Argument(
                         name: "cursor_begin",
@@ -182,6 +183,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
                     Argument(
                         name: "text",
                         type: .string,
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -828,12 +830,12 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_text_input_v3"
+                        interface: "zwp_text_input_v3",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),

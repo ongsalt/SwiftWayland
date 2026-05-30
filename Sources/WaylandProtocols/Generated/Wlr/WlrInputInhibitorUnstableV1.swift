@@ -24,7 +24,7 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_input_inhibitor_v1"
+                        interface: "zwlr_input_inhibitor_v1",
                     ),
                     ],
                 ),

@@ -27,12 +27,12 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_linux_drm_syncobj_surface_v1"
+                        interface: "wp_linux_drm_syncobj_surface_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -42,7 +42,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_linux_drm_syncobj_timeline_v1"
+                        interface: "wp_linux_drm_syncobj_timeline_v1",
                     ),
                     Argument(
                         name: "fd",
@@ -238,7 +238,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
                     Argument(
                         name: "timeline",
                         type: .object,
-                        interface: "wp_linux_drm_syncobj_timeline_v1"
+                        interface: "wp_linux_drm_syncobj_timeline_v1",
                     ),
                     Argument(
                         name: "point_hi",
@@ -256,7 +256,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
                     Argument(
                         name: "timeline",
                         type: .object,
-                        interface: "wp_linux_drm_syncobj_timeline_v1"
+                        interface: "wp_linux_drm_syncobj_timeline_v1",
                     ),
                     Argument(
                         name: "point_hi",

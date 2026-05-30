@@ -24,12 +24,12 @@ public final class KdeIdle: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "org_kde_kwin_idle_timeout"
+                        interface: "org_kde_kwin_idle_timeout",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     Argument(
                         name: "timeout",

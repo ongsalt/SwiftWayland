@@ -44,7 +44,8 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
+                        nullable: true,
                     ),
                     Argument(
                         name: "method",
@@ -53,7 +54,8 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     ],
                 ),
@@ -63,12 +65,12 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     Argument(
                         name: "framerate",
@@ -77,7 +79,7 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
                     Argument(
                         name: "feedback",
                         type: .newId,
-                        interface: "_wl_fullscreen_shell_mode_feedback"
+                        interface: "_wl_fullscreen_shell_mode_feedback",
                     ),
                     ],
                 ),

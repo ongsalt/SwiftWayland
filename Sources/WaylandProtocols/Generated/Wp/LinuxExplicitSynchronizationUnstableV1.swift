@@ -38,12 +38,12 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_linux_surface_synchronization_v1"
+                        interface: "zwp_linux_surface_synchronization_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -173,7 +173,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
                     Argument(
                         name: "release",
                         type: .newId,
-                        interface: "zwp_linux_buffer_release_v1"
+                        interface: "zwp_linux_buffer_release_v1",
                     ),
                     ],
                 ),

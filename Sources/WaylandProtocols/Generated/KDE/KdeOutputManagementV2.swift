@@ -53,7 +53,7 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "kde_output_configuration_v2"
+                        interface: "kde_output_configuration_v2",
                     ),
                     ],
                 ),
@@ -63,7 +63,7 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "kde_mode_list_v2"
+                        interface: "kde_mode_list_v2",
                     ),
                     ],
                 ),
@@ -131,7 +131,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "enable",
@@ -145,12 +145,12 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "mode",
                         type: .object,
-                        interface: "kde_output_device_mode_v2"
+                        interface: "kde_output_device_mode_v2",
                     ),
                     ],
                 ),
@@ -160,7 +160,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "transform",
@@ -174,7 +174,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "x",
@@ -192,7 +192,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "scale",
@@ -217,7 +217,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "overscan",
@@ -231,7 +231,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "policy",
@@ -245,7 +245,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "rgb_range",
@@ -259,7 +259,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     ],
                     since: 2
@@ -270,7 +270,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "priority",
@@ -285,7 +285,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "enable_hdr",
@@ -300,7 +300,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "sdr_brightness",
@@ -315,7 +315,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "enable_wcg",
@@ -330,7 +330,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "policy",
@@ -345,7 +345,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "profile_path",
@@ -360,7 +360,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "max_peak_brightness",
@@ -383,7 +383,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "gamut_wideness",
@@ -398,7 +398,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "color_profile_source",
@@ -413,7 +413,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "brightness",
@@ -428,7 +428,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "preference",
@@ -443,7 +443,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "multiplier",
@@ -458,7 +458,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "source",
@@ -473,7 +473,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "allowed",
@@ -488,7 +488,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "max_bpc",
@@ -503,7 +503,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "policy",
@@ -518,7 +518,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "sharpness",
@@ -533,12 +533,12 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "modes",
                         type: .object,
-                        interface: "kde_mode_list_v2"
+                        interface: "kde_mode_list_v2",
                     ),
                     ],
                     since: 18
@@ -549,7 +549,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "enabled",
@@ -564,7 +564,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "profile_path",
@@ -579,7 +579,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "color_profile_source",
@@ -594,7 +594,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
                     Argument(
                         name: "outputdevice",
                         type: .object,
-                        interface: "kde_output_device_v2"
+                        interface: "kde_output_device_v2",
                     ),
                     Argument(
                         name: "level",

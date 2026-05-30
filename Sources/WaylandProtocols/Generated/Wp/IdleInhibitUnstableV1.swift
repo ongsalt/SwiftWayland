@@ -35,12 +35,12 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_idle_inhibitor_v1"
+                        interface: "zwp_idle_inhibitor_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

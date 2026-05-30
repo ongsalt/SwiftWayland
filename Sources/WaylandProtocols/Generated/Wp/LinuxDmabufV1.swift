@@ -73,7 +73,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
                     Argument(
                         name: "params_id",
                         type: .newId,
-                        interface: "zwp_linux_buffer_params_v1"
+                        interface: "zwp_linux_buffer_params_v1",
                     ),
                     ],
                 ),
@@ -83,7 +83,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_linux_dmabuf_feedback_v1"
+                        interface: "zwp_linux_dmabuf_feedback_v1",
                     ),
                     ],
                     since: 4
@@ -94,12 +94,12 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_linux_dmabuf_feedback_v1"
+                        interface: "zwp_linux_dmabuf_feedback_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                     since: 4
@@ -355,7 +355,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
                     Argument(
                         name: "buffer_id",
                         type: .newId,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     Argument(
                         name: "width",
@@ -394,7 +394,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
                     Argument(
                         name: "buffer",
                         type: .newId,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                 ),

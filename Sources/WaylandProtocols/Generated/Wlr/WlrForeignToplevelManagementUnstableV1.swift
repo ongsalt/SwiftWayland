@@ -30,7 +30,7 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "toplevel",
                         type: .newId,
-                        interface: "zwlr_foreign_toplevel_handle_v1"
+                        interface: "zwlr_foreign_toplevel_handle_v1",
                     ),
                     ],
                 ),
@@ -131,7 +131,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),
@@ -146,7 +146,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "x",
@@ -178,7 +178,8 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     ],
                     since: 2
@@ -215,7 +216,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),
@@ -225,7 +226,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),
@@ -254,7 +255,8 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
                     Argument(
                         name: "parent",
                         type: .object,
-                        interface: "zwlr_foreign_toplevel_handle_v1"
+                        interface: "zwlr_foreign_toplevel_handle_v1",
+                        nullable: true,
                     ),
                     ],
                     since: 3

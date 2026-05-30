@@ -25,17 +25,18 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwlr_layer_surface_v1"
+                        interface: "zwlr_layer_surface_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
+                        nullable: true,
                     ),
                     Argument(
                         name: "layer",
@@ -240,7 +241,7 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
                     Argument(
                         name: "popup",
                         type: .object,
-                        interface: "xdg_popup"
+                        interface: "xdg_popup",
                     ),
                     ],
                 ),

@@ -160,7 +160,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
                     Argument(
                         name: "keyboard",
                         type: .newId,
-                        interface: "wl_keyboard"
+                        interface: "wl_keyboard",
                     ),
                     ],
                 ),
@@ -617,7 +617,7 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_input_method_context_v1"
+                        interface: "zwp_input_method_context_v1",
                     ),
                     ],
                 ),
@@ -627,7 +627,7 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
                     Argument(
                         name: "context",
                         type: .object,
-                        interface: "zwp_input_method_context_v1"
+                        interface: "zwp_input_method_context_v1",
                     ),
                     ],
                 ),
@@ -682,12 +682,12 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_input_panel_surface_v1"
+                        interface: "zwp_input_panel_surface_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -729,7 +729,7 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     Argument(
                         name: "position",

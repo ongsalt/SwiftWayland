@@ -22,7 +22,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_primary_selection_source_v1"
+                        interface: "zwp_primary_selection_source_v1",
                     ),
                     ],
                 ),
@@ -32,12 +32,12 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_primary_selection_device_v1"
+                        interface: "zwp_primary_selection_device_v1",
                     ),
                     Argument(
                         name: "seat",
                         type: .object,
-                        interface: "wl_seat"
+                        interface: "wl_seat",
                     ),
                     ],
                 ),
@@ -125,7 +125,8 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "source",
                         type: .object,
-                        interface: "zwp_primary_selection_source_v1"
+                        interface: "zwp_primary_selection_source_v1",
+                        nullable: true,
                     ),
                     Argument(
                         name: "serial",
@@ -147,7 +148,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "offer",
                         type: .newId,
-                        interface: "zwp_primary_selection_offer_v1"
+                        interface: "zwp_primary_selection_offer_v1",
                     ),
                     ],
                 ),
@@ -157,7 +158,8 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .object,
-                        interface: "zwp_primary_selection_offer_v1"
+                        interface: "zwp_primary_selection_offer_v1",
+                        nullable: true,
                     ),
                     ],
                 ),

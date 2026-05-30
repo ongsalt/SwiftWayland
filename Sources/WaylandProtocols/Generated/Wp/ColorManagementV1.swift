@@ -30,12 +30,12 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_color_management_output_v1"
+                        interface: "wp_color_management_output_v1",
                     ),
                     Argument(
                         name: "output",
                         type: .object,
-                        interface: "wl_output"
+                        interface: "wl_output",
                     ),
                     ],
                 ),
@@ -45,12 +45,12 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_color_management_surface_v1"
+                        interface: "wp_color_management_surface_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -60,12 +60,12 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "wp_color_management_surface_feedback_v1"
+                        interface: "wp_color_management_surface_feedback_v1",
                     ),
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),
@@ -75,7 +75,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "obj",
                         type: .newId,
-                        interface: "wp_image_description_creator_icc_v1"
+                        interface: "wp_image_description_creator_icc_v1",
                     ),
                     ],
                 ),
@@ -85,7 +85,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "obj",
                         type: .newId,
-                        interface: "wp_image_description_creator_params_v1"
+                        interface: "wp_image_description_creator_params_v1",
                     ),
                     ],
                 ),
@@ -95,7 +95,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     ],
                 ),
@@ -105,12 +105,12 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     Argument(
                         name: "reference",
                         type: .object,
-                        interface: "wp_image_description_reference_v1"
+                        interface: "wp_image_description_reference_v1",
                     ),
                     ],
                     since: 2
@@ -121,7 +121,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     ],
                     since: 3
@@ -584,7 +584,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     ],
                 ),
@@ -712,7 +712,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .object,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     Argument(
                         name: "render_intent",
@@ -857,7 +857,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     ],
                 ),
@@ -867,7 +867,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     ],
                 ),
@@ -1060,7 +1060,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     ],
                 ),
@@ -1235,7 +1235,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
                     Argument(
                         name: "image_description",
                         type: .newId,
-                        interface: "wp_image_description_v1"
+                        interface: "wp_image_description_v1",
                     ),
                     ],
                 ),
@@ -1786,7 +1786,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
                     Argument(
                         name: "information",
                         type: .newId,
-                        interface: "wp_image_description_info_v1"
+                        interface: "wp_image_description_info_v1",
                     ),
                     ],
                 ),

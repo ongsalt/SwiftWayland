@@ -34,7 +34,7 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "kde_auto_hide_screen_edge_v1"
+                        interface: "kde_auto_hide_screen_edge_v1",
                     ),
                     Argument(
                         name: "border",
@@ -43,7 +43,7 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     ],
                 ),

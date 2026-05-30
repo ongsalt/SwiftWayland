@@ -32,12 +32,12 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_pointer_gesture_swipe_v1"
+                        interface: "zwp_pointer_gesture_swipe_v1",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     ],
                 ),
@@ -47,12 +47,12 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_pointer_gesture_pinch_v1"
+                        interface: "zwp_pointer_gesture_pinch_v1",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     ],
                 ),
@@ -69,12 +69,12 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
                     Argument(
                         name: "id",
                         type: .newId,
-                        interface: "zwp_pointer_gesture_hold_v1"
+                        interface: "zwp_pointer_gesture_hold_v1",
                     ),
                     Argument(
                         name: "pointer",
                         type: .object,
-                        interface: "wl_pointer"
+                        interface: "wl_pointer",
                     ),
                     ],
                     since: 3
@@ -212,7 +212,7 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "fingers",
@@ -371,7 +371,7 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "fingers",
@@ -545,7 +545,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
                     Argument(
                         name: "surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "fingers",

@@ -16,12 +16,12 @@ public final class WlEglstreamController: BaseProxy, Proxy {
                     Argument(
                         name: "wl_surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "wl_resource",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     ],
                     since: 1
@@ -32,12 +32,12 @@ public final class WlEglstreamController: BaseProxy, Proxy {
                     Argument(
                         name: "wl_surface",
                         type: .object,
-                        interface: "wl_surface"
+                        interface: "wl_surface",
                     ),
                     Argument(
                         name: "wl_resource",
                         type: .object,
-                        interface: "wl_buffer"
+                        interface: "wl_buffer",
                     ),
                     Argument(
                         name: "attribs",
