@@ -47,11 +47,22 @@ struct GenerateClientCode: ParsableCommand {
         help: "Traits")
     var traits: String? = nil
 
+    @Option(
+        name: .long,
+        help: "Prefix remapping in 'old_prefix:NewPrefix' format (repeatable)")
+    var prefixMap: [String] = []
+
     mutating func run() throws {
         let inputUrl = URL(filePath: inputFile)
 
         let importName = self.import
         let outputFile = URL(filePath: outputFile)
+
+        let parsedPrefixMap: [(from: String, to: String)] = prefixMap.compactMap { entry in
+            let parts = entry.split(separator: ":", maxSplits: 1)
+            guard parts.count == 2 else { return nil }
+            return (from: String(parts[0]), to: String(parts[1]))
+        }
 
         try! FileManager.default.createDirectory(
             at: outputFile.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -61,7 +72,8 @@ struct GenerateClientCode: ParsableCommand {
             options: Options(
                 namespace: namespace,
                 importName: importName,
-                traits: traits
+                traits: traits,
+                prefixMap: parsedPrefixMap
             ))
         try text.write(to: outputFile, atomically: true, encoding: .utf8)
     }

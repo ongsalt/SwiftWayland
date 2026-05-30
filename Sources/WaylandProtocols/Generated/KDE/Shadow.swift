@@ -2,7 +2,7 @@ import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
 #if KDE
-public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
+public final class KdeShadowManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -48,9 +48,9 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinShadow {
+    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeShadow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinShadow.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeShadow.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(surface.id),
@@ -101,7 +101,7 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
-public final class OrgKdeKwinShadow: BaseProxy, Proxy {
+public final class KdeShadow: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -396,8 +396,8 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
 public let Shadow = Protocol(
         name: "shadow",
         interfaces: [
-            OrgKdeKwinShadowManager.interface,
-OrgKdeKwinShadow.interface
+            KdeShadowManager.interface,
+KdeShadow.interface
         ]
     )
 

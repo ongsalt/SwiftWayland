@@ -2,7 +2,7 @@ import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
 #if KDE
-public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
+public final class KdeSlideManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -41,9 +41,9 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinSlide {
+    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeSlide {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinSlide.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeSlide.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(surface.id),
@@ -74,7 +74,7 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
 /// with a slide animation.
 /// The from argument provides a clue about where the slide animation
 /// begins, offset is the distance from screen edge to begin the animation.
-public final class OrgKdeKwinSlide: BaseProxy, Proxy {
+public final class KdeSlide: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -186,8 +186,8 @@ public final class OrgKdeKwinSlide: BaseProxy, Proxy {
 public let Slide = Protocol(
         name: "slide",
         interfaces: [
-            OrgKdeKwinSlideManager.interface,
-OrgKdeKwinSlide.interface
+            KdeSlideManager.interface,
+KdeSlide.interface
         ]
     )
 

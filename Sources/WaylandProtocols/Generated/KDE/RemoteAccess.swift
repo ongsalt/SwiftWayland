@@ -5,7 +5,7 @@ import Foundation
 /// Protocol For Managing Rendered Gbm Buffers Passing
 /// 
 /// 
-public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
+public final class KdeRemoteAccessManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -59,10 +59,10 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - internalBufferId: The internal buffer id of the buffer to create
-    public func getBuffer(internalBufferId: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinRemoteBuffer {
+    public func getBuffer(internalBufferId: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeRemoteBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
-        let buffer = connection.createProxy(type: OrgKdeKwinRemoteBuffer.self, version: self.version, queue: _queue ?? self.queue)
+        let buffer = connection.createProxy(type: KdeRemoteBuffer.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(buffer.id),
             .int(internalBufferId),
@@ -120,7 +120,7 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
 /// This Interface Allows Finer Control Of Remote Buffer Lifecycle
 /// 
 /// 
-public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
+public final class KdeRemoteBuffer: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -217,8 +217,8 @@ public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
 public let RemoteAccess = Protocol(
         name: "remote_access",
         interfaces: [
-            OrgKdeKwinRemoteAccessManager.interface,
-OrgKdeKwinRemoteBuffer.interface
+            KdeRemoteAccessManager.interface,
+KdeRemoteBuffer.interface
         ]
     )
 

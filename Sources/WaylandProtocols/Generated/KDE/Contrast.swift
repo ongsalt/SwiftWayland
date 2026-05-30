@@ -2,7 +2,7 @@ import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
 #if KDE
-public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
+public final class KdeContrastManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -41,9 +41,9 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinContrast {
+    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeContrast {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinContrast.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeContrast.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(surface.id),
@@ -68,7 +68,7 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
-public final class OrgKdeKwinContrast: BaseProxy, Proxy {
+public final class KdeContrast: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -266,8 +266,8 @@ public final class OrgKdeKwinContrast: BaseProxy, Proxy {
 public let Contrast = Protocol(
         name: "contrast",
         interfaces: [
-            OrgKdeKwinContrastManager.interface,
-OrgKdeKwinContrast.interface
+            KdeContrastManager.interface,
+KdeContrast.interface
         ]
     )
 

@@ -10,7 +10,7 @@ import Foundation
 /// This is useful for applications wanting to perform actions when the user is not
 /// interacting with the system, e.g. chat applications setting the user as away, power
 /// management features to dim screen, etc..
-public final class OrgKdeKwinIdle: BaseProxy, Proxy {
+public final class KdeIdle: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -44,9 +44,9 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - timeout: The idle timeout in msec
-    public func getIdleTimeout(seat: WlSeat, timeout: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinIdleTimeout {
+    public func getIdleTimeout(seat: WlSeat, timeout: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeIdleTimeout {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinIdleTimeout.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeIdleTimeout.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(seat.id),
@@ -63,7 +63,7 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
-public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
+public final class KdeIdleTimeout: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -163,8 +163,8 @@ public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
 public let Idle = Protocol(
         name: "idle",
         interfaces: [
-            OrgKdeKwinIdle.interface,
-OrgKdeKwinIdleTimeout.interface
+            KdeIdle.interface,
+KdeIdleTimeout.interface
         ]
     )
 

@@ -14,7 +14,7 @@ import Foundation
 /// implementation detail. Regular clients must not use this protocol.
 /// Backward incompatible changes may be added without bumping the major
 /// version of the extension.
-public final class OrgKdeKwinFakeInput: BaseProxy, Proxy {
+public final class KdeFakeInput: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -377,7 +377,7 @@ public final class OrgKdeKwinFakeInput: BaseProxy, Proxy {
 public let FakeInput = Protocol(
         name: "fake_input",
         interfaces: [
-            OrgKdeKwinFakeInput.interface
+            KdeFakeInput.interface
         ]
     )
 

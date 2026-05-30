@@ -2,7 +2,7 @@ import Foundation
 @_spi(SwiftWaylandPrivate) import SwiftWayland
 
 #if KDE
-public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
+public final class KdeBlurManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -41,9 +41,9 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinBlur {
+    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeBlur {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinBlur.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeBlur.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(surface.id),
@@ -68,7 +68,7 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
-public final class OrgKdeKwinBlur: BaseProxy, Proxy {
+public final class KdeBlur: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -153,8 +153,8 @@ public final class OrgKdeKwinBlur: BaseProxy, Proxy {
 public let Blur = Protocol(
         name: "blur",
         interfaces: [
-            OrgKdeKwinBlurManager.interface,
-OrgKdeKwinBlur.interface
+            KdeBlurManager.interface,
+KdeBlur.interface
         ]
     )
 

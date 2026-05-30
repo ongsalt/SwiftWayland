@@ -5,7 +5,7 @@ import Foundation
 /// Server Side Decoration Palette Manager Interface
 /// 
 /// This interface allows a client to alter the palette of a server side decoration.
-public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
+public final class KdeServerDecorationPaletteManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -34,9 +34,9 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecorationPalette {
+    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeServerDecorationPalette {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinServerDecorationPalette.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeServerDecorationPalette.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(surface.id),
@@ -55,7 +55,7 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
 /// Server Side Decoration Palette Interface
 /// 
 /// This interface allows a client to alter the palette of a server side decoration.
-public final class OrgKdeKwinServerDecorationPalette: BaseProxy, Proxy {
+public final class KdeServerDecorationPalette: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -134,8 +134,8 @@ public final class OrgKdeKwinServerDecorationPalette: BaseProxy, Proxy {
 public let ServerDecorationPalette = Protocol(
         name: "server_decoration_palette",
         interfaces: [
-            OrgKdeKwinServerDecorationPaletteManager.interface,
-OrgKdeKwinServerDecorationPalette.interface
+            KdeServerDecorationPaletteManager.interface,
+KdeServerDecorationPalette.interface
         ]
     )
 

@@ -13,7 +13,7 @@ import Foundation
 /// implementation detail. Regular clients must not use this protocol.
 /// Backward incompatible changes may be added without bumping the major
 /// version of the extension.
-public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
+public final class KdeDpmsManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -45,9 +45,9 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
     /// Factory request to get the org_kde_kwin_dpms for a given wl_output.
     /// 
     /// - Parameters:
-    public func `get`(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinDpms {
+    public func `get`(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeDpms {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinDpms.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeDpms.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(output.id),
@@ -71,7 +71,7 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
 /// the currently used DPMS state and notifies the client through the done event once all
 /// states are pushed. Whenever a state changes the set of changes is committed with the
 /// done event.
-public final class OrgKdeKwinDpms: BaseProxy, Proxy {
+public final class KdeDpms: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -220,8 +220,8 @@ public final class OrgKdeKwinDpms: BaseProxy, Proxy {
 public let Dpms = Protocol(
         name: "dpms",
         interfaces: [
-            OrgKdeKwinDpmsManager.interface,
-OrgKdeKwinDpms.interface
+            KdeDpmsManager.interface,
+KdeDpms.interface
         ]
     )
 

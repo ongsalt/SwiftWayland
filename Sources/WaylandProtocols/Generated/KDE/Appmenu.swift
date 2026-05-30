@@ -6,7 +6,7 @@ import Foundation
 /// 
 /// This interface allows a client to link a window (or wl_surface) to an com.canonical.dbusmenu
 /// interface registered on DBus.
-public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
+public final class KdeAppmenuManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -42,9 +42,9 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinAppmenu {
+    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeAppmenu {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinAppmenu.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeAppmenu.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(surface.id),
@@ -91,7 +91,7 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
 /// The DBus service name and object path where the appmenu interface is present
 /// The object should be registered on the session bus before sending this request.
 /// If not applicable, clients should remove this object.
-public final class OrgKdeKwinAppmenu: BaseProxy, Proxy {
+public final class KdeAppmenu: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -173,8 +173,8 @@ public final class OrgKdeKwinAppmenu: BaseProxy, Proxy {
 public let Appmenu = Protocol(
         name: "appmenu",
         interfaces: [
-            OrgKdeKwinAppmenuManager.interface,
-OrgKdeKwinAppmenu.interface
+            KdeAppmenuManager.interface,
+KdeAppmenu.interface
         ]
     )
 

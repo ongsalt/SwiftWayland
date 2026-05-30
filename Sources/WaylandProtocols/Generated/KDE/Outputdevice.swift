@@ -17,7 +17,7 @@ import Foundation
 /// This object is published as global during start up for every available
 /// display devices, or when one later becomes available, for example by
 /// being hotplugged via a physical connector.
-public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
+public final class KdeOutputdevice: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -464,7 +464,7 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
 public let OrgKdeKwinOutputdevice = Protocol(
         name: "org_kde_kwin_outputdevice",
         interfaces: [
-            OrgKdeKwinOutputdevice.interface
+            KdeOutputdevice.interface
         ]
     )
 

@@ -4,10 +4,20 @@ import SwiftWaylandCommon
 // - generate deint
 // - wl_callback -> `@escaping () -> Void`
 
+func remapName(_ name: String, prefixMap: [(from: String, to: String)]) -> String {
+    for (from, to) in prefixMap {
+        if name.hasPrefix(from + "_") {
+            return to + "_" + String(name.dropFirst(from.count + 1))
+        }
+    }
+    return name
+}
+
 public func transform(
     interface: Interface,
     trim transformName: Bool,
-    protocolName: String
+    protocolName: String,
+    prefixMap: [(from: String, to: String)] = []
 ) -> ClassDeclaration {
     let destructors = interface.requests
         .filter { $0.arguments.count == 0 && $0.type == .destructor }
@@ -17,7 +27,7 @@ public func transform(
         }
 
     return ClassDeclaration(
-        name: interface.name.camel,
+        name: remapName(interface.name, prefixMap: prefixMap).camel,
         interface: interface,
         protocolName: protocolName,
         description: interface.description,
@@ -55,7 +65,7 @@ public func transform(
                     let decl = ArgumentDeclaration(
                         name: arg.name.lowerCamel,
                         externalName: externalName,
-                        swiftType: arg.getSwiftType(isEvent: false),
+                        swiftType: arg.getSwiftType(isEvent: false, prefixMap: prefixMap),
                         arg: arg,
                     )
 
@@ -110,7 +120,7 @@ public func transform(
                 name: event.name.lowerCamel,
                 description: event.description,
                 arguments: event.arguments.map { arg in
-                    let swiftType = arg.getSwiftType(isEvent: true)
+                    let swiftType = arg.getSwiftType(isEvent: true, prefixMap: prefixMap)
 
                     return ArgumentDeclaration(
                         name: arg.name.lowerCamel,
@@ -125,7 +135,8 @@ public func transform(
 
 public func transform(
     protocol p: Protocol,
-    trim transformName: Bool
+    trim transformName: Bool,
+    prefixMap: [(from: String, to: String)] = []
 ) -> ProtocolDeclaration {
     ProtocolDeclaration(
         name: p.name.camel,
@@ -133,13 +144,13 @@ public func transform(
         description: p.description,
         protocol: p,
         classes: p.interfaces.map {
-            transform(interface: $0, trim: transformName, protocolName: p.name.camel)
+            transform(interface: $0, trim: transformName, protocolName: p.name.camel, prefixMap: prefixMap)
         }
     )
 }
 
 extension Argument {
-    func getSwiftType(isEvent: Bool) -> String {
+    func getSwiftType(isEvent: Bool, prefixMap: [(from: String, to: String)] = []) -> String {
         switch self.type {
         case .string:
             return "String"
@@ -162,12 +173,12 @@ extension Argument {
             fatalError("there should not be an enum here")
         case .object:
             if isEvent {
-                return self.interface?.camel ?? "any Proxy"
+                return self.interface.map { remapName($0, prefixMap: prefixMap).camel } ?? "any Proxy"
             } else {
-                return self.interface!.camel
+                return remapName(self.interface!, prefixMap: prefixMap).camel
             }
         case .newId:
-            return self.interface!.camel  // dynamic newId in wl_registry.bind is excluded
+            return remapName(self.interface!, prefixMap: prefixMap).camel  // dynamic newId in wl_registry.bind is excluded
         }
 
     }

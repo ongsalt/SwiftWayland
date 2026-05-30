@@ -10,7 +10,7 @@ import Foundation
 /// for this interface the server indicates that it supports server
 /// side decorations.
 /// Use in conjunction with zxdg_decoration_manager_v1 is undefined.
-public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
+public final class KdeServerDecorationManager: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -59,9 +59,9 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
     /// to the server that it does not want a server-side deco.
     /// 
     /// - Parameters:
-    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecoration {
+    public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeServerDecoration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinServerDecoration.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeServerDecoration.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
             .object(surface.id),
@@ -106,7 +106,7 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
         }
     }
 }
-public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
+public final class KdeServerDecoration: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -227,8 +227,8 @@ public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
 public let ServerDecoration = Protocol(
         name: "server_decoration",
         interfaces: [
-            OrgKdeKwinServerDecorationManager.interface,
-OrgKdeKwinServerDecoration.interface
+            KdeServerDecorationManager.interface,
+KdeServerDecoration.interface
         ]
     )
 

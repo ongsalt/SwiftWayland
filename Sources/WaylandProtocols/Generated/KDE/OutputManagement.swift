@@ -36,7 +36,7 @@ import Foundation
 /// configuration request.
 /// Through this design the interface enables atomic output configuration changes if
 /// internally supported by the server.
-public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
+public final class KdeOutputmanagement: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -62,9 +62,9 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
     /// 
     /// Request an outputconfiguration object through which the client can configure
     /// output devices.
-    public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinOutputconfiguration {
+    public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeOutputconfiguration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinOutputconfiguration.self, version: self.version, queue: _queue ?? self.queue)
+        let id = connection.createProxy(type: KdeOutputconfiguration.self, version: self.version, queue: _queue ?? self.queue)
         connection.send(self, 0, [
             .object(id.id),
         ])
@@ -91,7 +91,7 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
 /// The server signals back whether the new settings have applied successfully
 /// or failed to apply. outputdevice objects are updated after the changes have been
 /// applied to the hardware and before the server side sends the applied event.
-public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
+public final class KdeOutputconfiguration: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -274,7 +274,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     /// - Parameters:
     ///   - outputdevice: outputdevice to be en- or disabled
     ///   - enable: 1 to enable or 0 to disable this output
-    public func enable(outputdevice: OrgKdeKwinOutputdevice, enable: Int32) throws(WaylandProxyError) {
+    public func enable(outputdevice: KdeOutputdevice, enable: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .object(outputdevice.id),
@@ -289,7 +289,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     /// - Parameters:
     ///   - outputdevice: outputdevice this mode change applies to
     ///   - modeId: aspired mode's id
-    public func mode(outputdevice: OrgKdeKwinOutputdevice, modeId: Int32) throws(WaylandProxyError) {
+    public func mode(outputdevice: KdeOutputdevice, modeId: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
             .object(outputdevice.id),
@@ -304,7 +304,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     /// - Parameters:
     ///   - outputdevice: outputdevice this transformation change applies to
     ///   - transform: transform enum
-    public func transform(outputdevice: OrgKdeKwinOutputdevice, transform: Int32) throws(WaylandProxyError) {
+    public func transform(outputdevice: KdeOutputdevice, transform: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
             .object(outputdevice.id),
@@ -325,7 +325,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     ///   - outputdevice: outputdevice this position applies to
     ///   - x: position on the x-axis
     ///   - y: position on the y-axis
-    public func position(outputdevice: OrgKdeKwinOutputdevice, x: Int32, y: Int32) throws(WaylandProxyError) {
+    public func position(outputdevice: KdeOutputdevice, x: Int32, y: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
             .object(outputdevice.id),
@@ -341,7 +341,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     /// - Parameters:
     ///   - outputdevice: outputdevice this mode change applies to
     ///   - scale: scaling factor
-    public func scale(outputdevice: OrgKdeKwinOutputdevice, scale: Int32) throws(WaylandProxyError) {
+    public func scale(outputdevice: KdeOutputdevice, scale: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
             .object(outputdevice.id),
@@ -367,7 +367,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     /// - Parameters:
     ///   - outputdevice: outputdevice this mode change applies to
     ///   - scale: scaling factor
-    public func scalef(outputdevice: OrgKdeKwinOutputdevice, scale: Double) throws(WaylandProxyError) {
+    public func scalef(outputdevice: KdeOutputdevice, scale: Double) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 6, [
@@ -388,7 +388,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     ///   - red: red color ramp
     ///   - green: green color ramp
     ///   - blue: blue color ramp
-    public func colorcurves(outputdevice: OrgKdeKwinOutputdevice, red: Data, green: Data, blue: Data) throws(WaylandProxyError) {
+    public func colorcurves(outputdevice: KdeOutputdevice, red: Data, green: Data, blue: Data) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 7, [
@@ -417,7 +417,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     /// - Parameters:
     ///   - outputdevice: outputdevice overscan applies to
     ///   - overscan: overscan value
-    public func overscan(outputdevice: OrgKdeKwinOutputdevice, overscan: UInt32) throws(WaylandProxyError) {
+    public func overscan(outputdevice: KdeOutputdevice, overscan: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 9, [
@@ -434,7 +434,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     /// - Parameters:
     ///   - outputdevice: outputdevice this VRR policy applies to
     ///   - policy: the vrr policy to apply
-    public func setVrrPolicy(outputdevice: OrgKdeKwinOutputdevice, policy: VrrPolicy) throws(WaylandProxyError) {
+    public func setVrrPolicy(outputdevice: KdeOutputdevice, policy: VrrPolicy) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         connection.send(self, 10, [
@@ -500,8 +500,8 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
 public let Outputmanagement = Protocol(
         name: "outputmanagement",
         interfaces: [
-            OrgKdeKwinOutputmanagement.interface,
-OrgKdeKwinOutputconfiguration.interface
+            KdeOutputmanagement.interface,
+KdeOutputconfiguration.interface
         ]
     )
 

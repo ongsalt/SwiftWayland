@@ -7,15 +7,17 @@ public struct Options: Sendable {
     public var namespace: String?
     public var importName: String?
     public var traits: String?
+    public var prefixMap: [(from: String, to: String)] = []
 
     public init(
         trim: Bool = false, namespace: String? = nil, importName: String? = nil,
-        traits: String? = nil
+        traits: String? = nil, prefixMap: [(from: String, to: String)] = []
     ) {
         self.trim = trim
         self.namespace = namespace
         self.importName = importName
         self.traits = traits
+        self.prefixMap = prefixMap
     }
 }
 
@@ -49,7 +51,8 @@ public func generateFile(_ xml: String, options: Options, doImport: Bool = true)
 
     let decl = transform(
         protocol: aProtocol,
-        trim: options.trim
+        trim: options.trim,
+        prefixMap: options.prefixMap
     )
     generator.walk(node: decl)
     generator.add()

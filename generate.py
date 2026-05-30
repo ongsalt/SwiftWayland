@@ -111,7 +111,13 @@ def run(cli: str, args: list[str]) -> bool:
     return subprocess.run([cli] + args).returncode == 0
 
 
-def generate_group(cli: str, protocols: list[str], output_dir: str, trait: str | None) -> int:
+def generate_group(
+    cli: str,
+    protocols: list[str],
+    output_dir: str,
+    trait: str | None,
+    prefix_map: list[tuple[str, str]] = [],
+) -> int:
     errors = 0
     for proto_path in protocols:
         name = to_camel(Path(proto_path).stem)
@@ -119,6 +125,8 @@ def generate_group(cli: str, protocols: list[str], output_dir: str, trait: str |
         args = ["client", proto_path, output, "--import", "SwiftWayland"]
         if trait:
             args += ["--traits", trait]
+        for old, new in prefix_map:
+            args += ["--prefix-map", f"{old}:{new}"]
         if not run(cli, args):
             errors += 1
     return errors
@@ -126,7 +134,9 @@ def generate_group(cli: str, protocols: list[str], output_dir: str, trait: str |
 
 def main():
     os.makedirs("Sources/SwiftWayland/Generated", exist_ok=True)
-    os.makedirs("Sources/WaylandProtocols/Generated", exist_ok=True)
+    os.makedirs("Sources/WaylandProtocols/Generated/Xdg", exist_ok=True)
+    os.makedirs("Sources/WaylandProtocols/Generated/Xwayland", exist_ok=True)
+    os.makedirs("Sources/WaylandProtocols/Generated/Wp", exist_ok=True)
     os.makedirs("Sources/WaylandProtocols/Generated/KDE", exist_ok=True)
     os.makedirs("Sources/WaylandProtocols/Generated/Wlr", exist_ok=True)
 
@@ -145,10 +155,13 @@ def main():
     if not ok:
         errors += 1
 
-    errors += generate_group(cli, XDG_PROTOCOLS, "Sources/WaylandProtocols/Generated", "XDG")
-    errors += generate_group(cli, XWAYLAND_PROTOCOLS, "Sources/WaylandProtocols/Generated", "XWAYLAND")
-    errors += generate_group(cli, WP_PROTOCOLS, "Sources/WaylandProtocols/Generated", "WP")
-    errors += generate_group(cli, KDE_PROTOCOLS, "Sources/WaylandProtocols/Generated/KDE", "KDE")
+    errors += generate_group(cli, XDG_PROTOCOLS, "Sources/WaylandProtocols/Generated/Xdg", "XDG")
+    errors += generate_group(cli, XWAYLAND_PROTOCOLS, "Sources/WaylandProtocols/Generated/Xwayland", "XWAYLAND")
+    errors += generate_group(cli, WP_PROTOCOLS, "Sources/WaylandProtocols/Generated/Wp", "WP")
+    errors += generate_group(
+        cli, KDE_PROTOCOLS, "Sources/WaylandProtocols/Generated/KDE", "KDE",
+        prefix_map=[("org_kde_kwin", "Kde")],
+    )
     errors += generate_group(cli, WLR_PROTOCOLS, "Sources/WaylandProtocols/Generated/Wlr", "WLR")
 
     if errors:

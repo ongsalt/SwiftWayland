@@ -5,7 +5,7 @@ import Foundation
 /// Key States
 /// 
 /// Keeps track of the states of the different keys that have a state attached to it.
-public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
+public final class KdeKeystate: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
@@ -125,7 +125,7 @@ public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
 public let Keystate = Protocol(
         name: "keystate",
         interfaces: [
-            OrgKdeKwinKeystate.interface
+            KdeKeystate.interface
         ]
     )
 
