@@ -21,6 +21,12 @@ let package = Package(
                 .product(name: "SwiftWayland", package: "SwiftWayland"),
             ],
         ),
+        .executableTarget(
+            name: "Clipboard",
+            dependencies: [
+                .product(name: "SwiftWayland", package: "SwiftWayland"),
+            ],
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
