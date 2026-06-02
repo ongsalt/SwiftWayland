@@ -145,10 +145,6 @@ public class Connection {
         wl_display_roundtrip(rawDisplay)
     }
 
-    public func makeReadSource() -> any DispatchSourceRead {
-        DispatchSource.makeReadSource(fileDescriptor: fd)
-    }
-
     @discardableResult
     public func prepareRead() -> Bool {
         wl_display_prepare_read(rawDisplay) == 0
@@ -167,6 +163,52 @@ public class Connection {
 
     public func disconnect() {
         wl_display_disconnect(self.rawDisplay)
+    }
+
+    public func makeReadSource(queue: DispatchQueue = .main) -> any DispatchSourceRead {
+        DispatchSource.makeReadSource(fileDescriptor: fd, queue: queue)
+    }
+
+    public func watch() -> () -> Void {
+        func preparePoll() {
+            while !self.prepareRead() {
+                self.dispatchPending()
+            }
+            self.flush()
+        }
+
+        let source = makeReadSource()
+        source.setEventHandler {
+            if source.data == 0 {
+                // dead
+                self.cancelRead()
+            } else {
+                self.readEvents()
+            }
+
+            self.dispatchPending()
+
+            if wl_display_get_error(self.rawDisplay) != 0 {
+                source.cancel()
+                return
+            }
+
+            preparePoll()
+        }
+
+        source.setCancelHandler {
+            self.cancelRead()
+        }
+
+        let observer = RunLoopObserver(on: [.beforeWaiting]) { [weak self] _ in
+            self?.flush()
+        }
+
+        preparePoll()
+        source.resume()
+        observer.start()
+
+        return { observer.stop() }
     }
 
     deinit {

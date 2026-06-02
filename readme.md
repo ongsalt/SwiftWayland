@@ -60,8 +60,9 @@ dnf install wayland-devel
 
 # Todos
 - think about raii
+- dynamically link libwayland
+- server support
 - switch back to build tool plugin later
 - destructor event
 - better error handling in general
-- generate more documentation when returns multiple object (probably never????)
-- more version validation
+- generate documentation when returns multiple object (probably never????)
