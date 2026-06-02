@@ -148,7 +148,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         /// This event is sent when all supported features have been sent.
         case done
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.supportedAlphaMode(alphaMode: try _parseEnum(into: WpColorRepresentationSurfaceV1.AlphaMode.self, r.uint()))

@@ -257,7 +257,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         /// get_surface_feedback.
         case modifier(format: UInt32, modifierHi: UInt32, modifierLo: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.format(format: r.uint())
@@ -672,7 +672,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         /// zwp_linux_buffer_params_v1 object.
         case failed
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.created(buffer: r.newId(type: WlBuffer.self))
@@ -941,7 +941,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         /// in each tranche.
         case trancheFlags(flags: TrancheFlags)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.done

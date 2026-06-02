@@ -159,7 +159,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
         /// This event is sent after all 'icon_size' events have been sent.
         case done
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.iconSize(size: r.int())

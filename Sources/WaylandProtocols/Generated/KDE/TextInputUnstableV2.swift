@@ -805,7 +805,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         /// set_content_hint, ...) and update_state.
         case inputMethodChanged(serial: UInt32, flags: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.enter(serial: r.uint(), surface: r.object(type: WlSurface.self))

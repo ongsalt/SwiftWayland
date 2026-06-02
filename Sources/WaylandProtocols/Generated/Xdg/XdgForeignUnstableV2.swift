@@ -271,7 +271,7 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
         /// may be used to import the surface multiple times.
         case handle(handle: String)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.handle(handle: r.string())
@@ -383,7 +383,7 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
         /// destroyed, if the handle used for importing was invalid.
         case destroyed
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.destroyed

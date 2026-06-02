@@ -538,7 +538,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         /// transfer functions and named primaries have been sent.
         case done
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.supportedIntent(renderIntent: try _parseEnum(into: RenderIntent.self, r.uint()))
@@ -676,7 +676,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
         /// immutable.
         case imageDescriptionChanged
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.imageDescriptionChanged
@@ -1016,7 +1016,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
         /// to the preferred image description
         case preferredChanged2(identityHi: UInt32, identityLo: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.preferredChanged(identity: r.uint())
@@ -1952,7 +1952,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         /// description information.
         case ready2(identityHi: UInt32, identityLo: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.failed(cause: try _parseEnum(into: Cause.self, r.uint()), msg: r.string())
@@ -2272,7 +2272,7 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
         /// luminance of light emitted on an actual display.
         case targetMaxFall(maxFall: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.done

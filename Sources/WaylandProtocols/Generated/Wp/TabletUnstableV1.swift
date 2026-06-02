@@ -183,7 +183,7 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
         /// type, etc.) is sent through the wp_tablet_tool interface.
         case toolAdded(id: ZwpTabletToolV1)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.tabletAdded(id: r.newId(type: ZwpTabletV1.self))
@@ -783,7 +783,7 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         /// one hardware event.
         case frame(time: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.type(toolType: try _parseEnum(into: Type.self, r.uint()))
@@ -972,7 +972,7 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
         /// the object.
         case removed
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.name(name: r.string())

@@ -76,7 +76,7 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
         /// Specifies which output is the primary one identified by their uuid. See kde_output_device_v2 uuid event for more information about it.
         case primaryOutput(outputName: String)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.primaryOutput(outputName: r.string())

@@ -575,7 +575,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
 
         case preferredLanguage(language: String)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.surroundingText(text: r.string(), cursor: r.uint(), anchor: r.uint())
@@ -653,7 +653,7 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
         /// handled.
         case deactivate(context: ZwpInputMethodContextV1)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.activate(id: r.newId(type: ZwpInputMethodContextV1.self))

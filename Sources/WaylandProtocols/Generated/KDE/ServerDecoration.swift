@@ -96,7 +96,7 @@ public final class KdeServerDecorationManager: BaseProxy, Proxy {
         /// The server may change the default mode at any time.
         case defaultMode(mode: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.defaultMode(mode: r.uint())
@@ -213,7 +213,7 @@ public final class KdeServerDecoration: BaseProxy, Proxy {
         /// prevent a feedback loop.
         case mode(mode: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.mode(mode: r.uint())

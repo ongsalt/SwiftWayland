@@ -164,7 +164,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
         /// resources associated with this device after receiving this event.
         case released
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.drmFd(fd: r.fd())
@@ -328,7 +328,7 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
         /// this event.
         case withdrawn
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.name(name: r.string())
@@ -548,7 +548,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
         /// connector event through the wp_drm_lease_device_v1 interface.
         case finished
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.leaseFd(leasedFd: r.fd())

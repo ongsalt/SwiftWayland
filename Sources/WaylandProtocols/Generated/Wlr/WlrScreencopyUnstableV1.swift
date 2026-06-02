@@ -442,7 +442,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
         /// types, and send a "copy" request.
         case bufferDone
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.buffer(format: try _parseEnum(into: WlShm.Format.self, r.uint()), width: r.uint(), height: r.uint(), stride: r.uint())

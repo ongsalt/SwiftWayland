@@ -79,7 +79,7 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
         /// the client should free any resources associated with it.
         case finished
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.toplevel(toplevel: r.newId(type: ZwlrForeignToplevelHandleV1.self))
@@ -490,7 +490,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
         /// No event is emitted when the parent handle is destroyed by the client.
         case parent(parent: ZwlrForeignToplevelHandleV1)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.title(title: r.string())

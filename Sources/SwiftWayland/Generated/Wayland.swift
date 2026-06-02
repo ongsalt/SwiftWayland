@@ -147,7 +147,7 @@ public final class WlDisplay: BaseProxy, Proxy {
         /// it will know that it can safely reuse the object ID.
         case deleteId(id: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.error(objectId: r.object(), code: r.uint(), message: r.string())
@@ -257,7 +257,7 @@ public final class WlRegistry: BaseProxy, Proxy {
         /// the global going away and a client sending a request to it.
         case globalRemove(name: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.global(name: r.uint(), interface: r.string(), version: r.uint())
@@ -309,7 +309,7 @@ public final class WlCallback: BaseProxy, Proxy {
         /// Notify the client when the related request is done.
         case done(callbackData: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.done(callbackData: r.uint())
@@ -1039,7 +1039,7 @@ public final class WlShm: BaseProxy, Proxy {
         /// argb8888 and xrgb8888.
         case format(format: Format)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.format(format: try _parseEnum(into: Format.self, r.uint()))
@@ -1137,7 +1137,7 @@ public final class WlBuffer: BaseProxy, Proxy {
         /// optimization for GL(ES) compositors with wl_shm clients.
         case release
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.release
@@ -1455,7 +1455,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
         /// must happen before the call to wl_data_offer.finish.
         case action(dndAction: WlDataDeviceManager.DndAction)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.offer(mimeType: r.string())
@@ -1720,7 +1720,7 @@ public final class WlDataSource: BaseProxy, Proxy {
         /// they reflect the current action.
         case action(dndAction: WlDataDeviceManager.DndAction)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.target(mimeType: r.string())
@@ -2050,7 +2050,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
         /// data_offer, if any, upon receiving this event.
         case selection(id: WlDataOffer)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.dataOffer(id: r.newId(type: WlDataOffer.self))
@@ -2768,7 +2768,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         /// to the client owning the popup surface.
         case popupDone
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.ping(serial: r.uint())
@@ -3470,7 +3470,7 @@ public final class WlSurface: BaseProxy, Proxy {
         /// surface buffer more efficiently.
         case preferredBufferTransform(transform: WlOutput.Transform)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.enter(output: r.object(type: WlOutput.self))
@@ -3716,7 +3716,7 @@ public final class WlSeat: BaseProxy, Proxy {
         /// destroyed and re-created later.
         case name(name: String)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.capabilities(capabilities: try _parseEnum(into: Capability.self, r.uint()))
@@ -4275,7 +4275,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// guaranteed.
         case axisRelativeDirection(axis: Axis, direction: AxisRelativeDirection)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.enter(serial: r.uint(), surface: r.object(type: WlSurface.self), surfaceX: r.fixed(), surfaceY: r.fixed())
@@ -4582,7 +4582,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         /// of wl_keyboard.
         case repeatInfo(rate: Int32, delay: Int32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.keymap(format: try _parseEnum(into: KeymapFormat.self, r.uint()), fd: r.fd(), size: r.uint())
@@ -4863,7 +4863,7 @@ public final class WlTouch: BaseProxy, Proxy {
         /// orientation reports.
         case orientation(id: Int32, orientation: Double)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.down(serial: r.uint(), time: r.uint(), surface: r.object(type: WlSurface.self), id: r.int(), x: r.fixed(), y: r.fixed())
@@ -5217,7 +5217,7 @@ public final class WlOutput: BaseProxy, Proxy {
         /// The description event will be followed by a done event.
         case description(description: String)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.geometry(x: r.int(), y: r.int(), physicalWidth: r.int(), physicalHeight: r.int(), subpixel: r.int(), make: r.string(), model: r.string(), transform: r.int())

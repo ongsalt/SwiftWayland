@@ -56,7 +56,7 @@ public final class HexGridWindow {
         iconRadius * 1.8
     }
 
-    // GNOME's libinput axis scaling is ~6x higher than other compositors
+    // GNOME's libinput axis scaling is higher than other compositors
     private let touchpadSpeed: Double = {
         let desktop = ProcessInfo.processInfo.environment["XDG_CURRENT_DESKTOP"] ?? ""
         return desktop.contains("GNOME") ? 1.0 : 3.0

@@ -475,7 +475,7 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
         /// An auto-hiding panel got shown by the compositor.
         case autoHiddenPanelShown
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.autoHiddenPanelHidden

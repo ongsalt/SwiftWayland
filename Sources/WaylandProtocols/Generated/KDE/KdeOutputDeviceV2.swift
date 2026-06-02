@@ -81,7 +81,7 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
         /// global to list all available outputs.
         case output(output: KdeOutputDeviceV2)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.finished
@@ -1004,7 +1004,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         /// and increases contrast of colors on the screen to improve power usage.
         case abmLevel(level: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.geometry(x: r.int(), y: r.int(), physicalWidth: r.int(), physicalHeight: r.int(), subpixel: r.int(), make: r.string(), model: r.string(), transform: r.int())
@@ -1198,7 +1198,7 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
         /// This event describes the mode's flags.
         case flags(flags: Flags)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.size(width: r.int(), height: r.int())

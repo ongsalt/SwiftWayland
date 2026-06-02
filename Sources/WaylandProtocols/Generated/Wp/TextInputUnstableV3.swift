@@ -781,7 +781,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         /// and reset on the next zwp_text_input_v3.done event.
         case preeditHint(start: UInt32, end: UInt32, hint: PreeditHint)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.enter(surface: r.object(type: WlSurface.self))

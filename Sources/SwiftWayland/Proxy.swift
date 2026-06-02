@@ -1,49 +1,42 @@
 import Foundation
 
-public protocol Proxy: AnyObject {
+public protocol Proxy: AnyObject, Identifiable {
     associatedtype Event: Decodable = NoEvent
-    associatedtype Request: Encodable = NoRequest
 
     var connection: Connection { get }
+    var queue: EventQueue { get }
+    var id: UInt32 { get }
+    var version: UInt32 { get }
 
     // TODO: find a way so it that we dont need to copy this everytime, making it a class???
     static var interface: Interface { get }
-    var interface: Interface { get }
-
-    var version: UInt32 { get }
-    var id: UInt32 {
-        get
-    }
 
     var isAlive: Bool { get }
     var onEvent: ((Event) -> Void)? { get }
-
     var raw: OpaquePointer { get }
-
-    var queue: EventQueue {
-        get
-    }
 
     init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection)
 }
 
 extension Proxy {
     public var interface: Interface {
-        Self.interface
+        _read { yield Self.interface }
     }
 }
 
 open class BaseProxy {
+    public let raw: OpaquePointer
+    public let connection: Connection
+    public let queue: EventQueue
     public let id: UInt32
     public let version: UInt32
     public private(set) var isAlive: Bool = true
-    public let queue: EventQueue
-    public let raw: OpaquePointer
-    public let connection: Connection
 
     public typealias Event = NoEvent
 
-    public required init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection) {
+    public required init(
+        id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection
+    ) {
         self.id = id
         self.version = version
         self.queue = queue
@@ -59,18 +52,12 @@ open class BaseProxy {
 
     @_spi(SwiftWaylandPrivate)
     open class func ensureLoaded() {
-        
+
     }
 }
 
 public struct NoEvent: Decodable {
-    public init(from reader: any ArgumentReader, opcode: UInt32) throws(DecodingError) {}
-}
-
-public struct NoRequest: Encodable {
-    public func encode() -> [Arg] {
-        []
-    }
+    public init(from reader: some ArgumentReader, opcode: UInt32) throws(DecodingError) {}
 }
 
 public enum DecodingError: Error {
@@ -80,11 +67,7 @@ public enum DecodingError: Error {
 }
 
 public protocol Decodable {
-    init(from reader: any ArgumentReader, opcode: UInt32) throws(DecodingError)
-}
-
-public protocol Encodable {
-    func encode() -> [Arg]
+    init(from reader: some ArgumentReader, opcode: UInt32) throws(DecodingError)
 }
 
 public protocol ArgumentReader {
@@ -104,8 +87,6 @@ extension ArgumentReader {
         Double(self.int()) / 256
     }
 }
-
-// fd read into an immediate buffer -> see which object
 
 public enum WaylandProxyError: Error {
     case destroyed

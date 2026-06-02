@@ -234,7 +234,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
         /// previous selection data_offer, if any, upon receiving this event.
         case selection(id: ZwpPrimarySelectionOfferV1)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.dataOffer(offer: r.newId(type: ZwpPrimarySelectionOfferV1.self))
@@ -353,7 +353,7 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
         /// mime type.
         case offer(mimeType: String)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.offer(mimeType: r.string())
@@ -471,7 +471,7 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
         /// clean up and destroy this primary selection source.
         case cancelled
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.send(mimeType: r.string(), fd: r.fd())

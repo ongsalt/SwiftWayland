@@ -705,7 +705,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         /// direction text is laid out properly.
         case textDirection(serial: UInt32, direction: TextDirection)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.enter(surface: r.object(type: WlSurface.self))

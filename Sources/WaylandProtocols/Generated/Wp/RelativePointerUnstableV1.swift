@@ -203,7 +203,7 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
         /// object is associated with.
         case relativeMotion(utimeHi: UInt32, utimeLo: UInt32, dx: Double, dy: Double, dxUnaccel: Double, dyUnaccel: Double)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.relativeMotion(utimeHi: r.uint(), utimeLo: r.uint(), dx: r.fixed(), dy: r.fixed(), dxUnaccel: r.fixed(), dyUnaccel: r.fixed())

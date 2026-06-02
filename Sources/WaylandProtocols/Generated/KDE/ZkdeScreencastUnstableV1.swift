@@ -431,7 +431,7 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
         /// Will be sent before the created event.
         case serial(objectSerialHi: UInt32, objectSerialLow: UInt32)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.closed

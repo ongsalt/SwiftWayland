@@ -379,7 +379,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
         /// reactivate in the future.
         case unlocked
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.locked
@@ -516,7 +516,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
         /// reactivate in the future.
         case unconfined
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.confined

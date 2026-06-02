@@ -424,7 +424,7 @@ public final class KdeOutputdevice: BaseProxy, Proxy {
         /// refresh rate.
         case vrrPolicy(vrrPolicy: VrrPolicy)
 
-        public init(from r: any ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.geometry(x: r.int(), y: r.int(), physicalWidth: r.int(), physicalHeight: r.int(), subpixel: r.int(), make: r.string(), model: r.string(), transform: r.int())
