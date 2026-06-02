@@ -169,23 +169,22 @@ public class Connection {
         DispatchSource.makeReadSource(fileDescriptor: fd, queue: queue)
     }
 
-    public func watch() -> () -> Void {
+    @MainActor
+    public func attach() -> Watch {
+        var prepared = false
+
         func preparePoll() {
             while !self.prepareRead() {
                 self.dispatchPending()
             }
+            prepared = true
             self.flush()
         }
 
-        let source = makeReadSource()
+        let source = makeReadSource(queue: .main)
         source.setEventHandler {
-            if source.data == 0 {
-                // dead
-                self.cancelRead()
-            } else {
-                self.readEvents()
-            }
-
+            self.readEvents()
+            prepared = false
             self.dispatchPending()
 
             if wl_display_get_error(self.rawDisplay) != 0 {
@@ -197,10 +196,13 @@ public class Connection {
         }
 
         source.setCancelHandler {
-            self.cancelRead()
+            if prepared {
+                self.cancelRead()
+                prepared = false
+            }
         }
 
-        let observer = RunLoopObserver(on: [.beforeWaiting]) { [weak self] _ in
+        let observer = RunLoopObserver(on: [.beforeWaiting], runLoop: .main) { [weak self] _ in
             self?.flush()
         }
 
@@ -208,7 +210,17 @@ public class Connection {
         source.resume()
         observer.start()
 
-        return { observer.stop() }
+        return Watch {
+            observer.stop()
+            source.cancel()
+        }
+    }
+
+    @MainActor
+    public func run() {
+        let watch = self.attach()
+        RunLoop.main.run()
+        _ = watch
     }
 
     deinit {

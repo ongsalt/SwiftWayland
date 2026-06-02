@@ -10,16 +10,14 @@ do {
     print("Error: \(error)")
     exit(1)
 }
-connection.flush()
 
-let source = connection.makeReadSource()
-source.setEventHandler {
-    if connection.prepareRead() {
-        connection.readEvents()
+let handle = connection.attach()
+
+Task {
+    while true {
+        try await Task.sleep(for: .seconds(1))
+        print("hi")
     }
-    connection.dispatchPending()
-    connection.flush()
 }
-source.resume()
 
 RunLoop.main.run()
