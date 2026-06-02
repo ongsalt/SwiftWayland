@@ -36,10 +36,6 @@ public class Connection {
         self.init(runtimeInfo: CRuntimeInfo.shared, rawDisplay: wl_display_connect(nil))
     }
 
-    // public func createQueue() {
-
-    // }
-
     public func send(
         _ proxy: any Proxy,
         _ opcode: UInt32,
@@ -81,79 +77,34 @@ public class Connection {
         wl_proxy_marshal_array(proxy.raw, opcode, &arguments)
     }
 
-    public func sendConstructor<T: Proxy>(
-        _ proxy: any Proxy,
-        _ opcode: UInt32,
-        _ args: [Arg],
-        version: UInt32,
-        interface: T.Type,
-        queue: EventQueue? = nil,
-    ) -> T {
-        var freeList: [UnsafeMutableRawPointer] = []
-        defer {
-            for p in freeList {
-                p.deallocate()
-            }
-        }
-
-        var arguments: [wl_argument] = []
-        for arg in args {
-            switch arg {
-            case .int(let i):
-                arguments.append(wl_argument(i: i))
-            case .enum(let u):
-                arguments.append(wl_argument(u: u))
-            case .array(let data):
-                let arr = data.toWlArrayPtr()
-                freeList.append(arr)
-                arguments.append(wl_argument(a: arr))  // just why
-            case .fd(let fd):
-                arguments.append(wl_argument(h: fd.fileDescriptor))
-            case .fixed(let d):
-                arguments.append(wl_argument(f: Int32(d * 256)))
-            case .uint(let u):
-                arguments.append(wl_argument(u: u))
-            case .string(let s):
-                arguments.append(wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress))
-            case .object(let id):
-                arguments.append(wl_argument(o: id == 0 ? nil : knownProxies[id]?.raw))
-            case .newId(_):
-                arguments.append(wl_argument(n: 0))
-            }
-        }
-
-        (T.self as? BaseProxy.Type)?.ensureLoaded()
-        let interface = runtimeInfo.interfaces[interface.interface.name]!
-
-        let ptr = wl_proxy_marshal_array_constructor_versioned(
-            proxy.raw, opcode, &arguments, interface, version)
-        return createObj(type: T.self, ptr: ptr!, queue: queue ?? mainQueue)
-    }
-
     public func createProxy<T>(
         type: T.Type,
-        version: UInt32,
-        queue: EventQueue,
-        parent: (any Proxy)? = nil,
+        version: UInt32? = nil,
+        queue: EventQueue? = nil,
+        parent: (any Proxy)? = nil,  // unused?
     ) -> T where T: Proxy {
-        let wrapper = OpaquePointer(
-            wl_proxy_create_wrapper(UnsafeMutableRawPointer(parent?.raw ?? rawDisplay)))
-        wl_proxy_set_queue(wrapper, queue.raw)
+        var rawParent = parent?.raw ?? rawDisplay
+        if let queue {
+            rawParent = OpaquePointer(
+                wl_proxy_create_wrapper(UnsafeMutableRawPointer(rawParent)))
+            wl_proxy_set_queue(rawParent, queue.raw)
+        }
 
         (T.self as? BaseProxy.Type)?.ensureLoaded()
 
-        let ptr = wl_proxy_create(rawDisplay, runtimeInfo.interfaces[type.interface.name]!)
+        let ptr = wl_proxy_create(rawParent, runtimeInfo.interfaces[type.interface.name]!)
 
-        return createObj(type: type, ptr: ptr!, queue: queue)
+        return createObj(type: type, ptr: ptr!, queue: queue ?? parent?.queue ?? self.mainQueue)
     }
 
-    private func createObj<T: Proxy>(type: T.Type, ptr: OpaquePointer, queue: EventQueue) -> T {
+    private func createObj<T: Proxy>(
+        type: T.Type, ptr: OpaquePointer, version: UInt32? = nil, queue: EventQueue
+    ) -> T {
         let obj = T(
             id: wl_proxy_get_id(ptr),
-            version: wl_proxy_get_version(ptr),
+            version: version ?? wl_proxy_get_version(ptr),
             queue: queue,
             raw: ptr,
-            // should i put parent here? so that it dont get destroy on deinit
             connection: self
         )
 
