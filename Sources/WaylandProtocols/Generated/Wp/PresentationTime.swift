@@ -152,7 +152,7 @@ public final class WpPresentation: BaseProxy, Proxy {
         /// value directly, not by asking the compositor.
         case clockId(clkId: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.clockId(clkId: r.uint())
@@ -313,7 +313,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         /// The content update was never displayed to the user.
         case discarded
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.syncOutput(output: r.object(type: WlOutput.self))

@@ -165,7 +165,7 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
         /// The sent scale is the numerator of a fraction with a denominator of 120.
         case preferredScale(scale: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.preferredScale(scale: r.uint())

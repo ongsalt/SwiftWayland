@@ -1,6 +1,6 @@
-import Foundation
 import SwiftWayland
 import WaylandProtocols
+import Foundation
 
 let connection = Connection()
 let test = ClipboardTest(connection: connection)
@@ -10,14 +10,7 @@ do {
     print("Error: \(error)")
     exit(1)
 }
-connection.flush()
 
-let source = connection.makeReadSource()
-source.setEventHandler {
-    if connection.prepareRead() { connection.readEvents() }
-    connection.dispatchPending()
-    connection.flush()
+while true {
+    connection.dispatch()
 }
-source.resume()
-
-RunLoop.main.run()

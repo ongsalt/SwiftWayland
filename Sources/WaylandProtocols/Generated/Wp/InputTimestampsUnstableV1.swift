@@ -255,7 +255,7 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
         /// for valid timestamps tv_nsec must be in [0, 999999999].
         case timestamp(tvSecHi: UInt32, tvSecLo: UInt32, tvNsec: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.timestamp(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint())

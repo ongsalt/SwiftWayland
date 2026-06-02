@@ -311,7 +311,7 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
         /// After receiving this event, the client should destroy this object.
         case cancel(reason: CancelReason)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.frame(width: r.uint(), height: r.uint(), offsetX: r.uint(), offsetY: r.uint(), bufferFlags: r.uint(), flags: try _parseEnum(into: Flags.self, r.uint()), format: r.uint(), modHigh: r.uint(), modLow: r.uint(), numObjects: r.uint())

@@ -141,7 +141,7 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
         /// resources associated with it.
         case finished
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.head(head: r.newId(type: ZwlrOutputHeadV1.self))
@@ -515,7 +515,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
         /// Rate or VRR.
         case adaptiveSync(state: AdaptiveSyncState)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.name(name: r.string())
@@ -667,7 +667,7 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
         /// any resources associated with it.
         case finished
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.size(width: r.int(), height: r.int())
@@ -892,7 +892,7 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
         /// Upon receiving this event, the client should destroy this object.
         case cancelled
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.succeeded

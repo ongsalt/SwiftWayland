@@ -477,7 +477,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
         /// Sent if the server rejects the changes or failed to apply them.
         case failed
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.applied

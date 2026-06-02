@@ -279,7 +279,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
         /// This event will be sent when stacking order changed.
         case stackingOrderChanged2
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.showDesktopChanged(state: r.uint())
@@ -980,7 +980,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
         /// The coordinates are in absolute coordinates of the windowing system.
         case clientGeometry(x: Int32, y: Int32, width: UInt32, height: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.titleChanged(title: r.string())
@@ -1095,7 +1095,7 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
         /// and the extent of the activation.
         case activation(id: OrgKdePlasmaActivation)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.activation(id: r.newId(type: OrgKdePlasmaActivation.self))
@@ -1178,7 +1178,7 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
         /// 
         case finished
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.appId(appId: r.string())
@@ -1236,7 +1236,7 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
         /// 
         case done
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.window(uuid: r.string())

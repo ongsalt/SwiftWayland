@@ -313,7 +313,7 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
         /// not the locked event was received on this object.
         case finished
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.locked
@@ -475,7 +475,7 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
         /// commit after acking a configure is a protocol error.
         case configure(serial: UInt32, width: UInt32, height: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.configure(serial: r.uint(), width: r.uint(), height: r.uint())

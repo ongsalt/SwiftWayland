@@ -105,7 +105,7 @@ public final class KdeRemoteAccessManager: BaseProxy, Proxy {
         /// 
         case bufferReady(id: Int32, output: WlOutput)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.bufferReady(id: r.int(), output: r.object(type: WlOutput.self))
@@ -200,7 +200,7 @@ public final class KdeRemoteBuffer: BaseProxy, Proxy {
         /// 
         case gbmHandle(fd: FileHandle, width: UInt32, height: UInt32, stride: UInt32, format: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.gbmHandle(fd: r.fd(), width: r.uint(), height: r.uint(), stride: r.uint(), format: r.uint())

@@ -210,7 +210,7 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
         /// Upon receiving this event, the client should destroy this object.
         case failed
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.mode(mode: try _parseEnum(into: Mode.self, r.uint()))

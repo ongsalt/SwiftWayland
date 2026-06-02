@@ -307,7 +307,7 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
         /// implementation-dependent.
         case end(serial: UInt32, time: UInt32, cancelled: Int32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.begin(serial: r.uint(), time: r.uint(), surface: r.object(type: WlSurface.self), fingers: r.uint())
@@ -478,7 +478,7 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
         /// implementation-dependent.
         case end(serial: UInt32, time: UInt32, cancelled: Int32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.begin(serial: r.uint(), time: r.uint(), surface: r.object(type: WlSurface.self), fingers: r.uint())
@@ -617,7 +617,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
         /// implementation-dependent.
         case end(serial: UInt32, time: UInt32, cancelled: Int32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.begin(serial: r.uint(), time: r.uint(), surface: r.object(type: WlSurface.self), fingers: r.uint())

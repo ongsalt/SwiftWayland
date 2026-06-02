@@ -194,7 +194,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
         /// always respond to any xdg_wm_base object it created.
         case ping(serial: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.ping(serial: r.uint())
@@ -943,7 +943,7 @@ public final class XdgSurface: BaseProxy, Proxy {
         /// to one, it is free to discard all but the last event it received.
         case configure(serial: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.configure(serial: r.uint())
@@ -1711,7 +1711,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
         /// native endianness. Capability values are defined in the wm_capabilities enum.
         case wmCapabilities(capabilities: Data)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.configure(width: r.int(), height: r.int(), states: r.array())
@@ -1981,7 +1981,7 @@ public final class XdgPopup: BaseProxy, Proxy {
         /// effect. See xdg_surface.ack_configure for details.
         case repositioned(token: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.configure(x: r.int(), y: r.int(), width: r.int(), height: r.int())

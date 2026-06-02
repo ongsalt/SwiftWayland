@@ -360,7 +360,7 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
         /// This event destroys the zwp_linux_buffer_release_v1 object.
         case immediateRelease
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.fencedRelease(fence: r.fd())

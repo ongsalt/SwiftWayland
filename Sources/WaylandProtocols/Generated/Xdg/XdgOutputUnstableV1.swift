@@ -278,7 +278,7 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
         /// wl_output.description. Compositors must still support this event.
         case description(description: String)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.logicalPosition(x: r.int(), y: r.int())

@@ -81,7 +81,7 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
         /// Specifies that the output list is complete. On the next output event, a new list begins.
         case done
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.output(outputName: r.string())

@@ -204,7 +204,7 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
         /// normal shortcuts processing is restored by the compositor.
         case inactive
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.active

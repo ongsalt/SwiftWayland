@@ -269,7 +269,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         /// obeyed by the client.
         case configure(mode: Mode)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.configure(mode: try _parseEnum(into: Mode.self, r.uint()))

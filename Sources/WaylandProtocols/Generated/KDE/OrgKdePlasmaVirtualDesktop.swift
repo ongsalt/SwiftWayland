@@ -163,7 +163,7 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
 
         case rows(rows: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.desktopCreated(desktopId: r.string(), position: r.uint())
@@ -338,7 +338,7 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
         /// outputs simultaneously. Each output has exactly one active desktop at a time (the one that entered it last).
         case outputEntered(outputName: String)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.desktopId(desktopId: r.string())

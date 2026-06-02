@@ -592,7 +592,7 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
         /// event, and create a new surface if they so choose.
         case closed
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.configure(serial: r.uint(), width: r.uint(), height: r.uint())

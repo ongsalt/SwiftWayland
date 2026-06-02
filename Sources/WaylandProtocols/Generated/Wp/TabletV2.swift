@@ -201,7 +201,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
         /// interface.
         case padAdded(id: ZwpTabletPadV2)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.tabletAdded(id: r.newId(type: ZwpTabletV2.self))
@@ -796,7 +796,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         /// one hardware event.
         case frame(time: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.type(toolType: try _parseEnum(into: Type.self, r.uint()))
@@ -1028,7 +1028,7 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         /// zwp_tablet_v2.done event.
         case bustype(bustype: Bustype)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.name(name: r.string())
@@ -1229,7 +1229,7 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         /// angle, frame, etc.
         case frame(time: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.source(source: try _parseEnum(into: Source.self, r.uint()))
@@ -1428,7 +1428,7 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
         /// position, frame, etc.
         case frame(time: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.source(source: try _parseEnum(into: Source.self, r.uint()))
@@ -1670,7 +1670,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
         /// zwp_tablet_pad_group_v2.done event.
         case dial(dial: ZwpTabletPadDialV2)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.buttons(buttons: r.array())
@@ -1970,7 +1970,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         /// the pad itself.
         case removed
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.group(padGroup: r.newId(type: ZwpTabletPadGroupV2.self))
@@ -2134,7 +2134,7 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
         /// delta, frame, etc.
         case frame(time: UInt32)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.delta(value120: r.int())

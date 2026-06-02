@@ -312,7 +312,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
         /// wlr_data_control_device object.
         case primarySelection(id: ZwlrDataControlOfferV1)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.dataOffer(id: r.newId(type: ZwlrDataControlOfferV1.self))
@@ -443,7 +443,7 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
         /// The client should clean up and destroy this data source.
         case cancelled
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.send(mimeType: r.string(), fd: r.fd())
@@ -560,7 +560,7 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
         /// One event per offered MIME type.
         case offer(mimeType: String)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.offer(mimeType: r.string())

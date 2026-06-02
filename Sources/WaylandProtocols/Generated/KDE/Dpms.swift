@@ -197,7 +197,7 @@ public final class KdeDpms: BaseProxy, Proxy {
         /// state changes have been pushed.
         case done
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.supported(supported: r.uint())

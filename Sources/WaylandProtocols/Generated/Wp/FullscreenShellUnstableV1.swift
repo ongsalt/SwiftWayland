@@ -261,7 +261,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         /// receive all the capability events.
         case capability(capability: Capability)
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.capability(capability: try _parseEnum(into: Capability.self, r.uint()))
@@ -330,7 +330,7 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
         /// wl_fullscreen_shell_mode_feedback object.
         case presentCancelled
 
-        public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {
+        public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.modeSuccessful
