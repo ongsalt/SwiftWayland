@@ -28,32 +28,28 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_decoration_manager_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_toplevel_decoration",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zxdg_toplevel_decoration_v1",
-                    ),
-                    Argument(
-                        name: "toplevel",
-                        type: .object,
-                        interface: "xdg_toplevel",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zxdg_toplevel_decoration_v1",
+                        ),
+                        Argument(
+                            name: "toplevel",
+                            type: .object,
+                            interface: "xdg_toplevel",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Decoration Manager Object
     /// 
@@ -121,6 +117,7 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Decoration Object For A Toplevel Surface
 /// 
 /// The decoration object allows the compositor to toggle server-side window
@@ -134,40 +131,37 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_toplevel_decoration_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset_mode",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "configure",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Decoration Object
     /// 
@@ -285,6 +279,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let XdgDecorationUnstableV1Protocol = Protocol(
         name: "xdg_decoration_unstable_v1",

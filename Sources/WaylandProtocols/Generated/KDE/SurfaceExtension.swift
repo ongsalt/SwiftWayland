@@ -8,26 +8,23 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
         Interface(
             name: "qt_surface_extension",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get_extended_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "qt_extended_surface",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "qt_extended_surface",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -49,85 +46,82 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 public final class QtExtendedSurface: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "qt_extended_surface",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "update_generic_property",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "value",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "value",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_content_orientation_mask",
                     arguments: [
-                    Argument(
-                        name: "orientation",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "orientation",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_window_flags",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "raise",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "lower",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "onscreen_visibility",
                     arguments: [
-                    Argument(
-                        name: "visible",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "visible",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_generic_property",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "value",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "value",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "close",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// 
     /// - Parameters:
@@ -216,6 +210,7 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let SurfaceExtensionProtocol = Protocol(
         name: "surface_extension",

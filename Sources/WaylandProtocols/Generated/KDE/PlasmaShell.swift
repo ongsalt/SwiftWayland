@@ -16,26 +16,23 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
         Interface(
             name: "org_kde_plasma_shell",
             version: 8,
-            enums: [],
             requests: [
                 Message(
                     name: "get_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_plasma_surface",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_plasma_surface",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A Shell Surface From A Surface
     /// 
@@ -62,6 +59,7 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 /// Metadata Interface
 /// 
 /// An interface that may be implemented by a wl_surface, for
@@ -78,118 +76,111 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
         Interface(
             name: "org_kde_plasma_surface",
             version: 8,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_output",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_position",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_role",
                     arguments: [
-                    Argument(
-                        name: "role",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "role",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_panel_behavior",
                     arguments: [
-                    Argument(
-                        name: "flag",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flag",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_skip_taskbar",
                     arguments: [
-                    Argument(
-                        name: "skip",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "skip",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "panel_auto_hide_hide",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 4
                 ),
                 Message(
                     name: "panel_auto_hide_show",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 4
                 ),
                 Message(
                     name: "set_panel_takes_focus",
                     arguments: [
-                    Argument(
-                        name: "takes_focus",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "takes_focus",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "set_skip_switcher",
                     arguments: [
-                    Argument(
-                        name: "skip",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "skip",
+                            type: .uint,
+                        ),
                     ],
                     since: 5
                 ),
                 Message(
                     name: "open_under_cursor",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 7
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "auto_hidden_panel_hidden",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 4
                 ),
                 Message(
                     name: "auto_hidden_panel_shown",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 4
                 ),
-                ],
+            ]
         )
     /// Remove Org_Kde_Plasma_Surface Interface
     /// 
@@ -487,6 +478,7 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let PlasmaShellProtocol = Protocol(
         name: "plasma_shell",

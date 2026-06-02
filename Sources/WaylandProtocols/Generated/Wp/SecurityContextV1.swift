@@ -25,35 +25,31 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_security_context_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "create_listener",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_security_context_v1",
-                    ),
-                    Argument(
-                        name: "listen_fd",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "close_fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_security_context_v1",
+                        ),
+                        Argument(
+                            name: "listen_fd",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "close_fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Manager Object
     /// 
@@ -125,6 +121,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Client Security Context
 /// 
 /// The security context allows a client to register a new client and attach
@@ -141,49 +138,44 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
         Interface(
             name: "wp_security_context_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_sandbox_engine",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_app_id",
                     arguments: [
-                    Argument(
-                        name: "app_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "app_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_instance_id",
                     arguments: [
-                    Argument(
-                        name: "instance_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "instance_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "commit",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Security Context Object
     /// 
@@ -304,6 +296,7 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let SecurityContextV1Protocol = Protocol(
         name: "security_context_v1",

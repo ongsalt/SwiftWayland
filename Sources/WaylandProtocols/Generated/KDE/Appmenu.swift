@@ -12,33 +12,29 @@ public final class KdeAppmenuManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_appmenu_manager",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_appmenu",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_appmenu",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -86,6 +82,7 @@ public final class KdeAppmenuManager: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Appmenu Dbus Address Interface
 /// 
 /// The DBus service name and object path where the appmenu interface is present
@@ -97,30 +94,26 @@ public final class KdeAppmenu: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_appmenu",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "set_address",
                     arguments: [
-                    Argument(
-                        name: "service_name",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "object_path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "service_name",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "object_path",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Initialise Or Update The Location Of The Appmenu Interface
     /// 
@@ -169,6 +162,7 @@ public final class KdeAppmenu: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let AppmenuProtocol = Protocol(
         name: "appmenu",

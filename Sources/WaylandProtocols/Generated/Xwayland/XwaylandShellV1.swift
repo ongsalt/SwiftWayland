@@ -22,32 +22,28 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
         Interface(
             name: "xwayland_shell_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_xwayland_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xwayland_surface_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xwayland_surface_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Xwayland Shell Object
     /// 
@@ -110,6 +106,7 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Interface For Associating Xwayland Windows To Wl_Surfaces
 /// 
 /// An Xwayland surface is a surface managed by an Xwayland server.
@@ -124,30 +121,26 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
         Interface(
             name: "xwayland_surface_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_serial",
                     arguments: [
-                    Argument(
-                        name: "serial_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "serial_hi",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "serial_hi",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Associates A Xwayland Window To A Wl_Surface
     /// 
@@ -222,6 +215,7 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let XwaylandShellV1Protocol = Protocol(
         name: "xwayland_shell_v1",

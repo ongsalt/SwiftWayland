@@ -21,32 +21,28 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_idle_inhibit_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "create_inhibitor",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_idle_inhibitor_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_idle_inhibitor_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Idle Inhibitor Object
     /// 
@@ -97,6 +93,7 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Context Object For Inhibiting Idle Behavior
 /// 
 /// An idle inhibitor prevents the output that the associated surface is
@@ -116,17 +113,13 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_idle_inhibitor_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Idle Inhibitor Object
     /// 
@@ -161,6 +154,7 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let IdleInhibitUnstableV1Protocol = Protocol(
         name: "idle_inhibit_unstable_v1",

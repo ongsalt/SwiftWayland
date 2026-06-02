@@ -16,160 +16,157 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_color_manager_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_output",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_color_management_output_v1",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_color_management_output_v1",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_color_management_surface_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_color_management_surface_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_surface_feedback",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_color_management_surface_feedback_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_color_management_surface_feedback_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "create_icc_creator",
                     arguments: [
-                    Argument(
-                        name: "obj",
-                        type: .newId,
-                        interface: "wp_image_description_creator_icc_v1",
-                    ),
+                        Argument(
+                            name: "obj",
+                            type: .newId,
+                            interface: "wp_image_description_creator_icc_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "create_parametric_creator",
                     arguments: [
-                    Argument(
-                        name: "obj",
-                        type: .newId,
-                        interface: "wp_image_description_creator_params_v1",
-                    ),
+                        Argument(
+                            name: "obj",
+                            type: .newId,
+                            interface: "wp_image_description_creator_params_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "create_windows_scrgb",
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_image_description",
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
-                    Argument(
-                        name: "reference",
-                        type: .object,
-                        interface: "wp_image_description_reference_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
+                        Argument(
+                            name: "reference",
+                            type: .object,
+                            interface: "wp_image_description_reference_v1",
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "create_windows_bt2100",
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "supported_intent",
                     arguments: [
-                    Argument(
-                        name: "render_intent",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "render_intent",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "supported_feature",
                     arguments: [
-                    Argument(
-                        name: "feature",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "feature",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "supported_tf_named",
                     arguments: [
-                    Argument(
-                        name: "tf",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tf",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "supported_primaries_named",
                     arguments: [
-                    Argument(
-                        name: "primaries",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "primaries",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Color Manager
     /// 
@@ -556,6 +553,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Output Color Properties
 /// 
 /// A wp_color_management_output_v1 describes the color properties of an
@@ -570,32 +568,29 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
         Interface(
             name: "wp_color_management_output_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_image_description",
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "image_description_changed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Color Management Output
     /// 
@@ -686,6 +681,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Color Management Extension To A Surface
 /// 
 /// A wp_color_management_surface_v1 allows the client to set the color
@@ -698,36 +694,31 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
         Interface(
             name: "wp_color_management_surface_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_image_description",
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .object,
-                        interface: "wp_image_description_v1",
-                    ),
-                    Argument(
-                        name: "render_intent",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .object,
+                            interface: "wp_image_description_v1",
+                        ),
+                        Argument(
+                            name: "render_intent",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset_image_description",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Color Management Interface For A Surface
     /// 
@@ -831,6 +822,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Color Management Extension To A Surface
 /// 
 /// A wp_color_management_surface_feedback_v1 allows the client to get the
@@ -843,60 +835,58 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
         Interface(
             name: "wp_color_management_surface_feedback_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_preferred",
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_preferred_parametric",
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "preferred_changed",
                     arguments: [
-                    Argument(
-                        name: "identity",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "identity",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "preferred_changed2",
                     arguments: [
-                    Argument(
-                        name: "identity_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "identity_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "identity_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "identity_lo",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Destroy The Color Management Interface For A Surface
     /// 
@@ -1028,6 +1018,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Holder Of Image Description Icc Information
 /// 
 /// This type of object is used for collecting all the information required
@@ -1051,39 +1042,36 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
         Interface(
             name: "wp_image_description_creator_icc_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     type: .destructor,
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_icc_file",
                     arguments: [
-                    Argument(
-                        name: "icc_profile",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "offset",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "length",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "icc_profile",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "offset",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "length",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create The Image Description Object From Icc Data
     /// 
@@ -1184,6 +1172,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Holder Of Image Description Parameters
 /// 
 /// This type of object is used for collecting all the parameters required
@@ -1226,171 +1215,168 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
         Interface(
             name: "wp_image_description_creator_params_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     type: .destructor,
                     arguments: [
-                    Argument(
-                        name: "image_description",
-                        type: .newId,
-                        interface: "wp_image_description_v1",
-                    ),
+                        Argument(
+                            name: "image_description",
+                            type: .newId,
+                            interface: "wp_image_description_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_tf_named",
                     arguments: [
-                    Argument(
-                        name: "tf",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tf",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_tf_power",
                     arguments: [
-                    Argument(
-                        name: "eexp",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "eexp",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_primaries_named",
                     arguments: [
-                    Argument(
-                        name: "primaries",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "primaries",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_primaries",
                     arguments: [
-                    Argument(
-                        name: "r_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "r_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "r_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "r_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_luminances",
                     arguments: [
-                    Argument(
-                        name: "min_lum",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "max_lum",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "reference_lum",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "min_lum",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "max_lum",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "reference_lum",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_mastering_display_primaries",
                     arguments: [
-                    Argument(
-                        name: "r_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "r_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "r_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "r_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_mastering_luminance",
                     arguments: [
-                    Argument(
-                        name: "min_lum",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "max_lum",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "min_lum",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "max_lum",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_max_cll",
                     arguments: [
-                    Argument(
-                        name: "max_cll",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "max_cll",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_max_fall",
                     arguments: [
-                    Argument(
-                        name: "max_fall",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "max_fall",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create The Image Description Object Using Params
     /// 
@@ -1746,6 +1732,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Colorimetric Image Description
 /// 
 /// An image description carries information about the pixel color encoding
@@ -1772,63 +1759,61 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         Interface(
             name: "wp_image_description_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_information",
                     arguments: [
-                    Argument(
-                        name: "information",
-                        type: .newId,
-                        interface: "wp_image_description_info_v1",
-                    ),
+                        Argument(
+                            name: "information",
+                            type: .newId,
+                            interface: "wp_image_description_info_v1",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "failed",
                     arguments: [
-                    Argument(
-                        name: "cause",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "msg",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "cause",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "msg",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "ready",
                     arguments: [
-                    Argument(
-                        name: "identity",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "identity",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "ready2",
                     arguments: [
-                    Argument(
-                        name: "identity_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "identity_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "identity_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "identity_lo",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Destroy The Image Description
     /// 
@@ -1966,6 +1951,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Colorimetric Image Description Information
 /// 
 /// Sends all matching events describing an image description object exactly
@@ -1993,179 +1979,175 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
         Interface(
             name: "wp_image_description_info_v1",
             version: 3,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "done",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "icc_file",
                     arguments: [
-                    Argument(
-                        name: "icc",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "icc_size",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "icc",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "icc_size",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "primaries",
                     arguments: [
-                    Argument(
-                        name: "r_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "r_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "r_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "r_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "primaries_named",
                     arguments: [
-                    Argument(
-                        name: "primaries",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "primaries",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "tf_power",
                     arguments: [
-                    Argument(
-                        name: "eexp",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "eexp",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "tf_named",
                     arguments: [
-                    Argument(
-                        name: "tf",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tf",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "luminances",
                     arguments: [
-                    Argument(
-                        name: "min_lum",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "max_lum",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "reference_lum",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "min_lum",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "max_lum",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "reference_lum",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "target_primaries",
                     arguments: [
-                    Argument(
-                        name: "r_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "r_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "g_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "b_y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "w_y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "r_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "r_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "g_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "b_y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "w_y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "target_luminance",
                     arguments: [
-                    Argument(
-                        name: "min_lum",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "max_lum",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "min_lum",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "max_lum",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "target_max_cll",
                     arguments: [
-                    Argument(
-                        name: "max_cll",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "max_cll",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "target_max_fall",
                     arguments: [
-                    Argument(
-                        name: "max_fall",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "max_fall",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -2302,6 +2284,7 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Reference To An Image Description
 /// 
 /// This object is a reference to an image description. This interface is
@@ -2315,17 +2298,13 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
         Interface(
             name: "wp_image_description_reference_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Reference
     /// 
@@ -2361,6 +2340,7 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let ColorManagementV1Protocol = Protocol(
         name: "color_management_v1",

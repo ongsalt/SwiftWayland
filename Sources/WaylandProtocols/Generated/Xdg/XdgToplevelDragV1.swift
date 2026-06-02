@@ -39,32 +39,28 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_toplevel_drag_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_xdg_toplevel_drag",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xdg_toplevel_drag_v1",
-                    ),
-                    Argument(
-                        name: "data_source",
-                        type: .object,
-                        interface: "wl_data_source",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xdg_toplevel_drag_v1",
+                        ),
+                        Argument(
+                            name: "data_source",
+                            type: .object,
+                            interface: "wl_data_source",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Xdg_Toplevel_Drag_Manager_V1 Object
     /// 
@@ -128,6 +124,7 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Object Representing A Toplevel Move During A Drag
 /// 
 /// 
@@ -137,35 +134,31 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_toplevel_drag_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "attach",
                     arguments: [
-                    Argument(
-                        name: "toplevel",
-                        type: .object,
-                        interface: "xdg_toplevel",
-                    ),
-                    Argument(
-                        name: "x_offset",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y_offset",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "toplevel",
+                            type: .object,
+                            interface: "xdg_toplevel",
+                        ),
+                        Argument(
+                            name: "x_offset",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y_offset",
+                            type: .int,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy An Xdg_Toplevel_Drag_V1 Object
     /// 
@@ -239,6 +232,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let XdgToplevelDragV1Protocol = Protocol(
         name: "xdg_toplevel_drag_v1",

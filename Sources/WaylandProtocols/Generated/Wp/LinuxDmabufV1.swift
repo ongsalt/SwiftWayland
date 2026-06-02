@@ -59,81 +59,79 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_linux_dmabuf_v1",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "create_params",
                     arguments: [
-                    Argument(
-                        name: "params_id",
-                        type: .newId,
-                        interface: "zwp_linux_buffer_params_v1",
-                    ),
+                        Argument(
+                            name: "params_id",
+                            type: .newId,
+                            interface: "zwp_linux_buffer_params_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_default_feedback",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_linux_dmabuf_feedback_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_linux_dmabuf_feedback_v1",
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "get_surface_feedback",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_linux_dmabuf_feedback_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_linux_dmabuf_feedback_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "format",
                     arguments: [
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "modifier",
                     arguments: [
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "modifier_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "modifier_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "modifier_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "modifier_lo",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ]
         )
     /// Unbind The Factory
     /// 
@@ -269,6 +267,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Parameters For Creating A Dmabuf-Based Wl_Buffer
 /// 
 /// This temporary object is a collection of dmabufs and other
@@ -291,119 +290,116 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_linux_buffer_params_v1",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "add",
                     arguments: [
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "plane_idx",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "offset",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "stride",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "modifier_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "modifier_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "plane_idx",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "offset",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "stride",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "modifier_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "modifier_lo",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "create_immed",
                     arguments: [
-                    Argument(
-                        name: "buffer_id",
-                        type: .newId,
-                        interface: "wl_buffer",
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "buffer_id",
+                            type: .newId,
+                            interface: "wl_buffer",
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "set_sampling_device",
                     arguments: [
-                    Argument(
-                        name: "device",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "device",
+                            type: .array,
+                        ),
                     ],
                     since: 6
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "created",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .newId,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .newId,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Delete This Object, Used Or Not
     /// 
@@ -684,6 +680,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Dmabuf Feedback
 /// 
 /// This object advertises dmabuf parameters feedback. This includes the
@@ -715,76 +712,72 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_linux_dmabuf_feedback_v1",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "format_table",
                     arguments: [
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "size",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "size",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "main_device",
                     arguments: [
-                    Argument(
-                        name: "device",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "device",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "tranche_done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "tranche_target_device",
                     arguments: [
-                    Argument(
-                        name: "device",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "device",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "tranche_formats",
                     arguments: [
-                    Argument(
-                        name: "indices",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "indices",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "tranche_flags",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Feedback Object
     /// 
@@ -963,6 +956,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let LinuxDmabufV1Protocol = Protocol(
         name: "linux_dmabuf_v1",

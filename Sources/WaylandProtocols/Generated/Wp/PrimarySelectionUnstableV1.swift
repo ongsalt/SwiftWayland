@@ -14,42 +14,38 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_primary_selection_device_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "create_source",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_primary_selection_source_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_primary_selection_source_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_device",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_primary_selection_device_v1",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_primary_selection_device_v1",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A New Primary Selection Source
     /// 
@@ -111,59 +107,58 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "zwp_primary_selection_device_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_selection",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .object,
-                        interface: "zwp_primary_selection_source_v1",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .object,
+                            interface: "zwp_primary_selection_source_v1",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "data_offer",
                     arguments: [
-                    Argument(
-                        name: "offer",
-                        type: .newId,
-                        interface: "zwp_primary_selection_offer_v1",
-                    ),
+                        Argument(
+                            name: "offer",
+                            type: .newId,
+                            interface: "zwp_primary_selection_offer_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "selection",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .object,
-                        interface: "zwp_primary_selection_offer_v1",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .object,
+                            interface: "zwp_primary_selection_offer_v1",
+                            nullable: true,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Set The Primary Selection
     /// 
@@ -246,6 +241,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Offer To Transfer Primary Selection Contents
 /// 
 /// A wp_primary_selection_offer represents an offer to transfer the contents
@@ -259,39 +255,37 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_primary_selection_offer_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "receive",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "offer",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Request That The Data Is Transferred
     /// 
@@ -363,6 +357,7 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Offer To Replace The Contents Of The Primary Selection
 /// 
 /// The source side of a wp_primary_selection_offer, it provides a way to
@@ -374,44 +369,41 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_primary_selection_source_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "offer",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "send",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "cancelled",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Add An Offered Mime Type
     /// 
@@ -483,6 +475,7 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WpPrimarySelectionUnstableV1Protocol = Protocol(
         name: "wp_primary_selection_unstable_v1",

@@ -19,32 +19,28 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_fifo_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_fifo",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_fifo_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_fifo_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Unbind From The Manager Interface
     /// 
@@ -107,6 +103,7 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Fifo Interface
 /// 
 /// A fifo object for a surface that may be used to add
@@ -117,27 +114,21 @@ public final class WpFifoV1: BaseProxy, Proxy {
         Interface(
             name: "wp_fifo_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_barrier",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "wait_barrier",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Sets The Start Point For A Fifo Constraint
     /// 
@@ -222,6 +213,7 @@ public final class WpFifoV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let FifoV1Protocol = Protocol(
         name: "fifo_v1",

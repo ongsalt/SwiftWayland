@@ -20,45 +20,41 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_toplevel_tag_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_toplevel_tag",
                     arguments: [
-                    Argument(
-                        name: "toplevel",
-                        type: .object,
-                        interface: "xdg_toplevel",
-                    ),
-                    Argument(
-                        name: "tag",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "toplevel",
+                            type: .object,
+                            interface: "xdg_toplevel",
+                        ),
+                        Argument(
+                            name: "tag",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_toplevel_description",
                     arguments: [
-                    Argument(
-                        name: "toplevel",
-                        type: .object,
-                        interface: "xdg_toplevel",
-                    ),
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "toplevel",
+                            type: .object,
+                            interface: "xdg_toplevel",
+                        ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy Toplevel Tag Object
     /// 
@@ -139,6 +135,7 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let XdgToplevelTagV1Protocol = Protocol(
         name: "xdg_toplevel_tag_v1",

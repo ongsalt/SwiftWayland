@@ -12,32 +12,28 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_exporter_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "export",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zxdg_exported_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zxdg_exported_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Xdg_Exporter Object
     /// 
@@ -97,6 +93,7 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Interface For Importing Surfaces
 /// 
 /// A global interface used for importing surfaces exported by xdg_exporter.
@@ -108,31 +105,27 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_importer_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "import",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zxdg_imported_v1",
-                    ),
-                    Argument(
-                        name: "handle",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zxdg_imported_v1",
+                        ),
+                        Argument(
+                            name: "handle",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Xdg_Importer Object
     /// 
@@ -190,6 +183,7 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// An Exported Surface Handle
 /// 
 /// An xdg_exported object represents an exported reference to a surface. The
@@ -202,26 +196,24 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_exported_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "handle",
                     arguments: [
-                    Argument(
-                        name: "handle",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "handle",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Unexport The Exported Surface
     /// 
@@ -275,6 +267,7 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// An Imported Surface Handle
 /// 
 /// An xdg_imported object represents an imported reference to surface exported
@@ -286,32 +279,29 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_imported_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_parent_of",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "destroyed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Xdg_Imported Object
     /// 
@@ -381,6 +371,7 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let XdgForeignUnstableV1Protocol = Protocol(
         name: "xdg_foreign_unstable_v1",

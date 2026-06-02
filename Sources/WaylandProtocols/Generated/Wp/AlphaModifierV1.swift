@@ -17,32 +17,28 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
         Interface(
             name: "wp_alpha_modifier_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_alpha_modifier_surface_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_alpha_modifier_surface_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Alpha Modifier Manager Object
     /// 
@@ -100,6 +96,7 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Alpha Modifier Object For A Surface
 /// 
 /// This interface allows the client to set a factor for the alpha values on
@@ -114,26 +111,22 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
         Interface(
             name: "wp_alpha_modifier_surface_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_multiplier",
                     arguments: [
-                    Argument(
-                        name: "factor",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "factor",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Alpha Modifier Object
     /// 
@@ -196,6 +189,7 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let AlphaModifierV1Protocol = Protocol(
         name: "alpha_modifier_v1",

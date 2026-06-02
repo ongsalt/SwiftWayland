@@ -15,60 +15,58 @@ public final class XdgWmBase: BaseProxy, Proxy {
         Interface(
             name: "xdg_wm_base",
             version: 7,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "create_positioner",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xdg_positioner",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xdg_positioner",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_xdg_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xdg_surface",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xdg_surface",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "pong",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "ping",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy Xdg_Wm_Base
     /// 
@@ -206,6 +204,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
         }
     }
 }
+
 /// Child Surface Positioner
 /// 
 /// The xdg_positioner provides a collection of rules for the placement of a
@@ -230,121 +229,116 @@ public final class XdgPositioner: BaseProxy, Proxy {
         Interface(
             name: "xdg_positioner",
             version: 7,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_anchor_rect",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_anchor",
                     arguments: [
-                    Argument(
-                        name: "anchor",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "anchor",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_gravity",
                     arguments: [
-                    Argument(
-                        name: "gravity",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "gravity",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_constraint_adjustment",
                     arguments: [
-                    Argument(
-                        name: "constraint_adjustment",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "constraint_adjustment",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_offset",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_reactive",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
                 Message(
                     name: "set_parent_size",
                     arguments: [
-                    Argument(
-                        name: "parent_width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "parent_height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "parent_width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "parent_height",
+                            type: .int,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "set_parent_configure",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Xdg_Positioner Object
     /// 
@@ -624,6 +618,7 @@ public final class XdgPositioner: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Desktop User Interface Surface Base Interface
 /// 
 /// An interface that may be implemented by a wl_surface, for
@@ -671,87 +666,85 @@ public final class XdgSurface: BaseProxy, Proxy {
         Interface(
             name: "xdg_surface",
             version: 7,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_toplevel",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xdg_toplevel",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xdg_toplevel",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_popup",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xdg_popup",
-                    ),
-                    Argument(
-                        name: "parent",
-                        type: .object,
-                        interface: "xdg_surface",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "positioner",
-                        type: .object,
-                        interface: "xdg_positioner",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xdg_popup",
+                        ),
+                        Argument(
+                            name: "parent",
+                            type: .object,
+                            interface: "xdg_surface",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "positioner",
+                            type: .object,
+                            interface: "xdg_positioner",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_window_geometry",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "ack_configure",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "configure",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Xdg_Surface
     /// 
@@ -960,6 +953,7 @@ public final class XdgSurface: BaseProxy, Proxy {
         }
     }
 }
+
 /// Toplevel Surface
 /// 
 /// This interface defines an xdg_surface role which allows a surface to,
@@ -986,203 +980,196 @@ public final class XdgToplevel: BaseProxy, Proxy {
         Interface(
             name: "xdg_toplevel",
             version: 7,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_parent",
                     arguments: [
-                    Argument(
-                        name: "parent",
-                        type: .object,
-                        interface: "xdg_toplevel",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "parent",
+                            type: .object,
+                            interface: "xdg_toplevel",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_title",
                     arguments: [
-                    Argument(
-                        name: "title",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "title",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_app_id",
                     arguments: [
-                    Argument(
-                        name: "app_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "app_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "show_window_menu",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "move",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "resize",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "edges",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "edges",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_max_size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_min_size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_maximized",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "unset_maximized",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_fullscreen",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset_fullscreen",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_minimized",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "configure",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "states",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "states",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "close",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "configure_bounds",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "wm_capabilities",
                     arguments: [
-                    Argument(
-                        name: "capabilities",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "capabilities",
+                            type: .array,
+                        ),
                     ],
                     since: 5
                 ),
-                ],
+            ]
         )
     /// Destroy The Xdg_Toplevel
     /// 
@@ -1740,6 +1727,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
         }
     }
 }
+
 /// Short-Lived, Popup Surfaces For Menus
 /// 
 /// A popup surface is a short-lived, temporary surface. It can be used to
@@ -1766,82 +1754,79 @@ public final class XdgPopup: BaseProxy, Proxy {
         Interface(
             name: "xdg_popup",
             version: 7,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "grab",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "reposition",
                     arguments: [
-                    Argument(
-                        name: "positioner",
-                        type: .object,
-                        interface: "xdg_positioner",
-                    ),
-                    Argument(
-                        name: "token",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "positioner",
+                            type: .object,
+                            interface: "xdg_positioner",
+                        ),
+                        Argument(
+                            name: "token",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "configure",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "popup_done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "repositioned",
                     arguments: [
-                    Argument(
-                        name: "token",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "token",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ]
         )
     /// Remove Xdg_Popup Interface
     /// 
@@ -2010,6 +1995,7 @@ public final class XdgPopup: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let XdgShellProtocol = Protocol(
         name: "xdg_shell",

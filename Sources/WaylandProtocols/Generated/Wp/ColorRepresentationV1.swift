@@ -14,59 +14,56 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_color_representation_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_color_representation_surface_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_color_representation_surface_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "supported_alpha_mode",
                     arguments: [
-                    Argument(
-                        name: "alpha_mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "alpha_mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "supported_coefficients_and_ranges",
                     arguments: [
-                    Argument(
-                        name: "coefficients",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "range",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "coefficients",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "range",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Manager
     /// 
@@ -162,6 +159,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Color Representation Extension To A Surface
 /// 
 /// A wp_color_representation_surface_v1 allows the client to set the color
@@ -178,48 +176,44 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
         Interface(
             name: "wp_color_representation_surface_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_alpha_mode",
                     arguments: [
-                    Argument(
-                        name: "alpha_mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "alpha_mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_coefficients_and_range",
                     arguments: [
-                    Argument(
-                        name: "coefficients",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "range",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "coefficients",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "range",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_chroma_location",
                     arguments: [
-                    Argument(
-                        name: "chroma_location",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "chroma_location",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Color Representation
     /// 
@@ -402,6 +396,7 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let ColorRepresentationV1Protocol = Protocol(
         name: "color_representation_v1",

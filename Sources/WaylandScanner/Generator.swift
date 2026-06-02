@@ -48,6 +48,19 @@ final class Generator {
         add(subfix)
     }
 
+    func array(_ arr: [some Code], startWith prefix: String = "", endWith subfix: String = "", ) {
+        if arr.count == 0 {
+            self << "\(prefix)[]\(subfix)"
+            return
+        }
+        self.block("\(prefix)[", endWith: "]\(subfix)") {
+            for c in arr {
+                c.generate(self)
+                self.add(sameLine: ",")
+            }
+        }
+    }
+
     func walk(node: some Code) {
         stack.append(node)
         node.generate(self)

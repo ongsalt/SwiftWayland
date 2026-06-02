@@ -23,32 +23,28 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_tearing_control_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_tearing_control",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_tearing_control_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_tearing_control_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy Tearing Control Factory Object
     /// 
@@ -108,6 +104,7 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Per-Surface Tearing Control Interface
 /// 
 /// An additional interface to a wl_surface object, which allows the client
@@ -123,26 +120,22 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
         Interface(
             name: "wp_tearing_control_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_presentation_hint",
                     arguments: [
-                    Argument(
-                        name: "hint",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "hint",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Set Presentation Hint
     /// 
@@ -200,6 +193,7 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let TearingControlV1Protocol = Protocol(
         name: "tearing_control_v1",

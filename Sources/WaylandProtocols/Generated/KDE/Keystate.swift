@@ -11,36 +11,33 @@ public final class KdeKeystate: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_keystate",
             version: 5,
-            enums: [],
             requests: [
                 Message(
                     name: "fetchStates",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 4
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "stateChanged",
                     arguments: [
-                    Argument(
-                        name: "key",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "key",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     public func fetchstates() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -121,6 +118,7 @@ public final class KdeKeystate: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let KeystateProtocol = Protocol(
         name: "keystate",

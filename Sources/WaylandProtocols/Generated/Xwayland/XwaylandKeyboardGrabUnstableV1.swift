@@ -11,37 +11,33 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_xwayland_keyboard_grab_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "grab_keyboard",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_xwayland_keyboard_grab_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_xwayland_keyboard_grab_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Keyboard Grab Manager
     /// 
@@ -109,6 +105,7 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Interface For Grabbing The Keyboard
 /// 
 /// A global interface used for grabbing the keyboard.
@@ -118,17 +115,13 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_xwayland_keyboard_grab_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Grabbed Keyboard Object
     /// 
@@ -164,6 +157,7 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let XwaylandKeyboardGrabUnstableV1Protocol = Protocol(
         name: "xwayland_keyboard_grab_unstable_v1",

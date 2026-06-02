@@ -29,321 +29,317 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_text_input_v2",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "enable",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "disable",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "show_input_panel",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "hide_input_panel",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_surrounding_text",
                     arguments: [
-                    Argument(
-                        name: "text",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "cursor",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "anchor",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "text",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "cursor",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "anchor",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_content_type",
                     arguments: [
-                    Argument(
-                        name: "hint",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "purpose",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "hint",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "purpose",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_cursor_rectangle",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_preferred_language",
                     arguments: [
-                    Argument(
-                        name: "language",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "language",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "update_state",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "reason",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "reason",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "enter",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "leave",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "input_panel_state",
                     arguments: [
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "preedit_string",
                     arguments: [
-                    Argument(
-                        name: "text",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "commit",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "text",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "commit",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "preedit_styling",
                     arguments: [
-                    Argument(
-                        name: "index",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "length",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "style",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "index",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "length",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "style",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "preedit_cursor",
                     arguments: [
-                    Argument(
-                        name: "index",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "index",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "commit_string",
                     arguments: [
-                    Argument(
-                        name: "text",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "text",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "cursor_position",
                     arguments: [
-                    Argument(
-                        name: "index",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "anchor",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "index",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "anchor",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "delete_surrounding_text",
                     arguments: [
-                    Argument(
-                        name: "before_length",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "after_length",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "before_length",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "after_length",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "modifiers_map",
                     arguments: [
-                    Argument(
-                        name: "map",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "map",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "keysym",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "sym",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "modifiers",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "sym",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "modifiers",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "language",
                     arguments: [
-                    Argument(
-                        name: "language",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "language",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "text_direction",
                     arguments: [
-                    Argument(
-                        name: "direction",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "direction",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "configure_surrounding_text",
                     arguments: [
-                    Argument(
-                        name: "before_cursor",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "after_cursor",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "before_cursor",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "after_cursor",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "input_method_changed",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Wp_Text_Input
     /// 
@@ -843,6 +839,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// Text Input Manager
 /// 
 /// A factory for text-input objects. This object is a global singleton.
@@ -852,32 +849,28 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_text_input_manager_v2",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_text_input",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_text_input_v2",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_text_input_v2",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Wp_Text_Input_Manager
     /// 
@@ -927,6 +920,7 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let TextInputUnstableV2Protocol = Protocol(
         name: "text_input_unstable_v2",

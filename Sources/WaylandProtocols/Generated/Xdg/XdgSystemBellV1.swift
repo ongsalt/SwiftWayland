@@ -15,28 +15,24 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_system_bell_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "ring",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                            nullable: true,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The System Bell Object
     /// 
@@ -91,6 +87,7 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let XdgSystemBellV1Protocol = Protocol(
         name: "xdg_system_bell_v1",

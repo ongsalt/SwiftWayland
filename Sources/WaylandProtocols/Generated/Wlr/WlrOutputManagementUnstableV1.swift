@@ -31,55 +31,52 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_output_manager_v1",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "create_configuration",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_output_configuration_v1",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_output_configuration_v1",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "stop",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "head",
                     arguments: [
-                    Argument(
-                        name: "head",
-                        type: .newId,
-                        interface: "zwlr_output_head_v1",
-                    ),
+                        Argument(
+                            name: "head",
+                            type: .newId,
+                            interface: "zwlr_output_head_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "finished",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Create A New Output Configuration Object
     /// 
@@ -158,6 +155,7 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Output Device
 /// 
 /// A head is an output device. The difference between a wl_output object and
@@ -176,154 +174,151 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_output_head_v1",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "description",
                     arguments: [
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "physical_size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .newId,
-                        interface: "zwlr_output_mode_v1",
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .newId,
+                            interface: "zwlr_output_mode_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "enabled",
                     arguments: [
-                    Argument(
-                        name: "enabled",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "enabled",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "current_mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .object,
-                        interface: "zwlr_output_mode_v1",
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .object,
+                            interface: "zwlr_output_mode_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "position",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "transform",
                     arguments: [
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "scale",
                     arguments: [
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "finished",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "make",
                     arguments: [
-                    Argument(
-                        name: "make",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "make",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "model",
                     arguments: [
-                    Argument(
-                        name: "model",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "model",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "serial_number",
                     arguments: [
-                    Argument(
-                        name: "serial_number",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "serial_number",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "adaptive_sync",
                     arguments: [
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ]
         )
     /// Destroy The Head Object
     /// 
@@ -556,6 +551,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Output Mode
 /// 
 /// This object describes an output mode.
@@ -570,50 +566,46 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_output_mode_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "refresh",
                     arguments: [
-                    Argument(
-                        name: "refresh",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "refresh",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "preferred",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "finished",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Mode Object
     /// 
@@ -691,6 +683,7 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Output Configuration
 /// 
 /// This object is used by the client to describe a full output configuration.
@@ -707,67 +700,60 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_output_configuration_v1",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "enable_head",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_output_configuration_head_v1",
-                    ),
-                    Argument(
-                        name: "head",
-                        type: .object,
-                        interface: "zwlr_output_head_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_output_configuration_head_v1",
+                        ),
+                        Argument(
+                            name: "head",
+                            type: .object,
+                            interface: "zwlr_output_head_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "disable_head",
                     arguments: [
-                    Argument(
-                        name: "head",
-                        type: .object,
-                        interface: "zwlr_output_head_v1",
-                    ),
+                        Argument(
+                            name: "head",
+                            type: .object,
+                            interface: "zwlr_output_head_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "apply",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "test",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "succeeded",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "cancelled",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Enable And Configure A Head
     /// 
@@ -920,6 +906,7 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Head Configuration
 /// 
 /// This object is used by the client to update a single head's configuration.
@@ -930,79 +917,76 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_output_configuration_head_v1",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "set_mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .object,
-                        interface: "zwlr_output_mode_v1",
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .object,
+                            interface: "zwlr_output_mode_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_custom_mode",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "refresh",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "refresh",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_position",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_transform",
                     arguments: [
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_scale",
                     arguments: [
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_adaptive_sync",
                     arguments: [
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Set The Mode
     /// 
@@ -1117,6 +1101,7 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let WlrOutputManagementUnstableV1Protocol = Protocol(
         name: "wlr_output_management_unstable_v1",

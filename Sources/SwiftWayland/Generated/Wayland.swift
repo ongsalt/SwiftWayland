@@ -11,57 +11,56 @@ public final class WlDisplay: BaseProxy, Proxy {
         Interface(
             name: "wl_display",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "sync",
                     arguments: [
-                    Argument(
-                        name: "callback",
-                        type: .newId,
-                        interface: "wl_callback",
-                    ),
+                        Argument(
+                            name: "callback",
+                            type: .newId,
+                            interface: "wl_callback",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_registry",
                     arguments: [
-                    Argument(
-                        name: "registry",
-                        type: .newId,
-                        interface: "wl_registry",
-                    ),
+                        Argument(
+                            name: "registry",
+                            type: .newId,
+                            interface: "wl_registry",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "error",
                     arguments: [
-                    Argument(
-                        name: "object_id",
-                        type: .object,
-                    ),
-                    Argument(
-                        name: "code",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "message",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "object_id",
+                            type: .object,
+                        ),
+                        Argument(
+                            name: "code",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "message",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "delete_id",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Asynchronous Roundtrip
     /// 
@@ -159,6 +158,7 @@ public final class WlDisplay: BaseProxy, Proxy {
         }
     }
 }
+
 /// Global Registry Object
 /// 
 /// The singleton global registry object.  The server has a number of
@@ -185,50 +185,49 @@ public final class WlRegistry: BaseProxy, Proxy {
         Interface(
             name: "wl_registry",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "bind",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "global",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "interface",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "version",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "interface",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "version",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "global_remove",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -269,6 +268,7 @@ public final class WlRegistry: BaseProxy, Proxy {
         }
     }
 }
+
 /// Callback Object
 /// 
 /// Clients can handle the 'done' event to get notified when
@@ -281,21 +281,18 @@ public final class WlCallback: BaseProxy, Proxy {
         Interface(
             name: "wl_callback",
             version: 1,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "done",
                     type: .destructor,
                     arguments: [
-                    Argument(
-                        name: "callback_data",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "callback_data",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -319,6 +316,7 @@ public final class WlCallback: BaseProxy, Proxy {
         }
     }
 }
+
 /// The Compositor Singleton
 /// 
 /// A compositor.  This object is a singleton global.  The
@@ -330,31 +328,28 @@ public final class WlCompositor: BaseProxy, Proxy {
         Interface(
             name: "wl_compositor",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "create_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "create_region",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_region",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_region",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create New Surface
     /// 
@@ -392,6 +387,7 @@ public final class WlCompositor: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 /// A Shared Memory Pool
 /// 
 /// The wl_shm_pool object encapsulates a piece of memory shared
@@ -407,56 +403,52 @@ public final class WlShmPool: BaseProxy, Proxy {
         Interface(
             name: "wl_shm_pool",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "create_buffer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_buffer",
-                    ),
-                    Argument(
-                        name: "offset",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "stride",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_buffer",
+                        ),
+                        Argument(
+                            name: "offset",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "stride",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "resize",
                     arguments: [
-                    Argument(
-                        name: "size",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "size",
+                            type: .int,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A Buffer From The Pool
     /// 
@@ -549,6 +541,7 @@ public final class WlShmPool: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Shared Memory Support
 /// 
 /// A singleton global object that provides support for shared
@@ -564,45 +557,43 @@ public final class WlShm: BaseProxy, Proxy {
         Interface(
             name: "wl_shm",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "create_pool",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_shm_pool",
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "size",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_shm_pool",
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "size",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "format",
                     arguments: [
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Create A Shm Pool
     /// 
@@ -1049,6 +1040,7 @@ public final class WlShm: BaseProxy, Proxy {
         }
     }
 }
+
 /// Content For A Wl_Surface
 /// 
 /// A buffer provides the content for a wl_surface. Buffers are
@@ -1070,22 +1062,19 @@ public final class WlBuffer: BaseProxy, Proxy {
         Interface(
             name: "wl_buffer",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "release",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy A Buffer
     /// 
@@ -1147,6 +1136,7 @@ public final class WlBuffer: BaseProxy, Proxy {
         }
     }
 }
+
 /// Offer To Transfer Data
 /// 
 /// A wl_data_offer represents a piece of data offered for transfer
@@ -1161,93 +1151,90 @@ public final class WlDataOffer: BaseProxy, Proxy {
         Interface(
             name: "wl_data_offer",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "accept",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "receive",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "finish",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
                 Message(
                     name: "set_actions",
                     arguments: [
-                    Argument(
-                        name: "dnd_actions",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "preferred_action",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "dnd_actions",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "preferred_action",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "offer",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "source_actions",
                     arguments: [
-                    Argument(
-                        name: "source_actions",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source_actions",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "action",
                     arguments: [
-                    Argument(
-                        name: "dnd_action",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "dnd_action",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ]
         )
     /// Accept One Of The Offered Mime Types
     /// 
@@ -1469,6 +1456,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
         }
     }
 }
+
 /// Offer To Transfer Data
 /// 
 /// The wl_data_source object is the source side of a wl_data_offer.
@@ -1481,86 +1469,81 @@ public final class WlDataSource: BaseProxy, Proxy {
         Interface(
             name: "wl_data_source",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "offer",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_actions",
                     arguments: [
-                    Argument(
-                        name: "dnd_actions",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "dnd_actions",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "target",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "send",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "cancelled",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "dnd_drop_performed",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
                 Message(
                     name: "dnd_finished",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
                 Message(
                     name: "action",
                     arguments: [
-                    Argument(
-                        name: "dnd_action",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "dnd_action",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ]
         )
     /// Add An Offered Mime Type
     /// 
@@ -1740,6 +1723,7 @@ public final class WlDataSource: BaseProxy, Proxy {
         }
     }
 }
+
 /// Data Transfer Device
 /// 
 /// There is one wl_data_device per seat which can be obtained
@@ -1752,135 +1736,131 @@ public final class WlDataDevice: BaseProxy, Proxy {
         Interface(
             name: "wl_data_device",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "start_drag",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .object,
-                        interface: "wl_data_source",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "origin",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "icon",
-                        type: .object,
-                        interface: "wl_surface",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .object,
+                            interface: "wl_data_source",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "origin",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "icon",
+                            type: .object,
+                            interface: "wl_surface",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_selection",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .object,
-                        interface: "wl_data_source",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .object,
+                            interface: "wl_data_source",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "data_offer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_data_offer",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_data_offer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "enter",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "id",
-                        type: .object,
-                        interface: "wl_data_offer",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "id",
+                            type: .object,
+                            interface: "wl_data_offer",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "leave",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "motion",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "drop",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "selection",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .object,
-                        interface: "wl_data_offer",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .object,
+                            interface: "wl_data_offer",
+                            nullable: true,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Start Drag-And-Drop Operation
     /// 
@@ -2070,6 +2050,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
         }
     }
 }
+
 /// Data Transfer Interface
 /// 
 /// The wl_data_device_manager is a singleton global object that
@@ -2087,36 +2068,33 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
         Interface(
             name: "wl_data_device_manager",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "create_data_source",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_data_source",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_data_source",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_data_device",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_data_device",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_data_device",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A New Data Source
     /// 
@@ -2177,6 +2155,7 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Create Desktop-Style Surfaces
 /// 
 /// This interface is implemented by servers that provide
@@ -2192,26 +2171,23 @@ public final class WlShell: BaseProxy, Proxy {
         Interface(
             name: "wl_shell",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get_shell_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_shell_surface",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_shell_surface",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A Shell Surface From A Surface
     /// 
@@ -2247,6 +2223,7 @@ public final class WlShell: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Desktop-Style Metadata Interface
 /// 
 /// An interface that may be implemented by a wl_surface, for
@@ -2264,189 +2241,186 @@ public final class WlShellSurface: BaseProxy, Proxy {
         Interface(
             name: "wl_shell_surface",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "pong",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "move",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "resize",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "edges",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "edges",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_toplevel",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_transient",
                     arguments: [
-                    Argument(
-                        name: "parent",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "parent",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_fullscreen",
                     arguments: [
-                    Argument(
-                        name: "method",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "framerate",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "method",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "framerate",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_popup",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "parent",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "parent",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_maximized",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_title",
                     arguments: [
-                    Argument(
-                        name: "title",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "title",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_class",
                     arguments: [
-                    Argument(
-                        name: "class_",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "class_",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "ping",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "configure",
                     arguments: [
-                    Argument(
-                        name: "edges",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "edges",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "popup_done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Respond To A Ping Event
     /// 
@@ -2782,6 +2756,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         }
     }
 }
+
 /// An Onscreen Surface
 /// 
 /// A surface is a rectangular area that may be displayed on zero
@@ -2827,190 +2802,187 @@ public final class WlSurface: BaseProxy, Proxy {
         Interface(
             name: "wl_surface",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "attach",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "damage",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "frame",
                     arguments: [
-                    Argument(
-                        name: "callback",
-                        type: .newId,
-                        interface: "wl_callback",
-                    ),
+                        Argument(
+                            name: "callback",
+                            type: .newId,
+                            interface: "wl_callback",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_opaque_region",
                     arguments: [
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_input_region",
                     arguments: [
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "commit",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_buffer_transform",
                     arguments: [
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "set_buffer_scale",
                     arguments: [
-                    Argument(
-                        name: "scale",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "scale",
+                            type: .int,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "damage_buffer",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "offset",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                     since: 5
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "enter",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "leave",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "preferred_buffer_scale",
                     arguments: [
-                    Argument(
-                        name: "factor",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "factor",
+                            type: .int,
+                        ),
                     ],
                     since: 6
                 ),
                 Message(
                     name: "preferred_buffer_transform",
                     arguments: [
-                    Argument(
-                        name: "transform",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "transform",
+                            type: .uint,
+                        ),
                     ],
                     since: 6
                 ),
-                ],
+            ]
         )
     /// Delete Surface
     /// 
@@ -3486,6 +3458,7 @@ public final class WlSurface: BaseProxy, Proxy {
         }
     }
 }
+
 /// Group Of Input Devices
 /// 
 /// A seat is a group of keyboards, pointer and touch devices. This
@@ -3498,67 +3471,65 @@ public final class WlSeat: BaseProxy, Proxy {
         Interface(
             name: "wl_seat",
             version: 10,
-            enums: [],
             requests: [
                 Message(
                     name: "get_pointer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_pointer",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_pointer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_keyboard",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_keyboard",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_keyboard",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_touch",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_touch",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_touch",
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 5
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "capabilities",
                     arguments: [
-                    Argument(
-                        name: "capabilities",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "capabilities",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Return Pointer Object
     /// 
@@ -3728,6 +3699,7 @@ public final class WlSeat: BaseProxy, Proxy {
         }
     }
 }
+
 /// Pointer Input Device
 /// 
 /// The wl_pointer interface represents one or more input devices,
@@ -3743,204 +3715,201 @@ public final class WlPointer: BaseProxy, Proxy {
         Interface(
             name: "wl_pointer",
             version: 10,
-            enums: [],
             requests: [
                 Message(
                     name: "set_cursor",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "hotspot_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "hotspot_y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "hotspot_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "hotspot_y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "enter",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "surface_x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "surface_y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "surface_x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "surface_y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "leave",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "motion",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface_x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "surface_y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface_x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "surface_y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "button",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "button",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "button",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "axis",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "value",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "value",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "frame",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 5
                 ),
                 Message(
                     name: "axis_source",
                     arguments: [
-                    Argument(
-                        name: "axis_source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "axis_source",
+                            type: .uint,
+                        ),
                     ],
                     since: 5
                 ),
                 Message(
                     name: "axis_stop",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
                     ],
                     since: 5
                 ),
                 Message(
                     name: "axis_discrete",
                     arguments: [
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "discrete",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "discrete",
+                            type: .int,
+                        ),
                     ],
                     since: 5
                 ),
                 Message(
                     name: "axis_value120",
                     arguments: [
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "value120",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "value120",
+                            type: .int,
+                        ),
                     ],
                     since: 8
                 ),
                 Message(
                     name: "axis_relative_direction",
                     arguments: [
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "direction",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "direction",
+                            type: .uint,
+                        ),
                     ],
                     since: 9
                 ),
-                ],
+            ]
         )
     /// Set The Pointer Surface
     /// 
@@ -4305,6 +4274,7 @@ public final class WlPointer: BaseProxy, Proxy {
         }
     }
 }
+
 /// Keyboard Input Device
 /// 
 /// The wl_keyboard interface represents one or more keyboards
@@ -4322,127 +4292,125 @@ public final class WlKeyboard: BaseProxy, Proxy {
         Interface(
             name: "wl_keyboard",
             version: 10,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "keymap",
                     arguments: [
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "size",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "size",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "enter",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "keys",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "keys",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "leave",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "key",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "key",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "key",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "modifiers",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "mods_depressed",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "mods_latched",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "mods_locked",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "group",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "mods_depressed",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "mods_latched",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "mods_locked",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "group",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "repeat_info",
                     arguments: [
-                    Argument(
-                        name: "rate",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "delay",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "rate",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "delay",
+                            type: .int,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ]
         )
     /// Release The Keyboard Object
     /// 
@@ -4602,6 +4570,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         }
     }
 }
+
 /// Touchscreen Input Device
 /// 
 /// The wl_touch interface represents a touchscreen
@@ -4617,128 +4586,124 @@ public final class WlTouch: BaseProxy, Proxy {
         Interface(
             name: "wl_touch",
             version: 10,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "down",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "id",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "id",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "up",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "id",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "id",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "motion",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "id",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "id",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "frame",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "cancel",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "shape",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "major",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "minor",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "major",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "minor",
+                            type: .fixed,
+                        ),
                     ],
                     since: 6
                 ),
                 Message(
                     name: "orientation",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "orientation",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "orientation",
+                            type: .fixed,
+                        ),
                     ],
                     since: 6
                 ),
-                ],
+            ]
         )
     /// Release The Touch Object
     /// 
@@ -4885,6 +4850,7 @@ public final class WlTouch: BaseProxy, Proxy {
         }
     }
 }
+
 /// Compositor Output Region
 /// 
 /// An output describes part of the compositor geometry.  The
@@ -4899,112 +4865,109 @@ public final class WlOutput: BaseProxy, Proxy {
         Interface(
             name: "wl_output",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "geometry",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "physical_width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "physical_height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "subpixel",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "make",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "model",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "physical_width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "physical_height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "subpixel",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "make",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "model",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "refresh",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "refresh",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
                 Message(
                     name: "scale",
                     arguments: [
-                    Argument(
-                        name: "factor",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "factor",
+                            type: .int,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "description",
                     arguments: [
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ]
         )
     /// Release The Output Object
     /// 
@@ -5237,6 +5200,7 @@ public final class WlOutput: BaseProxy, Proxy {
         }
     }
 }
+
 /// Region Interface
 /// 
 /// A region object describes an area.
@@ -5248,59 +5212,55 @@ public final class WlRegion: BaseProxy, Proxy {
         Interface(
             name: "wl_region",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "add",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "subtract",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy Region
     /// 
@@ -5373,6 +5333,7 @@ public final class WlRegion: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Sub-Surface Compositing
 /// 
 /// The global interface exposing sub-surface compositing capabilities.
@@ -5397,37 +5358,33 @@ public final class WlSubcompositor: BaseProxy, Proxy {
         Interface(
             name: "wl_subcompositor",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_subsurface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_subsurface",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "parent",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_subsurface",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "parent",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Unbind From The Subcompositor Interface
     /// 
@@ -5506,6 +5463,7 @@ public final class WlSubcompositor: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Sub-Surface Interface To A Wl_Surface
 /// 
 /// An additional interface to a wl_surface object, which has been
@@ -5557,60 +5515,54 @@ public final class WlSubsurface: BaseProxy, Proxy {
         Interface(
             name: "wl_subsurface",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_position",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "place_above",
                     arguments: [
-                    Argument(
-                        name: "sibling",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "sibling",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "place_below",
                     arguments: [
-                    Argument(
-                        name: "sibling",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "sibling",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_sync",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_desync",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Remove Sub-Surface Interface
     /// 
@@ -5757,6 +5709,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Wayland Protocol Fixes
 /// 
 /// This global fixes problems with other core-protocol interfaces that
@@ -5767,27 +5720,23 @@ public final class WlFixes: BaseProxy, Proxy {
         Interface(
             name: "wl_fixes",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "destroy_registry",
                     arguments: [
-                    Argument(
-                        name: "registry",
-                        type: .object,
-                        interface: "wl_registry",
-                    ),
+                        Argument(
+                            name: "registry",
+                            type: .object,
+                            interface: "wl_registry",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroys This Object
     /// 
@@ -5841,6 +5790,7 @@ public final class WlFixes: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let WaylandProtocol = Protocol(
         name: "wayland",

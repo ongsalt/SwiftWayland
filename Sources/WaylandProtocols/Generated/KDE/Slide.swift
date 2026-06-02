@@ -8,36 +8,33 @@ public final class KdeSlideManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_slide_manager",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_slide",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_slide",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -68,6 +65,7 @@ public final class KdeSlideManager: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 /// Slide A Surface From A Location To Another
 /// 
 /// Ask the compositor to move the surface from a location to another
@@ -80,40 +78,35 @@ public final class KdeSlide: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_slide",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "commit",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_location",
                     arguments: [
-                    Argument(
-                        name: "location",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "location",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_offset",
                     arguments: [
-                    Argument(
-                        name: "offset",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "offset",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     public func commit() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -182,6 +175,7 @@ public final class KdeSlide: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let SlideProtocol = Protocol(
         name: "slide",

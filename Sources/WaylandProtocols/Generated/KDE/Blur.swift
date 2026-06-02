@@ -8,36 +8,33 @@ public final class KdeBlurManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_blur_manager",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_blur",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_blur",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -68,39 +65,35 @@ public final class KdeBlurManager: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 public final class KdeBlur: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "org_kde_kwin_blur",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "commit",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_region",
                     arguments: [
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     public func commit() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -150,6 +143,7 @@ public final class KdeBlur: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let BlurProtocol = Protocol(
         name: "blur",

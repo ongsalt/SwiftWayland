@@ -11,27 +11,23 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
         Interface(
             name: "ext_session_lock_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "lock",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "ext_session_lock_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "ext_session_lock_v1",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Session Lock Manager Object
     /// 
@@ -83,6 +79,7 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Manage Lock State And Create Lock Surfaces
 /// 
 /// In response to the creation of this object the compositor must send
@@ -131,53 +128,48 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
         Interface(
             name: "ext_session_lock_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_lock_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "ext_session_lock_surface_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "ext_session_lock_surface_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "unlock_and_destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "locked",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "finished",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Session Lock
     /// 
@@ -333,6 +325,7 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Surface Displayed While The Session Is Locked
 /// 
 /// The client may use lock surfaces to display a screensaver, render a
@@ -354,43 +347,41 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
         Interface(
             name: "ext_session_lock_surface_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "ack_configure",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "configure",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Lock Surface Object
     /// 
@@ -494,6 +485,7 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let ExtSessionLockV1Protocol = Protocol(
         name: "ext_session_lock_v1",

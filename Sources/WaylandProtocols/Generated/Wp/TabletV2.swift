@@ -13,32 +13,28 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_manager_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "get_tablet_seat",
                     arguments: [
-                    Argument(
-                        name: "tablet_seat",
-                        type: .newId,
-                        interface: "zwp_tablet_seat_v2",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "tablet_seat",
+                            type: .newId,
+                            interface: "zwp_tablet_seat_v2",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Get The Tablet Seat
     /// 
@@ -91,6 +87,7 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Controller Object For Graphic Tablet Devices Of A Seat
 /// 
 /// An object that provides access to the graphics tablets available on this
@@ -102,47 +99,45 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_seat_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "tablet_added",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_tablet_v2",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_tablet_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "tool_added",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_tablet_tool_v2",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_tablet_tool_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "pad_added",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_tablet_pad_v2",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_tablet_pad_v2",
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Release The Memory For The Tablet Seat Object
     /// 
@@ -220,6 +215,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Physical Tablet Tool
 /// 
 /// An object that represents a physical tool that has been, or is
@@ -245,233 +241,227 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_tool_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "set_cursor",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "hotspot_x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "hotspot_y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "hotspot_x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "hotspot_y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "type",
                     arguments: [
-                    Argument(
-                        name: "tool_type",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tool_type",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "hardware_serial",
                     arguments: [
-                    Argument(
-                        name: "hardware_serial_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "hardware_serial_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "hardware_serial_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "hardware_serial_lo",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "hardware_id_wacom",
                     arguments: [
-                    Argument(
-                        name: "hardware_id_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "hardware_id_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "hardware_id_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "hardware_id_lo",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "capability",
                     arguments: [
-                    Argument(
-                        name: "capability",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "capability",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "removed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "proximity_in",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tablet",
-                        type: .object,
-                        interface: "zwp_tablet_v2",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tablet",
+                            type: .object,
+                            interface: "zwp_tablet_v2",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "proximity_out",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "down",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "up",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "motion",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "pressure",
                     arguments: [
-                    Argument(
-                        name: "pressure",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "pressure",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "distance",
                     arguments: [
-                    Argument(
-                        name: "distance",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "distance",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "tilt",
                     arguments: [
-                    Argument(
-                        name: "tilt_x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "tilt_y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "tilt_x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "tilt_y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "rotation",
                     arguments: [
-                    Argument(
-                        name: "degrees",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "degrees",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "slider",
                     arguments: [
-                    Argument(
-                        name: "position",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "position",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "wheel",
                     arguments: [
-                    Argument(
-                        name: "degrees",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "clicks",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "degrees",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "clicks",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "button",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "button",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "button",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "frame",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Set The Tablet Tool's Surface
     /// 
@@ -852,6 +842,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// Graphics Tablet Device
 /// 
 /// The zwp_tablet_v2 interface represents one graphics tablet device. The
@@ -867,68 +858,64 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "id",
                     arguments: [
-                    Argument(
-                        name: "vid",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "pid",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "vid",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "pid",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "path",
                     arguments: [
-                    Argument(
-                        name: "path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "path",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "removed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "bustype",
                     arguments: [
-                    Argument(
-                        name: "bustype",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "bustype",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Destroy The Tablet Object
     /// 
@@ -1061,6 +1048,7 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// Pad Ring
 /// 
 /// A circular interaction area, such as the touch ring on the Wacom Intuos
@@ -1073,62 +1061,59 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_pad_ring_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "set_feedback",
                     arguments: [
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "source",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "angle",
                     arguments: [
-                    Argument(
-                        name: "degrees",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "degrees",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "stop",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "frame",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Set Compositor Feedback
     /// 
@@ -1260,6 +1245,7 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// Pad Strip
 /// 
 /// A linear interaction area, such as the strips found in Wacom Cintiq
@@ -1272,62 +1258,59 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_pad_strip_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "set_feedback",
                     arguments: [
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "source",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "position",
                     arguments: [
-                    Argument(
-                        name: "position",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "position",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "stop",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "frame",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Set Compositor Feedback
     /// 
@@ -1461,6 +1444,7 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Set Of Buttons, Rings And Strips
 /// 
 /// A pad group describes a distinct (sub)set of buttons, rings and strips
@@ -1487,88 +1471,85 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_pad_group_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "buttons",
                     arguments: [
-                    Argument(
-                        name: "buttons",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "buttons",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "ring",
                     arguments: [
-                    Argument(
-                        name: "ring",
-                        type: .newId,
-                        interface: "zwp_tablet_pad_ring_v2",
-                    ),
+                        Argument(
+                            name: "ring",
+                            type: .newId,
+                            interface: "zwp_tablet_pad_ring_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "strip",
                     arguments: [
-                    Argument(
-                        name: "strip",
-                        type: .newId,
-                        interface: "zwp_tablet_pad_strip_v2",
-                    ),
+                        Argument(
+                            name: "strip",
+                            type: .newId,
+                            interface: "zwp_tablet_pad_strip_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "modes",
                     arguments: [
-                    Argument(
-                        name: "modes",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "modes",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "mode_switch",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "dial",
                     arguments: [
-                    Argument(
-                        name: "dial",
-                        type: .newId,
-                        interface: "zwp_tablet_pad_dial_v2",
-                    ),
+                        Argument(
+                            name: "dial",
+                            type: .newId,
+                            interface: "zwp_tablet_pad_dial_v2",
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Destroy The Pad Object
     /// 
@@ -1711,6 +1692,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Set Of Buttons, Rings, Strips And Dials
 /// 
 /// A pad device is a set of buttons, rings, strips and dials
@@ -1737,122 +1719,118 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_pad_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "set_feedback",
                     arguments: [
-                    Argument(
-                        name: "button",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "button",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "group",
                     arguments: [
-                    Argument(
-                        name: "pad_group",
-                        type: .newId,
-                        interface: "zwp_tablet_pad_group_v2",
-                    ),
+                        Argument(
+                            name: "pad_group",
+                            type: .newId,
+                            interface: "zwp_tablet_pad_group_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "path",
                     arguments: [
-                    Argument(
-                        name: "path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "path",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "buttons",
                     arguments: [
-                    Argument(
-                        name: "buttons",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "buttons",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "button",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "button",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "button",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "enter",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tablet",
-                        type: .object,
-                        interface: "zwp_tablet_v2",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tablet",
+                            type: .object,
+                            interface: "zwp_tablet_v2",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "leave",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "removed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Set Compositor Feedback
     /// 
@@ -2016,6 +1994,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// Pad Dial
 /// 
 /// A rotary control, e.g. a dial or a wheel.
@@ -2027,48 +2006,46 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
         Interface(
             name: "zwp_tablet_pad_dial_v2",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "set_feedback",
                     arguments: [
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "delta",
                     arguments: [
-                    Argument(
-                        name: "value120",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "value120",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "frame",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Set Compositor Feedback
     /// 
@@ -2169,6 +2146,7 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let TabletV2Protocol = Protocol(
         name: "tablet_v2",

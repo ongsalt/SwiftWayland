@@ -8,84 +8,82 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
         Interface(
             name: "org_kde_plasma_virtual_desktop_management",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "get_virtual_desktop",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_plasma_virtual_desktop",
-                    ),
-                    Argument(
-                        name: "desktop_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_plasma_virtual_desktop",
+                        ),
+                        Argument(
+                            name: "desktop_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "request_create_virtual_desktop",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "position",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "position",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "request_remove_virtual_desktop",
                     arguments: [
-                    Argument(
-                        name: "desktop_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "desktop_id",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "desktop_created",
                     arguments: [
-                    Argument(
-                        name: "desktop_id",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "position",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "desktop_id",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "position",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "desktop_removed",
                     arguments: [
-                    Argument(
-                        name: "desktop_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "desktop_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "rows",
                     arguments: [
-                    Argument(
-                        name: "rows",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "rows",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Get The Org_Kde_Plasma_Virtual_Desktop Interface For A Desktop
     /// 
@@ -181,90 +179,85 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
         }
     }
 }
+
 public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "org_kde_plasma_virtual_desktop",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "request_activate",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "request_enter_output",
                     arguments: [
-                    Argument(
-                        name: "output_name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "output_name",
+                            type: .string,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "desktop_id",
                     arguments: [
-                    Argument(
-                        name: "desktop_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "desktop_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "activated",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "deactivated",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "removed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "position",
                     arguments: [
-                    Argument(
-                        name: "index",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "index",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "output_entered",
                     arguments: [
-                    Argument(
-                        name: "output_name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "output_name",
+                            type: .string,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ]
         )
     /// Requests This Desktop To Be Activated
     /// 
@@ -369,6 +362,7 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let OrgKdePlasmaVirtualDesktopProtocol = Protocol(
         name: "org_kde_plasma_virtual_desktop",

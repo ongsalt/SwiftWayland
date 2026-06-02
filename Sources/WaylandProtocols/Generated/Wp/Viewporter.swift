@@ -16,32 +16,28 @@ public final class WpViewporter: BaseProxy, Proxy {
         Interface(
             name: "wp_viewporter",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_viewport",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_viewport",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_viewport",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Unbind From The Cropping And Scaling Interface
     /// 
@@ -104,6 +100,7 @@ public final class WpViewporter: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Crop And Scale Interface To A Wl_Surface
 /// 
 /// An additional interface to a wl_surface object, which allows the
@@ -158,51 +155,47 @@ public final class WpViewport: BaseProxy, Proxy {
         Interface(
             name: "wp_viewport",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_source",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_destination",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Remove Scaling And Cropping From The Surface
     /// 
@@ -300,6 +293,7 @@ public final class WpViewport: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let ViewporterProtocol = Protocol(
         name: "viewporter",

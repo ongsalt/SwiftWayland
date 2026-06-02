@@ -24,64 +24,60 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_pointer_gestures_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "get_swipe_gesture",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_pointer_gesture_swipe_v1",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_pointer_gesture_swipe_v1",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_pinch_gesture",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_pointer_gesture_pinch_v1",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_pointer_gesture_pinch_v1",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
                 Message(
                     name: "get_hold_gesture",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_pointer_gesture_hold_v1",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_pointer_gesture_hold_v1",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
                     ],
                     since: 3
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Get Swipe Gesture
     /// 
@@ -167,6 +163,7 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// A Swipe Gesture Object
 /// 
 /// A swipe gesture object notifies a client about a multi-finger swipe
@@ -188,73 +185,71 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_pointer_gesture_swipe_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "begin",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "fingers",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "fingers",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "update",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "dx",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "dy",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "dx",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "dy",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "end",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "cancelled",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "cancelled",
+                            type: .int,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Pointer Swipe Gesture Object
     /// 
@@ -326,6 +321,7 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Pinch Gesture Object
 /// 
 /// A pinch gesture object notifies a client about a multi-finger pinch
@@ -347,81 +343,79 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_pointer_gesture_pinch_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "begin",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "fingers",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "fingers",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "update",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "dx",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "dy",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "rotation",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "dx",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "dy",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "rotation",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "end",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "cancelled",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "cancelled",
+                            type: .int,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Pinch Gesture Object
     /// 
@@ -498,6 +492,7 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Hold Gesture Object
 /// 
 /// A hold gesture object notifies a client about a single- or
@@ -520,59 +515,57 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_pointer_gesture_hold_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "begin",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "fingers",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "fingers",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "end",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "cancelled",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "cancelled",
+                            type: .int,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ]
         )
     /// Destroy The Hold Gesture Object
     /// 
@@ -636,6 +629,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let PointerGesturesUnstableV1Protocol = Protocol(
         name: "pointer_gestures_unstable_v1",

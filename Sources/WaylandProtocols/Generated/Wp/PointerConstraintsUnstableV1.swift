@@ -21,77 +21,73 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_pointer_constraints_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "lock_pointer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_locked_pointer_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "lifetime",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_locked_pointer_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "lifetime",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "confine_pointer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_confined_pointer_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "lifetime",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_confined_pointer_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "lifetime",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Pointer Constraints Manager Object
     /// 
@@ -223,6 +219,7 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Receive Relative Pointer Motion Events
 /// 
 /// The wp_locked_pointer interface represents a locked pointer state.
@@ -248,51 +245,47 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_locked_pointer_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_cursor_position_hint",
                     arguments: [
-                    Argument(
-                        name: "surface_x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "surface_y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "surface_x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "surface_y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_region",
                     arguments: [
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "locked",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "unlocked",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Locked Pointer Object
     /// 
@@ -391,6 +384,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Confined Pointer Object
 /// 
 /// The wp_confined_pointer interface represents a confined pointer state.
@@ -412,38 +406,34 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_confined_pointer_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_region",
                     arguments: [
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "confined",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "unconfined",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Confined Pointer Object
     /// 
@@ -528,6 +518,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let PointerConstraintsUnstableV1Protocol = Protocol(
         name: "pointer_constraints_unstable_v1",

@@ -14,155 +14,151 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
         Interface(
             name: "zkde_screencast_unstable_v1",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "stream_output",
                     arguments: [
-                    Argument(
-                        name: "stream",
-                        type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "stream",
+                            type: .newId,
+                            interface: "zkde_screencast_stream_unstable_v1",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "stream_window",
                     arguments: [
-                    Argument(
-                        name: "stream",
-                        type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1",
-                    ),
-                    Argument(
-                        name: "window_uuid",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "stream",
+                            type: .newId,
+                            interface: "zkde_screencast_stream_unstable_v1",
+                        ),
+                        Argument(
+                            name: "window_uuid",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "stream_virtual_output",
                     arguments: [
-                    Argument(
-                        name: "stream",
-                        type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1",
-                    ),
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "stream",
+                            type: .newId,
+                            interface: "zkde_screencast_stream_unstable_v1",
+                        ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "stream_region",
                     arguments: [
-                    Argument(
-                        name: "stream",
-                        type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "stream",
+                            type: .newId,
+                            interface: "zkde_screencast_stream_unstable_v1",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "stream_virtual_output_with_description",
                     arguments: [
-                    Argument(
-                        name: "stream",
-                        type: .newId,
-                        interface: "zkde_screencast_stream_unstable_v1",
-                    ),
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "stream",
+                            type: .newId,
+                            interface: "zkde_screencast_stream_unstable_v1",
+                        ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Requests A Feed From A Given Source
     /// 
@@ -323,60 +319,58 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "zkde_screencast_stream_unstable_v1",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "close",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "closed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "created",
                     arguments: [
-                    Argument(
-                        name: "node",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "node",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "failed",
                     arguments: [
-                    Argument(
-                        name: "error",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "error",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "serial",
                     arguments: [
-                    Argument(
-                        name: "object_serial_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "object_serial_low",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "object_serial_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "object_serial_low",
+                            type: .uint,
+                        ),
                     ],
                     since: 6
                 ),
-                ],
+            ]
         )
     /// Indicates We Are Done With The Stream And The Communication Is Over.
     /// 
@@ -447,6 +441,7 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let ZkdeScreencastUnstableV1Protocol = Protocol(
         name: "zkde_screencast_unstable_v1",

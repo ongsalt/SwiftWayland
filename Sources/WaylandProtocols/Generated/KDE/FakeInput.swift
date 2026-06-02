@@ -20,170 +20,164 @@ public final class KdeFakeInput: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_fake_input",
             version: 6,
-            enums: [],
             requests: [
                 Message(
                     name: "authenticate",
                     arguments: [
-                    Argument(
-                        name: "application",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "reason",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "application",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "reason",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "pointer_motion",
                     arguments: [
-                    Argument(
-                        name: "delta_x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "delta_y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "delta_x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "delta_y",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "button",
                     arguments: [
-                    Argument(
-                        name: "button",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "button",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "axis",
                     arguments: [
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "value",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "value",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "touch_down",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "touch_motion",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "touch_up",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "touch_cancel",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
                 Message(
                     name: "touch_frame",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
                 Message(
                     name: "pointer_motion_absolute",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "keyboard_key",
                     arguments: [
-                    Argument(
-                        name: "button",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "button",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 5
                 ),
                 Message(
                     name: "keyboard_keysym",
                     arguments: [
-                    Argument(
-                        name: "keysym",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "keysym",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                     since: 6
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Information Why The Client Wants To Use The Interface
     /// 
@@ -373,6 +367,7 @@ public final class KdeFakeInput: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let FakeInputProtocol = Protocol(
         name: "fake_input",

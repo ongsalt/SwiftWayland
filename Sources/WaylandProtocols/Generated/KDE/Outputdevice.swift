@@ -23,192 +23,188 @@ public final class KdeOutputdevice: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_outputdevice",
             version: 4,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "geometry",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "physical_width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "physical_height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "subpixel",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "make",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "model",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "physical_width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "physical_height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "subpixel",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "make",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "model",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "refresh",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "mode_id",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "refresh",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "mode_id",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "scale",
                     arguments: [
-                    Argument(
-                        name: "factor",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "factor",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "edid",
                     arguments: [
-                    Argument(
-                        name: "raw",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "raw",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "enabled",
                     arguments: [
-                    Argument(
-                        name: "enabled",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "enabled",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "uuid",
                     arguments: [
-                    Argument(
-                        name: "uuid",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "uuid",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "scalef",
                     arguments: [
-                    Argument(
-                        name: "factor",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "factor",
+                            type: .fixed,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "colorcurves",
                     arguments: [
-                    Argument(
-                        name: "red",
-                        type: .array,
-                    ),
-                    Argument(
-                        name: "green",
-                        type: .array,
-                    ),
-                    Argument(
-                        name: "blue",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "red",
+                            type: .array,
+                        ),
+                        Argument(
+                            name: "green",
+                            type: .array,
+                        ),
+                        Argument(
+                            name: "blue",
+                            type: .array,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "serial_number",
                     arguments: [
-                    Argument(
-                        name: "serialNumber",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "serialNumber",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "eisa_id",
                     arguments: [
-                    Argument(
-                        name: "eisaId",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "eisaId",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "capabilities",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "overscan",
                     arguments: [
-                    Argument(
-                        name: "overscan",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "overscan",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "vrr_policy",
                     arguments: [
-                    Argument(
-                        name: "vrr_policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "vrr_policy",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -460,6 +456,7 @@ public final class KdeOutputdevice: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let OrgKdeKwinOutputdeviceProtocol = Protocol(
         name: "org_kde_kwin_outputdevice",

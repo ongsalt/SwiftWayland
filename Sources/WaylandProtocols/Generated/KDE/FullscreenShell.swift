@@ -30,71 +30,69 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
         Interface(
             name: "_wl_fullscreen_shell",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "present_surface",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "method",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "method",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "present_surface_for_mode",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
-                    Argument(
-                        name: "framerate",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "feedback",
-                        type: .newId,
-                        interface: "_wl_fullscreen_shell_mode_feedback",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
+                        Argument(
+                            name: "framerate",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "feedback",
+                            type: .newId,
+                            interface: "_wl_fullscreen_shell_mode_feedback",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "capability",
                     arguments: [
-                    Argument(
-                        name: "capability",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "capability",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Release The Wl_Fullscreen_Shell Interface
     /// 
@@ -256,32 +254,27 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
         }
     }
 }
+
 public final class WlFullscreenShellModeFeedback: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "_wl_fullscreen_shell_mode_feedback",
             version: 1,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "mode_successful",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "mode_failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "present_cancelled",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -331,6 +324,7 @@ public final class WlFullscreenShellModeFeedback: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let FullscreenShellProtocol = Protocol(
         name: "fullscreen_shell",

@@ -12,32 +12,28 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_output_power_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get_output_power",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_output_power_v1",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_output_power_v1",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Get A Power Management For An Output
     /// 
@@ -89,6 +85,7 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Adjust Power Management Mode For An Output
 /// 
 /// This object offers requests to set the power management mode of
@@ -99,40 +96,37 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_output_power_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Set An Outputs Power Save Mode
     /// 
@@ -228,6 +222,7 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WlrOutputPowerManagementUnstableV1Protocol = Protocol(
         name: "wlr_output_power_management_unstable_v1",

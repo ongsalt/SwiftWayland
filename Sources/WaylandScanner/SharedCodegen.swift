@@ -14,60 +14,47 @@ extension Protocol: Code {
 
 extension Interface: Code {
     func generate(_ gen: Generator) {
-        gen.add("Interface(")
-        gen.indent {
-            gen.add("name: \"\(self.name)\",")
-            gen.add("version: \(self.version),")
-            gen.add("enums: [],")
+        gen.block("Interface(", endWith: ")") {
+            gen << "name: \"\(self.name)\","
+            gen << "version: \(self.version),"
 
-            gen.add("requests: ")
-            gen.indent {
-                gen.walk(array: self.requests)
+            if !requests.isEmpty {
+                gen.array(requests, startWith: "requests: ", endWith: ",")
             }
-            gen.add(sameLine: ",")
-            gen.add("events: ")
-            gen.indent {
-                gen.walk(array: self.events)
+            if !events.isEmpty {
+                gen.array(events, startWith: "events: ")
             }
-            gen.add(sameLine: ",")
         }
-        gen.add(")")
     }
 }
 
 extension Message: Code {
     func generate(_ gen: Generator) {
-        gen.add("Message(")
-        gen.indent {
-            gen.add("name: \"\(self.name)\",")
+        gen.block("Message(", endWith: ")") {
+            gen << "name: \"\(self.name)\","
             if let type {
-                gen.add("type: .\(type),")
+                gen << "type: .\(type),"
             }
-            gen.add("arguments: ")
-            gen.walk(array: self.arguments)
-            gen.add(sameLine: ",")
+            gen.array(self.arguments, startWith: "arguments: ", endWith: ",")
             if let since {
-                gen.add("since: \(since)")
+                gen << "since: \(since)"
             }
         }
-        gen.add(")")
     }
 }
 
 extension Argument: Code {
     func generate(_ gen: Generator) {
-        gen.add("Argument(")
-        gen.indent {
-            gen.add("name: \"\(self.name)\",")
-            gen.add("type: .\(self.type),")
+        gen.block("Argument(", endWith: ")") {
+            gen << "name: \"\(self.name)\","
+            gen << "type: .\(self.type),"
             if let interface {
-                gen.add("interface: \"\(interface)\",")
+                gen << "interface: \"\(interface)\","
             }
             if self.nullable {
                 gen << "nullable: \(self.nullable),"
             }
         }
-        gen.add(")")
 
     }
 }

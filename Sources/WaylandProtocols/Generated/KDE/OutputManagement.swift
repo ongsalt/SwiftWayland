@@ -42,21 +42,18 @@ public final class KdeOutputmanagement: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_outputmanagement",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "create_configuration",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_outputconfiguration",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_outputconfiguration",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Provide Outputconfiguration Object For Configuring Outputs
     /// 
@@ -79,6 +76,7 @@ public final class KdeOutputmanagement: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 /// Configure Single Output Devices
 /// 
 /// outputconfiguration is a client-specific resource that can be used to ask
@@ -97,175 +95,170 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_outputconfiguration",
             version: 4,
-            enums: [],
             requests: [
                 Message(
                     name: "enable",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "enable",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "enable",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "mode_id",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "mode_id",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "transform",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "position",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "scale",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "apply",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "scalef",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "colorcurves",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "red",
-                        type: .array,
-                    ),
-                    Argument(
-                        name: "green",
-                        type: .array,
-                    ),
-                    Argument(
-                        name: "blue",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "red",
+                            type: .array,
+                        ),
+                        Argument(
+                            name: "green",
+                            type: .array,
+                        ),
+                        Argument(
+                            name: "blue",
+                            type: .array,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
                 Message(
                     name: "overscan",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "overscan",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "overscan",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "set_vrr_policy",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "org_kde_kwin_outputdevice",
-                    ),
-                    Argument(
-                        name: "policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "org_kde_kwin_outputdevice",
+                        ),
+                        Argument(
+                            name: "policy",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "applied",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Enable Or Disable An Output
     /// 
@@ -496,6 +489,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let OutputmanagementProtocol = Protocol(
         name: "outputmanagement",

@@ -11,32 +11,28 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_output_manager_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_xdg_output",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zxdg_output_v1",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zxdg_output_v1",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Xdg_Output_Manager Object
     /// 
@@ -88,6 +84,7 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Compositor Logical Output Region
 /// 
 /// An xdg_output describes part of the compositor geometry.
@@ -103,68 +100,65 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
         Interface(
             name: "zxdg_output_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "logical_position",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "logical_size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "description",
                     arguments: [
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Destroy The Xdg_Output Object
     /// 
@@ -302,6 +296,7 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let XdgOutputUnstableV1Protocol = Protocol(
         name: "xdg_output_unstable_v1",

@@ -13,46 +13,42 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_linux_drm_syncobj_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_linux_drm_syncobj_surface_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_linux_drm_syncobj_surface_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "import_timeline",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_linux_drm_syncobj_timeline_v1",
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_linux_drm_syncobj_timeline_v1",
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy Explicit Synchronization Factory Object
     /// 
@@ -139,6 +135,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Synchronization Object Timeline
 /// 
 /// This object represents an explicit synchronization object timeline
@@ -149,17 +146,13 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
         Interface(
             name: "wp_linux_drm_syncobj_timeline_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Timeline
     /// 
@@ -196,6 +189,7 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Per-Surface Explicit Synchronization
 /// 
 /// This object is an add-on interface for wl_surface to enable explicit
@@ -224,53 +218,49 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
         Interface(
             name: "wp_linux_drm_syncobj_surface_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_acquire_point",
                     arguments: [
-                    Argument(
-                        name: "timeline",
-                        type: .object,
-                        interface: "wp_linux_drm_syncobj_timeline_v1",
-                    ),
-                    Argument(
-                        name: "point_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "point_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "timeline",
+                            type: .object,
+                            interface: "wp_linux_drm_syncobj_timeline_v1",
+                        ),
+                        Argument(
+                            name: "point_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "point_lo",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_release_point",
                     arguments: [
-                    Argument(
-                        name: "timeline",
-                        type: .object,
-                        interface: "wp_linux_drm_syncobj_timeline_v1",
-                    ),
-                    Argument(
-                        name: "point_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "point_lo",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "timeline",
+                            type: .object,
+                            interface: "wp_linux_drm_syncobj_timeline_v1",
+                        ),
+                        Argument(
+                            name: "point_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "point_lo",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Surface Synchronization Object
     /// 
@@ -411,6 +401,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let LinuxDrmSyncobjV1Protocol = Protocol(
         name: "linux_drm_syncobj_v1",

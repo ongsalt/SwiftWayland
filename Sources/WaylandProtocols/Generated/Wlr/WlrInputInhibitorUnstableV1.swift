@@ -16,21 +16,18 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_input_inhibit_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get_inhibitor",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_input_inhibitor_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_input_inhibitor_v1",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Inhibit Input To Other Clients
     /// 
@@ -58,6 +55,7 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Inhibits Input To Other Clients
 /// 
 /// While this resource exists, input to clients other than the owner of the
@@ -74,17 +72,13 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_input_inhibitor_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Input Inhibitor Object
     /// 
@@ -119,6 +113,7 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let WlrInputInhibitUnstableV1Protocol = Protocol(
         name: "wlr_input_inhibit_unstable_v1",

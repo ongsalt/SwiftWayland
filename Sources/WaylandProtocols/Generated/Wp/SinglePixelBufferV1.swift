@@ -12,43 +12,39 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_single_pixel_buffer_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "create_u32_rgba_buffer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wl_buffer",
-                    ),
-                    Argument(
-                        name: "r",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "g",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "b",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "a",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wl_buffer",
+                        ),
+                        Argument(
+                            name: "r",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "g",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "b",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "a",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Manager
     /// 
@@ -115,6 +111,7 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let SinglePixelBufferV1Protocol = Protocol(
         name: "single_pixel_buffer_v1",

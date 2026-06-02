@@ -12,142 +12,137 @@ public final class ZwlrVirtualPointerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_virtual_pointer_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "motion",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "dx",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "dy",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "dx",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "dy",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "motion_absolute",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "x_extent",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "y_extent",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "x_extent",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "y_extent",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "button",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "button",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "button",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "axis",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "value",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "value",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "frame",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "axis_source",
                     arguments: [
-                    Argument(
-                        name: "axis_source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "axis_source",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "axis_stop",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "axis_discrete",
                     arguments: [
-                    Argument(
-                        name: "time",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "axis",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "value",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "discrete",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "time",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "axis",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "value",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "discrete",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 1
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Pointer Relative Motion Event
     /// 
@@ -324,6 +319,7 @@ public final class ZwlrVirtualPointerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Virtual Pointer Manager
 /// 
 /// This object allows clients to create individual virtual pointer objects.
@@ -333,57 +329,53 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_virtual_pointer_manager_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "create_virtual_pointer",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_virtual_pointer_v1",
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_virtual_pointer_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 1
                 ),
                 Message(
                     name: "create_virtual_pointer_with_output",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_virtual_pointer_v1",
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_virtual_pointer_v1",
+                        ),
                     ],
                     since: 2
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A New Virtual Pointer
     /// 
@@ -455,6 +447,7 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let WlrVirtualPointerUnstableV1Protocol = Protocol(
         name: "wlr_virtual_pointer_unstable_v1",

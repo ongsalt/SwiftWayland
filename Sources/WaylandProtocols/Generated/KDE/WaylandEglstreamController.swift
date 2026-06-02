@@ -8,47 +8,44 @@ public final class WlEglstreamController: BaseProxy, Proxy {
         Interface(
             name: "wl_eglstream_controller",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "attach_eglstream_consumer",
                     arguments: [
-                    Argument(
-                        name: "wl_surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "wl_resource",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "wl_surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "wl_resource",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                     since: 1
                 ),
                 Message(
                     name: "attach_eglstream_consumer_attribs",
                     arguments: [
-                    Argument(
-                        name: "wl_surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "wl_resource",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
-                    Argument(
-                        name: "attribs",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "wl_surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "wl_resource",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
+                        Argument(
+                            name: "attribs",
+                            type: .array,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create Server Stream And Attach Consumer
     /// 
@@ -113,6 +110,7 @@ public final class WlEglstreamController: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let WlEglstreamControllerProtocol = Protocol(
         name: "wl_eglstream_controller",

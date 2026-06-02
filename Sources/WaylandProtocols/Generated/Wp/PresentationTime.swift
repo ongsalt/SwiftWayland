@@ -25,41 +25,39 @@ public final class WpPresentation: BaseProxy, Proxy {
         Interface(
             name: "wp_presentation",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "feedback",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "callback",
-                        type: .newId,
-                        interface: "wp_presentation_feedback",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "callback",
+                            type: .newId,
+                            interface: "wp_presentation_feedback",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "clock_id",
                     arguments: [
-                    Argument(
-                        name: "clk_id",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "clk_id",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Unbind From The Presentation Interface
     /// 
@@ -164,6 +162,7 @@ public final class WpPresentation: BaseProxy, Proxy {
         }
     }
 }
+
 /// Presentation Time Feedback Event
 /// 
 /// A presentation_feedback object returns an indication that a
@@ -182,61 +181,57 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         Interface(
             name: "wp_presentation_feedback",
             version: 2,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "sync_output",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "presented",
                     type: .destructor,
                     arguments: [
-                    Argument(
-                        name: "tv_sec_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_sec_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_nsec",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "refresh",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "seq_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "seq_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tv_sec_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_sec_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_nsec",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "refresh",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "seq_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "seq_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "discarded",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -332,6 +327,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let PresentationTimeProtocol = Protocol(
         name: "presentation_time",

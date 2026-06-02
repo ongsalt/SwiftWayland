@@ -45,31 +45,28 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
         Interface(
             name: "kde_output_management_v2",
             version: 21,
-            enums: [],
             requests: [
                 Message(
                     name: "create_configuration",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "kde_output_configuration_v2",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "kde_output_configuration_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "create_mode_list",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "kde_mode_list_v2",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "kde_mode_list_v2",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Provide Outputconfiguration Object For Configuring Outputs
     /// 
@@ -105,6 +102,7 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 /// Configure Single Output Devices
 /// 
 /// outputconfiguration is a client-specific resource that can be used to ask
@@ -123,509 +121,504 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         Interface(
             name: "kde_output_configuration_v2",
             version: 21,
-            enums: [],
             requests: [
                 Message(
                     name: "enable",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "enable",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "enable",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "mode",
-                        type: .object,
-                        interface: "kde_output_device_mode_v2",
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "mode",
+                            type: .object,
+                            interface: "kde_output_device_mode_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "transform",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "position",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "scale",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "apply",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "overscan",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "overscan",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "overscan",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_vrr_policy",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "policy",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_rgb_range",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "rgb_range",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "rgb_range",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_primary_output",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "set_priority",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "priority",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "priority",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "set_high_dynamic_range",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "enable_hdr",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "enable_hdr",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "set_sdr_brightness",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "sdr_brightness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "sdr_brightness",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "set_wide_color_gamut",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "enable_wcg",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "enable_wcg",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "set_auto_rotate_policy",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "policy",
+                            type: .uint,
+                        ),
                     ],
                     since: 5
                 ),
                 Message(
                     name: "set_icc_profile_path",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "profile_path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "profile_path",
+                            type: .string,
+                        ),
                     ],
                     since: 6
                 ),
                 Message(
                     name: "set_brightness_overrides",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "max_peak_brightness",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "max_frame_average_brightness",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "min_brightness",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "max_peak_brightness",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "max_frame_average_brightness",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "min_brightness",
+                            type: .int,
+                        ),
                     ],
                     since: 7
                 ),
                 Message(
                     name: "set_sdr_gamut_wideness",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "gamut_wideness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "gamut_wideness",
+                            type: .uint,
+                        ),
                     ],
                     since: 7
                 ),
                 Message(
                     name: "set_color_profile_source",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "color_profile_source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "color_profile_source",
+                            type: .uint,
+                        ),
                     ],
                     since: 8
                 ),
                 Message(
                     name: "set_brightness",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "brightness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "brightness",
+                            type: .uint,
+                        ),
                     ],
                     since: 9
                 ),
                 Message(
                     name: "set_color_power_tradeoff",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "preference",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "preference",
+                            type: .uint,
+                        ),
                     ],
                     since: 10
                 ),
                 Message(
                     name: "set_dimming",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "multiplier",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "multiplier",
+                            type: .uint,
+                        ),
                     ],
                     since: 11
                 ),
                 Message(
                     name: "set_replication_source",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "source",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "source",
+                            type: .string,
+                        ),
                     ],
                     since: 13
                 ),
                 Message(
                     name: "set_ddc_ci_allowed",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "allowed",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "allowed",
+                            type: .uint,
+                        ),
                     ],
                     since: 14
                 ),
                 Message(
                     name: "set_max_bits_per_color",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "max_bpc",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "max_bpc",
+                            type: .uint,
+                        ),
                     ],
                     since: 15
                 ),
                 Message(
                     name: "set_edr_policy",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "policy",
+                            type: .uint,
+                        ),
                     ],
                     since: 16
                 ),
                 Message(
                     name: "set_sharpness",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "sharpness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "sharpness",
+                            type: .uint,
+                        ),
                     ],
                     since: 17
                 ),
                 Message(
                     name: "set_custom_modes",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "modes",
-                        type: .object,
-                        interface: "kde_mode_list_v2",
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "modes",
+                            type: .object,
+                            interface: "kde_mode_list_v2",
+                        ),
                     ],
                     since: 18
                 ),
                 Message(
                     name: "set_auto_brightness",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "enabled",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "enabled",
+                            type: .uint,
+                        ),
                     ],
                     since: 19
                 ),
                 Message(
                     name: "set_hdr_icc_profile_path",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "profile_path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "profile_path",
+                            type: .string,
+                        ),
                     ],
                     since: 20
                 ),
                 Message(
                     name: "set_hdr_color_profile_source",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "color_profile_source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "color_profile_source",
+                            type: .uint,
+                        ),
                     ],
                     since: 20
                 ),
                 Message(
                     name: "set_abm_level",
                     arguments: [
-                    Argument(
-                        name: "outputdevice",
-                        type: .object,
-                        interface: "kde_output_device_v2",
-                    ),
-                    Argument(
-                        name: "level",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "outputdevice",
+                            type: .object,
+                            interface: "kde_output_device_v2",
+                        ),
+                        Argument(
+                            name: "level",
+                            type: .uint,
+                        ),
                     ],
                     since: 21
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "applied",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "failure_reason",
                     arguments: [
-                    Argument(
-                        name: "reason",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "reason",
+                            type: .string,
+                        ),
                     ],
                     since: 12
                 ),
-                ],
+            ]
         )
     /// Enable Or Disable An Output
     /// 
@@ -1279,6 +1272,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// A List Of Custom Modes
 /// 
 /// This list is populated by first setting each relevant property,
@@ -1301,53 +1295,48 @@ public final class KdeModeListV2: BaseProxy, Proxy {
         Interface(
             name: "kde_mode_list_v2",
             version: 20,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "add_mode",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_resolution",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_refresh_rate",
                     arguments: [
-                    Argument(
-                        name: "rate",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "rate",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_reduced_blanking",
                     arguments: [
-                    Argument(
-                        name: "reduced",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "reduced",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Mode List Object
     /// 
@@ -1432,6 +1421,7 @@ public final class KdeModeListV2: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let KdeOutputManagementV2Protocol = Protocol(
         name: "kde_output_management_v2",

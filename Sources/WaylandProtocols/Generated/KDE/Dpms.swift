@@ -19,26 +19,23 @@ public final class KdeDpmsManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_dpms_manager",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_dpms",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_dpms",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Get Org_Kde_Kwin_Dpms For Wl_Output
     /// 
@@ -63,6 +60,7 @@ public final class KdeDpmsManager: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 /// Dpms For A Wl_Output
 /// 
 /// This interface provides information about the VESA DPMS state for a wl_output.
@@ -77,49 +75,46 @@ public final class KdeDpms: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_dpms",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "supported",
                     arguments: [
-                    Argument(
-                        name: "supported",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "supported",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Request Dpms State Change For The Wl_Output
     /// 
@@ -216,6 +211,7 @@ public final class KdeDpms: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let DpmsProtocol = Protocol(
         name: "dpms",

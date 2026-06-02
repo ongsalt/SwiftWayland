@@ -12,71 +12,67 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_screencopy_manager_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "capture_output",
                     arguments: [
-                    Argument(
-                        name: "frame",
-                        type: .newId,
-                        interface: "zwlr_screencopy_frame_v1",
-                    ),
-                    Argument(
-                        name: "overlay_cursor",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "frame",
+                            type: .newId,
+                            interface: "zwlr_screencopy_frame_v1",
+                        ),
+                        Argument(
+                            name: "overlay_cursor",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "capture_output_region",
                     arguments: [
-                    Argument(
-                        name: "frame",
-                        type: .newId,
-                        interface: "zwlr_screencopy_frame_v1",
-                    ),
-                    Argument(
-                        name: "overlay_cursor",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "frame",
+                            type: .newId,
+                            interface: "zwlr_screencopy_frame_v1",
+                        ),
+                        Argument(
+                            name: "overlay_cursor",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Capture An Output
     /// 
@@ -153,6 +149,7 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// A Frame Ready For Copy
 /// 
 /// This object represents a single frame.
@@ -173,136 +170,132 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_screencopy_frame_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "copy",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "copy_with_damage",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "buffer",
                     arguments: [
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "stride",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "stride",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "flags",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "ready",
                     arguments: [
-                    Argument(
-                        name: "tv_sec_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_sec_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_nsec",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tv_sec_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_sec_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_nsec",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "damage",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "linux_dmabuf",
                     arguments: [
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "buffer_done",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
+            ]
         )
     /// Copy The Frame
     /// 
@@ -464,6 +457,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WlrScreencopyUnstableV1Protocol = Protocol(
         name: "wlr_screencopy_unstable_v1",

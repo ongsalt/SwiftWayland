@@ -17,47 +17,43 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_layer_shell_v1",
             version: 5,
-            enums: [],
             requests: [
                 Message(
                     name: "get_layer_surface",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_layer_surface_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                        nullable: true,
-                    ),
-                    Argument(
-                        name: "layer",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "namespace",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_layer_surface_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                            nullable: true,
+                        ),
+                        Argument(
+                            name: "layer",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "namespace",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A Layer_Surface From A Surface
     /// 
@@ -152,6 +148,7 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Layer Metadata Interface
 /// 
 /// An interface that may be implemented by a wl_surface, for surfaces that
@@ -172,139 +169,136 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_layer_surface_v1",
             version: 5,
-            enums: [],
             requests: [
                 Message(
                     name: "set_size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_anchor",
                     arguments: [
-                    Argument(
-                        name: "anchor",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "anchor",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_exclusive_zone",
                     arguments: [
-                    Argument(
-                        name: "zone",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "zone",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_margin",
                     arguments: [
-                    Argument(
-                        name: "top",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "right",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "bottom",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "left",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "top",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "right",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "bottom",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "left",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_keyboard_interactivity",
                     arguments: [
-                    Argument(
-                        name: "keyboard_interactivity",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "keyboard_interactivity",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_popup",
                     arguments: [
-                    Argument(
-                        name: "popup",
-                        type: .object,
-                        interface: "xdg_popup",
-                    ),
+                        Argument(
+                            name: "popup",
+                            type: .object,
+                            interface: "xdg_popup",
+                        ),
                     ],
                 ),
                 Message(
                     name: "ack_configure",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_layer",
                     arguments: [
-                    Argument(
-                        name: "layer",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "layer",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "set_exclusive_edge",
                     arguments: [
-                    Argument(
-                        name: "edge",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "edge",
+                            type: .uint,
+                        ),
                     ],
                     since: 5
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "configure",
                     arguments: [
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "closed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Sets The Size Of The Surface
     /// 
@@ -610,6 +604,7 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WlrLayerShellUnstableV1Protocol = Protocol(
         name: "wlr_layer_shell_unstable_v1",

@@ -6,7 +6,8 @@ let QUEUE_INNER_NAME: String = "_queue"
 extension ProtocolDeclaration: Code {
     func generate(_ gen: Generator) {
         for c in self.classes {
-            gen.walk(node: c)
+            c.generate(gen)
+            gen.add()
         }
 
         gen.add()

@@ -8,36 +8,33 @@ public final class KdeContrastManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_contrast_manager",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_contrast",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_contrast",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -68,94 +65,89 @@ public final class KdeContrastManager: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 public final class KdeContrast: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "org_kde_kwin_contrast",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "commit",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_region",
                     arguments: [
-                    Argument(
-                        name: "region",
-                        type: .object,
-                        interface: "wl_region",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "region",
+                            type: .object,
+                            interface: "wl_region",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_contrast",
                     arguments: [
-                    Argument(
-                        name: "contrast",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "contrast",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_intensity",
                     arguments: [
-                    Argument(
-                        name: "intensity",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "intensity",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_saturation",
                     arguments: [
-                    Argument(
-                        name: "saturation",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "saturation",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_frost",
                     arguments: [
-                    Argument(
-                        name: "red",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "green",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "blue",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "alpha",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "red",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "green",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "blue",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "alpha",
+                            type: .int,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "unset_frost",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     public func commit() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -263,6 +255,7 @@ public final class KdeContrast: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let ContrastProtocol = Protocol(
         name: "contrast",

@@ -11,32 +11,28 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_fractional_scale_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_fractional_scale",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_fractional_scale_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_fractional_scale_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Unbind The Fractional Surface Scale Interface
     /// 
@@ -99,6 +95,7 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Fractional Scale Interface To A Wl_Surface
 /// 
 /// An additional interface to a wl_surface object which allows the compositor
@@ -109,26 +106,24 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
         Interface(
             name: "wp_fractional_scale_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "preferred_scale",
                     arguments: [
-                    Argument(
-                        name: "scale",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "scale",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Remove Surface Scale Information For Surface
     /// 
@@ -180,6 +175,7 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let FractionalScaleV1Protocol = Protocol(
         name: "fractional_scale_v1",

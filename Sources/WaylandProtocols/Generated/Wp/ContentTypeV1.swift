@@ -16,32 +16,28 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_content_type_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_surface_content_type",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_content_type_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_content_type_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Content Type Manager Object
     /// 
@@ -99,6 +95,7 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Content Type Object For A Surface
 /// 
 /// The content type object allows the compositor to optimize for the kind
@@ -113,26 +110,22 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
         Interface(
             name: "wp_content_type_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_content_type",
                     arguments: [
-                    Argument(
-                        name: "content_type",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "content_type",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Content Type Object
     /// 
@@ -197,6 +190,7 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let ContentTypeV1Protocol = Protocol(
         name: "content_type_v1",

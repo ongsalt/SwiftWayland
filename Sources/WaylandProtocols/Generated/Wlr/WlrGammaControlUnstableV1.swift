@@ -12,32 +12,28 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_gamma_control_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get_gamma_control",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_gamma_control_v1",
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_gamma_control_v1",
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Get A Gamma Control For An Output
     /// 
@@ -89,6 +85,7 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Adjust Gamma Tables For An Output
 /// 
 /// This interface allows a client to adjust gamma tables for a particular
@@ -105,40 +102,37 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_gamma_control_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_gamma",
                     arguments: [
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "gamma_size",
                     arguments: [
-                    Argument(
-                        name: "size",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "size",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "failed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Set The Gamma Table
     /// 
@@ -225,6 +219,7 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WlrGammaControlUnstableV1Protocol = Protocol(
         name: "wlr_gamma_control_unstable_v1",

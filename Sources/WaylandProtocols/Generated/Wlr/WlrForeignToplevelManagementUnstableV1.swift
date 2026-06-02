@@ -15,32 +15,29 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_foreign_toplevel_manager_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "stop",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "toplevel",
                     arguments: [
-                    Argument(
-                        name: "toplevel",
-                        type: .newId,
-                        interface: "zwlr_foreign_toplevel_handle_v1",
-                    ),
+                        Argument(
+                            name: "toplevel",
+                            type: .newId,
+                            interface: "zwlr_foreign_toplevel_handle_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "finished",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Stop Sending Events
     /// 
@@ -91,6 +88,7 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// An Opened Toplevel
 /// 
 /// A zwlr_foreign_toplevel_handle_v1 object represents an opened toplevel
@@ -103,165 +101,155 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_foreign_toplevel_handle_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "set_maximized",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "unset_maximized",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_minimized",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "unset_minimized",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "activate",
                     arguments: [
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
                 Message(
                     name: "close",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_rectangle",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_fullscreen",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                            nullable: true,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "unset_fullscreen",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "title",
                     arguments: [
-                    Argument(
-                        name: "title",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "title",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "app_id",
                     arguments: [
-                    Argument(
-                        name: "app_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "app_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "output_enter",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "output_leave",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "state",
                     arguments: [
-                    Argument(
-                        name: "state",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "state",
+                            type: .array,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "closed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "parent",
                     arguments: [
-                    Argument(
-                        name: "parent",
-                        type: .object,
-                        interface: "zwlr_foreign_toplevel_handle_v1",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "parent",
+                            type: .object,
+                            interface: "zwlr_foreign_toplevel_handle_v1",
+                            nullable: true,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ]
         )
     /// Requests That The Toplevel Be Maximized
     /// 
@@ -514,6 +502,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WlrForeignToplevelManagementUnstableV1Protocol = Protocol(
         name: "wlr_foreign_toplevel_management_unstable_v1",

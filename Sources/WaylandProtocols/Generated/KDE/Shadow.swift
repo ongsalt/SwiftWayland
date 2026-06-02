@@ -8,43 +8,39 @@ public final class KdeShadowManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_shadow_manager",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_shadow",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_shadow",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -101,145 +97,141 @@ public final class KdeShadowManager: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 public final class KdeShadow: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "org_kde_kwin_shadow",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "commit",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "attach_left",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "attach_top_left",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "attach_top",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "attach_top_right",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "attach_right",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "attach_bottom_right",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "attach_bottom",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "attach_bottom_left",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_left_offset",
                     arguments: [
-                    Argument(
-                        name: "offset",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "offset",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_top_offset",
                     arguments: [
-                    Argument(
-                        name: "offset",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "offset",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_right_offset",
                     arguments: [
-                    Argument(
-                        name: "offset",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "offset",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_bottom_offset",
                     arguments: [
-                    Argument(
-                        name: "offset",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "offset",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     public func commit() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
@@ -392,6 +384,7 @@ public final class KdeShadow: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let ShadowProtocol = Protocol(
         name: "shadow",

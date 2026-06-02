@@ -11,36 +11,32 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_export_dmabuf_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "capture_output",
                     arguments: [
-                    Argument(
-                        name: "frame",
-                        type: .newId,
-                        interface: "zwlr_export_dmabuf_frame_v1",
-                    ),
-                    Argument(
-                        name: "overlay_cursor",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "frame",
+                            type: .newId,
+                            interface: "zwlr_export_dmabuf_frame_v1",
+                        ),
+                        Argument(
+                            name: "overlay_cursor",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Capture A Frame From An Output
     /// 
@@ -93,6 +89,7 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// A Dma-Buf Frame
 /// 
 /// This object represents a single DMA-BUF frame.
@@ -111,117 +108,115 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_export_dmabuf_frame_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "frame",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "offset_x",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "offset_y",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "buffer_flags",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "mod_high",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "mod_low",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "num_objects",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "offset_x",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "offset_y",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "buffer_flags",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "mod_high",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "mod_low",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "num_objects",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "object",
                     arguments: [
-                    Argument(
-                        name: "index",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "size",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "offset",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "stride",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "plane_index",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "index",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "size",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "offset",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "stride",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "plane_index",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "ready",
                     arguments: [
-                    Argument(
-                        name: "tv_sec_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_sec_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_nsec",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tv_sec_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_sec_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_nsec",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "cancel",
                     arguments: [
-                    Argument(
-                        name: "reason",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "reason",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Delete This Object, Used Or Not
     /// 
@@ -332,6 +327,7 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WlrExportDmabufUnstableV1Protocol = Protocol(
         name: "wlr_export_dmabuf_unstable_v1",

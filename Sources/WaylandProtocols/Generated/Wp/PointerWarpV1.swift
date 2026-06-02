@@ -20,44 +20,40 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
         Interface(
             name: "wp_pointer_warp_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "warp_pointer",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "serial",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "serial",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Warp Manager
     /// 
@@ -119,6 +115,7 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let PointerWarpV1Protocol = Protocol(
         name: "pointer_warp_v1",

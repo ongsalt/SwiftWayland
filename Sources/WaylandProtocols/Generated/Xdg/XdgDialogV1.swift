@@ -19,32 +19,28 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_wm_dialog_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_xdg_dialog",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xdg_dialog_v1",
-                    ),
-                    Argument(
-                        name: "toplevel",
-                        type: .object,
-                        interface: "xdg_toplevel",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xdg_dialog_v1",
+                        ),
+                        Argument(
+                            name: "toplevel",
+                            type: .object,
+                            interface: "xdg_toplevel",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Dialog Manager Object
     /// 
@@ -103,6 +99,7 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Dialog Object
 /// 
 /// A xdg_dialog_v1 object is an ancillary object tied to a xdg_toplevel. Its
@@ -119,27 +116,21 @@ public final class XdgDialogV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_dialog_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_modal",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "unset_modal",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Dialog Object
     /// 
@@ -203,6 +194,7 @@ public final class XdgDialogV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let XdgDialogV1Protocol = Protocol(
         name: "xdg_dialog_v1",

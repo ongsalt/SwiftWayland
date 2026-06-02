@@ -16,35 +16,34 @@ public final class KdeServerDecorationManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_server_decoration_manager",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_server_decoration",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_server_decoration",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "default_mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Create A Server-Side Decoration Object For A Given Surface
     /// 
@@ -106,41 +105,40 @@ public final class KdeServerDecorationManager: BaseProxy, Proxy {
         }
     }
 }
+
 public final class KdeServerDecoration: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "org_kde_kwin_server_decoration",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "request_mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Release The Server Decoration Object
     /// 
@@ -223,6 +221,7 @@ public final class KdeServerDecoration: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let ServerDecorationProtocol = Protocol(
         name: "server_decoration",

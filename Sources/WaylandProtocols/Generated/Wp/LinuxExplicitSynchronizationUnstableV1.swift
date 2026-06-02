@@ -24,32 +24,28 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_linux_explicit_synchronization_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_synchronization",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_linux_surface_synchronization_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_linux_surface_synchronization_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy Explicit Synchronization Factory Object
     /// 
@@ -117,6 +113,7 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Per-Surface Explicit Synchronization Support
 /// 
 /// This object implements per-surface explicit synchronization.
@@ -150,36 +147,32 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_linux_surface_synchronization_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_acquire_fence",
                     arguments: [
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_release",
                     arguments: [
-                    Argument(
-                        name: "release",
-                        type: .newId,
-                        interface: "zwp_linux_buffer_release_v1",
-                    ),
+                        Argument(
+                            name: "release",
+                            type: .newId,
+                            interface: "zwp_linux_buffer_release_v1",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy Synchronization Object
     /// 
@@ -294,6 +287,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Buffer Release Explicit Synchronization
 /// 
 /// This object is instantiated in response to a
@@ -315,27 +309,23 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_linux_buffer_release_v1",
             version: 1,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "fenced_release",
                     type: .destructor,
                     arguments: [
-                    Argument(
-                        name: "fence",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "fence",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "immediate_release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -382,6 +372,7 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let ZwpLinuxExplicitSynchronizationUnstableV1Protocol = Protocol(
         name: "zwp_linux_explicit_synchronization_unstable_v1",

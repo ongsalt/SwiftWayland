@@ -13,35 +13,32 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
         Interface(
             name: "kde_output_device_registry_v2",
             version: 23,
-            enums: [],
             requests: [
                 Message(
                     name: "stop",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 21
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "finished",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 21
                 ),
                 Message(
                     name: "output",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .newId,
-                        interface: "kde_output_device_v2",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .newId,
+                            interface: "kde_output_device_v2",
+                        ),
                     ],
                     since: 21
                 ),
-                ],
+            ]
         )
     /// Stop Receiving Updates
     /// 
@@ -93,6 +90,7 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// Output Configuration Representation
 /// 
 /// An output device describes a display device available to the compositor.
@@ -118,446 +116,442 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         Interface(
             name: "kde_output_device_v2",
             version: 23,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 21
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "geometry",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "physical_width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "physical_height",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "subpixel",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "make",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "model",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "transform",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "physical_width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "physical_height",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "subpixel",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "make",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "model",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "transform",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "current_mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .object,
-                        interface: "kde_output_device_mode_v2",
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .object,
+                            interface: "kde_output_device_mode_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "mode",
                     arguments: [
-                    Argument(
-                        name: "mode",
-                        type: .newId,
-                        interface: "kde_output_device_mode_v2",
-                    ),
+                        Argument(
+                            name: "mode",
+                            type: .newId,
+                            interface: "kde_output_device_mode_v2",
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "scale",
                     arguments: [
-                    Argument(
-                        name: "factor",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "factor",
+                            type: .fixed,
+                        ),
                     ],
                 ),
                 Message(
                     name: "edid",
                     arguments: [
-                    Argument(
-                        name: "raw",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "raw",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "enabled",
                     arguments: [
-                    Argument(
-                        name: "enabled",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "enabled",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "uuid",
                     arguments: [
-                    Argument(
-                        name: "uuid",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "uuid",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "serial_number",
                     arguments: [
-                    Argument(
-                        name: "serialNumber",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "serialNumber",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "eisa_id",
                     arguments: [
-                    Argument(
-                        name: "eisaId",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "eisaId",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "capabilities",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "overscan",
                     arguments: [
-                    Argument(
-                        name: "overscan",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "overscan",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "vrr_policy",
                     arguments: [
-                    Argument(
-                        name: "vrr_policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "vrr_policy",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "rgb_range",
                     arguments: [
-                    Argument(
-                        name: "rgb_range",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "rgb_range",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "high_dynamic_range",
                     arguments: [
-                    Argument(
-                        name: "hdr_enabled",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "hdr_enabled",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "sdr_brightness",
                     arguments: [
-                    Argument(
-                        name: "sdr_brightness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "sdr_brightness",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "wide_color_gamut",
                     arguments: [
-                    Argument(
-                        name: "wcg_enabled",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "wcg_enabled",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
                 Message(
                     name: "auto_rotate_policy",
                     arguments: [
-                    Argument(
-                        name: "policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "policy",
+                            type: .uint,
+                        ),
                     ],
                     since: 4
                 ),
                 Message(
                     name: "icc_profile_path",
                     arguments: [
-                    Argument(
-                        name: "profile_path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "profile_path",
+                            type: .string,
+                        ),
                     ],
                     since: 5
                 ),
                 Message(
                     name: "brightness_metadata",
                     arguments: [
-                    Argument(
-                        name: "max_peak_brightness",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "max_frame_average_brightness",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "min_brightness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "max_peak_brightness",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "max_frame_average_brightness",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "min_brightness",
+                            type: .uint,
+                        ),
                     ],
                     since: 6
                 ),
                 Message(
                     name: "brightness_overrides",
                     arguments: [
-                    Argument(
-                        name: "max_peak_brightness",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "max_average_brightness",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "min_brightness",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "max_peak_brightness",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "max_average_brightness",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "min_brightness",
+                            type: .int,
+                        ),
                     ],
                     since: 6
                 ),
                 Message(
                     name: "sdr_gamut_wideness",
                     arguments: [
-                    Argument(
-                        name: "gamut_wideness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "gamut_wideness",
+                            type: .uint,
+                        ),
                     ],
                     since: 6
                 ),
                 Message(
                     name: "color_profile_source",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .uint,
+                        ),
                     ],
                     since: 7
                 ),
                 Message(
                     name: "brightness",
                     arguments: [
-                    Argument(
-                        name: "brightness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "brightness",
+                            type: .uint,
+                        ),
                     ],
                     since: 8
                 ),
                 Message(
                     name: "color_power_tradeoff",
                     arguments: [
-                    Argument(
-                        name: "preference",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "preference",
+                            type: .uint,
+                        ),
                     ],
                     since: 10
                 ),
                 Message(
                     name: "dimming",
                     arguments: [
-                    Argument(
-                        name: "multiplier",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "multiplier",
+                            type: .uint,
+                        ),
                     ],
                     since: 11
                 ),
                 Message(
                     name: "replication_source",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .string,
+                        ),
                     ],
                     since: 13
                 ),
                 Message(
                     name: "ddc_ci_allowed",
                     arguments: [
-                    Argument(
-                        name: "allowed",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "allowed",
+                            type: .uint,
+                        ),
                     ],
                     since: 14
                 ),
                 Message(
                     name: "max_bits_per_color",
                     arguments: [
-                    Argument(
-                        name: "max_bpc",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "max_bpc",
+                            type: .uint,
+                        ),
                     ],
                     since: 15
                 ),
                 Message(
                     name: "max_bits_per_color_range",
                     arguments: [
-                    Argument(
-                        name: "min_value",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "max_value",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "min_value",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "max_value",
+                            type: .uint,
+                        ),
                     ],
                     since: 15
                 ),
                 Message(
                     name: "automatic_max_bits_per_color_limit",
                     arguments: [
-                    Argument(
-                        name: "max_bpc_limit",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "max_bpc_limit",
+                            type: .uint,
+                        ),
                     ],
                     since: 15
                 ),
                 Message(
                     name: "edr_policy",
                     arguments: [
-                    Argument(
-                        name: "policy",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "policy",
+                            type: .uint,
+                        ),
                     ],
                     since: 16
                 ),
                 Message(
                     name: "sharpness",
                     arguments: [
-                    Argument(
-                        name: "sharpness",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "sharpness",
+                            type: .uint,
+                        ),
                     ],
                     since: 17
                 ),
                 Message(
                     name: "priority",
                     arguments: [
-                    Argument(
-                        name: "priority",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "priority",
+                            type: .uint,
+                        ),
                     ],
                     since: 18
                 ),
                 Message(
                     name: "auto_brightness",
                     arguments: [
-                    Argument(
-                        name: "enabled",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "enabled",
+                            type: .uint,
+                        ),
                     ],
                     since: 20
                 ),
                 Message(
                     name: "removed",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 21
                 ),
                 Message(
                     name: "hdr_icc_profile_path",
                     arguments: [
-                    Argument(
-                        name: "profile_path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "profile_path",
+                            type: .string,
+                        ),
                     ],
                     since: 22
                 ),
                 Message(
                     name: "hdr_color_profile_source",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .uint,
+                        ),
                     ],
                     since: 22
                 ),
                 Message(
                     name: "abm_level",
                     arguments: [
-                    Argument(
-                        name: "level",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "level",
+                            type: .uint,
+                        ),
                     ],
                     since: 23
                 ),
-                ],
+            ]
         )
     /// Destroy The Output Device
     /// 
@@ -1092,6 +1086,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         }
     }
 }
+
 /// Output Mode
 /// 
 /// This object describes an output mode.
@@ -1106,53 +1101,48 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
         Interface(
             name: "kde_output_device_mode_v2",
             version: 22,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "size",
                     arguments: [
-                    Argument(
-                        name: "width",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "width",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "refresh",
                     arguments: [
-                    Argument(
-                        name: "refresh",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "refresh",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "preferred",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "removed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "flags",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                     since: 19
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -1216,6 +1206,7 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let KdeOutputDeviceV2Protocol = Protocol(
         name: "kde_output_device_v2",

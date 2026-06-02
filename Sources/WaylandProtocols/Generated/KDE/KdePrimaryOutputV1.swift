@@ -16,27 +16,25 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
         Interface(
             name: "kde_primary_output_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 2
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "primary_output",
                     arguments: [
-                    Argument(
-                        name: "output_name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "output_name",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Primary Output Notifier.
     /// 
@@ -86,6 +84,7 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let KdePrimaryOutputV1Protocol = Protocol(
         name: "kde_primary_output_v1",

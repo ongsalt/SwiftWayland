@@ -11,37 +11,33 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_keyboard_shortcuts_inhibit_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "inhibit_shortcuts",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_keyboard_shortcuts_inhibitor_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_keyboard_shortcuts_inhibitor_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Keyboard Shortcuts Inhibitor Object
     /// 
@@ -102,6 +98,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Context Object For Keyboard Shortcuts Inhibitor
 /// 
 /// A keyboard shortcuts inhibitor instructs the compositor to ignore
@@ -138,27 +135,23 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_keyboard_shortcuts_inhibitor_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "active",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "inactive",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Keyboard Shortcuts Inhibitor Object
     /// 
@@ -223,6 +216,7 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let KeyboardShortcutsInhibitUnstableV1Protocol = Protocol(
         name: "keyboard_shortcuts_inhibit_unstable_v1",

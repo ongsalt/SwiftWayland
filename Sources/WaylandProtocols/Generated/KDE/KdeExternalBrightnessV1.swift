@@ -14,27 +14,23 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
         Interface(
             name: "kde_external_brightness_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "create_brightness_control",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "kde_external_brightness_device_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "kde_external_brightness_device_v1",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Object.
     /// 
@@ -81,6 +77,7 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Brightness Control Device
 /// 
 /// After creating this object, the client should issue all relevant setup requests
@@ -93,78 +90,75 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
         Interface(
             name: "kde_external_brightness_device_v1",
             version: 3,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_internal",
                     arguments: [
-                    Argument(
-                        name: "internal",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "internal",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_edid",
                     arguments: [
-                    Argument(
-                        name: "string",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "string",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_max_brightness",
                     arguments: [
-                    Argument(
-                        name: "value",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "value",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "commit",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_observed_brightness",
                     arguments: [
-                    Argument(
-                        name: "value",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "value",
+                            type: .uint,
+                        ),
                     ],
                     since: 2
                 ),
                 Message(
                     name: "set_uses_ddc_ci",
                     arguments: [
-                    Argument(
-                        name: "value",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "value",
+                            type: .uint,
+                        ),
                     ],
                     since: 3
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "requested_brightness",
                     arguments: [
-                    Argument(
-                        name: "value",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "value",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Object And Unregister The Brightness Control Device
     /// 
@@ -297,6 +291,7 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let KdeExternalBrightnessV1Protocol = Protocol(
         name: "kde_external_brightness_v1",

@@ -12,62 +12,58 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_input_timestamps_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_keyboard_timestamps",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_input_timestamps_v1",
-                    ),
-                    Argument(
-                        name: "keyboard",
-                        type: .object,
-                        interface: "wl_keyboard",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_input_timestamps_v1",
+                        ),
+                        Argument(
+                            name: "keyboard",
+                            type: .object,
+                            interface: "wl_keyboard",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_pointer_timestamps",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_input_timestamps_v1",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_input_timestamps_v1",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_touch_timestamps",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_input_timestamps_v1",
-                    ),
-                    Argument(
-                        name: "touch",
-                        type: .object,
-                        interface: "wl_touch",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_input_timestamps_v1",
+                        ),
+                        Argument(
+                            name: "touch",
+                            type: .object,
+                            interface: "wl_touch",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Input Timestamps Manager Object
     /// 
@@ -170,6 +166,7 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Context Object For Input Timestamps
 /// 
 /// Provides high-resolution timestamp events for a set of subscribed input
@@ -181,34 +178,32 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_input_timestamps_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "timestamp",
                     arguments: [
-                    Argument(
-                        name: "tv_sec_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_sec_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_nsec",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tv_sec_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_sec_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_nsec",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Input Timestamps Object
     /// 
@@ -270,6 +265,7 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let InputTimestampsUnstableV1Protocol = Protocol(
         name: "input_timestamps_unstable_v1",

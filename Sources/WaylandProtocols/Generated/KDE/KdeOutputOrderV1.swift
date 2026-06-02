@@ -16,31 +16,28 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
         Interface(
             name: "kde_output_order_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "output",
                     arguments: [
-                    Argument(
-                        name: "output_name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "output_name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Output Order Notifier.
     /// 
@@ -96,6 +93,7 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let KdeOutputOrderV1Protocol = Protocol(
         name: "kde_output_order_v1",

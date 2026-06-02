@@ -12,42 +12,38 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_data_control_manager_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "create_data_source",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_data_control_source_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_data_control_source_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_data_device",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_data_control_device_v1",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_data_control_device_v1",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Create A New Data Source
     /// 
@@ -112,6 +108,7 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Manage A Data Device For A Seat
 /// 
 /// This interface allows a client to manage a seat's selection.
@@ -122,78 +119,75 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_data_control_device_v1",
             version: 2,
-            enums: [],
             requests: [
                 Message(
                     name: "set_selection",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .object,
-                        interface: "zwlr_data_control_source_v1",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .object,
+                            interface: "zwlr_data_control_source_v1",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_primary_selection",
                     arguments: [
-                    Argument(
-                        name: "source",
-                        type: .object,
-                        interface: "zwlr_data_control_source_v1",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "source",
+                            type: .object,
+                            interface: "zwlr_data_control_source_v1",
+                            nullable: true,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "data_offer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwlr_data_control_offer_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwlr_data_control_offer_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "selection",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .object,
-                        interface: "zwlr_data_control_offer_v1",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .object,
+                            interface: "zwlr_data_control_offer_v1",
+                            nullable: true,
+                        ),
                     ],
                 ),
                 Message(
                     name: "finished",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "primary_selection",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .object,
-                        interface: "zwlr_data_control_offer_v1",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .object,
+                            interface: "zwlr_data_control_offer_v1",
+                            nullable: true,
+                        ),
                     ],
                     since: 2
                 ),
-                ],
+            ]
         )
     /// Copy Data To The Selection
     /// 
@@ -334,6 +328,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Offer To Transfer Data
 /// 
 /// The wlr_data_control_source object is the source side of a
@@ -346,44 +341,41 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_data_control_source_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "offer",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "send",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "cancelled",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Add An Offered Mime Type
     /// 
@@ -463,6 +455,7 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Offer To Transfer Data
 /// 
 /// A wlr_data_control_offer represents a piece of data offered for transfer
@@ -475,39 +468,37 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
         Interface(
             name: "zwlr_data_control_offer_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "receive",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "offer",
                     arguments: [
-                    Argument(
-                        name: "mime_type",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "mime_type",
+                            type: .string,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Request That The Data Is Transferred
     /// 
@@ -579,6 +570,7 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let WlrDataControlUnstableV1Protocol = Protocol(
         name: "wlr_data_control_unstable_v1",

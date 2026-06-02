@@ -20,36 +20,32 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
         Interface(
             name: "kde_screen_edge_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_auto_hide_screen_edge",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "kde_auto_hide_screen_edge_v1",
-                    ),
-                    Argument(
-                        name: "border",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "kde_auto_hide_screen_edge_v1",
+                        ),
+                        Argument(
+                            name: "border",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Screen Edge Manager
     /// 
@@ -138,6 +134,7 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Auto Hide Screen Edge
 /// 
 /// The auto hide screen edge object allows to hide the surface and make it
@@ -157,27 +154,21 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
         Interface(
             name: "kde_auto_hide_screen_edge_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "deactivate",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "activate",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Auto Hide Screen Edge Object
     /// 
@@ -232,6 +223,7 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let KdeScreenEdgeV1Protocol = Protocol(
         name: "kde_screen_edge_v1",

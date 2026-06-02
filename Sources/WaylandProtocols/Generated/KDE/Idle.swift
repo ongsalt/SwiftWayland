@@ -16,30 +16,27 @@ public final class KdeIdle: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_idle",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get_idle_timeout",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_idle_timeout",
-                    ),
-                    Argument(
-                        name: "seat",
-                        type: .object,
-                        interface: "wl_seat",
-                    ),
-                    Argument(
-                        name: "timeout",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_idle_timeout",
+                        ),
+                        Argument(
+                            name: "seat",
+                            type: .object,
+                            interface: "wl_seat",
+                        ),
+                        Argument(
+                            name: "timeout",
+                            type: .uint,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -63,38 +60,34 @@ public final class KdeIdle: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 public final class KdeIdleTimeout: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "org_kde_kwin_idle_timeout",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "simulate_user_activity",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "idle",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "resumed",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Release The Timeout Object
     /// 
@@ -159,6 +152,7 @@ public final class KdeIdleTimeout: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let IdleProtocol = Protocol(
         name: "idle",

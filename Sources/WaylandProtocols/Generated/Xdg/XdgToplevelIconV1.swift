@@ -12,57 +12,54 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_toplevel_icon_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "create_icon",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "xdg_toplevel_icon_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "xdg_toplevel_icon_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_icon",
                     arguments: [
-                    Argument(
-                        name: "toplevel",
-                        type: .object,
-                        interface: "xdg_toplevel",
-                    ),
-                    Argument(
-                        name: "icon",
-                        type: .object,
-                        interface: "xdg_toplevel_icon_v1",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "toplevel",
+                            type: .object,
+                            interface: "xdg_toplevel",
+                        ),
+                        Argument(
+                            name: "icon",
+                            type: .object,
+                            interface: "xdg_toplevel_icon_v1",
+                            nullable: true,
+                        ),
                     ],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "icon_size",
                     arguments: [
-                    Argument(
-                        name: "size",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "size",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Toplevel Icon Manager
     /// 
@@ -171,6 +168,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Toplevel Window Icon
 /// 
 /// This interface defines a toplevel icon.
@@ -186,40 +184,36 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
         Interface(
             name: "xdg_toplevel_icon_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "set_name",
                     arguments: [
-                    Argument(
-                        name: "icon_name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "icon_name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "add_buffer",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .object,
-                        interface: "wl_buffer",
-                    ),
-                    Argument(
-                        name: "scale",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .object,
+                            interface: "wl_buffer",
+                        ),
+                        Argument(
+                            name: "scale",
+                            type: .int,
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Icon Object
     /// 
@@ -321,6 +315,7 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let XdgToplevelIconV1Protocol = Protocol(
         name: "xdg_toplevel_icon_v1",

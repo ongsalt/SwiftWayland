@@ -35,56 +35,52 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
         Interface(
             name: "wp_drm_lease_device_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "create_lease_request",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_drm_lease_request_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_drm_lease_request_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "drm_fd",
                     arguments: [
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "connector",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_drm_lease_connector_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_drm_lease_connector_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "released",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Create A Lease Request Object
     /// 
@@ -180,6 +176,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// A Leasable Drm Connector
 /// 
 /// Represents a DRM connector which is available for lease. These objects are
@@ -195,54 +192,50 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
         Interface(
             name: "wp_drm_lease_connector_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "name",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "description",
                     arguments: [
-                    Argument(
-                        name: "description",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "description",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "connector_id",
                     arguments: [
-                    Argument(
-                        name: "connector_id",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "connector_id",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "withdrawn",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy Connector
     /// 
@@ -346,6 +339,7 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
         }
     }
 }
+
 /// Drm Lease Request
 /// 
 /// A client that wishes to lease DRM resources will attach the list of
@@ -358,32 +352,29 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
         Interface(
             name: "wp_drm_lease_request_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "request_connector",
                     arguments: [
-                    Argument(
-                        name: "connector",
-                        type: .object,
-                        interface: "wp_drm_lease_connector_v1",
-                    ),
+                        Argument(
+                            name: "connector",
+                            type: .object,
+                            interface: "wp_drm_lease_connector_v1",
+                        ),
                     ],
                 ),
                 Message(
                     name: "submit",
                     type: .destructor,
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_drm_lease_v1",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_drm_lease_v1",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Request A Connector For This Lease
     /// 
@@ -443,6 +434,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// A Drm Lease
 /// 
 /// A DRM lease object is used to transfer the DRM file descriptor to the
@@ -458,31 +450,28 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
         Interface(
             name: "wp_drm_lease_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "lease_fd",
                     arguments: [
-                    Argument(
-                        name: "leased_fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "leased_fd",
+                            type: .fd,
+                        ),
                     ],
                 ),
                 Message(
                     name: "finished",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroys The Lease Object
     /// 
@@ -560,6 +549,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let DrmLeaseV1Protocol = Protocol(
         name: "drm_lease_v1",

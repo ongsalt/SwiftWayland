@@ -27,32 +27,28 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_commit_timing_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_timer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "wp_commit_timer_v1",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "wp_commit_timer_v1",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Unbind From The Commit Timing Interface
     /// 
@@ -111,6 +107,7 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Surface Commit Timer
 /// 
 /// An object to set a time constraint for a content update on a surface.
@@ -120,34 +117,30 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
         Interface(
             name: "wp_commit_timer_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_timestamp",
                     arguments: [
-                    Argument(
-                        name: "tv_sec_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_sec_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "tv_nsec",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "tv_sec_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_sec_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "tv_nsec",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Specify Time The Following Commit Takes Effect
     /// 
@@ -221,6 +214,7 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let CommitTimingV1Protocol = Protocol(
         name: "commit_timing_v1",

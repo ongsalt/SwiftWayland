@@ -12,32 +12,28 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_relative_pointer_manager_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "get_relative_pointer",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "zwp_relative_pointer_v1",
-                    ),
-                    Argument(
-                        name: "pointer",
-                        type: .object,
-                        interface: "wl_pointer",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "zwp_relative_pointer_v1",
+                        ),
+                        Argument(
+                            name: "pointer",
+                            type: .object,
+                            interface: "wl_pointer",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Destroy The Relative Pointer Manager Object
     /// 
@@ -89,6 +85,7 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 /// Relative Pointer Object
 /// 
 /// A wp_relative_pointer object is an extension to the wl_pointer interface
@@ -101,46 +98,44 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
         Interface(
             name: "zwp_relative_pointer_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "relative_motion",
                     arguments: [
-                    Argument(
-                        name: "utime_hi",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "utime_lo",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "dx",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "dy",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "dx_unaccel",
-                        type: .fixed,
-                    ),
-                    Argument(
-                        name: "dy_unaccel",
-                        type: .fixed,
-                    ),
+                        Argument(
+                            name: "utime_hi",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "utime_lo",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "dx",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "dy",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "dx_unaccel",
+                            type: .fixed,
+                        ),
+                        Argument(
+                            name: "dy_unaccel",
+                            type: .fixed,
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Release The Relative Pointer Object
     /// 
@@ -213,6 +208,7 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let RelativePointerUnstableV1Protocol = Protocol(
         name: "relative_pointer_unstable_v1",

@@ -19,118 +19,116 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
         Interface(
             name: "org_kde_plasma_window_management",
             version: 20,
-            enums: [],
             requests: [
                 Message(
                     name: "show_desktop",
                     arguments: [
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_window",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_plasma_window",
-                    ),
-                    Argument(
-                        name: "internal_window_id",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_plasma_window",
+                        ),
+                        Argument(
+                            name: "internal_window_id",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "get_window_by_uuid",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_plasma_window",
-                    ),
-                    Argument(
-                        name: "internal_window_uuid",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_plasma_window",
+                        ),
+                        Argument(
+                            name: "internal_window_uuid",
+                            type: .string,
+                        ),
                     ],
                     since: 12
                 ),
                 Message(
                     name: "get_stacking_order",
                     arguments: [
-                    Argument(
-                        name: "stacking_order",
-                        type: .newId,
-                        interface: "org_kde_plasma_stacking_order",
-                    ),
+                        Argument(
+                            name: "stacking_order",
+                            type: .newId,
+                            interface: "org_kde_plasma_stacking_order",
+                        ),
                     ],
                     since: 17
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "show_desktop_changed",
                     arguments: [
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "window",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "stacking_order_changed",
                     arguments: [
-                    Argument(
-                        name: "ids",
-                        type: .array,
-                    ),
+                        Argument(
+                            name: "ids",
+                            type: .array,
+                        ),
                     ],
                     since: 11
                 ),
                 Message(
                     name: "stacking_order_uuid_changed",
                     arguments: [
-                    Argument(
-                        name: "uuids",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "uuids",
+                            type: .string,
+                        ),
                     ],
                     since: 12
                 ),
                 Message(
                     name: "window_with_uuid",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "uuid",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "uuid",
+                            type: .string,
+                        ),
                     ],
                     since: 13
                 ),
                 Message(
                     name: "stacking_order_changed_2",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 17
                 ),
-                ],
+            ]
         )
     /// Show/Hide The Desktop
     /// 
@@ -301,6 +299,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
         }
     }
 }
+
 /// Interface To Control Application Windows
 /// 
 /// Manages and control an application window.
@@ -311,351 +310,342 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
         Interface(
             name: "org_kde_plasma_window",
             version: 20,
-            enums: [],
             requests: [
                 Message(
                     name: "set_state",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "state",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "state",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_virtual_desktop",
                     arguments: [
-                    Argument(
-                        name: "number",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "number",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "set_minimized_geometry",
                     arguments: [
-                    Argument(
-                        name: "panel",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
-                    Argument(
-                        name: "x",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "panel",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
+                        Argument(
+                            name: "x",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "unset_minimized_geometry",
                     arguments: [
-                    Argument(
-                        name: "panel",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "panel",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "close",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "request_move",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
                 Message(
                     name: "request_resize",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 3
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 4
                 ),
                 Message(
                     name: "get_icon",
                     arguments: [
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
                     ],
                     since: 7
                 ),
                 Message(
                     name: "request_enter_virtual_desktop",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .string,
+                        ),
                     ],
                     since: 8
                 ),
                 Message(
                     name: "request_enter_new_virtual_desktop",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 8
                 ),
                 Message(
                     name: "request_leave_virtual_desktop",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .string,
+                        ),
                     ],
                     since: 8
                 ),
                 Message(
                     name: "request_enter_activity",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .string,
+                        ),
                     ],
                     since: 14
                 ),
                 Message(
                     name: "request_leave_activity",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .string,
+                        ),
                     ],
                     since: 14
                 ),
                 Message(
                     name: "send_to_output",
                     arguments: [
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                     since: 15
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "title_changed",
                     arguments: [
-                    Argument(
-                        name: "title",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "title",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "app_id_changed",
                     arguments: [
-                    Argument(
-                        name: "app_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "app_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "state_changed",
                     arguments: [
-                    Argument(
-                        name: "flags",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "flags",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "virtual_desktop_changed",
                     arguments: [
-                    Argument(
-                        name: "number",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "number",
+                            type: .int,
+                        ),
                     ],
                 ),
                 Message(
                     name: "themed_icon_name_changed",
                     arguments: [
-                    Argument(
-                        name: "name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "name",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "unmapped",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
                 Message(
                     name: "initial_state",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 4
                 ),
                 Message(
                     name: "parent_window",
                     arguments: [
-                    Argument(
-                        name: "parent",
-                        type: .object,
-                        interface: "org_kde_plasma_window",
-                        nullable: true,
-                    ),
+                        Argument(
+                            name: "parent",
+                            type: .object,
+                            interface: "org_kde_plasma_window",
+                            nullable: true,
+                        ),
                     ],
                     since: 5
                 ),
                 Message(
                     name: "geometry",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                     since: 6
                 ),
                 Message(
                     name: "icon_changed",
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 7
                 ),
                 Message(
                     name: "pid_changed",
                     arguments: [
-                    Argument(
-                        name: "pid",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "pid",
+                            type: .uint,
+                        ),
                     ],
                 ),
                 Message(
                     name: "virtual_desktop_entered",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .string,
+                        ),
                     ],
                     since: 8
                 ),
                 Message(
                     name: "virtual_desktop_left",
                     arguments: [
-                    Argument(
-                        name: "is",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "is",
+                            type: .string,
+                        ),
                     ],
                     since: 8
                 ),
                 Message(
                     name: "application_menu",
                     arguments: [
-                    Argument(
-                        name: "service_name",
-                        type: .string,
-                    ),
-                    Argument(
-                        name: "object_path",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "service_name",
+                            type: .string,
+                        ),
+                        Argument(
+                            name: "object_path",
+                            type: .string,
+                        ),
                     ],
                     since: 10
                 ),
                 Message(
                     name: "activity_entered",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .string,
+                        ),
                     ],
                     since: 14
                 ),
                 Message(
                     name: "activity_left",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .string,
+                        ),
                     ],
                     since: 14
                 ),
                 Message(
                     name: "resource_name_changed",
                     arguments: [
-                    Argument(
-                        name: "resource_name",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "resource_name",
+                            type: .string,
+                        ),
                     ],
                     since: 16
                 ),
                 Message(
                     name: "client_geometry",
                     arguments: [
-                    Argument(
-                        name: "x",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "y",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "x",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "y",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
                     ],
                     since: 18
                 ),
-                ],
+            ]
         )
     /// Set Window State
     /// 
@@ -1034,6 +1024,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
         }
     }
 }
+
 /// Activation Feedback
 /// 
 /// The activation manager interface provides a way to get notified
@@ -1044,27 +1035,25 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
         Interface(
             name: "org_kde_plasma_activation_feedback",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "activation",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_plasma_activation",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_plasma_activation",
+                        ),
                     ],
                 ),
-                ],
+            ]
         )
     /// Destroy The Activation Manager Object
     /// 
@@ -1116,37 +1105,35 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
         }
     }
 }
+
 public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
         Interface(
             name: "org_kde_plasma_activation",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "app_id",
                     arguments: [
-                    Argument(
-                        name: "app_id",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "app_id",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "finished",
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     /// Destroy The Org_Kde_Plasma_Activation Object
     /// 
@@ -1203,6 +1190,7 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
         }
     }
 }
+
 /// Helper Object For Sending The Stacking Order
 /// 
 /// When this object is created, the compositor sends a window event for
@@ -1214,26 +1202,22 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
         Interface(
             name: "org_kde_plasma_stacking_order",
             version: 17,
-            enums: [],
-            requests: [
-                ],
             events: [
                 Message(
                     name: "window",
                     arguments: [
-                    Argument(
-                        name: "uuid",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "uuid",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "done",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ]
         )
     
     @_spi(SwiftWaylandPrivate)
@@ -1264,6 +1248,7 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let PlasmaWindowManagementProtocol = Protocol(
         name: "plasma_window_management",

@@ -31,8 +31,8 @@ public struct Interface: Codable, Sendable {
     public let events: [Event]
 
     public init(
-        name: String, version: UInt32, description: Description? = nil, enums: [Enum],
-        requests: [Message], events: [Event]
+        name: String, version: UInt32, description: Description? = nil, enums: [Enum] = [],
+        requests: [Message] = [], events: [Event] = []
     ) {
         self.name = name
         self.version = version

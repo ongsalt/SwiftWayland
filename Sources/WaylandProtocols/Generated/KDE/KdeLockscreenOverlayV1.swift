@@ -16,27 +16,23 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
         Interface(
             name: "kde_lockscreen_overlay_v1",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "allow",
                     arguments: [
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Tell About Which Surface Could Be Raised Above The Lockscreen
     /// 
@@ -88,6 +84,7 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let KdeLockscreenOverlayV1Protocol = Protocol(
         name: "kde_lockscreen_overlay_v1",

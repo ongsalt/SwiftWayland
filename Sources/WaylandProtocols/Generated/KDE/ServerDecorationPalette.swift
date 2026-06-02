@@ -11,26 +11,23 @@ public final class KdeServerDecorationPaletteManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_server_decoration_palette_manager",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "create",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .newId,
-                        interface: "org_kde_kwin_server_decoration_palette",
-                    ),
-                    Argument(
-                        name: "surface",
-                        type: .object,
-                        interface: "wl_surface",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .newId,
+                            interface: "org_kde_kwin_server_decoration_palette",
+                        ),
+                        Argument(
+                            name: "surface",
+                            type: .object,
+                            interface: "wl_surface",
+                        ),
                     ],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// 
     /// - Parameters:
@@ -52,6 +49,7 @@ public final class KdeServerDecorationPaletteManager: BaseProxy, Proxy {
     
     public typealias Event = NoEvent
 }
+
 /// Server Side Decoration Palette Interface
 /// 
 /// This interface allows a client to alter the palette of a server side decoration.
@@ -61,26 +59,22 @@ public final class KdeServerDecorationPalette: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_server_decoration_palette",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "set_palette",
                     arguments: [
-                    Argument(
-                        name: "palette",
-                        type: .string,
-                    ),
+                        Argument(
+                            name: "palette",
+                            type: .string,
+                        ),
                     ],
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
-            events: [
-                ],
+            ],
         )
     /// Set A On The Server Side Window Decoration
     /// 
@@ -130,6 +124,7 @@ public final class KdeServerDecorationPalette: BaseProxy, Proxy {
 
     public typealias Event = NoEvent
 }
+
 
 public let ServerDecorationPaletteProtocol = Protocol(
         name: "server_decoration_palette",

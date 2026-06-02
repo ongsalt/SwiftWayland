@@ -11,47 +11,45 @@ public final class KdeRemoteAccessManager: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_remote_access_manager",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "get_buffer",
                     arguments: [
-                    Argument(
-                        name: "buffer",
-                        type: .newId,
-                        interface: "org_kde_kwin_remote_buffer",
-                    ),
-                    Argument(
-                        name: "internal_buffer_id",
-                        type: .int,
-                    ),
+                        Argument(
+                            name: "buffer",
+                            type: .newId,
+                            interface: "org_kde_kwin_remote_buffer",
+                        ),
+                        Argument(
+                            name: "internal_buffer_id",
+                            type: .int,
+                        ),
                     ],
                     since: 1
                 ),
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "buffer_ready",
                     arguments: [
-                    Argument(
-                        name: "id",
-                        type: .int,
-                    ),
-                    Argument(
-                        name: "output",
-                        type: .object,
-                        interface: "wl_output",
-                    ),
+                        Argument(
+                            name: "id",
+                            type: .int,
+                        ),
+                        Argument(
+                            name: "output",
+                            type: .object,
+                            interface: "wl_output",
+                        ),
                     ],
                     since: 1
                 ),
-                ],
+            ]
         )
     /// Answer On Buffer_Ready Event, Retrieves New Buffer From Server
     /// 
@@ -117,6 +115,7 @@ public final class KdeRemoteAccessManager: BaseProxy, Proxy {
         }
     }
 }
+
 /// This Interface Allows Finer Control Of Remote Buffer Lifecycle
 /// 
 /// 
@@ -126,44 +125,42 @@ public final class KdeRemoteBuffer: BaseProxy, Proxy {
         Interface(
             name: "org_kde_kwin_remote_buffer",
             version: 1,
-            enums: [],
             requests: [
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [
-                    ],
+                    arguments: [],
                     since: 1
                 ),
-                ],
+            ],
             events: [
                 Message(
                     name: "gbm_handle",
                     arguments: [
-                    Argument(
-                        name: "fd",
-                        type: .fd,
-                    ),
-                    Argument(
-                        name: "width",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "height",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "stride",
-                        type: .uint,
-                    ),
-                    Argument(
-                        name: "format",
-                        type: .uint,
-                    ),
+                        Argument(
+                            name: "fd",
+                            type: .fd,
+                        ),
+                        Argument(
+                            name: "width",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "height",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "stride",
+                            type: .uint,
+                        ),
+                        Argument(
+                            name: "format",
+                            type: .uint,
+                        ),
                     ],
                     since: 1
                 ),
-                ],
+            ]
         )
     /// This Request Comes Once Client No Longer Needs This Buffer.
     /// 
@@ -213,6 +210,7 @@ public final class KdeRemoteBuffer: BaseProxy, Proxy {
         }
     }
 }
+
 
 public let RemoteAccessProtocol = Protocol(
         name: "remote_access",
