@@ -216,7 +216,7 @@ extension MethodDeclaration: Code {
                             gen << ".string(\(arg.name.gravedIfNeeded)),"
                         }
                     case .uint:
-                        var rawValueString = arg.arg.enum != nil ? ".rawValue" : ""
+                        let rawValueString = arg.arg.enum != nil ? ".rawValue" : ""
                         gen.add(
                             ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)\(rawValueString)),"
                         )
