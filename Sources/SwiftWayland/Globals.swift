@@ -18,7 +18,7 @@ public class Globals {
     }
     public private(set) var globals: [Global] = []
 
-    public init(connection: Connection) throws {
+    public init(connection: Connection, roundtrip: Bool = true) throws {
         self.registry = try connection.display.getRegistry()
         registry.onEvent = { event in
             switch event {
@@ -30,6 +30,10 @@ public class Globals {
                 // how do we handle this tho, destroy every object???
                 self.globals.removeAll(where: { $0.name == name })
             }
+        }
+
+        if roundtrip {
+            connection.roundtrip()
         }
     }
 
