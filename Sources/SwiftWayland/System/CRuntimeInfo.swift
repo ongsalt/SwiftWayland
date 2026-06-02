@@ -10,7 +10,9 @@ public final class CRuntimeInfo {
     // this is used in wl_proxy_create, wl_proxy_marshal_constructor_versioned (array ver. tho)
     public private(set) var interfaces: [String: UnsafePointer<wl_interface>] = [:]
 
-    // TODO: interfaces look up
+    init() {
+        // add(protocolName: "__Wayland", interfaces: [wl_display_interface, wl_registry_interface])
+    }
 
     @discardableResult
     public func addIfNotExists(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
@@ -19,6 +21,25 @@ public final class CRuntimeInfo {
         }
 
         return add(protocol: p)
+    }
+
+    @discardableResult
+    // special handling for wl_display and wl_registry
+    public func add(protocolName: String, interfaces: [wl_interface]) -> UnsafeBufferPointer<
+        wl_interface
+    > {
+        if let existed = protocolMap[protocolName] {
+            return UnsafeBufferPointer(existed)
+        }
+
+        let buffer = UnsafeMutableBufferPointer<wl_interface>.allocate(capacity: interfaces.count)
+        for (index, interface) in interfaces.enumerated() {
+            buffer[index] = interface
+            self.interfaces[String(cString: interface.name)] = UnsafePointer(
+                buffer.baseAddress?.advanced(by: index))
+        }
+
+        return UnsafeBufferPointer(buffer)
     }
 
     public func add(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
