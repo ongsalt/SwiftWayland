@@ -48,6 +48,7 @@ open class BaseProxy {
 
     package func markDead() {
         self.isAlive = false
+        self.connection.destroy(proxy: self)
     }
 
     @_spi(SwiftWaylandPrivate)

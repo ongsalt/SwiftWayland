@@ -173,8 +173,7 @@ public class Connection {
         return EventQueue(raw: handle!, display: rawDisplay)
     }
 
-    func destroy(proxy: some Proxy) {
-        (proxy as? BaseProxy)?.markDead()
+    func destroy(proxy: some BaseProxy) {
         knownProxies[proxy.id] = nil
         wl_proxy_destroy(proxy.raw)
     }
