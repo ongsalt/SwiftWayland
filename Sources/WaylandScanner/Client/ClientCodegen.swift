@@ -50,10 +50,7 @@ extension ClassDeclaration: Code {
             gen.add(
                 """
 
-                @_spi(SwiftWaylandPrivate)
-                override public class func ensureLoaded() {
-                    CRuntimeInfo.shared.addIfNotExists(protocol: \(self.protocolName.gravedIfNeeded)Protocol)
-                }
+                public static let `protocol`: Protocol = \(self.protocolName.gravedIfNeeded)Protocol
 
                 """
             )

@@ -79,10 +79,7 @@ public final class KdeRemoteAccessManager: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: RemoteAccessProtocol)
-    }
+    public static let `protocol`: Protocol = RemoteAccessProtocol
     
     var destructor: Destructor? = .release
 
@@ -174,10 +171,7 @@ public final class KdeRemoteBuffer: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: RemoteAccessProtocol)
-    }
+    public static let `protocol`: Protocol = RemoteAccessProtocol
     
     var destructor: Destructor? = .release
 

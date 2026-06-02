@@ -368,10 +368,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public enum Error: UInt32 {
         /// request not supported
@@ -640,10 +637,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -789,10 +783,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public enum Error: UInt32 {
         /// unsupported rendering intent
@@ -953,10 +944,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public enum Error: UInt32 {
         /// forbidden request on inert object
@@ -1148,10 +1136,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public enum Error: UInt32 {
         /// incomplete parameter set
@@ -1705,10 +1690,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public enum Error: UInt32 {
         /// incomplete parameter set
@@ -1846,10 +1828,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public enum Error: UInt32 {
         /// attempted to use an object which is not ready
@@ -2150,10 +2129,7 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public enum Event: Decodable {
         /// End Of Information
@@ -2318,10 +2294,7 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorManagementV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     var destructor: Destructor? = .destroy
 

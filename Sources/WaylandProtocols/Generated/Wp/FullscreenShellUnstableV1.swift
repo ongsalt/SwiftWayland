@@ -196,10 +196,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = FullscreenShellUnstableV1Protocol
     
     public enum Capability: UInt32 {
         /// compositor is capable of almost any output mode
@@ -297,10 +294,7 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = FullscreenShellUnstableV1Protocol
     
     public enum Event: Decodable {
         /// Mode Switch Succeeded

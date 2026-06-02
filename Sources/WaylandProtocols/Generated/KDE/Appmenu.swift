@@ -60,10 +60,7 @@ public final class KdeAppmenuManager: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: AppmenuProtocol)
-    }
+    public static let `protocol`: Protocol = AppmenuProtocol
     
     var destructor: Destructor? = .release
 
@@ -140,10 +137,7 @@ public final class KdeAppmenu: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: AppmenuProtocol)
-    }
+    public static let `protocol`: Protocol = AppmenuProtocol
     
     var destructor: Destructor? = .release
 

@@ -60,8 +60,8 @@ dnf install wayland-devel
 
 # Todos
 - think about raii
+- switch back to build tool plugin later
 - destructor event
 - better error handling in general
 - generate more documentation when returns multiple object (probably never????)
 - more version validation
-- kde and wlr protocol

@@ -57,10 +57,7 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeLockscreenOverlayV1Protocol)
-    }
+    public static let `protocol`: Protocol = KdeLockscreenOverlayV1Protocol
     
     public enum Error: UInt32 {
         /// the client provided an invalid surface state

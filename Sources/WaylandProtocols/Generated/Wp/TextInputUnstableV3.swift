@@ -486,10 +486,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3Protocol)
-    }
+    public static let `protocol`: Protocol = TextInputUnstableV3Protocol
     
     public enum ChangeCause: UInt32 {
         /// input method caused the change
@@ -859,10 +856,7 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV3Protocol)
-    }
+    public static let `protocol`: Protocol = TextInputUnstableV3Protocol
     
     var destructor: Destructor? = .destroy
 

@@ -68,10 +68,7 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1Protocol)
-    }
+    public static let `protocol`: Protocol = ContentTypeV1Protocol
     
     public enum Error: UInt32 {
         /// wl_surface already has a content type object
@@ -158,10 +155,7 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ContentTypeV1Protocol)
-    }
+    public static let `protocol`: Protocol = ContentTypeV1Protocol
     
     public enum `Type`: UInt32 {
         case `none` = 0

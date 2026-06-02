@@ -3,7 +3,6 @@ import Foundation
 import SwiftWaylandCommon
 
 public class Connection {
-    let runtimeInfo: CRuntimeInfo
     let rawDisplay: OpaquePointer
     public private(set) var mainQueue: EventQueue
     var knownProxies: [UInt32: any Proxy] = [:]
@@ -16,8 +15,7 @@ public class Connection {
     public private(set) lazy var display: WlDisplay = WlDisplay(
         id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
 
-    public init(runtimeInfo: CRuntimeInfo, rawDisplay: OpaquePointer) {
-        self.runtimeInfo = runtimeInfo
+    public init(rawDisplay: OpaquePointer) {
         self.rawDisplay = rawDisplay
         self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay), display: rawDisplay)
         knownQueues.append(mainQueue)
@@ -33,7 +31,7 @@ public class Connection {
     }
 
     public convenience init() {
-        self.init(runtimeInfo: CRuntimeInfo.shared, rawDisplay: wl_display_connect(nil))
+        self.init(rawDisplay: wl_display_connect(nil))
     }
 
     public func send(
@@ -90,10 +88,8 @@ public class Connection {
             wl_proxy_set_queue(rawParent, queue.raw)
         }
 
-        (T.self as? BaseProxy.Type)?.ensureLoaded()
-
-        let ptr = wl_proxy_create(rawParent, runtimeInfo.interfaces[type.interface.name]!)
-
+        let interface = T.ensureLoaded()
+        let ptr = wl_proxy_create(rawParent, interface)
         return createObj(type: type, ptr: ptr!, queue: queue ?? parent?.queue)
     }
 

@@ -182,10 +182,7 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellProtocol)
-    }
+    public static let `protocol`: Protocol = FullscreenShellProtocol
     
     public enum Capability: UInt32 {
         /// compositor is capable of almost any output mode
@@ -277,10 +274,7 @@ public final class WlFullscreenShellModeFeedback: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FullscreenShellProtocol)
-    }
+    public static let `protocol`: Protocol = FullscreenShellProtocol
     
     public enum Event: Decodable {
         /// Mode Switch Succeeded

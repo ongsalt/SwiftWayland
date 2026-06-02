@@ -1,9 +1,9 @@
 import CWayland
 import SwiftWaylandCommon
+import Synchronization
 
 public final class CRuntimeInfo {
-    // trustmebro
-    public nonisolated(unsafe) static var shared: CRuntimeInfo = CRuntimeInfo()
+    public static let shared = Mutex(CRuntimeInfo())
 
     // why did i do this
     var protocolMap: [String: UnsafeMutableBufferPointer<wl_interface>] = [:]
@@ -36,6 +36,7 @@ public final class CRuntimeInfo {
                 var typeArray: [UnsafePointer<wl_interface>?] = []
                 for arg in message.arguments {
                     if arg.type != .object && arg.type != .newId {
+                        typeArray.append(nil)
                         continue
                     }
 
@@ -93,12 +94,6 @@ public final class CRuntimeInfo {
         let buffer = UnsafeMutableBufferPointer<CChar>.allocate(capacity: bytes.count)
         _ = buffer.initialize(from: bytes)
         return UnsafePointer(buffer.baseAddress!)
-    }
-
-    deinit {
-        for p in protocolMap.values {
-            p.deallocate()
-        }
     }
 }
 

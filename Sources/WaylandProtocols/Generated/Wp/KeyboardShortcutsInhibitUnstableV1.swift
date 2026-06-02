@@ -71,10 +71,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KeyboardShortcutsInhibitUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = KeyboardShortcutsInhibitUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// the shortcuts are already inhibited for this surface
@@ -164,10 +161,7 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KeyboardShortcutsInhibitUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = KeyboardShortcutsInhibitUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

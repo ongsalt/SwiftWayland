@@ -289,10 +289,7 @@ public final class ZwlrVirtualPointerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrVirtualPointerUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrVirtualPointerUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// client sent invalid axis enumeration value
@@ -425,10 +422,7 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrVirtualPointerUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrVirtualPointerUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

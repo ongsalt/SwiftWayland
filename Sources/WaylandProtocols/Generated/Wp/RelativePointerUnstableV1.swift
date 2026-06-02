@@ -63,10 +63,7 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: RelativePointerUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = RelativePointerUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -148,10 +145,7 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: RelativePointerUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = RelativePointerUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

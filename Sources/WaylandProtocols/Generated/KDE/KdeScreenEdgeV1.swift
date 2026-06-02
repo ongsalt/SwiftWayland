@@ -87,10 +87,7 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeScreenEdgeV1Protocol)
-    }
+    public static let `protocol`: Protocol = KdeScreenEdgeV1Protocol
     
     public enum Error: UInt32 {
         /// the specified border value is invalid
@@ -201,10 +198,7 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeScreenEdgeV1Protocol)
-    }
+    public static let `protocol`: Protocol = KdeScreenEdgeV1Protocol
     
     var destructor: Destructor? = .destroy
 

@@ -65,10 +65,7 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -151,10 +148,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -516,10 +510,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     public enum `Type`: UInt32 {
         /// Pen
@@ -928,10 +919,7 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     public enum Bustype: UInt32 {
         /// USB
@@ -1156,10 +1144,7 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     public enum Source: UInt32 {
         /// finger
@@ -1353,10 +1338,7 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     public enum Source: UInt32 {
         /// finger
@@ -1563,10 +1545,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -1880,10 +1859,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     public enum ButtonState: UInt32 {
         /// the button is not pressed
@@ -2088,10 +2064,7 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletV2Protocol)
-    }
+    public static let `protocol`: Protocol = TabletV2Protocol
     
     var destructor: Destructor? = .destroy
 

@@ -97,10 +97,7 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1Protocol)
-    }
+    public static let `protocol`: Protocol = XdgToplevelDragV1Protocol
     
     public enum Error: UInt32 {
         /// data_source already used for toplevel drag
@@ -202,10 +199,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelDragV1Protocol)
-    }
+    public static let `protocol`: Protocol = XdgToplevelDragV1Protocol
     
     public enum Error: UInt32 {
         /// valid toplevel already attached

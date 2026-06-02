@@ -83,10 +83,7 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandKeyboardGrabUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -135,10 +132,7 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandKeyboardGrabUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

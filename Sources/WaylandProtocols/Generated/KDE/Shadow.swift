@@ -75,10 +75,7 @@ public final class KdeShadowManager: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ShadowProtocol)
-    }
+    public static let `protocol`: Protocol = ShadowProtocol
     
     var destructor: Destructor? = .destroy
 
@@ -362,10 +359,7 @@ public final class KdeShadow: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ShadowProtocol)
-    }
+    public static let `protocol`: Protocol = ShadowProtocol
     
     var destructor: Destructor? = .destroy
 

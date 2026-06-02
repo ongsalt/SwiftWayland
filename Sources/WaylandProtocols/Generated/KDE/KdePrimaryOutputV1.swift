@@ -48,10 +48,7 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdePrimaryOutputV1Protocol)
-    }
+    public static let `protocol`: Protocol = KdePrimaryOutputV1Protocol
     
     var destructor: Destructor? = .destroy
 

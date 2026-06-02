@@ -105,10 +105,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1Protocol)
-    }
+    public static let `protocol`: Protocol = LinuxDrmSyncobjV1Protocol
     
     public enum Error: UInt32 {
         /// the surface already has a synchronization object associated
@@ -167,10 +164,7 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1Protocol)
-    }
+    public static let `protocol`: Protocol = LinuxDrmSyncobjV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -359,10 +353,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDrmSyncobjV1Protocol)
-    }
+    public static let `protocol`: Protocol = LinuxDrmSyncobjV1Protocol
     
     public enum Error: UInt32 {
         /// the associated wl_surface was destroyed

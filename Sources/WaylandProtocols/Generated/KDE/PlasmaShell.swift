@@ -52,10 +52,7 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaShellProtocol)
-    }
+    public static let `protocol`: Protocol = PlasmaShellProtocol
     
     public typealias Event = NoEvent
 }
@@ -402,10 +399,7 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaShellProtocol)
-    }
+    public static let `protocol`: Protocol = PlasmaShellProtocol
     
     public enum Role: UInt32 {
         case normal = 0

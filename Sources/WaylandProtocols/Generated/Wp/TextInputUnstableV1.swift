@@ -471,10 +471,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = TextInputUnstableV1Protocol
     
     public struct ContentHint: OptionSet, @unchecked Sendable {
         public let rawValue: UInt32
@@ -770,10 +767,7 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextInputUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = TextInputUnstableV1Protocol
     
     public typealias Event = NoEvent
 }

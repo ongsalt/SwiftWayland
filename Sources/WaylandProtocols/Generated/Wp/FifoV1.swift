@@ -76,10 +76,7 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1Protocol)
-    }
+    public static let `protocol`: Protocol = FifoV1Protocol
     
     public enum Error: UInt32 {
         /// fifo manager already exists for surface
@@ -186,10 +183,7 @@ public final class WpFifoV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: FifoV1Protocol)
-    }
+    public static let `protocol`: Protocol = FifoV1Protocol
     
     public enum Error: UInt32 {
         /// the associated surface no longer exists

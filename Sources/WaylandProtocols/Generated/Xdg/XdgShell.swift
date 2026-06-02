@@ -135,10 +135,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
-    }
+    public static let `protocol`: Protocol = XdgShellProtocol
     
     public enum Error: UInt32 {
         /// given wl_surface has another role
@@ -530,10 +527,7 @@ public final class XdgPositioner: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
-    }
+    public static let `protocol`: Protocol = XdgShellProtocol
     
     public enum Error: UInt32 {
         /// invalid input provided
@@ -885,10 +879,7 @@ public final class XdgSurface: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
-    }
+    public static let `protocol`: Protocol = XdgShellProtocol
     
     public enum Error: UInt32 {
         /// Surface was not fully constructed
@@ -1545,10 +1536,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
-    }
+    public static let `protocol`: Protocol = XdgShellProtocol
     
     public enum Error: UInt32 {
         /// provided value is         not a valid variant of the resize_edge enum
@@ -1918,10 +1906,7 @@ public final class XdgPopup: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgShellProtocol)
-    }
+    public static let `protocol`: Protocol = XdgShellProtocol
     
     public enum Error: UInt32 {
         /// tried to grab after being mapped

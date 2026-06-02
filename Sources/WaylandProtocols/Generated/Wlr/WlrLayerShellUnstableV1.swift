@@ -105,10 +105,7 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrLayerShellUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrLayerShellUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// wl_surface has another role
@@ -499,10 +496,7 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrLayerShellUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrLayerShellUnstableV1Protocol
     
     public enum KeyboardInteractivity: UInt32 {
         case `none` = 0

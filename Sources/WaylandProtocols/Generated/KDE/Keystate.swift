@@ -54,10 +54,7 @@ public final class KdeKeystate: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KeystateProtocol)
-    }
+    public static let `protocol`: Protocol = KeystateProtocol
     
     public enum Key: UInt32 {
         case capslock = 0

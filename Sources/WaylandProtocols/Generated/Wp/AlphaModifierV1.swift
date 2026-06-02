@@ -69,10 +69,7 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1Protocol)
-    }
+    public static let `protocol`: Protocol = AlphaModifierV1Protocol
     
     public enum Error: UInt32 {
         /// wl_surface already has a alpha modifier object
@@ -162,10 +159,7 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: AlphaModifierV1Protocol)
-    }
+    public static let `protocol`: Protocol = AlphaModifierV1Protocol
     
     public enum Error: UInt32 {
         /// wl_surface was destroyed

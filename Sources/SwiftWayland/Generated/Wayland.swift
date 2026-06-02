@@ -106,10 +106,7 @@ public final class WlDisplay: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// server couldn't find object
@@ -230,10 +227,7 @@ public final class WlRegistry: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Event: Decodable {
         /// Announce Global Object
@@ -295,10 +289,7 @@ public final class WlCallback: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Event: Decodable {
         /// Done Event
@@ -380,10 +371,7 @@ public final class WlCompositor: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public typealias Event = NoEvent
 }
@@ -519,10 +507,7 @@ public final class WlShmPool: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     var destructor: Destructor? = .destroy
 
@@ -632,10 +617,7 @@ public final class WlShm: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// buffer format is not known
@@ -1089,10 +1071,7 @@ public final class WlBuffer: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     var destructor: Destructor? = .destroy
 
@@ -1360,10 +1339,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// finish request was called untimely
@@ -1595,10 +1571,7 @@ public final class WlDataSource: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// action mask contains invalid values
@@ -1936,10 +1909,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// given wl_surface has another role
@@ -2129,10 +2099,7 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public struct DndAction: OptionSet, @unchecked Sendable {
         public let rawValue: UInt32
@@ -2211,10 +2178,7 @@ public final class WlShell: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// given wl_surface has another role
@@ -2648,10 +2612,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public struct Resize: OptionSet, @unchecked Sendable {
         public let rawValue: UInt32
@@ -3360,10 +3321,7 @@ public final class WlSurface: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// buffer scale value is invalid
@@ -3604,10 +3562,7 @@ public final class WlSeat: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public struct Capability: OptionSet, @unchecked Sendable {
         public let rawValue: UInt32
@@ -3971,10 +3926,7 @@ public final class WlPointer: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// given wl_surface has another role
@@ -4424,10 +4376,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum KeymapFormat: UInt32 {
         /// no keymap; client must understand how to interpret the raw keycode
@@ -4717,10 +4666,7 @@ public final class WlTouch: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     var destructor: Destructor? = .release
 
@@ -4982,10 +4928,7 @@ public final class WlOutput: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Subpixel: UInt32 {
         /// unknown geometry
@@ -5311,10 +5254,7 @@ public final class WlRegion: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     var destructor: Destructor? = .destroy
 
@@ -5433,10 +5373,7 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// the to-be sub-surface is invalid
@@ -5682,10 +5619,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     public enum Error: UInt32 {
         /// wl_surface is not a sibling or the parent
@@ -5768,10 +5702,7 @@ public final class WlFixes: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WaylandProtocol)
-    }
+    public static let `protocol`: Protocol = WaylandProtocol
     
     var destructor: Destructor? = .destroy
 

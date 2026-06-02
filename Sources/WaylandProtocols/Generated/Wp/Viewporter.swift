@@ -73,10 +73,7 @@ public final class WpViewporter: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ViewporterProtocol)
-    }
+    public static let `protocol`: Protocol = ViewporterProtocol
     
     public enum Error: UInt32 {
         /// the surface already has a viewport object associated
@@ -257,10 +254,7 @@ public final class WpViewport: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ViewporterProtocol)
-    }
+    public static let `protocol`: Protocol = ViewporterProtocol
     
     public enum Error: UInt32 {
         /// negative or zero values in width or height

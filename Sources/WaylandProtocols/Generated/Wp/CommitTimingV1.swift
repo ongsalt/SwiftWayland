@@ -80,10 +80,7 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1Protocol)
-    }
+    public static let `protocol`: Protocol = CommitTimingV1Protocol
     
     public enum Error: UInt32 {
         /// commit timer already exists for surface
@@ -181,10 +178,7 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: CommitTimingV1Protocol)
-    }
+    public static let `protocol`: Protocol = CommitTimingV1Protocol
     
     public enum Error: UInt32 {
         /// timestamp contains an invalid value

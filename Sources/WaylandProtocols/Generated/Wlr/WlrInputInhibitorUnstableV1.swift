@@ -43,10 +43,7 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrInputInhibitUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrInputInhibitUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// an input inhibitor is already in use on the compositor
@@ -91,10 +88,7 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrInputInhibitUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrInputInhibitUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

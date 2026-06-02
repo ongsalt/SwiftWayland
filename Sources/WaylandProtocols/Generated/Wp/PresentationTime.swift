@@ -96,10 +96,7 @@ public final class WpPresentation: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTimeProtocol)
-    }
+    public static let `protocol`: Protocol = PresentationTimeProtocol
     
     public enum Error: UInt32 {
         /// invalid value in tv_nsec
@@ -234,10 +231,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PresentationTimeProtocol)
-    }
+    public static let `protocol`: Protocol = PresentationTimeProtocol
     
     public struct Kind: OptionSet, @unchecked Sendable {
         public let rawValue: UInt32

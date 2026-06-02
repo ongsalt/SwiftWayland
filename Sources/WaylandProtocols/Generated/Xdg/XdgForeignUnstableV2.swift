@@ -72,10 +72,7 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
-    }
+    public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
     public enum Error: UInt32 {
         /// surface is not an xdg_toplevel
@@ -167,10 +164,7 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
-    }
+    public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -234,10 +228,7 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
-    }
+    public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -339,10 +330,7 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgForeignUnstableV2Protocol)
-    }
+    public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
     public enum Error: UInt32 {
         /// surface is not an xdg_toplevel

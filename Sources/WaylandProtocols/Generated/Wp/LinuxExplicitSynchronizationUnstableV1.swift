@@ -86,10 +86,7 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = ZwpLinuxExplicitSynchronizationUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// the surface already has a synchronization object associated
@@ -245,10 +242,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = ZwpLinuxExplicitSynchronizationUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// the fence specified by the client could not be imported
@@ -328,10 +322,7 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZwpLinuxExplicitSynchronizationUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = ZwpLinuxExplicitSynchronizationUnstableV1Protocol
     
     public enum Event: Decodable {
         /// Release Buffer With Fence

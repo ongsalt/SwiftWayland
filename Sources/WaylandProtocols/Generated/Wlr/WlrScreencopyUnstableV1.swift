@@ -127,10 +127,7 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrScreencopyUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrScreencopyUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -338,10 +335,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrScreencopyUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrScreencopyUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// the object has already been used to copy a wl_buffer

@@ -107,10 +107,7 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
     public enum Event: Decodable {
         /// Introduce A New Head
@@ -333,10 +330,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
     public enum AdaptiveSyncState: UInt32 {
         /// adaptive sync is disabled
@@ -620,10 +614,7 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
     var destructor: Destructor? = .release
 
@@ -833,10 +824,7 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// head has been configured twice
@@ -1074,10 +1062,7 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrOutputManagementUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// property has already been set

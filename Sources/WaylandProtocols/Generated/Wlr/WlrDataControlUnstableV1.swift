@@ -86,10 +86,7 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrDataControlUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -237,10 +234,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrDataControlUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// source given to set_selection or set_primary_selection was already used before
@@ -404,10 +398,7 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrDataControlUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// offer sent after wlr_data_control_device.set_selection
@@ -533,10 +524,7 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrDataControlUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrDataControlUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

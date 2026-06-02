@@ -65,10 +65,7 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -141,10 +138,7 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -493,10 +487,7 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
     public enum `Type`: UInt32 {
         /// Pen
@@ -895,10 +886,7 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TabletUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

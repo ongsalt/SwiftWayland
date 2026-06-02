@@ -79,10 +79,7 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1Protocol)
-    }
+    public static let `protocol`: Protocol = XwaylandShellV1Protocol
     
     public enum Error: UInt32 {
         /// given wl_surface has another role
@@ -185,10 +182,7 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XwaylandShellV1Protocol)
-    }
+    public static let `protocol`: Protocol = XwaylandShellV1Protocol
     
     public enum Error: UInt32 {
         /// given wl_surface is already associated with an X11 window

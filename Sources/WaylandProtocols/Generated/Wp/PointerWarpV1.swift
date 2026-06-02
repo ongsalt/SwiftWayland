@@ -93,10 +93,7 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PointerWarpV1Protocol)
-    }
+    public static let `protocol`: Protocol = PointerWarpV1Protocol
     
     var destructor: Destructor? = .destroy
 

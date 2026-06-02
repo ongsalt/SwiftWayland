@@ -63,10 +63,7 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrGammaControlUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrGammaControlUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -164,10 +161,7 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrGammaControlUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrGammaControlUnstableV1Protocol
     
     public enum Error: UInt32 {
         /// invalid gamma tables

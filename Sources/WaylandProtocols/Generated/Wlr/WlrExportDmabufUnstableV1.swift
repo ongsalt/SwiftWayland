@@ -67,10 +67,7 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrExportDmabufUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrExportDmabufUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -232,10 +229,7 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrExportDmabufUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrExportDmabufUnstableV1Protocol
     
     public enum Flags: UInt32 {
         /// clients should copy frame before processing

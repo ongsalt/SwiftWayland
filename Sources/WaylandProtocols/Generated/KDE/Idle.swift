@@ -53,10 +53,7 @@ public final class KdeIdle: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: IdleProtocol)
-    }
+    public static let `protocol`: Protocol = IdleProtocol
     
     public typealias Event = NoEvent
 }
@@ -109,10 +106,7 @@ public final class KdeIdleTimeout: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: IdleProtocol)
-    }
+    public static let `protocol`: Protocol = IdleProtocol
     
     var destructor: Destructor? = .release
 

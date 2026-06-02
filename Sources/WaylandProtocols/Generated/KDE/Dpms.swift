@@ -53,10 +53,7 @@ public final class KdeDpmsManager: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DpmsProtocol)
-    }
+    public static let `protocol`: Protocol = DpmsProtocol
     
     public typealias Event = NoEvent
 }
@@ -144,10 +141,7 @@ public final class KdeDpms: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DpmsProtocol)
-    }
+    public static let `protocol`: Protocol = DpmsProtocol
     
     public enum Mode: UInt32 {
         case on = 0

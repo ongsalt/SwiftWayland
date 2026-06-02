@@ -110,10 +110,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
-    }
+    public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
     public enum Event: Decodable {
         /// Open A Non-Master Fd For This Drm Node
@@ -252,10 +249,7 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
-    }
+    public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -416,10 +410,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
-    }
+    public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
     public enum Error: UInt32 {
         /// requested a connector from a different lease device
@@ -489,10 +480,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: DrmLeaseV1Protocol)
-    }
+    public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
     var destructor: Destructor? = .destroy
 

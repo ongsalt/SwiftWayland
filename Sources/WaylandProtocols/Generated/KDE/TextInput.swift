@@ -463,10 +463,7 @@ public final class WlTextInput: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextProtocol)
-    }
+    public static let `protocol`: Protocol = TextProtocol
     
     public enum ContentHint: UInt32 {
         /// no special behaviour
@@ -757,10 +754,7 @@ public final class WlTextInputManager: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TextProtocol)
-    }
+    public static let `protocol`: Protocol = TextProtocol
     
     public typealias Event = NoEvent
 }

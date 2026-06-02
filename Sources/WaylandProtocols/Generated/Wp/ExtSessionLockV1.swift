@@ -57,10 +57,7 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1Protocol)
-    }
+    public static let `protocol`: Protocol = ExtSessionLockV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -240,10 +237,7 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1Protocol)
-    }
+    public static let `protocol`: Protocol = ExtSessionLockV1Protocol
     
     public enum Error: UInt32 {
         /// attempted to destroy session lock while locked
@@ -431,10 +425,7 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ExtSessionLockV1Protocol)
-    }
+    public static let `protocol`: Protocol = ExtSessionLockV1Protocol
     
     public enum Error: UInt32 {
         /// surface committed before first ack_configure request

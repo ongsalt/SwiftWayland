@@ -77,10 +77,7 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TearingControlV1Protocol)
-    }
+    public static let `protocol`: Protocol = TearingControlV1Protocol
     
     public enum Error: UInt32 {
         /// the surface already has a tearing object associated
@@ -165,10 +162,7 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: TearingControlV1Protocol)
-    }
+    public static let `protocol`: Protocol = TearingControlV1Protocol
     
     public enum PresentationHint: UInt32 {
         case vsync = 0

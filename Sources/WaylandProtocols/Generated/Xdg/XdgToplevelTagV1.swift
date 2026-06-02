@@ -113,10 +113,7 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgToplevelTagV1Protocol)
-    }
+    public static let `protocol`: Protocol = XdgToplevelTagV1Protocol
     
     var destructor: Destructor? = .destroy
 

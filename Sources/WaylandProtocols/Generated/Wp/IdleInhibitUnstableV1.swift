@@ -71,10 +71,7 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: IdleInhibitUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -132,10 +129,7 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: IdleInhibitUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

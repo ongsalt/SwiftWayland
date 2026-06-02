@@ -96,10 +96,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorRepresentationV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorRepresentationV1Protocol
     
     public enum Error: UInt32 {
         /// color representation surface exists already
@@ -309,10 +306,7 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ColorRepresentationV1Protocol)
-    }
+    public static let `protocol`: Protocol = ColorRepresentationV1Protocol
     
     public enum Error: UInt32 {
         /// unsupported alpha mode

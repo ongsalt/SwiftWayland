@@ -89,10 +89,7 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: SinglePixelBufferV1Protocol)
-    }
+    public static let `protocol`: Protocol = SinglePixelBufferV1Protocol
     
     var destructor: Destructor? = .destroy
 

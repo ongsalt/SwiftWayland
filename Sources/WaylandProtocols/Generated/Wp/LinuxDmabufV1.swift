@@ -198,10 +198,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDmabufV1Protocol)
-    }
+    public static let `protocol`: Protocol = LinuxDmabufV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -585,10 +582,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDmabufV1Protocol)
-    }
+    public static let `protocol`: Protocol = LinuxDmabufV1Protocol
     
     public enum Error: UInt32 {
         /// the zwp_linux_buffer_params_v1 object has already been used to create a wl_buffer
@@ -791,10 +785,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: LinuxDmabufV1Protocol)
-    }
+    public static let `protocol`: Protocol = LinuxDmabufV1Protocol
     
     public struct TrancheFlags: OptionSet, @unchecked Sendable {
         public let rawValue: UInt32

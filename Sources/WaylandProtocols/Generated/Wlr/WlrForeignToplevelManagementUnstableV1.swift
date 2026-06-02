@@ -52,10 +52,7 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrForeignToplevelManagementUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrForeignToplevelManagementUnstableV1Protocol
     
     public enum Event: Decodable {
         /// A Toplevel Has Been Created
@@ -386,10 +383,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlrForeignToplevelManagementUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WlrForeignToplevelManagementUnstableV1Protocol
     
     public enum State: UInt32 {
         /// the toplevel is maximized

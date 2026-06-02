@@ -134,10 +134,7 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: OrgKdePlasmaVirtualDesktopProtocol)
-    }
+    public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
     public enum Event: Decodable {
         /// Emitted When A New Desktop Has Been Created
@@ -286,10 +283,7 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: OrgKdePlasmaVirtualDesktopProtocol)
-    }
+    public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
     public enum Event: Decodable {
         /// The Desktop Got An Id

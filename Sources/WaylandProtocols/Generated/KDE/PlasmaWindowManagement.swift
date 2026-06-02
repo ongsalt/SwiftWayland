@@ -187,10 +187,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
-    }
+    public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
     public enum State: UInt32 {
         case active = 1
@@ -849,10 +846,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
-    }
+    public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
     var destructor: Destructor? = .destroy
 
@@ -1067,10 +1061,7 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
-    }
+    public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
     var destructor: Destructor? = .destroy
 
@@ -1147,10 +1138,7 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
-    }
+    public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
     var destructor: Destructor? = .destroy
 
@@ -1220,10 +1208,7 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: PlasmaWindowManagementProtocol)
-    }
+    public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
     public enum Event: Decodable {
         /// A Window In The Stacking Order List

@@ -1,3 +1,4 @@
+import CWayland
 import Foundation
 
 public protocol Proxy: AnyObject, Identifiable {
@@ -10,6 +11,7 @@ public protocol Proxy: AnyObject, Identifiable {
 
     // TODO: find a way so it that we dont need to copy this everytime, making it a class???
     static var interface: Interface { get }
+    static var `protocol`: Protocol { get }
 
     var isAlive: Bool { get }
     var onEvent: ((Event) -> Void)? { get }
@@ -22,6 +24,13 @@ extension Proxy {
     public var interface: Interface {
         _read { yield Self.interface }
     }
+
+    static func ensureLoaded() -> UnsafePointer<wl_interface> {
+        return CRuntimeInfo.shared.withLock {
+            $0.addIfNotExists(protocol: self.protocol)
+            return $0.interfaces[self.interface.name]!
+        }
+    }
 }
 
 open class BaseProxy {
@@ -30,6 +39,7 @@ open class BaseProxy {
     public let queue: EventQueue
     public let id: UInt32
     public let version: UInt32
+
     public private(set) var isAlive: Bool = true
 
     public typealias Event = NoEvent
@@ -42,18 +52,11 @@ open class BaseProxy {
         self.queue = queue
         self.raw = raw
         self.connection = connection
-
-        Self.ensureLoaded()
     }
 
     package func markDead() {
         self.isAlive = false
         self.connection.destroy(proxy: self)
-    }
-
-    @_spi(SwiftWaylandPrivate)
-    open class func ensureLoaded() {
-
     }
 }
 

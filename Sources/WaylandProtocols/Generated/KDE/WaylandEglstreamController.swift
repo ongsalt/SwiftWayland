@@ -84,10 +84,7 @@ public final class WlEglstreamController: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WlEglstreamControllerProtocol)
-    }
+    public static let `protocol`: Protocol = WlEglstreamControllerProtocol
     
     public enum PresentMode: UInt32 {
         /// Let the Server decide present mode

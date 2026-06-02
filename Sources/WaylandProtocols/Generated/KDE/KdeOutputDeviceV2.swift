@@ -55,10 +55,7 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2Protocol)
-    }
+    public static let `protocol`: Protocol = KdeOutputDeviceV2Protocol
     
     public enum Error: UInt32 {
         /// the registry was bound with an unsupported version
@@ -566,10 +563,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2Protocol)
-    }
+    public static let `protocol`: Protocol = KdeOutputDeviceV2Protocol
     
     public enum Subpixel: UInt32 {
         case unknown = 0
@@ -1145,10 +1139,7 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputDeviceV2Protocol)
-    }
+    public static let `protocol`: Protocol = KdeOutputDeviceV2Protocol
     
     public enum Flags: UInt32 {
         case custom = 1

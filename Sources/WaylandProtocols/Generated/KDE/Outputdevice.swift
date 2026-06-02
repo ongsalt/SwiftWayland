@@ -207,10 +207,7 @@ public final class KdeOutputdevice: BaseProxy, Proxy {
             ]
         )
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: OrgKdeKwinOutputdeviceProtocol)
-    }
+    public static let `protocol`: Protocol = OrgKdeKwinOutputdeviceProtocol
     
     public enum Subpixel: UInt32 {
         case unknown = 0

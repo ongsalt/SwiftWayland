@@ -286,10 +286,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZkdeScreencastUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = ZkdeScreencastUnstableV1Protocol
     
     public enum Pointer: UInt32 {
         /// No cursor
@@ -383,10 +380,7 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ZkdeScreencastUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = ZkdeScreencastUnstableV1Protocol
     
     var destructor: Destructor? = .close
 

@@ -72,10 +72,7 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1Protocol)
-    }
+    public static let `protocol`: Protocol = XdgDialogV1Protocol
     
     public enum Error: UInt32 {
         /// the xdg_toplevel object has already been used to create a xdg_dialog_v1
@@ -172,10 +169,7 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: XdgDialogV1Protocol)
-    }
+    public static let `protocol`: Protocol = XdgDialogV1Protocol
     
     var destructor: Destructor? = .destroy
 

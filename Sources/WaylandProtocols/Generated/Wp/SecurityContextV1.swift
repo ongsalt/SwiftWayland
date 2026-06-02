@@ -91,10 +91,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1Protocol)
-    }
+    public static let `protocol`: Protocol = SecurityContextV1Protocol
     
     public enum Error: UInt32 {
         /// listening socket FD is invalid
@@ -263,10 +260,7 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: SecurityContextV1Protocol)
-    }
+    public static let `protocol`: Protocol = SecurityContextV1Protocol
     
     public enum Error: UInt32 {
         /// security context has already been committed

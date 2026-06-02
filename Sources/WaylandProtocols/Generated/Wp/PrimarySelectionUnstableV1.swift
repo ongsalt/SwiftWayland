@@ -85,10 +85,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -187,10 +184,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -318,10 +312,7 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 
@@ -429,10 +420,7 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: WpPrimarySelectionUnstableV1Protocol)
-    }
+    public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
     var destructor: Destructor? = .destroy
 

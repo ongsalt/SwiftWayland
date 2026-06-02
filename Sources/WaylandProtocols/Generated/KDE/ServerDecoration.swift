@@ -69,10 +69,7 @@ public final class KdeServerDecorationManager: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationProtocol)
-    }
+    public static let `protocol`: Protocol = ServerDecorationProtocol
     
     public enum Mode: UInt32 {
         /// Undecorated: The surface is not decorated at all, neither server nor client-side. An example is a popup surface which should not be decorated.
@@ -164,10 +161,7 @@ public final class KdeServerDecoration: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: ServerDecorationProtocol)
-    }
+    public static let `protocol`: Protocol = ServerDecorationProtocol
     
     public enum Mode: UInt32 {
         /// Undecorated: The surface is not decorated at all, neither server nor client-side. An example is a popup surface which should not be decorated.

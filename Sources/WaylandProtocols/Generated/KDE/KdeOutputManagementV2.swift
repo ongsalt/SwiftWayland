@@ -95,10 +95,7 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputManagementV2Protocol)
-    }
+    public static let `protocol`: Protocol = KdeOutputManagementV2Protocol
     
     public typealias Event = NoEvent
 }
@@ -1169,10 +1166,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputManagementV2Protocol)
-    }
+    public static let `protocol`: Protocol = KdeOutputManagementV2Protocol
     
     public enum Error: UInt32 {
         /// the config is already applied
@@ -1394,10 +1388,7 @@ public final class KdeModeListV2: BaseProxy, Proxy {
     }
 
     
-    @_spi(SwiftWaylandPrivate)
-    override public class func ensureLoaded() {
-        CRuntimeInfo.shared.addIfNotExists(protocol: KdeOutputManagementV2Protocol)
-    }
+    public static let `protocol`: Protocol = KdeOutputManagementV2Protocol
     
     public enum Error: UInt32 {
         /// a required parameter wasn't set
