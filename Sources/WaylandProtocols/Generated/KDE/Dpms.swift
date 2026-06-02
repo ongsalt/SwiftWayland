@@ -168,7 +168,7 @@ public final class KdeDpms: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Event Indicating Whether Dpms Is Supported On The Wl_Output
         /// 
         /// This event gets pushed on binding the resource and indicates whether the wl_output

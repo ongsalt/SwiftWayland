@@ -99,7 +99,7 @@ public final class KdeKeystate: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Updates The State For A Said Key
         /// 
         /// 

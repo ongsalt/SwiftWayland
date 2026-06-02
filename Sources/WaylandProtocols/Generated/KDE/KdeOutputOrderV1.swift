@@ -67,7 +67,7 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Output Name
         /// 
         /// Specifies the output identified by their wl_output.name.

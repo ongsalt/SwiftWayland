@@ -201,7 +201,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Introduce A New Wp_Primary_Selection_Offer
         /// 
         /// Introduces a new wp_primary_selection_offer object that may be used
@@ -329,7 +329,7 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Advertise Offered Mime Type
         /// 
         /// Sent immediately after creating announcing the
@@ -437,7 +437,7 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Send The Primary Selection Contents
         /// 
         /// Request for the current primary selection contents from the client.

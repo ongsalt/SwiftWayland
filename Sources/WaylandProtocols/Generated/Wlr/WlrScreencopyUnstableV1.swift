@@ -370,7 +370,7 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Wl_Shm Buffer Information
         /// 
         /// Provides information about wl_shm buffer parameters that need to be

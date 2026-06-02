@@ -549,7 +549,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Surrounding Text Event
         /// 
         /// The plain surrounding text around the input position. Cursor is the
@@ -628,7 +628,7 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Activate Event
         /// 
         /// A text input was activated. Creates an input method context object

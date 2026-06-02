@@ -122,7 +122,7 @@ public final class WlDisplay: BaseProxy, Proxy {
         case implementation = 3
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Fatal Error Event
         /// 
         /// The error event is sent out when a fatal (non-recoverable)
@@ -229,7 +229,7 @@ public final class WlRegistry: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Announce Global Object
         /// 
         /// Notify the client of global objects.
@@ -291,11 +291,15 @@ public final class WlCallback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Done Event
         /// 
         /// Notify the client when the related request is done.
         case done(callbackData: UInt32)
+
+        public var isDestructor: Bool {
+            true
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -1004,7 +1008,7 @@ public final class WlShm: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Pixel Format Description
         /// 
         /// Informs the client about a valid pixel format that
@@ -1088,7 +1092,7 @@ public final class WlBuffer: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Compositor Releases Buffer
         /// 
         /// Sent when this wl_buffer is no longer used by the compositor.
@@ -1370,7 +1374,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Advertise Offered Mime Type
         /// 
         /// Sent immediately after creating the wl_data_offer object.  One
@@ -1596,7 +1600,7 @@ public final class WlDataSource: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// A Target Accepts An Offered Mime Type
         /// 
         /// Sent when a target accepts pointer_focus or motion events.  If
@@ -1934,7 +1938,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Introduce A New Wl_Data_Offer
         /// 
         /// The data_offer event introduces a new wl_data_offer object,
@@ -2672,7 +2676,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         case fill = 3
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Ping Client
         /// 
         /// Ping a client to check if it is receiving events and sending
@@ -3355,7 +3359,7 @@ public final class WlSurface: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Surface Enters An Output
         /// 
         /// This is emitted whenever a surface's creation, movement, or resizing
@@ -3600,7 +3604,7 @@ public final class WlSeat: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Seat Capabilities Changed
         /// 
         /// This is sent on binding to the seat global or whenever a seat gains
@@ -3986,7 +3990,7 @@ public final class WlPointer: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Enter Event
         /// 
         /// Notification that this seat's pointer is focused on a certain
@@ -4412,7 +4416,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Keyboard Mapping
         /// 
         /// This event provides a file descriptor to the client which can be
@@ -4683,7 +4687,7 @@ public final class WlTouch: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Touch Down Event And Beginning Of A Touch Sequence
         /// 
         /// A new touch point has appeared on the surface. This touch point is
@@ -5004,7 +5008,7 @@ public final class WlOutput: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Properties Of The Output
         /// 
         /// The geometry event describes geometric properties of the output.

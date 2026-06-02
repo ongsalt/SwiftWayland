@@ -591,7 +591,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         case rtl = 2
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Enter Event
         /// 
         /// Notify the text_input object when it received focus. Typically in

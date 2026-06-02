@@ -183,7 +183,7 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Size Of Gamma Ramps
         /// 
         /// Advertise the size of each gamma ramp.

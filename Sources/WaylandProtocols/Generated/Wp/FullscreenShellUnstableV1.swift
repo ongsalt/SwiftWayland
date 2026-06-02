@@ -246,7 +246,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Advertises A Capability Of The Compositor
         /// 
         /// Advertises a single capability of the compositor.
@@ -296,7 +296,7 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FullscreenShellUnstableV1Protocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Mode Switch Succeeded
         /// 
         /// This event indicates that the attempted mode switch operation was
@@ -323,6 +323,10 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
         /// Upon receiving this event, the client should destroy the
         /// wl_fullscreen_shell_mode_feedback object.
         case presentCancelled
+
+        public var isDestructor: Bool {
+            true
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {

@@ -96,7 +96,7 @@ public final class KdeRemoteAccessManager: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Signals About Buffer Ready To Be Consumed By Clients
         /// 
         /// 
@@ -188,7 +188,7 @@ public final class KdeRemoteBuffer: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// This Is Sent After Binding To Remote Access Manager
         /// 
         /// 

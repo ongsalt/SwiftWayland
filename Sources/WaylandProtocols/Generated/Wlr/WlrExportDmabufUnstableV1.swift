@@ -262,7 +262,7 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// A Frame Description
         /// 
         /// Main event supplying the client with information about the frame. If the

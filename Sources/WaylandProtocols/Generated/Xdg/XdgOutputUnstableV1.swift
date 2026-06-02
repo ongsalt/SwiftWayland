@@ -186,7 +186,7 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Position Of The Output Within The Global Compositor Space
         /// 
         /// The position event describes the location of the wl_output within

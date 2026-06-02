@@ -181,7 +181,7 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Report A Power Management Mode Change
         /// 
         /// Report the power management mode change of an output.

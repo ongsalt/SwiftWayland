@@ -276,7 +276,7 @@ public final class KdeOutputdevice: BaseProxy, Proxy {
         case automatic = 2
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Geometric Properties Of The Output
         /// 
         /// The geometry event describes geometric properties of the output.

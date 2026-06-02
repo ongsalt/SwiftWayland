@@ -127,7 +127,8 @@ public func transform(
                         swiftType: swiftType,  // for object/newId
                         arg: arg,
                     )
-                }
+                },
+                isDestructor: event.type == .destructor
             )
         }
     )

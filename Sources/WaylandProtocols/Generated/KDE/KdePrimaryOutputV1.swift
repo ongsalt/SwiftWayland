@@ -65,7 +65,7 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Provide The Current Primary Output's Name
         /// 
         /// Specifies which output is the primary one identified by their uuid. See kde_output_device_v2 uuid event for more information about it.

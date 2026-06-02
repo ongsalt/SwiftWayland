@@ -491,7 +491,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Supported Rendering Intent
         /// 
         /// When this object is created, it shall immediately send this event once
@@ -654,7 +654,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Image Description Changed
         /// 
         /// This event is sent whenever the image description of the output changed,
@@ -969,7 +969,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// The Preferred Image Description Changed (32-Bit)
         /// 
         /// Starting from interface version 2, 'preferred_changed2' is sent instead
@@ -1867,7 +1867,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Graceful Error On Creating The Image Description
         /// 
         /// If creating a wp_image_description_v1 object fails for a reason that is
@@ -2131,7 +2131,7 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// End Of Information
         /// 
         /// Signals the end of information events and destroys the object.
@@ -2229,6 +2229,15 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
         /// This luminance is only theoretical and may not correspond to the
         /// luminance of light emitted on an actual display.
         case targetMaxFall(maxFall: UInt32)
+
+        public var isDestructor: Bool {
+            switch self {
+                case .done:
+                    true
+                default:
+                    false
+            }
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {

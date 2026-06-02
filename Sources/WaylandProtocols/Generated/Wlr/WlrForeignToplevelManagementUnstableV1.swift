@@ -54,7 +54,7 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrForeignToplevelManagementUnstableV1Protocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// A Toplevel Has Been Created
         /// 
         /// This event is emitted whenever a new toplevel window is created. It
@@ -72,6 +72,15 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
         /// immediately after sending this request, so it will become invalid and
         /// the client should free any resources associated with it.
         case finished
+
+        public var isDestructor: Bool {
+            switch self {
+                case .finished:
+                    true
+                default:
+                    false
+            }
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -419,7 +428,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Title Change
         /// 
         /// This event is emitted whenever the title of the toplevel changes.

@@ -151,7 +151,7 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Notify Of New Preferred Scale
         /// 
         /// Notification of a new preferred scale for this surface that the

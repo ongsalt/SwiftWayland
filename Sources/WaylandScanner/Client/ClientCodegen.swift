@@ -281,7 +281,8 @@ extension EnumDeclaration: Code {
                     if index == 0 && c.value == 0 {
                         gen << "public static let \(c.name.gravedIfNeeded): \(name) = []"
                     } else {
-                        gen << "public static let \(c.name.gravedIfNeeded) = \(name)(rawValue: \(c.value))"
+                        gen
+                            << "public static let \(c.name.gravedIfNeeded) = \(name)(rawValue: \(c.value))"
                     }
                     if index != self.cases.count - 1 {
                         gen.add()
@@ -327,11 +328,32 @@ extension DeinitDeclaration: Code {
 
 extension Array: Code where Element == EventDeclaration {
     func generate(_ gen: Generator) {
-        // luckily there is no enum named `event`
-        gen.add("public enum Event: Decodable {")
-        gen.indent {
+        gen.block("public enum Event: MessageProtocol {") {
             for event in self {
                 gen.walk(node: event)
+                gen.add()
+            }
+
+            let destructors = self.filter { e in e.isDestructor }
+            if !destructors.isEmpty {
+                gen.block("public var isDestructor: Bool {") {
+                    if destructors.count == self.count {
+                        // every event is destructor
+                        gen << "true"
+                    } else {
+                        gen.block("switch self {") {
+                            let cases = destructors.map { ".\($0.name)" }.joined(separator: ", ")
+                            gen << "case \(cases):"
+                            gen.indent {
+                                gen << "true"
+                            }
+                            gen << "default:"
+                            gen.indent {
+                                gen << "false"
+                            }
+                        }
+                    }
+                }
                 gen.add()
             }
 
@@ -363,7 +385,6 @@ extension Array: Code where Element == EventDeclaration {
             }
             gen.add("}")
         }
-        gen.add("}")
     }
 }
 

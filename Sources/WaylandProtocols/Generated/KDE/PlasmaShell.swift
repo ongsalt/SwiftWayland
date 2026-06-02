@@ -449,7 +449,7 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Auto-Hiding Panel Is Hidden
         /// 
         /// An auto-hiding panel got hidden by the compositor.

@@ -229,7 +229,7 @@ public final class WlFullscreenShell: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Advertises A Capability Of The Compositor
         /// 
         /// Advertises a single capability of the compositor.
@@ -276,7 +276,7 @@ public final class WlFullscreenShellModeFeedback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FullscreenShellProtocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Mode Switch Succeeded
         /// 
         /// This event indicates that the attempted mode switch operation was

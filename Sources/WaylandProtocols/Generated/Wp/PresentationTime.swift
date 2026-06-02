@@ -121,7 +121,7 @@ public final class WpPresentation: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Clock Id For Timestamps
         /// 
         /// This event tells the client in which clock domain the
@@ -248,7 +248,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         public static let zeroCopy = Kind(rawValue: 8)
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Presentation Synchronized To This Output
         /// 
         /// As presentation can be synchronized to only one output at a
@@ -306,6 +306,15 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         /// 
         /// The content update was never displayed to the user.
         case discarded
+
+        public var isDestructor: Bool {
+            switch self {
+                case .presented, .discarded:
+                    true
+                default:
+                    false
+            }
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {

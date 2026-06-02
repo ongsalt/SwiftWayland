@@ -133,7 +133,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Describes A Supported & Preferred Icon Size
         /// 
         /// This event indicates an icon size the compositor prefers to be

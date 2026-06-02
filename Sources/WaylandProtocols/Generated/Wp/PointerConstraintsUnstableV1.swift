@@ -350,7 +350,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Lock Activation Event
         /// 
         /// Notification that the pointer lock of the seat's pointer is activated.
@@ -480,7 +480,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Pointer Confined
         /// 
         /// Notification that the pointer confinement of the seat's pointer is

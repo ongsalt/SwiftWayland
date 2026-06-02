@@ -232,7 +232,7 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// High-Resolution Timestamp Event
         /// 
         /// The timestamp event is associated with the first subsequent input event

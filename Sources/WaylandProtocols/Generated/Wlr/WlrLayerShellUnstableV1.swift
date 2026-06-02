@@ -557,7 +557,7 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Suggest A Surface Change
         /// 
         /// The configure event asks the client to resize its surface.

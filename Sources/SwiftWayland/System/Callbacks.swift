@@ -20,6 +20,10 @@ extension Proxy {
         do {
             var reader = CArgumentReader(args, parent: self)
             let event = try Self.Event.init(from: &reader, opcode: opcode)
+            if event.isDestructor {
+                (self as? BaseProxy)?.isAlive = false
+                self.connection.destroy(proxyId: self.id)
+            }
             self.onEvent?(event)
             return true
         } catch {

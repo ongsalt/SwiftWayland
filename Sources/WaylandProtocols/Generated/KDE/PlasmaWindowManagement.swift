@@ -241,7 +241,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
         case enabled = 1
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Notify The Client When The Show Desktop Mode Is Entered/Left
         /// 
         /// This event will be sent whenever the show desktop mode changes. E.g. when it is entered
@@ -863,7 +863,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Window Title Has Been Changed
         /// 
         /// This event will be sent as soon as the window title is changed.
@@ -1078,7 +1078,7 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Notify That An App Is Starting
         /// 
         /// Will be issued when an app is set to be activated. It offers
@@ -1155,7 +1155,7 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Offers The App_Id
         /// 
         /// 
@@ -1210,7 +1210,7 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// A Window In The Stacking Order List
         /// 
         /// 
@@ -1220,6 +1220,15 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
         /// 
         /// 
         case done
+
+        public var isDestructor: Bool {
+            switch self {
+                case .done:
+                    true
+                default:
+                    false
+            }
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {

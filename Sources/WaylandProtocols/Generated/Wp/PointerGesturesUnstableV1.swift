@@ -276,7 +276,7 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Multi-Finger Swipe Begin
         /// 
         /// This event is sent when a multi-finger swipe gesture is detected
@@ -439,7 +439,7 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Multi-Finger Pinch Begin
         /// 
         /// This event is sent when a multi-finger pinch gesture is detected
@@ -587,7 +587,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Multi-Finger Hold Begin
         /// 
         /// This event is sent when a hold gesture is detected on the device.

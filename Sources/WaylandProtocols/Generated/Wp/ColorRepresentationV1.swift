@@ -118,7 +118,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Supported Alpha Modes
         /// 
         /// When this object is created, it shall immediately send this event once

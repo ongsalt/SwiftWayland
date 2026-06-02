@@ -178,7 +178,7 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Shortcuts Are Inhibited
         /// 
         /// This event indicates that the shortcut inhibitor is active.

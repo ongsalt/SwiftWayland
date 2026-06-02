@@ -155,7 +155,7 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// New Device Notification
         /// 
         /// This event is sent whenever a new tablet becomes available on this
@@ -563,7 +563,7 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Tool Type
         /// 
         /// The tool type is the high-level type of the tool and usually decides
@@ -903,7 +903,7 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Tablet Device Name
         /// 
         /// This event is sent in the initial burst of events before the

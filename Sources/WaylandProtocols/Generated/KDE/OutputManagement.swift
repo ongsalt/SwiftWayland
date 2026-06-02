@@ -459,7 +459,7 @@ public final class KdeOutputconfiguration: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Configuration Changes Have Been Applied
         /// 
         /// Sent after the server has successfully applied the changes.

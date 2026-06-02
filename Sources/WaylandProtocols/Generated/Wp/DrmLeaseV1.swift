@@ -112,7 +112,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Open A Non-Master Fd For This Drm Node
         /// 
         /// The compositor will send this event when the wp_drm_lease_device_v1
@@ -156,6 +156,15 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
         /// event and it will become invalid. The client should release any
         /// resources associated with this device after receiving this event.
         case released
+
+        public var isDestructor: Bool {
+            switch self {
+                case .released:
+                    true
+                default:
+                    false
+            }
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -266,7 +275,7 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Name
         /// 
         /// The compositor sends this event once the connector is created to
@@ -497,7 +506,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Shares The Drm File Descriptor
         /// 
         /// This event returns a file descriptor suitable for use with DRM-related

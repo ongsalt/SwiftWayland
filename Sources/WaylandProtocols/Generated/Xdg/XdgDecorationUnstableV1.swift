@@ -252,7 +252,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Notify A Decoration Mode Change
         /// 
         /// The configure event configures the effective decoration mode. The

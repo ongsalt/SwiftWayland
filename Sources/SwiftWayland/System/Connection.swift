@@ -120,8 +120,9 @@ public class Connection {
         return EventQueue(raw: handle!, display: rawDisplay)
     }
 
-    func destroy(proxy: some BaseProxy) {
-        knownProxies[proxy.id] = nil
+    func destroy(proxyId: UInt32) {
+        guard let proxy = knownProxies[proxyId] else { return }
+        knownProxies[proxyId] = nil
         wl_proxy_destroy(proxy.raw)
     }
 

@@ -256,7 +256,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Introduce A New Wlr_Data_Control_Offer
         /// 
         /// The data_offer event introduces a new wlr_data_control_offer object,
@@ -420,7 +420,7 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Send The Data
         /// 
         /// Request for data from the client. Send the data as the specified MIME
@@ -541,7 +541,7 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Advertise Offered Mime Type
         /// 
         /// Sent immediately after creating the wlr_data_control_offer object.

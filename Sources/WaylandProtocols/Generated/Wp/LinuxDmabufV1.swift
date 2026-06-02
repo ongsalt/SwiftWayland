@@ -215,7 +215,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Supported Buffer Format
         /// 
         /// This event advertises one buffer format that the server supports.
@@ -644,7 +644,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Buffer Creation Succeeded
         /// 
         /// This event indicates that the attempted buffer creation was
@@ -813,7 +813,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// All Feedback Has Been Sent
         /// 
         /// This event is sent after all parameters of a zwp_linux_dmabuf_feedback_v1

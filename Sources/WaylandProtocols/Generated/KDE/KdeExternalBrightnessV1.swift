@@ -267,7 +267,7 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Requests The Client To Change The Brightness To This Value
         /// 
         /// The client must ensure that if the brightness level changes due to external factors,

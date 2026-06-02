@@ -2,7 +2,7 @@ import CWayland
 import Foundation
 
 public protocol Proxy: AnyObject, Identifiable {
-    associatedtype Event: Decodable = NoEvent
+    associatedtype Event: MessageProtocol = NoEvent
 
     var connection: Connection { get }
     var queue: EventQueue { get }
@@ -40,7 +40,7 @@ open class BaseProxy {
     public let id: UInt32
     public let version: UInt32
 
-    public private(set) var isAlive: Bool = true
+    public package(set) var isAlive: Bool = true
 
     public typealias Event = NoEvent
 
@@ -56,11 +56,11 @@ open class BaseProxy {
 
     package func markDead() {
         self.isAlive = false
-        self.connection.destroy(proxy: self)
+        self.connection.destroy(proxyId: self.id)
     }
 }
 
-public struct NoEvent: Decodable {
+public struct NoEvent: MessageProtocol {
     public init(from reader: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {}
 }
 
@@ -70,8 +70,13 @@ public enum DecodingError: Error {
     case unknownEnumCase(case: UInt32, enumName: String)
 }
 
-public protocol Decodable {
+public protocol MessageProtocol {
+    var isDestructor: Bool { get }
     init(from reader: inout some ArgumentReader, opcode: UInt32) throws(DecodingError)
+}
+
+extension MessageProtocol {
+    public var isDestructor: Bool { false }
 }
 
 public protocol ArgumentReader {

@@ -397,7 +397,7 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Notifies That The Server Has Stopped The Stream. Clients Should Now Call Close.
         /// 
         /// 

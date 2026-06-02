@@ -183,7 +183,7 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
         case bypasswindowmanager = 4
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         case onscreenVisibility(visible: Int32)
 
         case setGenericProperty(name: String, value: Data)

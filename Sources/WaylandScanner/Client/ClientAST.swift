@@ -44,6 +44,7 @@ struct EventDeclaration {
     var name: String
     var description: Description?
     var arguments: [ArgumentDeclaration]
+    var isDestructor: Bool = false
 }
 
 struct ArgumentDeclaration {

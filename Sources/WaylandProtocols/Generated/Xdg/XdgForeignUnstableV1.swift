@@ -239,7 +239,7 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// The Exported Surface Handle
         /// 
         /// The handle event contains the unique handle of this exported surface
@@ -340,7 +340,7 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// The Imported Surface Handle Has Been Destroyed
         /// 
         /// The imported surface handle has been destroyed and any relationship set

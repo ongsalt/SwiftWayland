@@ -665,7 +665,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Enter Event
         /// 
         /// Notification that this seat's text-input focus is on a certain surface.

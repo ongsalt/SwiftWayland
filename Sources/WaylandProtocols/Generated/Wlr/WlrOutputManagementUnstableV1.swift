@@ -109,7 +109,7 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Introduce A New Head
         /// 
         /// This event introduces a new head. This happens whenever a new head
@@ -137,6 +137,15 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
         /// event, so it will become invalid and the client should release any
         /// resources associated with it.
         case finished
+
+        public var isDestructor: Bool {
+            switch self {
+                case .finished:
+                    true
+                default:
+                    false
+            }
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -355,7 +364,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Head Name
         /// 
         /// This event describes the head name.
@@ -631,7 +640,7 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Mode Size
         /// 
         /// This event describes the mode size. The size is given in physical
@@ -852,7 +861,7 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Configuration Changes Succeeded
         /// 
         /// Sent after the compositor has successfully applied the changes or

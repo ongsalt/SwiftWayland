@@ -175,7 +175,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Check If The Client Is Alive
         /// 
         /// The ping event asks the client if it's still alive. Pass the
@@ -916,7 +916,7 @@ public final class XdgSurface: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Suggest A Surface Change
         /// 
         /// The configure event marks the end of a configure sequence. A configure
@@ -1630,7 +1630,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Suggest A Surface Change
         /// 
         /// This configure event asks the client to resize its toplevel surface or
@@ -1928,7 +1928,7 @@ public final class XdgPopup: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Configure The Popup Surface
         /// 
         /// This event asks the popup surface to configure itself given the

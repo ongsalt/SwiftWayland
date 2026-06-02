@@ -273,7 +273,7 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Session Successfully Locked
         /// 
         /// This client is now responsible for displaying graphics while the
@@ -456,7 +456,7 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// The Client Should Resize Its Surface
         /// 
         /// This event is sent once on binding the interface and may be sent again

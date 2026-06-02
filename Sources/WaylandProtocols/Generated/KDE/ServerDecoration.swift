@@ -82,7 +82,7 @@ public final class KdeServerDecorationManager: BaseProxy, Proxy {
         case server = 2
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// The Default Mode Used On The Server
         /// 
         /// This event is emitted directly after binding the interface. It contains
@@ -189,7 +189,7 @@ public final class KdeServerDecoration: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// The New Decoration Mode Applied By The Server
         /// 
         /// This event is emitted directly after the decoration is created and

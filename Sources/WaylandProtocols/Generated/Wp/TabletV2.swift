@@ -165,7 +165,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// New Device Notification
         /// 
         /// This event is sent whenever a new tablet becomes available on this
@@ -586,7 +586,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Tool Type
         /// 
         /// The tool type is the high-level type of the tool and usually decides
@@ -953,7 +953,7 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Tablet Device Name
         /// 
         /// A descriptive name for the tablet device.
@@ -1166,7 +1166,7 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Ring Event Source
         /// 
         /// Source information for ring events.
@@ -1360,7 +1360,7 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Strip Event Source
         /// 
         /// Source information for strip events.
@@ -1562,7 +1562,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Buttons Announced
         /// 
         /// Sent on zwp_tablet_pad_group_v2 initialization to announce the available
@@ -1884,7 +1884,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Group Announced
         /// 
         /// Sent on zwp_tablet_pad_v2 initialization to announce available groups.
@@ -2081,7 +2081,7 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Delta Movement
         /// 
         /// Sent whenever the position on a dial changes.

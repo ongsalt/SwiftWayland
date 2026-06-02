@@ -324,7 +324,7 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ZwpLinuxExplicitSynchronizationUnstableV1Protocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Release Buffer With Fence
         /// 
         /// Sent when the compositor has finalised its usage of the associated
@@ -350,6 +350,10 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
         /// destroy the buffer.
         /// This event destroys the zwp_linux_buffer_release_v1 object.
         case immediateRelease
+
+        public var isDestructor: Bool {
+            true
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {

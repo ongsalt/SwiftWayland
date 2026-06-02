@@ -123,7 +123,7 @@ public final class KdeIdleTimeout: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Triggered When There Has Not Been Any User Activity In The Requested Idle Time Interval
         /// 
         /// 

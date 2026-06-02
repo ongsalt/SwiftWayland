@@ -136,7 +136,7 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Emitted When A New Desktop Has Been Created
         /// 
         /// 
@@ -285,7 +285,7 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// The Desktop Got An Id
         /// 
         /// The format of the id is decided by the compositor implementation. A desktop id univocally identifies a virtual desktop and must be guaranteed to never exist two desktops with the same id. The format of the string id is up to the server implementation.

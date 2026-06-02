@@ -62,7 +62,7 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
         case unsupportedVersion = 0
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// No New Output Announcements
         /// 
         /// This event is sent in response to the stop request. The compositor will
@@ -74,6 +74,15 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
         /// This event is sent when a new output is connected or after binding this
         /// global to list all available outputs.
         case output(output: KdeOutputDeviceV2)
+
+        public var isDestructor: Bool {
+            switch self {
+                case .finished:
+                    true
+                default:
+                    false
+            }
+        }
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -715,7 +724,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Geometric Properties Of The Output
         /// 
         /// The geometry event describes geometric properties of the output.
@@ -1147,7 +1156,7 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
         case reducedBlanking = 2
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Mode Size
         /// 
         /// This event describes the mode size. The size is given in physical

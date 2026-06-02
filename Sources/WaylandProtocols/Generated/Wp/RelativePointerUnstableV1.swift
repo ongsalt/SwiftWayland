@@ -162,7 +162,7 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
         }
     }
 
-    public enum Event: Decodable {
+    public enum Event: MessageProtocol {
         /// Relative Pointer Motion
         /// 
         /// Relative x/y pointer motion from the pointer of the seat associated with
