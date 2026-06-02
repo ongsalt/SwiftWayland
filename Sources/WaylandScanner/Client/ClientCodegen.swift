@@ -341,7 +341,7 @@ extension Array: Code where Element == EventDeclaration {
             // decoding function
 
             gen.add(
-                "public init(from r: some ArgumentReader, opcode: UInt32) throws(DecodingError) {"
+                "public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {"
             )
             gen.indent {
                 gen.add("switch opcode {")

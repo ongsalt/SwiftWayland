@@ -58,7 +58,7 @@ open class BaseProxy {
 }
 
 public struct NoEvent: Decodable {
-    public init(from reader: some ArgumentReader, opcode: UInt32) throws(DecodingError) {}
+    public init(from reader: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {}
 }
 
 public enum DecodingError: Error {
@@ -68,23 +68,23 @@ public enum DecodingError: Error {
 }
 
 public protocol Decodable {
-    init(from reader: some ArgumentReader, opcode: UInt32) throws(DecodingError)
+    init(from reader: inout some ArgumentReader, opcode: UInt32) throws(DecodingError)
 }
 
 public protocol ArgumentReader {
-    func int() -> Int32
-    func uint() -> UInt32
-    func fd() -> FileHandle
-    func array() -> Data
-    func string() -> String
+    mutating func int() -> Int32
+    mutating func uint() -> UInt32
+    mutating func fd() -> FileHandle
+    mutating func array() -> Data
+    mutating func string() -> String
 
-    func object() -> any Proxy
-    func object<P: Proxy>(type: P.Type) -> P
-    func newId<P: Proxy>(type: P.Type) -> P  // version???
+    mutating func object() -> any Proxy
+    mutating func object<P: Proxy>(type: P.Type) -> P
+    mutating func newId<P: Proxy>(type: P.Type) -> P  // version???
 }
 
 extension ArgumentReader {
-    public func fixed() -> Double {
+    public mutating func fixed() -> Double {
         Double(self.int()) / 256
     }
 }

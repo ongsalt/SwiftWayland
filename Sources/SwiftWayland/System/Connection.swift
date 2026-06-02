@@ -94,16 +94,16 @@ public class Connection {
 
         let ptr = wl_proxy_create(rawParent, runtimeInfo.interfaces[type.interface.name]!)
 
-        return createObj(type: type, ptr: ptr!, queue: queue ?? parent?.queue ?? self.mainQueue)
+        return createObj(type: type, ptr: ptr!, queue: queue ?? parent?.queue)
     }
 
-    private func createObj<T: Proxy>(
-        type: T.Type, ptr: OpaquePointer, version: UInt32? = nil, queue: EventQueue
+    func createObj<T: Proxy>(
+        type: T.Type, ptr: OpaquePointer, version: UInt32? = nil, queue: EventQueue? = nil
     ) -> T {
         let obj = T(
             id: wl_proxy_get_id(ptr),
             version: version ?? wl_proxy_get_version(ptr),
-            queue: queue,
+            queue: queue ?? self.mainQueue,
             raw: ptr,
             connection: self
         )

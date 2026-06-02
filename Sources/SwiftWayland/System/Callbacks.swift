@@ -18,7 +18,8 @@ public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
 extension Proxy {
     fileprivate func dispatch(opcode: UInt32, args: UnsafePointer<wl_argument>) -> Bool {
         do {
-            let event = try Self.Event.init(from: CArgumentReader(args), opcode: opcode)
+            var reader = CArgumentReader(args, parent: self)
+            let event = try Self.Event.init(from: &reader, opcode: opcode)
             self.onEvent?(event)
             return true
         } catch {
