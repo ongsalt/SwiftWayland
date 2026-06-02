@@ -66,10 +66,10 @@ let package = Package(
             ]
         ),
 
-        // .testTarget(
-        //     name: "SwiftWaylandTests",
-        //     dependencies: ["SwiftWayland"]
-        // ),
+        .testTarget(
+            name: "SwiftWaylandTests",
+            dependencies: ["SwiftWayland", "WaylandProtocols"]
+        ),
     ],
     swiftLanguageModes: [.v6],
 )
