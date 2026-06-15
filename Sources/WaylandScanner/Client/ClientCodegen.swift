@@ -178,15 +178,8 @@ extension MethodDeclaration: Code {
                 gen << "self.markDead()"
             }
 
+            // currently returns.count will not be > 1
             // create any thing involving newId (infer from returns)
-            for object in self.returns {
-                // type of return is always newId, so a swift class type
-                gen.add(
-                    """
-                    let \(object.name.gravedIfNeeded) = connection.createProxy(type: \(object.swiftType).self, version: self.version, queue: \(QUEUE_INNER_NAME) ?? self.queue)
-                    """
-                )
-            }
 
             // // create callbacks
             for callbacks in self.callbacks {
@@ -197,14 +190,41 @@ extension MethodDeclaration: Code {
                 )
             }
 
-            gen.block("connection.send(self, \(self.requestId), [", endWith: "])") {
+            let sendMethod =
+                if self.returns.isEmpty {
+                    "send"
+                } else {
+                    "sendConstructor"
+                }
+
+            var args = [
+                "self",
+                "\(self.requestId)",
+            ]
+            var letDecl = ""
+
+            if !self.returns.isEmpty {
+                let r = self.returns[0]
+                args.append("\(r.swiftType).self")
+                args.append("version")
+                args.append(QUEUE_INNER_NAME)
+
+                letDecl = "let \(r.name) = "
+            }
+
+            let argString = args.joined(separator: ", ")
+
+            gen.block("\(letDecl)connection.\(sendMethod)(\(argString), [", endWith: "])") {
                 for arg in self.messageArguments {
                     switch arg.arg.type {
-                    case .object, .newId:
-                        if arg.arg.nullable {
-                            gen << ".object(\(arg.name.gravedIfNeeded)?.id ?? 0),"
+                    case .object, .newId: // newId gonna get ignore anyway
+                        let name = arg.name.gravedIfNeeded
+                        if !self.returns.isEmpty && name == self.returns[0].name  {
+                            gen << ".newId(1001),"
+                        } else if arg.arg.nullable {
+                            gen << ".object(\(name)?.id ?? 0),"
                         } else {
-                            gen << ".object(\(arg.name.gravedIfNeeded).id),"
+                            gen << ".object(\(name).id),"
                         }
                     case .string:
                         if arg.arg.nullable {
@@ -228,7 +248,8 @@ extension MethodDeclaration: Code {
             case 1:
                 gen.add("return \(self.returns[0].name)")
             default:
-                gen.add("return (\(self.returns.map(\.name).joined(separator: ", ")))")
+                fatalError("Cannot return more than 1 value at: \(self.requestName)")
+                // gen.add("return (\(self.returns.map(\.name).joined(separator: ", ")))")
             }
         }
         gen.add("}")

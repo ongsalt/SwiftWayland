@@ -57,7 +57,7 @@ open class BaseProxy {
 
     package func markDead() {
         self.isAlive = false
-        self.connection.destroy(proxyId: self.id)
+        self.connection.deregister(proxyId: self.id)
     }
 }
 

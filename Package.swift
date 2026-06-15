@@ -45,6 +45,13 @@ let package = Package(
             ],
         ),
 
+        // .target(
+        //     name: "WaylandClientProtocols",
+        //     dependencies: [
+        //         "WaylandClient",
+        //     ],
+        // ),
+
         .target(
             name: "WaylandScanner",
             dependencies: [

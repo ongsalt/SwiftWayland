@@ -159,13 +159,13 @@ def main():
     if not ok:
         errors += 1
 
-    errors += generate_group(cli, XDG_PROTOCOLS, "Sources/WaylandClient/Generated/Xdg.swift", "XDG")
-    errors += generate_group(cli, XWAYLAND_PROTOCOLS, "Sources/WaylandClient/Generated/Xwayland.swift", "XWAYLAND")
-    errors += generate_group(cli, WP_PROTOCOLS, "Sources/WaylandClient/Generated/Wp.swift", "WP")
+    errors += generate_group(cli, XDG_PROTOCOLS, "Sources/WaylandClientProtocols/Generated/Xdg.swift", "XDG")
+    errors += generate_group(cli, XWAYLAND_PROTOCOLS, "Sources/WaylandClientProtocols/Generated/Xwayland.swift", "XWAYLAND")
+    errors += generate_group(cli, WP_PROTOCOLS, "Sources/WaylandClientProtocols/Generated/Wp.swift", "WP")
     errors += generate_group(
-        cli, KDE_PROTOCOLS, "Sources/WaylandClient/Generated/KDE.swift", "KDE", prefix_map=[("org_kde_kwin", "Kde")]
+        cli, KDE_PROTOCOLS, "Sources/WaylandClientProtocols/Generated/KDE.swift", "KDE", prefix_map=[("org_kde_kwin", "Kde")]
     )
-    errors += generate_group(cli, WLR_PROTOCOLS, "Sources/WaylandClient/Generated/Wlr.swift", "WLR")
+    errors += generate_group(cli, WLR_PROTOCOLS, "Sources/WaylandClientProtocols/Generated/Wlr.swift", "WLR")
 
     if errors:
         print(f"\n{errors} error(s).")

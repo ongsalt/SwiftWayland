@@ -44,9 +44,8 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinAppmenu {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinAppmenu.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinAppmenu.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -218,9 +217,8 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinBlur {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinBlur.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinBlur.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -374,9 +372,8 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinContrast {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinContrast.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinContrast.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -657,9 +654,8 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
     /// - Parameters:
     public func `get`(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinDpms {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinDpms.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinDpms.self, version, _queue, [
+            .newId(1001),
             .object(output.id),
         ])
         return id
@@ -1428,12 +1424,11 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
     /// - Parameters:
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> _WlFullscreenShellModeFeedback {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let feedback = connection.createProxy(type: _WlFullscreenShellModeFeedback.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 2, [
+        let feedback = connection.sendConstructor(self, 2, _WlFullscreenShellModeFeedback.self, version, _queue, [
             .object(surface.id),
             .object(output.id),
             .int(framerate),
-            .object(feedback.id),
+            .newId(1001),
         ])
         return feedback
     }
@@ -1636,9 +1631,8 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     ///   - timeout: The idle timeout in msec
     public func getIdleTimeout(seat: WlSeat, timeout: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinIdleTimeout {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinIdleTimeout.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinIdleTimeout.self, version, _queue, [
+            .newId(1001),
             .object(seat.id),
             .uint(timeout),
         ])
@@ -1806,9 +1800,8 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     /// 
     public func createBrightnessControl(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeExternalBrightnessDeviceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: KdeExternalBrightnessDeviceV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, KdeExternalBrightnessDeviceV1.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
@@ -3564,9 +3557,8 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     /// output devices.
     public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeOutputConfigurationV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: KdeOutputConfigurationV2.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, KdeOutputConfigurationV2.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
@@ -3577,9 +3569,8 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     /// kde_output_configuration_v2.set_custom_modes.
     public func createModeList(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeModeListV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: KdeModeListV2.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, KdeModeListV2.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
@@ -5305,9 +5296,8 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     /// - Returns: the new screen edge
     public func getAutoHideScreenEdge(border: Border, surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeAutoHideScreenEdgeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: KdeAutoHideScreenEdgeV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, KdeAutoHideScreenEdgeV1.self, version, _queue, [
+            .newId(1001),
             .uint(border.rawValue),
             .object(surface.id),
         ])
@@ -5702,9 +5692,8 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     ///   - desktopId: Unique id of the desktop
     public func getVirtualDesktop(desktopId: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaVirtualDesktop {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdePlasmaVirtualDesktop.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdePlasmaVirtualDesktop.self, version, _queue, [
+            .newId(1001),
             .string(desktopId),
         ])
         return id
@@ -6553,9 +6542,8 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
     /// output devices.
     public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinOutputconfiguration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinOutputconfiguration.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinOutputconfiguration.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
@@ -7067,9 +7055,8 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     /// - Parameters:
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdePlasmaSurface.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdePlasmaSurface.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -7705,9 +7692,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     ///   - internalWindowId: The internal window id of the window to create
     public func getWindow(internalWindowId: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaWindow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdePlasmaWindow.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, OrgKdePlasmaWindow.self, version, _queue, [
+            .newId(1001),
             .uint(internalWindowId),
         ])
         return id
@@ -7719,9 +7705,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     public func getWindowByUuid(internalWindowUuid: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaWindow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 12 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 12) }
-        let id = connection.createProxy(type: OrgKdePlasmaWindow.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 2, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 2, OrgKdePlasmaWindow.self, version, _queue, [
+            .newId(1001),
             .string(internalWindowUuid),
         ])
         return id
@@ -7733,9 +7718,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     public func getStackingOrder(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaStackingOrder {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 17 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 17) }
-        let stackingOrder = connection.createProxy(type: OrgKdePlasmaStackingOrder.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 3, [
-            .object(stackingOrder.id),
+        let stackingOrder = connection.sendConstructor(self, 3, OrgKdePlasmaStackingOrder.self, version, _queue, [
+            .newId(1001),
         ])
         return stackingOrder
     }
@@ -8967,9 +8951,8 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
     public func getBuffer(internalBufferId: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinRemoteBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
-        let buffer = connection.createProxy(type: OrgKdeKwinRemoteBuffer.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(buffer.id),
+        let buffer = connection.sendConstructor(self, 0, OrgKdeKwinRemoteBuffer.self, version, _queue, [
+            .newId(1001),
             .int(internalBufferId),
         ])
         return buffer
@@ -9163,9 +9146,8 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecorationPalette {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinServerDecorationPalette.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinServerDecorationPalette.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -9325,9 +9307,8 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecoration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinServerDecoration.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinServerDecoration.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -9547,9 +9528,8 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinShadow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinShadow.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinShadow.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -9960,9 +9940,8 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinSlide {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: OrgKdeKwinSlide.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, OrgKdeKwinSlide.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -10138,9 +10117,8 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     /// - Parameters:
     public func getExtendedSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> QtExtendedSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: QtExtendedSurface.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, QtExtendedSurface.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -11302,9 +11280,8 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     /// - Parameters:
     public func getTextInput(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZwpTextInputV2.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, ZwpTextInputV2.self, version, _queue, [
+            .newId(1001),
             .object(seat.id),
         ])
         return id
@@ -12155,9 +12132,8 @@ public final class WlTextInputManager: BaseProxy, Proxy {
     /// Creates a new text-input object.
     public func createTextInput(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlTextInput {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: WlTextInput.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 0, WlTextInput.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
@@ -12497,9 +12473,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     ///   - pointer: Requested pointer mode
     public func streamOutput(output: WlOutput, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let stream = connection.createProxy(type: ZkdeScreencastStreamUnstableV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 0, [
-            .object(stream.id),
+        let stream = connection.sendConstructor(self, 0, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+            .newId(1001),
             .object(output.id),
             .uint(pointer),
         ])
@@ -12515,9 +12490,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     ///   - pointer: Requested pointer mode
     public func streamWindow(windowUuid: String, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let stream = connection.createProxy(type: ZkdeScreencastStreamUnstableV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(stream.id),
+        let stream = connection.sendConstructor(self, 1, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+            .newId(1001),
             .string(windowUuid),
             .uint(pointer),
         ])
@@ -12547,9 +12521,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamVirtualOutput(name: String, width: Int32, height: Int32, scale: Double, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        let stream = connection.createProxy(type: ZkdeScreencastStreamUnstableV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 3, [
-            .object(stream.id),
+        let stream = connection.sendConstructor(self, 3, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+            .newId(1001),
             .string(name),
             .int(width),
             .int(height),
@@ -12574,9 +12547,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamRegion(x: Int32, y: Int32, width: UInt32, height: UInt32, scale: Double, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        let stream = connection.createProxy(type: ZkdeScreencastStreamUnstableV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 4, [
-            .object(stream.id),
+        let stream = connection.sendConstructor(self, 4, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+            .newId(1001),
             .int(x),
             .int(y),
             .uint(width),
@@ -12601,9 +12573,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamVirtualOutputWithDescription(name: String, description: String, width: Int32, height: Int32, scale: Double, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
-        let stream = connection.createProxy(type: ZkdeScreencastStreamUnstableV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 5, [
-            .object(stream.id),
+        let stream = connection.sendConstructor(self, 5, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+            .newId(1001),
             .string(name),
             .string(description),
             .int(width),

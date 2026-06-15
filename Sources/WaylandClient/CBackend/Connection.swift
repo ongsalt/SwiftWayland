@@ -6,7 +6,7 @@ public class Connection {
     let rawDisplay: OpaquePointer
     public private(set) var mainQueue: EventQueue
     var knownProxies: [UInt32: any Proxy] = [:]
-    var knownQueues: [EventQueue] = []
+    var knownQueues: [OpaquePointer: EventQueue] = [:]
 
     var fd: Int32 {
         wl_display_get_fd(rawDisplay)
@@ -17,21 +17,32 @@ public class Connection {
 
     public init(rawDisplay: OpaquePointer) {
         self.rawDisplay = rawDisplay
-        self.mainQueue = EventQueue(raw: wl_proxy_get_queue(rawDisplay), display: rawDisplay)
-        knownQueues.append(mainQueue)
-
-        self.display.onEvent = { e in
-            switch e {
-            case .deleteId(let id):
-                print("the server said remove id \(id)")
-            case .error(let objectId, let code, let message):
-                print("[wayland] Error (\(code)) \(message) at \(objectId)")
-            }
-        }
+        let rawQueue = wl_proxy_get_queue(rawDisplay)!
+        self.mainQueue = EventQueue(raw: rawQueue, display: rawDisplay)
+        knownQueues[rawQueue] = mainQueue
     }
 
     public convenience init() {
         self.init(rawDisplay: wl_display_connect(nil))
+    }
+
+    // spi?
+    public func sendConstructor<Output: Proxy>(
+        _ proxy: any Proxy,
+        _ opcode: UInt32,
+        _ interface: Output.Type,
+        _ version: UInt32,
+        _ queue: EventQueue?,
+        _ args: [Arg],
+    ) -> Output {
+        let proxy = _send2(
+            proxy, opcode,
+            returning: interface,
+            version: version,
+            on: queue,
+            args: args
+        )!
+        return self.createSwiftObject(from: proxy, type: interface)
     }
 
     public func send(
@@ -39,6 +50,17 @@ public class Connection {
         _ opcode: UInt32,
         _ args: [Arg],
     ) {
+        _ = _send2(proxy, opcode, args: args)
+    }
+
+    private func _send2(
+        _ proxy: any Proxy,
+        _ opcode: UInt32,
+        returning interface: (any Proxy.Type)? = nil,
+        version: UInt32 = 0,
+        on queue: EventQueue? = nil,
+        args: [Arg],
+    ) -> OpaquePointer? {  // return an wl_proxy if existed
         var freeList: [UnsafeMutableRawPointer] = []
         defer {
             for p in freeList {
@@ -68,48 +90,73 @@ public class Connection {
             case .object(let id):
                 arguments.append(wl_argument(o: id == 0 ? nil : knownProxies[id]?.raw))
             // if we have a newId, create it, then make it a .object instead, we create an object before calling send anyway, sooo sammeeee
-            case .newId(let id):
-                arguments.append(wl_argument(o: knownProxies[id]?.raw))
+            case .newId(_):
+                // gonna be ignored anyway
+                arguments.append(wl_argument())
             }
         }
-        wl_proxy_marshal_array(proxy.raw, opcode, &arguments)
-    }
 
-    public func createProxy<T>(
-        type: T.Type,
-        version: UInt32? = nil,
-        queue: EventQueue? = nil,
-        parent: (any Proxy)? = nil,  // unused?
-    ) -> T where T: Proxy {
-        var rawParent = parent?.raw ?? rawDisplay
+        var sender = proxy.raw
+        // if queue was set, then create proxy to self first
         if let queue {
-            rawParent = OpaquePointer(
-                wl_proxy_create_wrapper(UnsafeMutableRawPointer(rawParent)))
-            wl_proxy_set_queue(rawParent, queue.raw)
+            sender = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(sender)))
+            wl_proxy_set_queue(sender, queue.raw)
         }
 
-        let interface = T.ensureLoaded()
-        let ptr = wl_proxy_create(rawParent, interface)
-        return createObj(type: type, ptr: ptr!, queue: queue ?? parent?.queue)
+        let interface = interface?.ensureLoaded()
+        let flags: UInt32 = if interface != nil { UInt32(WL_MARSHAL_FLAG_DESTROY) } else { 0 }
+
+        let returnValue = wl_proxy_marshal_array_flags(
+            sender, opcode, interface, version, flags, &arguments)
+
+        if queue != nil {
+            wl_proxy_destroy(sender)
+        }
+
+        return returnValue
     }
 
-    func createObj<T: Proxy>(
-        type: T.Type, ptr: OpaquePointer, version: UInt32? = nil, queue: EventQueue? = nil
-    ) -> T {
-        let obj = T(
-            id: wl_proxy_get_id(ptr),
-            version: version ?? wl_proxy_get_version(ptr),
-            queue: queue ?? self.mainQueue,
-            raw: ptr,
+    func createSwiftObject<T: Proxy>(from raw: OpaquePointer, type: T.Type) -> T {
+        let instance = T(
+            id: wl_proxy_get_id(raw),
+            version: wl_proxy_get_version(raw),
+            queue: self.knownQueues[wl_proxy_get_queue(raw)]!,
+            raw: raw,
             connection: self
         )
 
-        wl_proxy_add_dispatcher(ptr, dispatchFn, nil, Unmanaged.passUnretained(obj).toOpaque())
-        knownProxies[obj.id] = obj
-        return obj
+        wl_proxy_add_dispatcher(raw, dispatchFn, nil, Unmanaged.passUnretained(instance).toOpaque())
+        return instance
     }
 
-    func createEventQueue(name: String? = nil) -> EventQueue {
+    public func createCallback(
+        fn: @escaping (UInt32) -> Void,
+        queue: EventQueue?
+    ) -> WlCallback {
+        var rawParent = rawDisplay
+        if let queue {
+            rawParent = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(rawParent)))
+            wl_proxy_set_queue(rawParent, queue.raw)
+        }
+
+        let ptr = wl_proxy_create(rawParent, WlCallback.ensureLoaded())!
+        let callback = self.createSwiftObject(from: ptr, type: WlCallback.self)
+
+        callback.onEvent = { event in
+            switch event {
+            case .done(let callbackData):
+                fn(callbackData)
+            }
+        }
+
+        if queue != nil {
+            wl_proxy_destroy(rawParent)
+        }
+
+        return callback
+    }
+
+    public func createEventQueue(name: String? = nil) -> EventQueue {
         let handle =
             if let name {
                 wl_display_create_queue_with_name(rawDisplay, name)
@@ -120,10 +167,19 @@ public class Connection {
         return EventQueue(raw: handle!, display: rawDisplay)
     }
 
-    func destroy(proxyId: UInt32) {
-        guard let proxy = knownProxies[proxyId] else { return }
-        knownProxies[proxyId] = nil
+    /// Actually calling wl_proxy_destroy
+    public func destroy(_ proxy: some Proxy) {
+        knownProxies[proxy.id] = nil
         wl_proxy_destroy(proxy.raw)
+        if let p = proxy as? BaseProxy {
+            p.markDead()
+        }
+    }
+
+    /// Just remove it from swift-side object list.
+    ///
+    func deregister(proxyId: UInt32) {
+        knownProxies[proxyId] = nil
     }
 
     @discardableResult
@@ -258,10 +314,16 @@ extension Array {
 
 // TODO: userData maybe
 public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
-    let proxy =
-        Unmanaged<AnyObject>.fromOpaque(
-            wl_proxy_get_user_data(OpaquePointer(target))!
-        ).takeUnretainedValue() as! any Proxy
+    let target = OpaquePointer(target)!
+    guard
+        let proxy =
+            Unmanaged<AnyObject>.fromOpaque(wl_proxy_get_user_data(target)).takeUnretainedValue()
+            as? any Proxy
+    else {
+        let id = wl_proxy_get_id(target)
+        print("wl_proxy outlive swift object id=\(id) \(target)")
+        return -1
+    }
 
     let ok = proxy.dispatch(opcode: opcode, args: args!)
     return if ok { 0 } else { -1 }  // or -1 on failure
@@ -276,7 +338,7 @@ extension Proxy {
             let event = try Self.Event.init(from: &reader, opcode: opcode)
             if event.isDestructor {
                 (self as? BaseProxy)?.isAlive = false
-                self.connection.destroy(proxyId: self.id)
+                self.connection.deregister(proxyId: self.id)
             }
             self.onEvent?(event)
             return true

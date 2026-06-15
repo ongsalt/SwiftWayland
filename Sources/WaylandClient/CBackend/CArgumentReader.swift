@@ -53,6 +53,6 @@ struct CArgumentReader: ArgumentReader {
     }
 
     mutating func newId<P>(type: P.Type) -> P where P: Proxy {
-        parent.connection.createObj(type: type, ptr: consume().o, version: parent.version, queue: parent.queue)
+        parent.connection.createSwiftObject(from: consume().o, type: type)
     }
 }

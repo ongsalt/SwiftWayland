@@ -17,7 +17,7 @@ try display.sync { print($0) }
 let globals = try Globals(connection: connection)
 try connection.roundtrip()
 
-let compositor = try globals.bind(to: WlCompositor.self, version: 1...6, )
+let compositor = try globals.bind(to: WlCompositor.self, version: 1...6)
 let surface = try compositor.createSurface()
 try connection.roundtrip()
 
@@ -59,6 +59,7 @@ dnf install wayland-devel
 ```
 
 # Todos
+- spi export
 - think about raii
 - dynamically link libwayland
 - server support

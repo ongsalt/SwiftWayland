@@ -90,9 +90,8 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getToplevelDecoration(toplevel: XdgToplevel, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgToplevelDecorationV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgToplevelDecorationV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, ZxdgToplevelDecorationV1.self, version, _queue, [
+            .newId(1001),
             .object(toplevel.id),
         ])
         return id
@@ -360,9 +359,8 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     /// - Returns: the new xdg_exported object
     public func export(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgExportedV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgExportedV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, ZxdgExportedV1.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -452,9 +450,8 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     /// - Returns: the new xdg_imported object
     public func `import`(handle: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgImportedV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgImportedV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, ZxdgImportedV1.self, version, _queue, [
+            .newId(1001),
             .string(handle),
         ])
         return id
@@ -750,9 +747,8 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
     /// - Returns: the new xdg_exported object
     public func exportToplevel(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgExportedV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgExportedV2.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, ZxdgExportedV2.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -847,9 +843,8 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     /// - Returns: the new xdg_imported object
     public func importToplevel(handle: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgImportedV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgImportedV2.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, ZxdgImportedV2.self, version, _queue, [
+            .newId(1001),
             .string(handle),
         ])
         return id
@@ -1141,9 +1136,8 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgOutput(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgOutputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: ZxdgOutputV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, ZxdgOutputV1.self, version, _queue, [
+            .newId(1001),
             .object(output.id),
         ])
         return id
@@ -1499,9 +1493,8 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// and xdg_surface.get_popup for details.
     public func createPositioner(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgPositioner {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgPositioner.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, XdgPositioner.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
@@ -1522,9 +1515,8 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgSurface.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 2, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 2, XdgSurface.self, version, _queue, [
+            .newId(1001),
             .object(surface.id),
         ])
         return id
@@ -2214,9 +2206,8 @@ public final class XdgSurface: BaseProxy, Proxy {
     /// xdg_toplevel is and how it is used.
     public func getToplevel(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevel {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgToplevel.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, XdgToplevel.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
@@ -2235,9 +2226,8 @@ public final class XdgSurface: BaseProxy, Proxy {
     ///   - positioner: positioner for this popup
     public func getPopup(parent: XdgSurface? = nil, positioner: XdgPositioner, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgPopup {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgPopup.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 2, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 2, XdgPopup.self, version, _queue, [
+            .newId(1001),
             .object(parent?.id ?? 0),
             .object(positioner.id),
         ])
@@ -3602,9 +3592,8 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgToplevelDrag(dataSource: WlDataSource, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevelDragV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgToplevelDragV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, XdgToplevelDragV1.self, version, _queue, [
+            .newId(1001),
             .object(dataSource.id),
         ])
         return id
@@ -3822,9 +3811,8 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgDialog(toplevel: XdgToplevel, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgDialogV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgDialogV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, XdgDialogV1.self, version, _queue, [
+            .newId(1001),
             .object(toplevel.id),
         ])
         return id
@@ -4050,9 +4038,8 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     /// xdg_toplevel via the 'set_icon' request.
     public func createIcon(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevelIconV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.createProxy(type: XdgToplevelIconV1.self, version: self.version, queue: _queue ?? self.queue)
-        connection.send(self, 1, [
-            .object(id.id),
+        let id = connection.sendConstructor(self, 1, XdgToplevelIconV1.self, version, _queue, [
+            .newId(1001),
         ])
         return id
     }
