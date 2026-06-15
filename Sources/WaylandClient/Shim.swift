@@ -12,6 +12,7 @@ extension WlRegistry {
                 .uint(name),
                 .string(interface.interface.name),
                 .uint(version),
+                // TODO: switch back to .newId and map it back to .object() only for c backend
                 .object(obj.id),
             ],
         )

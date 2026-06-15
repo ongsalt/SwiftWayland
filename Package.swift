@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
     name: "SwiftWayland",
     products: [
-        .library(name: "SwiftWayland", targets: ["SwiftWayland", "WaylandProtocols"]),
+        .library(name: "WaylandClient", targets: ["WaylandClient"]),
+        // .library(name: "WaylandServer", targets: ["WaylandServer"]),
         .executable(name: "WaylandScannerCLI", targets: ["WaylandScannerCLI"]),
     ],
     traits: [
@@ -19,11 +20,12 @@ let package = Package(
         .trait(name: "XWAYLAND"),
         .trait(name: "KDE"),
         .trait(name: "WLR"),
+        
         .default(enabledTraits: ["CLIENT", "XDG"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
+        .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.18.2"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.8.0"),
     ],
     targets: [
         .target(
@@ -36,17 +38,10 @@ let package = Package(
         ),
 
         .target(
-            name: "SwiftWayland",
+            name: "WaylandClient",
             dependencies: [
                 "SwiftWaylandCommon",
                 "CWayland",
-            ],
-        ),
-
-        .target(
-            name: "WaylandProtocols",
-            dependencies: [
-                "SwiftWayland"
             ],
         ),
 
@@ -68,7 +63,7 @@ let package = Package(
 
         .testTarget(
             name: "SwiftWaylandTests",
-            dependencies: ["SwiftWayland", "WaylandProtocols"]
+            dependencies: ["WaylandClient"]
         ),
     ],
     swiftLanguageModes: [.v6],

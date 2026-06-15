@@ -197,10 +197,7 @@ extension MethodDeclaration: Code {
                 )
             }
 
-            gen.add(
-                "connection.send(self, \(self.requestId), ["
-            )
-            gen.indent {
+            gen.block("connection.send(self, \(self.requestId), [", endWith: "])") {
                 for arg in self.messageArguments {
                     switch arg.arg.type {
                     case .object, .newId:
@@ -217,24 +214,11 @@ extension MethodDeclaration: Code {
                         }
                     case .uint:
                         let rawValueString = arg.arg.enum != nil ? ".rawValue" : ""
-                        gen.add(
-                            ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)\(rawValueString)),"
-                        )
+                        gen << ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)\(rawValueString)),"
                     default:
-                        gen.add(".\(arg.arg.type)(\(arg.name.gravedIfNeeded)),")
+                        gen << ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)),"
                     }
                 }
-            }
-            gen.add("])")
-
-            if self.isDestructor {
-                // TODO: read docs about destructor behavior
-                // gen.add(
-                //     """
-                //     self._state = .dropped
-                //     connection.removeObject(id: self.id)
-                //     """
-                // )
             }
 
             // Return

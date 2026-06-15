@@ -52,13 +52,7 @@ struct CArgumentReader: ArgumentReader {
         object() as! P
     }
 
-    // libwayland hijack this
-    // mutating func newId() -> UInt32 {
-    //     consume().n
-    // }
-
     mutating func newId<P>(type: P.Type) -> P where P: Proxy {
         parent.connection.createObj(type: type, ptr: consume().o, version: parent.version, queue: parent.queue)
     }
-
 }

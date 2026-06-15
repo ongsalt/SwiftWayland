@@ -33,6 +33,7 @@ extension Proxy {
     }
 }
 
+// for codegen conveneince
 open class BaseProxy {
     public let raw: OpaquePointer
     public let connection: Connection
@@ -85,10 +86,10 @@ public protocol ArgumentReader {
     mutating func fd() -> FileHandle
     mutating func array() -> Data
     mutating func string() -> String
-
+    
     mutating func object() -> any Proxy
     mutating func object<P: Proxy>(type: P.Type) -> P
-    mutating func newId<P: Proxy>(type: P.Type) -> P  // version???
+    mutating func newId<P: Proxy>(type: P.Type) -> P
 }
 
 extension ArgumentReader {
@@ -100,4 +101,12 @@ extension ArgumentReader {
 public enum WaylandProxyError: Error {
     case destroyed
     case unsupportedVersion(current: UInt32, required: UInt32)
+}
+
+public func _parseEnum<T>(into: T.Type, _ rawValue: UInt32) throws(DecodingError) -> T
+where T: RawRepresentable, T.RawValue == UInt32 {
+    guard let instance = T(rawValue: rawValue) else {
+        throw .unknownEnumCase(case: rawValue, enumName: String(describing: T.self))
+    }
+    return instance
 }

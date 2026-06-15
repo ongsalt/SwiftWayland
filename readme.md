@@ -63,6 +63,3 @@ dnf install wayland-devel
 - dynamically link libwayland
 - server support
 - switch back to build tool plugin later
-- destructor event
-- better error handling in general
-- generate documentation when returns multiple object (probably never????)
