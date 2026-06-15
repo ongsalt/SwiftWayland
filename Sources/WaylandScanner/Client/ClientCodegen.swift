@@ -4,7 +4,7 @@ let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
 let QUEUE_INNER_NAME: String = "_queue"
 
 extension ProtocolDeclaration: Code {
-    func generate(_ gen: Generator) {
+    public func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         for c in self.classes {
             c.generate(gen)
             gen.add()
@@ -25,7 +25,7 @@ extension ProtocolDeclaration: Code {
 }
 
 extension ClassDeclaration: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         if let docc = self.description?.docc {
             gen.add(docc: docc)
         }
@@ -76,7 +76,7 @@ extension ClassDeclaration: Code {
 }
 
 extension MethodDeclaration: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         // Docc
         if let docc = self.description?.docc {
             gen.add(docc: docc)
@@ -237,7 +237,7 @@ extension MethodDeclaration: Code {
 }
 
 extension EnumDeclaration: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         if !self.bitfield {
             gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
             gen.indent {
@@ -278,7 +278,7 @@ extension EnumDeclaration: Code {
 }
 
 extension EnumCaseDeclaration: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         if let summary = self.summary {
             gen.add(docc: summary)
         }
@@ -287,7 +287,7 @@ extension EnumCaseDeclaration: Code {
 }
 
 extension DeinitDeclaration: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen << "var destructor: Destructor? = .\(destructors[0])"
         gen.add()
 
@@ -311,7 +311,7 @@ extension DeinitDeclaration: Code {
 }
 
 extension Array: Code where Element == EventDeclaration {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen.block("public enum Event: MessageProtocol {") {
             for event in self {
                 gen.walk(node: event)
@@ -397,7 +397,7 @@ private func getArgDecodingExpr(_ arg: ArgumentDeclaration) -> String {
 }
 
 extension EventDeclaration: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         if let description = self.description {
             gen.add(docc: description.docc)
         }

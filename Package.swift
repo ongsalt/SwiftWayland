@@ -20,7 +20,7 @@ let package = Package(
         .trait(name: "XWAYLAND"),
         .trait(name: "KDE"),
         .trait(name: "WLR"),
-        
+
         .default(enabledTraits: ["CLIENT", "XDG"]),
     ],
     dependencies: [

@@ -1,5 +1,4 @@
 import Foundation
-@_spi(SwiftWaylandPrivate) import SwiftWaylandCommon
 
 /// Core Global Object
 /// 
@@ -19,9 +18,11 @@ public final class WlDisplay: BaseProxy, Proxy {
                             name: "callback",
                             type: .newId,
                             interface: "wl_callback",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "get_registry",
                     arguments: [
@@ -29,9 +30,11 @@ public final class WlDisplay: BaseProxy, Proxy {
                             name: "registry",
                             type: .newId,
                             interface: "wl_registry",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -40,27 +43,33 @@ public final class WlDisplay: BaseProxy, Proxy {
                         Argument(
                             name: "object_id",
                             type: .object,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "code",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "message",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "delete_id",
                     arguments: [
                         Argument(
                             name: "id",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Asynchronous Roundtrip
     /// 
@@ -189,13 +198,16 @@ public final class WlRegistry: BaseProxy, Proxy {
                         Argument(
                             name: "name",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "id",
                             type: .newId,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -204,27 +216,33 @@ public final class WlRegistry: BaseProxy, Proxy {
                         Argument(
                             name: "name",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "interface",
                             type: .string,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "version",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "global_remove",
                     arguments: [
                         Argument(
                             name: "name",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
-            ]
+                )
+                ,
+            ],
         )
     
     public static let `protocol`: Protocol = WaylandProtocol
@@ -283,10 +301,12 @@ public final class WlCallback: BaseProxy, Proxy {
                         Argument(
                             name: "callback_data",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
-            ]
+                )
+                ,
+            ],
         )
     
     public static let `protocol`: Protocol = WaylandProtocol
@@ -331,9 +351,11 @@ public final class WlCompositor: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "create_region",
                     arguments: [
@@ -341,9 +363,11 @@ public final class WlCompositor: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_region",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
         )
     /// Create New Surface
@@ -403,43 +427,54 @@ public final class WlShmPool: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_buffer",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "offset",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "height",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "stride",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "format",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "resize",
                     arguments: [
                         Argument(
                             name: "size",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
         )
     /// Create A Buffer From The Pool
@@ -554,23 +589,29 @@ public final class WlShm: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_shm_pool",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "fd",
                             type: .fd,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "size",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 2
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -579,10 +620,12 @@ public final class WlShm: BaseProxy, Proxy {
                         Argument(
                             name: "format",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Create A Shm Pool
     /// 
@@ -1052,15 +1095,19 @@ public final class WlBuffer: BaseProxy, Proxy {
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
             ],
             events: [
                 Message(
                     name: "release",
-                    arguments: [],
-                ),
-            ]
+                    arguments: [
+                    ],
+                )
+                ,
+            ],
         )
     /// Destroy A Buffer
     /// 
@@ -1141,51 +1188,64 @@ public final class WlDataOffer: BaseProxy, Proxy {
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "mime_type",
                             type: .string,
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "receive",
                     arguments: [
                         Argument(
                             name: "mime_type",
                             type: .string,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "fd",
                             type: .fd,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "finish",
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 3
-                ),
+                )
+                ,
                 Message(
                     name: "set_actions",
                     arguments: [
                         Argument(
                             name: "dnd_actions",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "preferred_action",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 3
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -1194,30 +1254,36 @@ public final class WlDataOffer: BaseProxy, Proxy {
                         Argument(
                             name: "mime_type",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "source_actions",
                     arguments: [
                         Argument(
                             name: "source_actions",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 3
-                ),
+                )
+                ,
                 Message(
                     name: "action",
                     arguments: [
                         Argument(
                             name: "dnd_action",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 3
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Accept One Of The Offered Mime Types
     /// 
@@ -1456,24 +1522,30 @@ public final class WlDataSource: BaseProxy, Proxy {
                         Argument(
                             name: "mime_type",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "set_actions",
                     arguments: [
                         Argument(
                             name: "dnd_actions",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 3
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -1483,47 +1555,60 @@ public final class WlDataSource: BaseProxy, Proxy {
                             name: "mime_type",
                             type: .string,
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "send",
                     arguments: [
                         Argument(
                             name: "mime_type",
                             type: .string,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "fd",
                             type: .fd,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "cancelled",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "dnd_drop_performed",
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 3
-                ),
+                )
+                ,
                 Message(
                     name: "dnd_finished",
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 3
-                ),
+                )
+                ,
                 Message(
                     name: "action",
                     arguments: [
                         Argument(
                             name: "dnd_action",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 3
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Add An Offered Mime Type
     /// 
@@ -1722,24 +1807,29 @@ public final class WlDataDevice: BaseProxy, Proxy {
                             type: .object,
                             interface: "wl_data_source",
                             nullable: true,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "origin",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "icon",
                             type: .object,
                             interface: "wl_surface",
                             nullable: true,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_selection",
                     arguments: [
@@ -1748,19 +1838,24 @@ public final class WlDataDevice: BaseProxy, Proxy {
                             type: .object,
                             interface: "wl_data_source",
                             nullable: true,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 2
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -1770,62 +1865,78 @@ public final class WlDataDevice: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_data_offer",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "enter",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "x",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "id",
                             type: .object,
                             interface: "wl_data_offer",
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "leave",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "motion",
                     arguments: [
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "x",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "drop",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "selection",
                     arguments: [
@@ -1834,10 +1945,12 @@ public final class WlDataDevice: BaseProxy, Proxy {
                             type: .object,
                             interface: "wl_data_offer",
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Start Drag-And-Drop Operation
     /// 
@@ -2050,9 +2163,11 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_data_source",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "get_data_device",
                     arguments: [
@@ -2060,14 +2175,17 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_data_device",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "seat",
                             type: .object,
                             interface: "wl_seat",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
         )
     /// Create A New Data Source
@@ -2150,14 +2268,17 @@ public final class WlShell: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_shell_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
         )
     /// Create A Shell Surface From A Surface
@@ -2216,9 +2337,11 @@ public final class WlShellSurface: BaseProxy, Proxy {
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "move",
                     arguments: [
@@ -2226,13 +2349,16 @@ public final class WlShellSurface: BaseProxy, Proxy {
                             name: "seat",
                             type: .object,
                             interface: "wl_seat",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "resize",
                     arguments: [
@@ -2240,21 +2366,27 @@ public final class WlShellSurface: BaseProxy, Proxy {
                             name: "seat",
                             type: .object,
                             interface: "wl_seat",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "edges",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_toplevel",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "set_transient",
                     arguments: [
@@ -2262,40 +2394,49 @@ public final class WlShellSurface: BaseProxy, Proxy {
                             name: "parent",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "flags",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_fullscreen",
                     arguments: [
                         Argument(
                             name: "method",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "framerate",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "output",
                             type: .object,
                             interface: "wl_output",
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_popup",
                     arguments: [
@@ -2303,30 +2444,37 @@ public final class WlShellSurface: BaseProxy, Proxy {
                             name: "seat",
                             type: .object,
                             interface: "wl_seat",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "parent",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "flags",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_maximized",
                     arguments: [
@@ -2335,27 +2483,33 @@ public final class WlShellSurface: BaseProxy, Proxy {
                             type: .object,
                             interface: "wl_output",
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_title",
                     arguments: [
                         Argument(
                             name: "title",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_class",
                     arguments: [
                         Argument(
                             name: "class_",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -2364,31 +2518,39 @@ public final class WlShellSurface: BaseProxy, Proxy {
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "configure",
                     arguments: [
                         Argument(
                             name: "edges",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "height",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "popup_done",
-                    arguments: [],
-                ),
-            ]
+                    arguments: [
+                    ],
+                )
+                ,
+            ],
         )
     /// Respond To A Ping Event
     /// 
@@ -2771,8 +2933,10 @@ public final class WlSurface: BaseProxy, Proxy {
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "attach",
                     arguments: [
@@ -2781,38 +2945,47 @@ public final class WlSurface: BaseProxy, Proxy {
                             type: .object,
                             interface: "wl_buffer",
                             nullable: true,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "damage",
                     arguments: [
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "height",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "frame",
                     arguments: [
@@ -2820,9 +2993,11 @@ public final class WlSurface: BaseProxy, Proxy {
                             name: "callback",
                             type: .newId,
                             interface: "wl_callback",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_opaque_region",
                     arguments: [
@@ -2831,9 +3006,11 @@ public final class WlSurface: BaseProxy, Proxy {
                             type: .object,
                             interface: "wl_region",
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_input_region",
                     arguments: [
@@ -2842,69 +3019,85 @@ public final class WlSurface: BaseProxy, Proxy {
                             type: .object,
                             interface: "wl_region",
                             nullable: true,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "commit",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "set_buffer_transform",
                     arguments: [
                         Argument(
                             name: "transform",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 2
-                ),
+                )
+                ,
                 Message(
                     name: "set_buffer_scale",
                     arguments: [
                         Argument(
                             name: "scale",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 3
-                ),
+                )
+                ,
                 Message(
                     name: "damage_buffer",
                     arguments: [
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "height",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 4
-                ),
+                )
+                ,
                 Message(
                     name: "offset",
                     arguments: [
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 5
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -2914,9 +3107,11 @@ public final class WlSurface: BaseProxy, Proxy {
                             name: "output",
                             type: .object,
                             interface: "wl_output",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "leave",
                     arguments: [
@@ -2924,30 +3119,36 @@ public final class WlSurface: BaseProxy, Proxy {
                             name: "output",
                             type: .object,
                             interface: "wl_output",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "preferred_buffer_scale",
                     arguments: [
                         Argument(
                             name: "factor",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 6
-                ),
+                )
+                ,
                 Message(
                     name: "preferred_buffer_transform",
                     arguments: [
                         Argument(
                             name: "transform",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 6
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Delete Surface
     /// 
@@ -3441,9 +3642,11 @@ public final class WlSeat: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_pointer",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "get_keyboard",
                     arguments: [
@@ -3451,9 +3654,11 @@ public final class WlSeat: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_keyboard",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "get_touch",
                     arguments: [
@@ -3461,15 +3666,19 @@ public final class WlSeat: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_touch",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 5
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -3478,20 +3687,24 @@ public final class WlSeat: BaseProxy, Proxy {
                         Argument(
                             name: "capabilities",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "name",
                     arguments: [
                         Argument(
                             name: "name",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
                     since: 2
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Return Pointer Object
     /// 
@@ -3681,29 +3894,36 @@ public final class WlPointer: BaseProxy, Proxy {
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
                             nullable: true,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "hotspot_x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "hotspot_y",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 3
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -3712,163 +3932,200 @@ public final class WlPointer: BaseProxy, Proxy {
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface_x",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface_y",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "leave",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "motion",
                     arguments: [
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface_x",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface_y",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "button",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "button",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "state",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "axis",
                     arguments: [
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "axis",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "value",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "frame",
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 5
-                ),
+                )
+                ,
                 Message(
                     name: "axis_source",
                     arguments: [
                         Argument(
                             name: "axis_source",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 5
-                ),
+                )
+                ,
                 Message(
                     name: "axis_stop",
                     arguments: [
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "axis",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 5
-                ),
+                )
+                ,
                 Message(
                     name: "axis_discrete",
                     arguments: [
                         Argument(
                             name: "axis",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "discrete",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 5
-                ),
+                )
+                ,
                 Message(
                     name: "axis_value120",
                     arguments: [
                         Argument(
                             name: "axis",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "value120",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 8
-                ),
+                )
+                ,
                 Message(
                     name: "axis_relative_direction",
                     arguments: [
                         Argument(
                             name: "axis",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "direction",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
                     since: 9
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Set The Pointer Surface
     /// 
@@ -4252,9 +4509,11 @@ public final class WlKeyboard: BaseProxy, Proxy {
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 3
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -4263,110 +4522,135 @@ public final class WlKeyboard: BaseProxy, Proxy {
                         Argument(
                             name: "format",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "fd",
                             type: .fd,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "size",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "enter",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "keys",
                             type: .array,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "leave",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "key",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "key",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "state",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "modifiers",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "mods_depressed",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "mods_latched",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "mods_locked",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "group",
                             type: .uint,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "repeat_info",
                     arguments: [
                         Argument(
                             name: "rate",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "delay",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 4
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Release The Keyboard Object
     /// 
@@ -4543,9 +4827,11 @@ public final class WlTouch: BaseProxy, Proxy {
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 3
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -4554,109 +4840,136 @@ public final class WlTouch: BaseProxy, Proxy {
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "id",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "x",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "up",
                     arguments: [
                         Argument(
                             name: "serial",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "id",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "motion",
                     arguments: [
                         Argument(
                             name: "time",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "id",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "x",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "frame",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "cancel",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "shape",
                     arguments: [
                         Argument(
                             name: "id",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "major",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "minor",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
                     since: 6
-                ),
+                )
+                ,
                 Message(
                     name: "orientation",
                     arguments: [
                         Argument(
                             name: "id",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "orientation",
                             type: .fixed,
-                        ),
+                        )
+                        ,
                     ],
                     since: 6
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Release The Touch Object
     /// 
@@ -4819,9 +5132,11 @@ public final class WlOutput: BaseProxy, Proxy {
                 Message(
                     name: "release",
                     type: .destructor,
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 3
-                ),
+                )
+                ,
             ],
             events: [
                 Message(
@@ -4830,94 +5145,116 @@ public final class WlOutput: BaseProxy, Proxy {
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "physical_width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "physical_height",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "subpixel",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "make",
                             type: .string,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "model",
                             type: .string,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "transform",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "mode",
                     arguments: [
                         Argument(
                             name: "flags",
                             type: .uint,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "height",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "refresh",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "done",
-                    arguments: [],
+                    arguments: [
+                    ],
                     since: 2
-                ),
+                )
+                ,
                 Message(
                     name: "scale",
                     arguments: [
                         Argument(
                             name: "factor",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
                     since: 2
-                ),
+                )
+                ,
                 Message(
                     name: "name",
                     arguments: [
                         Argument(
                             name: "name",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
                     since: 4
-                ),
+                )
+                ,
                 Message(
                     name: "description",
                     arguments: [
                         Argument(
                             name: "description",
                             type: .string,
-                        ),
+                        )
+                        ,
                     ],
                     since: 4
-                ),
-            ]
+                )
+                ,
+            ],
         )
     /// Release The Output Object
     /// 
@@ -5163,50 +5500,62 @@ public final class WlRegion: BaseProxy, Proxy {
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "add",
                     arguments: [
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "height",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "subtract",
                     arguments: [
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "width",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "height",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
         )
     /// Destroy Region
@@ -5306,8 +5655,10 @@ public final class WlSubcompositor: BaseProxy, Proxy {
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "get_subsurface",
                     arguments: [
@@ -5315,19 +5666,23 @@ public final class WlSubcompositor: BaseProxy, Proxy {
                             name: "id",
                             type: .newId,
                             interface: "wl_subsurface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "surface",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "parent",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
         )
     /// Unbind From The Subcompositor Interface
@@ -5460,21 +5815,26 @@ public final class WlSubsurface: BaseProxy, Proxy {
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "set_position",
                     arguments: [
                         Argument(
                             name: "x",
                             type: .int,
-                        ),
+                        )
+                        ,
                         Argument(
                             name: "y",
                             type: .int,
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "place_above",
                     arguments: [
@@ -5482,9 +5842,11 @@ public final class WlSubsurface: BaseProxy, Proxy {
                             name: "sibling",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "place_below",
                     arguments: [
@@ -5492,17 +5854,23 @@ public final class WlSubsurface: BaseProxy, Proxy {
                             name: "sibling",
                             type: .object,
                             interface: "wl_surface",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
                 Message(
                     name: "set_sync",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "set_desync",
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
             ],
         )
     /// Remove Sub-Surface Interface
@@ -5662,8 +6030,10 @@ public final class WlFixes: BaseProxy, Proxy {
                 Message(
                     name: "destroy",
                     type: .destructor,
-                    arguments: [],
-                ),
+                    arguments: [
+                    ],
+                )
+                ,
                 Message(
                     name: "destroy_registry",
                     arguments: [
@@ -5671,9 +6041,11 @@ public final class WlFixes: BaseProxy, Proxy {
                             name: "registry",
                             type: .object,
                             interface: "wl_registry",
-                        ),
+                        )
+                        ,
                     ],
-                ),
+                )
+                ,
             ],
         )
     /// Destroys This Object
@@ -5755,3 +6127,4 @@ WlSubsurface.interface,
 WlFixes.interface
         ]
     )
+

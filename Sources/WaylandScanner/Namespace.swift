@@ -22,7 +22,7 @@ class Scope {
 }
 
 extension Scope: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         if self.children.count == 0 {
             gen.add("public enum \(self.name) {}")
             return
@@ -37,32 +37,32 @@ extension Scope: Code {
     }
 }
 
-public func createNamespaces(namespaces: Set<String>) -> String {
-    var namespaces = namespaces
-    namespaces.remove("")
-    let root = Scope(name: "")
+// public func createNamespaces(namespaces: Set<String>) -> String {
+//     var namespaces = namespaces
+//     namespaces.remove("")
+//     let root = Scope(name: "")
 
-    for namespace in namespaces {
-        _ = root.getOrCreate(path: namespace)
-    }
+//     for namespace in namespaces {
+//         _ = root.getOrCreate(path: namespace)
+//     }
 
-    let gen = Generator()
-    for (_, s) in root.children {
-        gen.walk(node: s)
-    }
+//     let gen = Generator()
+//     for (_, s) in root.children {
+//         gen.walk(node: s)
+//     }
 
-    return gen.text
-}
+//     return gen.text
+// }
 
-func transformName(_ name: String) {
-    // xdg_decoration_unstable_v1::zxdg_decoration_manager_v1 
-    // will be Xdg.DecorationUnstable.V1 DecorationManager
-    // this namespace is already done by the CLI
+// func transformName(_ name: String) {
+//     // xdg_decoration_unstable_v1::zxdg_decoration_manager_v1
+//     // will be Xdg.DecorationUnstable.V1 DecorationManager
+//     // this namespace is already done by the CLI
 
-    // will be Xdg.Decoration.Zv1 DecorationManager
-    
-    let knownPrefixes = ["Wl", "Wp", "Zwp", "Xdg", "Zxdg"]
-    // Subfixes is V{n} or 
+//     // will be Xdg.Decoration.Zv1 DecorationManager
 
-    // so we trim
-}
+//     // let knownPrefixes = ["Wl", "Wp", "Zwp", "Xdg", "Zxdg"]
+//     // Subfixes is V{n} or
+
+//     // so we trim
+// }

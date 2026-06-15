@@ -21,50 +21,18 @@ public struct Options: Sendable {
     }
 }
 
-public func generateClasses(_ xml: String, options: Options) throws -> String {
-    return try generateFile(xml, options: options, doImport: false)
-}
-
-public func generateFile(_ xml: String, options: Options, doImport: Bool = true) throws -> String {
+public func parse(
+    _ xml: String,
+    trimmed trim: Bool = false,
+    prefixMap: [(from: String, to: String)] = []
+) throws -> ProtocolDeclaration {
     let decoder = XMLDecoder()
     let aProtocol = try decoder.decode(Protocol.self, from: xml.data(using: .utf8)!)
-
-    let generator = Generator()
-
-    if doImport {
-        generator.add("import Foundation")
-        if let name = options.importName {
-            generator.add("@_spi(SwiftWaylandPrivate) import \(name)")
-        }
-
-        generator.add()
-    }
-
-    if let traits = options.traits {
-        generator.add("#if \(traits)")
-    }
-
-    if let namespace = options.namespace {
-        generator.add("extension \(namespace) {")
-        generator.indentLevel += 4
-    }
-
     let decl = transform(
         protocol: aProtocol,
-        trim: options.trim,
-        prefixMap: options.prefixMap
+        trim: trim,
+        prefixMap: prefixMap
     )
-    generator.walk(node: decl)
-    generator.add()
 
-    if options.namespace != nil {
-        generator.indentLevel -= 4
-        generator.add("}")
-    }
-
-    if options.traits != nil {
-        generator.add("#endif")
-    }
-
-    return generator.text
+    return decl
 }

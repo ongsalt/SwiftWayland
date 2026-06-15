@@ -1,29 +1,23 @@
-final class Generator {
-    var stack: [any Code] = []
+import Foundation
+
+public final class Generator<Output: TextOutputStream> {
     var indentation: Int = 4
-    var indentLevel: Int = 0
-    var importName: String?
+    public var indentLevel: Int = 0
 
-    var text: String {
-        lines.joined(separator: "\n")
+    private var outputStream: Output
+    public init(outputStream: Output) {
+        self.outputStream = outputStream
     }
 
-    var lines: [String] = []
-
-    func add(_ string: String) {
-        lines.append(
-            string.indent(space: indentLevel)
-        )
-    }
-
-    func add(sameLine string: String) {
-        if let l = lines.popLast() {
-            lines.append(l + string)
+    public func add(_ string: String, endWith ending: String? = "\n") {
+        outputStream.write(string.indent(space: indentLevel))
+        if let ending {
+            outputStream.write(ending)
         }
     }
 
-    func add() {
-        lines.append("")
+    public func add() {
+        outputStream.write("\n")
     }
 
     func add(docc str: String) {
@@ -40,47 +34,33 @@ final class Generator {
         self.indentLevel -= level ?? indentation
     }
 
-    func block(_ prefix: String = "{", endWith subfix: String = "}", _ block: () -> Void) {
-        add(prefix)
-        self.indentLevel += indentation
-        block()
-        self.indentLevel -= indentation
-        add(subfix)
-    }
-
-    func array(_ arr: [some Code], startWith prefix: String = "", endWith subfix: String = "", ) {
-        if arr.count == 0 {
-            self << "\(prefix)[]\(subfix)"
-            return
+    func block(
+        _ prefix: String = "{",
+        endWith subfix: String = "}",
+        unwrapIf skipWrapping: Bool = false,
+        _ block: () -> Void
+    ) {
+        if !skipWrapping {
+            add(prefix)
+            self.indentLevel += indentation
         }
-        self.block("\(prefix)[", endWith: "]\(subfix)") {
-            for c in arr {
-                c.generate(self)
-                self.add(sameLine: ",")
-            }
+        block()
+        if !skipWrapping {
+            self.indentLevel -= indentation
+            add(subfix)
         }
     }
 
     func walk(node: some Code) {
-        stack.append(node)
         node.generate(self)
-        _ = stack.popLast()
     }
 
-    func walk(array: [some Code]) {
-        self.add(sameLine: "[")
-        for c in array {
-            self.walk(node: c)
-            self.add(sameLine: ",")
-        }
-        self.add("]")
-    }
-
-    static func << (generator: Generator, line: String) {
+    public static func << (generator: Generator, line: String) {
         generator.add(line)
     }
 }
 
 protocol Code {
-    func generate(_ generator: Generator)
+    func generate<Output: TextOutputStream>(_ generator: Generator<Output>)
 }
+

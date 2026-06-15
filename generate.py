@@ -2,7 +2,8 @@
 import subprocess
 import sys
 import os
-from pathlib import Path
+
+DRY_RUN = False
 
 XDG_PROTOCOLS = [
     "./Protocols/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml",
@@ -102,43 +103,41 @@ WLR_PROTOCOLS = [
     "./ProtocolsWlr/unstable/wlr-virtual-pointer-unstable-v1.xml",
 ]
 
-
-def to_camel(stem: str) -> str:
-    return "".join(part.capitalize() for part in stem.split("-"))
-
-
 def run(cli: str, args: list[str]) -> bool:
-    return subprocess.run([cli] + args).returncode == 0
-
+    command = [cli] + args
+    if DRY_RUN:
+        print(f"DRY RUN:")
+        print(' '.join(command))
+        return True
+    return subprocess.run(command).returncode == 0
 
 def generate_group(
     cli: str,
     protocols: list[str],
-    output_dir: str,
+    output_file: str,
     trait: str | None,
-    prefix_map: list[tuple[str, str]] = [],
+    namespace: str | None = None,
+    prefix_map: list[tuple[str, str]] | None = None,
 ) -> int:
-    errors = 0
-    for proto_path in protocols:
-        name = to_camel(Path(proto_path).stem)
-        output = f"{output_dir}/{name}.swift"
-        args = ["client", proto_path, output, "--import", "SwiftWayland"]
-        if trait:
-            args += ["--traits", trait]
-        for old, new in prefix_map:
-            args += ["--prefix-map", f"{old}:{new}"]
-        if not run(cli, args):
-            errors += 1
-    return errors
-
+    if prefix_map is None:
+        prefix_map = []
+        
+    args = ["client", "--input-files"] + protocols + ["--output-file", output_file]
+    
+    if namespace:
+        args += ["--namespace", namespace]
+    if trait:
+        args += ["--traits", trait]
+        
+    for old, new in prefix_map:
+        args += ["--prefix-map", f"{old}:{new}"]
+        
+    if not run(cli, args):
+        return 1
+    return 0
 
 def main():
-    os.makedirs("Sources/SwiftWayland/Generated", exist_ok=True)
-    os.makedirs("Sources/WaylandProtocols/Generated/Xdg", exist_ok=True)
-    os.makedirs("Sources/WaylandProtocols/Generated/Xwayland", exist_ok=True)
-    os.makedirs("Sources/WaylandProtocols/Generated/Wp", exist_ok=True)
-    os.makedirs("Sources/WaylandProtocols/Generated/KDE", exist_ok=True)
-    os.makedirs("Sources/WaylandProtocols/Generated/Wlr", exist_ok=True)
+    os.makedirs("Sources/WaylandProtocols/Generated", exist_ok=True)
 
     print("Building WaylandScannerCLI...")
     subprocess.run(["swift", "build", "--product", "WaylandScannerCLI"], check=True)
@@ -151,25 +150,28 @@ def main():
 
     errors = 0
 
-    ok = run(cli, ["client", "wayland.xml", "Sources/SwiftWayland/Generated/Wayland.swift", "--import", "SwiftWaylandCommon"])
+    ok = run(cli, [
+        "client", 
+        "--input-files", "wayland.xml", 
+        "--output-file", "Sources/WaylandClient/Generated/Wayland.swift", 
+    ])
+    
     if not ok:
         errors += 1
 
-    errors += generate_group(cli, XDG_PROTOCOLS, "Sources/WaylandProtocols/Generated/Xdg", "XDG")
-    errors += generate_group(cli, XWAYLAND_PROTOCOLS, "Sources/WaylandProtocols/Generated/Xwayland", "XWAYLAND")
-    errors += generate_group(cli, WP_PROTOCOLS, "Sources/WaylandProtocols/Generated/Wp", "WP")
+    errors += generate_group(cli, XDG_PROTOCOLS, "Sources/WaylandClient/Generated/Xdg.swift", "XDG")
+    errors += generate_group(cli, XWAYLAND_PROTOCOLS, "Sources/WaylandClient/Generated/Xwayland.swift", "XWAYLAND")
+    errors += generate_group(cli, WP_PROTOCOLS, "Sources/WaylandClient/Generated/Wp.swift", "WP")
     errors += generate_group(
-        cli, KDE_PROTOCOLS, "Sources/WaylandProtocols/Generated/KDE", "KDE",
-        prefix_map=[("org_kde_kwin", "Kde")],
+        cli, KDE_PROTOCOLS, "Sources/WaylandClient/Generated/KDE.swift", "KDE", prefix_map=[("org_kde_kwin", "Kde")]
     )
-    errors += generate_group(cli, WLR_PROTOCOLS, "Sources/WaylandProtocols/Generated/Wlr", "WLR")
+    errors += generate_group(cli, WLR_PROTOCOLS, "Sources/WaylandClient/Generated/Wlr.swift", "WLR")
 
     if errors:
         print(f"\n{errors} error(s).")
         sys.exit(1)
     else:
         print("\nDone.")
-
 
 if __name__ == "__main__":
     main()

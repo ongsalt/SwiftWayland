@@ -1,41 +1,61 @@
 import SwiftWaylandCommon
 
 extension Protocol: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen.add("Protocol(")
         gen.indent {
             gen.add("name: \"\(self.name)\",")
             gen.add("interfaces: ")
-            gen.walk(array: self.interfaces)
+            for interface in self.interfaces {
+                interface.generate(gen)
+            }
         }
         gen.add(")")
     }
 }
 
 extension Interface: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen.block("Interface(", endWith: ")") {
             gen << "name: \"\(self.name)\","
             gen << "version: \(self.version),"
 
             if !requests.isEmpty {
-                gen.array(requests, startWith: "requests: ", endWith: ",")
+                gen.block("requests: [", endWith: "],") {
+                    for request in self.requests {
+                        request.generate(gen)
+                        gen << ","
+                    }
+                }
             }
+
             if !events.isEmpty {
-                gen.array(events, startWith: "events: ")
+                gen.block("events: [", endWith: "],") {
+                    for event in self.events {
+                        event.generate(gen)
+                        gen << ","
+                    }
+                }
             }
         }
     }
 }
 
 extension Message: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen.block("Message(", endWith: ")") {
             gen << "name: \"\(self.name)\","
             if let type {
                 gen << "type: .\(type),"
             }
-            gen.array(self.arguments, startWith: "arguments: ", endWith: ",")
+
+            gen.block("arguments: [", endWith: "],") {
+                for arg in self.self.arguments {
+                    arg.generate(gen)
+                    gen << ","
+                }
+            }
+
             if let since {
                 gen << "since: \(since)"
             }
@@ -44,7 +64,7 @@ extension Message: Code {
 }
 
 extension Argument: Code {
-    func generate(_ gen: Generator) {
+    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen.block("Argument(", endWith: ")") {
             gen << "name: \"\(self.name)\","
             gen << "type: .\(self.type),"

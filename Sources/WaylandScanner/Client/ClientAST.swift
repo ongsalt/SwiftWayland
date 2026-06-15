@@ -1,7 +1,7 @@
 // import SwiftSyntax
 import SwiftWaylandCommon
 
-public struct ProtocolDeclaration {
+public struct ProtocolDeclaration: Sendable {
     var name: String
     var copyright: String?
     var description: Description?
@@ -9,7 +9,7 @@ public struct ProtocolDeclaration {
     var classes: [ClassDeclaration]
 }
 
-public struct ClassDeclaration {
+public struct ClassDeclaration: Sendable {
     var name: String
     var interface: Interface
     var interfaceName: String { interface.name }
@@ -22,7 +22,7 @@ public struct ClassDeclaration {
     var events: [EventDeclaration] = []
 }
 
-struct MethodDeclaration {
+struct MethodDeclaration: Sendable {
     var name: String
     var requestName: String
     var requestId: UInt32
@@ -36,18 +36,18 @@ struct MethodDeclaration {
     var `throws`: String?
 }
 
-struct CallbackDeclaration {
+struct CallbackDeclaration: Sendable {
     var name: String
 }
 
-struct EventDeclaration {
+struct EventDeclaration: Sendable {
     var name: String
     var description: Description?
     var arguments: [ArgumentDeclaration]
     var isDestructor: Bool = false
 }
 
-struct ArgumentDeclaration {
+struct ArgumentDeclaration: Sendable {
     var name: String
     var externalName: String? = nil
     var swiftType: String
@@ -57,11 +57,11 @@ struct ArgumentDeclaration {
 }
 
 
-struct DeinitDeclaration {
+struct DeinitDeclaration: Sendable {
     var destructors: [String]
 }
 
-struct EnumDeclaration {
+struct EnumDeclaration: Sendable {
     var name: String
     var description: Description?
     var bitfield: Bool = false
@@ -72,13 +72,13 @@ struct EnumDeclaration {
 }
 
 // this is event enum tho
-struct EnumCaseDeclaration {
+struct EnumCaseDeclaration: Sendable {
     var name: String
     var value: UInt32
     var summary: String?
 }
 
-struct Statement {
+struct Statement: Sendable {
     var contents: String
 }
 

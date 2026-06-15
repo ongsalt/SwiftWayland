@@ -1,6 +1,3 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-
 import ArgumentParser
 import Foundation
 import WaylandScanner
@@ -17,21 +14,23 @@ extension Mode: ExpressibleByArgument {
 }
 
 @main
-struct WaylandScannerCLI: ParsableCommand {
+struct WaylandScannerCLI: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         abstract: "Calculate descriptive statistics.",
-        subcommands: [GenerateClientCode.self, GenerateNamespaces.self])
+        subcommands: [GenerateClientCode.self])
 }
 
-struct GenerateClientCode: ParsableCommand {
+struct GenerateClientCode: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "client",
         abstract: "Calculate descriptive statistics.", )
 
-    @ArgumentParser.Argument(help: "Protocol XML", completion: .file())
-    var inputFile: String
+    @Option(
+        name: .shortAndLong, parsing: .upToNextOption, help: "Protocol XML",
+        completion: .file(extensions: ["xml"]))
+    var inputFiles: [String]
 
-    @ArgumentParser.Argument(help: "Output directory", completion: .file())
+    @Option(name: .shortAndLong, help: "Output directory", completion: .file(extensions: ["swift"]))
     var outputFile: String
 
     @Option(name: .long, help: "import name")
@@ -52,50 +51,124 @@ struct GenerateClientCode: ParsableCommand {
         help: "Prefix remapping in 'old_prefix:NewPrefix' format (repeatable)")
     var prefixMap: [String] = []
 
-    mutating func run() throws {
-        let inputUrl = URL(filePath: inputFile)
-
-        let importName = self.import
+    mutating func run() async throws {
         let outputFile = URL(filePath: outputFile)
-
+        let importName = self.import
         let parsedPrefixMap: [(from: String, to: String)] = prefixMap.compactMap { entry in
             let parts = entry.split(separator: ":", maxSplits: 1)
             guard parts.count == 2 else { return nil }
             return (from: String(parts[0]), to: String(parts[1]))
         }
 
-        try! FileManager.default.createDirectory(
-            at: outputFile.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let options = Options(
+            namespace: namespace,
+            importName: importName,
+            traits: traits,
+            prefixMap: parsedPrefixMap
+        )
 
-        let text: String = try generateFile(
-            String(contentsOf: inputUrl, encoding: .utf8),
-            options: Options(
-                namespace: namespace,
-                importName: importName,
-                traits: traits,
-                prefixMap: parsedPrefixMap
-            ))
-        try text.write(to: outputFile, atomically: true, encoding: .utf8)
+        var protocols: [ProtocolDeclaration] = []
+        for inputFile in inputFiles {
+            let url = URL(filePath: inputFile)
+            let p = try WaylandScanner.parse(String(contentsOf: url, encoding: .utf8))
+            protocols.append(p)
+        }
+
+        try FileManager.default.createDirectory(
+            at: outputFile.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+
+        guard let writer = FileWriter(url: outputFile) else {
+            throw ScannerError.cannotCreateOutputStream
+        }
+
+        let generator = Generator(outputStream: writer)
+
+        try write(into: generator, protocols: protocols, options: options)
+
     }
 }
 
-struct GenerateNamespaces: ParsableCommand {
-    static let configuration = CommandConfiguration(
-        commandName: "namespace",
-        abstract: "Generated namespace enum from provided list")
+public func write<Output: TextOutputStream>(
+    into gen: Generator<Output>, protocols: [ProtocolDeclaration], options: Options
+) throws {
+    gen << "import Foundation"
+    if let importName = options.importName {
+        gen << "import \(importName)"
+    }
+    gen.add()
 
-    @ArgumentParser.Argument(help: "Output file", completion: .file())
-    var outputFile: String
+    if let traits = options.traits {
+        gen.add("#if \(traits)")
+    }
 
-    @ArgumentParser.Argument(help: "Namespace list like Wayland.Display,Xdg.Decoration.ZV1")
-    var namespaces: [String]
+    if let namespace = options.namespace {
+        gen.add("extension \(namespace) {")
+        gen.indentLevel += 4
+    }
 
-    mutating func run() throws {
-        let outputFile = URL(filePath: outputFile)
-        try! FileManager.default.createDirectory(
-            at: outputFile.deletingLastPathComponent(), withIntermediateDirectories: true)
+    for p in protocols {
+        p.generate(gen)
+        gen.add()
+    }
 
-        let text = createNamespaces(namespaces: Set(namespaces))
-        try text.write(to: outputFile, atomically: true, encoding: .utf8)
+    if options.namespace != nil {
+        gen.indentLevel -= 4
+        gen.add("}")
+    }
+
+    if options.traits != nil {
+        gen.add("#endif")
+    }
+}
+
+// struct GenerateNamespaces: ParsableCommand {
+//     static let configuration = CommandConfiguration(
+//         commandName: "namespace",
+//         abstract: "Generated namespace enum from provided list")
+
+//     @ArgumentParser.Argument(help: "Output file", completion: .file())
+//     var outputFile: String
+
+//     @ArgumentParser.Argument(help: "Namespace list like Wayland.Display,Xdg.Decoration.ZV1")
+//     var namespaces: [String]
+
+//     mutating func run() throws {
+//         let outputFile = URL(filePath: outputFile)
+//         try! FileManager.default.createDirectory(
+//             at: outputFile.deletingLastPathComponent(), withIntermediateDirectories: true)
+
+//         let text = createNamespaces(namespaces: Set(namespaces))
+//         try text.write(to: outputFile, atomically: true, encoding: .utf8)
+//     }
+// }
+
+enum ScannerError: Error {
+    case cannotCreateOutputStream
+}
+
+struct FileWriter: TextOutputStream {
+    let fileHandle: FileHandle
+
+    init?(url: URL) {
+        if !FileManager.default.fileExists(atPath: url.path) {
+            _ = FileManager.default.createFile(atPath: url.path, contents: nil)
+        }
+
+        guard let handle = try? FileHandle(forWritingTo: url) else { return nil }
+        self.fileHandle = handle
+
+        self.fileHandle.truncateFile(atOffset: 0)
+    }
+
+    mutating func write(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            fileHandle.write(data)
+        }
+    }
+
+    func close() {
+        try? fileHandle.close()
     }
 }

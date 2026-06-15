@@ -16,10 +16,16 @@ extension String {
     }
 
     public func snakeToCamel() -> String {
+        let prefix = if self.starts(with: "_") {
+            "_"
+        } else {
+            ""
+        }
+
         let camel = snakeToLowerCamel()
         guard let first = camel.first else { return "" }
 
-        return String(first).uppercased() + camel.dropFirst()
+        return prefix + String(first).uppercased() + camel.dropFirst()
     }
 
     public func camelToSnake() -> String {
