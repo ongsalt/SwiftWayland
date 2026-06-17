@@ -316,15 +316,16 @@ extension Array {
 
 // TODO: userData maybe
 public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
+    let target = OpaquePointer(target)
     guard
-        let userData = wl_proxy_get_user_data(OpaquePointer(target)),
+        let userData = wl_proxy_get_user_data(target),
         let proxy =
             Unmanaged<AnyObject>.fromOpaque(userData).takeUnretainedValue()
             as? (any Proxy)
     else {
-        print(
-            "wl_proxy outlive swift object: target=\(target) userData=\(wl_proxy_get_user_data(OpaquePointer(target)))"
-        )
+        let id = wl_proxy_get_id(target)
+        let name = String(cString: wl_proxy_get_class(target))
+        print("wl_proxy outlive swift object: id=\(id), name=\(name)")
         return -1
     }
 
