@@ -172,10 +172,6 @@ extension MethodDeclaration: Code {
                 )
             }
 
-            if self.isDestructor {
-                gen << "connection.destroy(self)"
-            }
-
             // currently returns.count will not be > 1
             // create any thing involving newId (infer from returns)
 
@@ -229,6 +225,10 @@ extension MethodDeclaration: Code {
                         gen << ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)),"
                     }
                 }
+            }
+
+            if self.isDestructor {
+                gen << "connection.destroy(self)"
             }
 
             // Return

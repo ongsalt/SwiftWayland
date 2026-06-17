@@ -58,9 +58,9 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -131,9 +131,9 @@ public final class OrgKdeKwinAppmenu: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -283,9 +283,9 @@ public final class OrgKdeKwinBlur: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 2, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -529,9 +529,9 @@ public final class OrgKdeKwinContrast: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 5, [
         ])
+        connection.destroy(self)
     }
 
     /// Opt Into Frost Effect W/ Given Colour
@@ -737,9 +737,9 @@ public final class OrgKdeKwinDpms: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -1171,9 +1171,9 @@ public final class OrgKdeKwinFakeInput: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
-        connection.destroy(self)
         connection.send(self, 11, [
         ])
+        connection.destroy(self)
     }
 
     /// 
@@ -1320,9 +1320,9 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
     /// to free some of those bindings.
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Present Surface For Display
@@ -1654,9 +1654,9 @@ public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Simulates User Activity For This Timeout, Behaves Just Like Real User Activity On The Seat
@@ -1749,9 +1749,9 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Registers A Brightness Device With The Compositor
@@ -1880,9 +1880,9 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Sets Whether Or Not The Brightness Device Belongs To An Internal Display
@@ -2057,9 +2057,9 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
     /// This won't affect the surface previously marked with the allow request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -2757,9 +2757,9 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 21 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 21) }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -4243,9 +4243,9 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 6, [
         ])
+        connection.destroy(self)
     }
 
     /// Set Overscan Value
@@ -4866,9 +4866,9 @@ public final class KdeModeListV2: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Add The Current Mode Configuration To The List
@@ -4991,9 +4991,9 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -5081,9 +5081,9 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -5177,9 +5177,9 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     /// with this manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Create An Auto Hide Edge
@@ -5293,9 +5293,9 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     /// it will be deactivated and the surface will be made visible.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Deactivate The Screen Edge
@@ -5391,9 +5391,9 @@ public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -6815,9 +6815,9 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.destroy(self)
         connection.send(self, 8, [
         ])
+        connection.destroy(self)
     }
 
     /// Set Overscan Value
@@ -7124,9 +7124,9 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
     /// The shell surface role is lost and wl_surface is unmapped.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Assign An Output To This Shell Surface
@@ -8225,9 +8225,9 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Removes the resource bound for this org_kde_plasma_window.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 7, [
         ])
+        connection.destroy(self)
     }
 
     /// Requests To Get The Window Icon
@@ -8525,9 +8525,9 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
     /// by this manager object will be unaffected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -8599,9 +8599,9 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
     /// longer be used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -8801,9 +8801,9 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -8892,9 +8892,9 @@ public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -9035,9 +9035,9 @@ public final class OrgKdeKwinServerDecorationPalette: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -9217,9 +9217,9 @@ public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// The Decoration Mode The Surface Wants To Use.
@@ -9364,9 +9364,9 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.destroy(self)
         connection.send(self, 2, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -9667,9 +9667,9 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.destroy(self)
         connection.send(self, 13, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -9843,9 +9843,9 @@ public final class OrgKdeKwinSlide: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 3, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -10541,9 +10541,9 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
     /// through this wp_text_input object
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Enable Text Input For Surface
@@ -11064,9 +11064,9 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     /// Destroy the wp_text_input_manager object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Create A New Text Input Object
@@ -12308,9 +12308,9 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     /// Destroy the zkde_screencast_unstable_v1 object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 2, [
         ])
+        connection.destroy(self)
     }
 
     /// Requests A Feed From A New Virtual Output
@@ -12481,9 +12481,9 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
     /// 
     public func close() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     

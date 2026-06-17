@@ -56,9 +56,9 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     /// The child objects created via this interface are unaffected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Assign The Xwayland_Surface Surface Role
@@ -176,9 +176,9 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     /// Any already existing associations are unaffected by this action.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -258,9 +258,9 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     /// Destroy the keyboard grab manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     /// Grab The Keyboard To A Surface
@@ -332,9 +332,9 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     /// will ungrab the keyboard.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     

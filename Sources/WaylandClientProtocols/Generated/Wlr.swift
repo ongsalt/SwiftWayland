@@ -85,9 +85,9 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
     /// appropriate destroy request has been called.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 2, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -218,9 +218,9 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
     /// Destroys the data device object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     /// Copy Data To The Primary Selection
@@ -402,9 +402,9 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
     /// Destroys the data source object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -526,9 +526,9 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
     /// Destroys the data offer object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -633,9 +633,9 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
     /// appropriate destroy request has been called.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -812,9 +812,9 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
     /// to close any FDs it has been given.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -1317,9 +1317,9 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
     /// destruction of the object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 7, [
         ])
+        connection.destroy(self)
     }
 
     /// Request That The Toplevel Be Fullscreened
@@ -1526,9 +1526,9 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
     /// appropriate destroy request has been called.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -1623,9 +1623,9 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
     /// restores the original gamma tables.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -1771,9 +1771,9 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
     /// Destroy the inhibitor and allow other clients to receive input.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -1901,9 +1901,9 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -2279,9 +2279,9 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
     /// This request destroys the layer surface.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 7, [
         ])
+        connection.destroy(self)
     }
 
     /// Change The Layer Of The Surface
@@ -2801,9 +2801,9 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -3087,9 +3087,9 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        connection.destroy(self)
         connection.send(self, 0, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -3304,9 +3304,9 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
     /// via this object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 4, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -3656,9 +3656,9 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
     /// appropriate destroy request has been called.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -3743,9 +3743,9 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
     /// Destroys the output power management mode control object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -3946,9 +3946,9 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
     /// appropriate destroy request has been called.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 2, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -4162,9 +4162,9 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
     /// Destroys the frame. This request can be sent at any time by the client.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     /// Copy The Frame When It's Damaged
@@ -4611,9 +4611,9 @@ public final class ZwlrVirtualPointerV1: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
-        connection.destroy(self)
         connection.send(self, 8, [
         ])
+        connection.destroy(self)
     }
 
     
@@ -4723,9 +4723,9 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
-        connection.destroy(self)
         connection.send(self, 1, [
         ])
+        connection.destroy(self)
     }
 
     /// Create A New Virtual Pointer
