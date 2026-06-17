@@ -1,6 +1,5 @@
 import SwiftWaylandCommon
 
-let CALLBACK_TYPE: String = "@escaping (UInt32) -> Void"
 let QUEUE_INNER_NAME: String = "_queue"
 
 extension ProtocolDeclaration: Code {
@@ -29,8 +28,7 @@ extension ClassDeclaration: Code {
         if let docc = self.description?.docc {
             gen.add(docc: docc)
         }
-        gen.add("public final class \(self.name): BaseProxy, Proxy {")
-        gen.indent {
+        gen.block("public final class \(self.name): BaseProxy, Proxy {") {
             gen.add(
                 """
                 public var onEvent: ((Event) -> Void)?
@@ -56,12 +54,7 @@ extension ClassDeclaration: Code {
             )
 
             for e in self.enums {
-                gen.walk(node: e)
-                gen.add()
-            }
-
-            if let d = self.deinit {
-                d.generate(gen)
+                e.generate(gen)
                 gen.add()
             }
 
@@ -70,8 +63,15 @@ extension ClassDeclaration: Code {
             } else {
                 gen.walk(node: self.events)
             }
+
+            gen.add()
+            gen.block("deinit {", endWith: "}") {
+                gen.block("if self.isAlive {", endWith: "}") {
+                    gen << "connection.destroy(self)"
+                }
+            }
+
         }
-        gen.add("}")
     }
 }
 
@@ -104,22 +104,12 @@ extension MethodDeclaration: Code {
         }
 
         // signature
-        var functionHeader = ""
         // if self.isDestructor {
         //     functionHeader.append("consuming")
         // }
 
-        functionHeader += "public func \(self.name.gravedIfNeeded)("
         var params = arguments.map { arg in
-            var ty = arg.swiftType
-            if arg.arg.nullable { ty += "?" }
-
-            let defaultValue =
-                if arg.arg.nullable {
-                    "nil"
-                } else {
-                    arg.defaultValue
-                }
+            let defaultValue = TypeConversion.defaultValue(of: arg.arg)
 
             let defaultValueString =
                 if let defaultValue {
@@ -135,33 +125,34 @@ extension MethodDeclaration: Code {
                     ""
                 }
 
-            return "\(externalName)\(arg.name.gravedIfNeeded): \(ty)\(defaultValueString)"
+            let ty = TypeConversion.swiftType(of: arg.arg, escaping: true)
+            return
+                "\(externalName)\(arg.name.gravedIfNeeded): \(ty)\(defaultValueString)"
         }
 
         if !returns.isEmpty || !callbacks.isEmpty {
             params.append("queue \(QUEUE_INNER_NAME): EventQueue? = nil")
         }
 
-        functionHeader += params.joined(separator: ", ")
+        let returnType: String? =
+            switch returns.count {
+            case 0: nil
+            case 1: TypeConversion.swiftType(of: returns[0].arg)
+            default:
+                "(\(returns.map {"\($0.name.gravedIfNeeded): \(TypeConversion.swiftType(of: $0.arg))"}.joined(separator: ", ")))"
+            }
 
-        // TODO: throwing
-        functionHeader += ") throws(WaylandProxyError)"
+        let returnString =
+            if let returnType {
+                " -> \(returnType)"
+            } else {
+                ""
+            }
 
-        if !returns.isEmpty {
-            let ret =
-                switch returns.count {
-                case 0: ""
-                case 1: returns[0].swiftType
-                default:
-                    "(\(returns.map {"\($0.name.gravedIfNeeded): \($0.swiftType)"}.joined(separator: ", ")))"
-                }
-            functionHeader += " -> \(ret)"
-        }
-
-        functionHeader.append(" {")
-        gen.add(functionHeader)
-
-        gen.indent {
+        let args = params.joined(separator: ", ")
+        gen.block(
+            "public func \(name.gravedIfNeeded)(\(args)) throws(WaylandProxyError)\(returnString) {"
+        ) {
             // State check
             gen.add(
                 "guard self.isAlive else { throw WaylandProxyError.destroyed }"
@@ -186,45 +177,40 @@ extension MethodDeclaration: Code {
                 )
             }
 
-            let sendMethod =
+            if !self.returns.isEmpty {
+                gen << "let \(self.returns[0].name) = "
+            }
+
+            let callStatement =
                 if self.returns.isEmpty {
-                    "send"
+                    "connection.send"
                 } else {
-                    "sendConstructor"
+                    "connection.sendConstructor"
                 }
 
             var args = [
                 "self",
                 "\(self.requestId)",
             ]
-            var letDecl = ""
 
             if !self.returns.isEmpty {
                 let r = self.returns[0]
-                args.append("\(r.swiftType).self")
+                let ty = TypeConversion.swiftType(of: r.arg, forceOptional: false)
+                args.append("\(ty).self")
                 args.append("version")
                 args.append(QUEUE_INNER_NAME)
-
-                letDecl = "let \(r.name) = "
             }
 
             let argString = args.joined(separator: ", ")
 
-            gen.block("\(letDecl)connection.\(sendMethod)(\(argString), [", endWith: "])") {
-                for arg in self.messageArguments {
-                    switch arg.arg.type {
-                    case .object, .newId:  // newId gonna get ignore anyway
-                        let name = arg.name.gravedIfNeeded
-                        if !self.returns.isEmpty && name == self.returns[0].name {
-                            gen << ".newId,"
-                        } else {
-                            gen << ".object(\(name)),"
-                        }
-                    case .uint:
-                        let rawValueString = arg.arg.enum != nil ? ".rawValue" : ""
-                        gen << ".uint(\(arg.name.gravedIfNeeded)\(rawValueString)),"
-                    default:
-                        gen << ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)),"
+            let conversions = self.messageArguments.map {
+                TypeConversion.swiftToArg(swiftName: $0.name.gravedIfNeeded, argument: $0.arg)
+            }
+
+            gen.closures(of: conversions.lazy.compactMap(\.wrapping)) {
+                gen.block("\(callStatement)(\(argString), [", endWith: "])") {
+                    for (expr, _) in conversions {
+                        gen << "\(expr),"
                     }
                 }
             }
@@ -242,18 +228,34 @@ extension MethodDeclaration: Code {
             default:
                 fatalError("Cannot return more than 1 value at: \(self.requestName)")
             // gen.add("return (\(self.returns.map(\.name).joined(separator: ", ")))")
+
             }
         }
-        gen.add("}")
+    }
+}
 
+extension Generator {
+    func closures(of closures: some Sequence<Closure>, body: () -> Void) {
+        var ends: [String] = []
+        for c in closures {
+            self << c.begin
+            self.indentLevel += self.indentation
+            ends.append(c.end)
+        }
+
+        body()
+
+        for e in ends {
+            self.indentLevel -= self.indentation
+            self << e
+        }
     }
 }
 
 extension EnumDeclaration: Code {
     func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         if !self.bitfield {
-            gen.add("public enum \(self.name.gravedIfNeeded): UInt32 {")
-            gen.indent {
+            gen.block("public enum \(self.name.gravedIfNeeded): UInt32 {") {
                 for (index, c) in self.cases.enumerated() {
                     gen.walk(node: c)
                     if index != self.cases.count - 1 {
@@ -261,7 +263,6 @@ extension EnumDeclaration: Code {
                     }
                 }
             }
-            gen.add("}")
         } else {
             // OptionSet
             let name = self.name.gravedIfNeeded
@@ -299,21 +300,11 @@ extension EnumCaseDeclaration: Code {
     }
 }
 
-extension DeinitDeclaration: Code {
-    func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
-        gen.block("deinit {", endWith: "}") {
-            gen.block("if self.isAlive {", endWith: "}") {
-                gen << "connection.destroy(self)"
-            }
-        }
-    }
-}
-
 extension Array: Code where Element == EventDeclaration {
     func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen.block("public enum Event: MessageProtocol {") {
             for event in self {
-                gen.walk(node: event)
+                event.generate(gen)
                 gen.add()
             }
 
@@ -353,45 +344,19 @@ extension Array: Code where Element == EventDeclaration {
                         var out = "self = Self.\(event.name)"
                         if !event.arguments.isEmpty {
                             out +=
-                                "(\(event.arguments.map { "\($0.name): \(getArgDecodingExpr($0))" }.joined(separator: ", ") ))"
+                                "(\(event.arguments.map { "\($0.name): \(TypeConversion.wireToSwift(argument: $0.arg))" }.joined(separator: ", ") ))"
                         }
                         gen.add(out)
                     }
                 }
                 gen.add("default:")
                 gen.indent {
-                    gen.add(
-                        "fatalError(\"Unknown message: opcode=\\(opcode)\")"
-                    )
+                    gen << "throw DecodingError.badMessage(opcode: opcode)"
                 }
                 gen.add("}")
             }
             gen.add("}")
         }
-    }
-}
-
-private func getArgDecodingExpr(_ arg: ArgumentDeclaration) -> String {
-    switch arg.arg.type {
-    case .int: "r.int()"
-    case .uint:
-        if let e = arg.arg.enum {
-            "try r.`enum`(\(parseEnumName(e)).self)"
-        } else {
-            "r.uint()"
-        }
-    case .fixed: "r.fixed()"
-    case .string: "r.string()"
-    case .fd: "r.fd()"
-    case .enum: "r.uint()"
-    case .object:
-        if arg.swiftType == "any Proxy" {
-            "r.object()"
-        } else {
-            "r.object(type: \(arg.swiftType).self)"
-        }
-    case .newId: "r.newId(type: \(arg.swiftType).self)"
-    case .array: "r.array()"
     }
 }
 
@@ -403,8 +368,12 @@ extension EventDeclaration: Code {
 
         var out = "case \(self.name)"
         if !self.arguments.isEmpty {
-            out +=
-                "(\(self.arguments.map {"\($0.name.gravedIfNeeded): \($0.swiftType)"}.joined(separator: ", ")))"
+            let args = self.arguments.map { a in
+                let forceOptional: Bool? = if a.arg.type == .object { true } else { nil }
+                let ty = TypeConversion.swiftType(of: a.arg, forceOptional: forceOptional)
+                return "\(a.name.gravedIfNeeded): \(ty)"
+            }
+            out += "(\(args.joined(separator: ", ")))"
         }
 
         gen.add(out)

@@ -91,7 +91,8 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getToplevelDecoration(toplevel: XdgToplevel, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgToplevelDecorationV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZxdgToplevelDecorationV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZxdgToplevelDecorationV1.self, version, _queue, [
             .newId,
             .object(toplevel),
         ])
@@ -101,13 +102,13 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgDecorationUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Decoration Object For A Toplevel Surface
@@ -240,12 +241,6 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         case serverSide = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Notify A Decoration Mode Change
         /// 
@@ -262,8 +257,14 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
             case 0:
                 self = Self.configure(mode: try r.`enum`(Mode.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -342,7 +343,8 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     /// - Returns: the new xdg_exported object
     public func export(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgExportedV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZxdgExportedV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZxdgExportedV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -352,13 +354,13 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Interface For Importing Surfaces
@@ -424,7 +426,8 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     /// - Returns: the new xdg_imported object
     public func `import`(handle: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgImportedV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZxdgImportedV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZxdgImportedV1.self, version, _queue, [
             .newId,
             .string(handle),
         ])
@@ -434,13 +437,13 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// An Exported Surface Handle
@@ -493,12 +496,6 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The Exported Surface Handle
         /// 
@@ -513,8 +510,14 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
             case 0:
                 self = Self.handle(handle: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -591,12 +594,6 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The Imported Surface Handle Has Been Destroyed
         /// 
@@ -611,8 +608,14 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
             case 0:
                 self = Self.destroyed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -694,7 +697,8 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
     /// - Returns: the new xdg_exported object
     public func exportToplevel(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgExportedV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZxdgExportedV2.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZxdgExportedV2.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -709,13 +713,13 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
         case invalidSurface = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Interface For Importing Surfaces
@@ -781,7 +785,8 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     /// - Returns: the new xdg_imported object
     public func importToplevel(handle: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgImportedV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZxdgImportedV2.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZxdgImportedV2.self, version, _queue, [
             .newId,
             .string(handle),
         ])
@@ -791,13 +796,13 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// An Exported Surface Handle
@@ -850,12 +855,6 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The Exported Surface Handle
         /// 
@@ -870,8 +869,14 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
             case 0:
                 self = Self.handle(handle: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -954,12 +959,6 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
         case invalidSurface = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The Imported Surface Handle Has Been Destroyed
         /// 
@@ -974,8 +973,14 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
             case 0:
                 self = Self.destroyed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1047,7 +1052,8 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgOutput(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZxdgOutputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZxdgOutputV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZxdgOutputV1.self, version, _queue, [
             .newId,
             .object(output),
         ])
@@ -1057,13 +1063,13 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgOutputUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Compositor Logical Output Region
@@ -1169,12 +1175,6 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgOutputUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Position Of The Output Within The Global Compositor Space
         /// 
@@ -1274,8 +1274,14 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
             case 4:
                 self = Self.description(description: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1386,7 +1392,8 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// and xdg_surface.get_popup for details.
     public func createPositioner(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgPositioner {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, XdgPositioner.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, XdgPositioner.self, version, _queue, [
             .newId,
         ])
         return id
@@ -1408,7 +1415,8 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, XdgSurface.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, XdgSurface.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -1456,12 +1464,6 @@ public final class XdgWmBase: BaseProxy, Proxy {
         case unresponsive = 6
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Check If The Client Is Alive
         /// 
@@ -1483,8 +1485,14 @@ public final class XdgWmBase: BaseProxy, Proxy {
             case 0:
                 self = Self.ping(serial: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1908,13 +1916,13 @@ public final class XdgPositioner: BaseProxy, Proxy {
         public static let resizeY = ConstraintAdjustment(rawValue: 32)
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Desktop User Interface Surface Base Interface
@@ -2081,7 +2089,8 @@ public final class XdgSurface: BaseProxy, Proxy {
     /// xdg_toplevel is and how it is used.
     public func getToplevel(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevel {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, XdgToplevel.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, XdgToplevel.self, version, _queue, [
             .newId,
         ])
         return id
@@ -2101,7 +2110,8 @@ public final class XdgSurface: BaseProxy, Proxy {
     ///   - positioner: positioner for this popup
     public func getPopup(parent: XdgSurface? = nil, positioner: XdgPositioner, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgPopup {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, XdgPopup.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, XdgPopup.self, version, _queue, [
             .newId,
             .object(parent),
             .object(positioner),
@@ -2220,12 +2230,6 @@ public final class XdgSurface: BaseProxy, Proxy {
         case defunctRoleObject = 6
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Suggest A Surface Change
         /// 
@@ -2249,8 +2253,14 @@ public final class XdgSurface: BaseProxy, Proxy {
             case 0:
                 self = Self.configure(serial: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2972,12 +2982,6 @@ public final class XdgToplevel: BaseProxy, Proxy {
         case minimize = 4
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Suggest A Surface Change
         /// 
@@ -3058,8 +3062,14 @@ public final class XdgToplevel: BaseProxy, Proxy {
             case 3:
                 self = Self.wmCapabilities(capabilities: r.array())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3278,12 +3288,6 @@ public final class XdgPopup: BaseProxy, Proxy {
         case invalidGrab = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Configure The Popup Surface
         /// 
@@ -3331,8 +3335,14 @@ public final class XdgPopup: BaseProxy, Proxy {
             case 2:
                 self = Self.repositioned(token: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3440,7 +3450,8 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgToplevelDrag(dataSource: WlDataSource, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevelDragV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, XdgToplevelDragV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, XdgToplevelDragV1.self, version, _queue, [
             .newId,
             .object(dataSource),
         ])
@@ -3455,13 +3466,13 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
         case invalidSource = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Object Representing A Toplevel Move During A Drag
@@ -3557,13 +3568,13 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
         case ongoingDrag = 1
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -3641,7 +3652,8 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getXdgDialog(toplevel: XdgToplevel, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgDialogV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, XdgDialogV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, XdgDialogV1.self, version, _queue, [
             .newId,
             .object(toplevel),
         ])
@@ -3656,13 +3668,13 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
         case alreadyUsed = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Dialog Object
@@ -3745,13 +3757,13 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgDialogV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -3850,7 +3862,8 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     /// xdg_toplevel via the 'set_icon' request.
     public func createIcon(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XdgToplevelIconV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, XdgToplevelIconV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, XdgToplevelIconV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -3889,12 +3902,6 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgToplevelIconV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Describes A Supported & Preferred Icon Size
         /// 
@@ -3922,8 +3929,14 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
             case 1:
                 self = Self.done
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4061,13 +4074,13 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
         case noBuffer = 3
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -4200,13 +4213,13 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgToplevelTagV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -4286,13 +4299,13 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgSystemBellV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 

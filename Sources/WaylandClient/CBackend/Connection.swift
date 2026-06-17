@@ -5,7 +5,6 @@ import SwiftWaylandCommon
 public class Connection {
     let rawDisplay: OpaquePointer
     public private(set) var mainQueue: EventQueue
-    var knownProxies: [UInt32: any Proxy] = [:]
     var knownQueues: [OpaquePointer: EventQueue] = [:]
 
     var fd: Int32 {
@@ -33,6 +32,7 @@ public class Connection {
         _ interface: Output.Type,
         _ version: UInt32,
         _ queue: EventQueue?,
+        destructor: Bool = false,
         _ args: borrowing [Arg],
     ) -> Output {
         let proxy = _send2(
@@ -40,6 +40,7 @@ public class Connection {
             returning: interface,
             version: version,
             on: queue,
+            destructor: destructor,
             args: args
         )!
         return self.createSwiftObject(from: proxy, type: interface)
@@ -49,8 +50,9 @@ public class Connection {
         _ proxy: any Proxy,
         _ opcode: UInt32,
         _ args: borrowing [Arg],
+        destructor: Bool = false,
     ) {
-        _ = _send2(proxy, opcode, args: args)
+        _ = _send2(proxy, opcode, destructor: destructor, args: args)
     }
 
     private func _send2(
@@ -59,6 +61,7 @@ public class Connection {
         returning interface: (any Proxy.Type)? = nil,
         version: UInt32 = 0,
         on queue: EventQueue? = nil,
+        destructor: Bool = false,
         args: [Arg],
     ) -> OpaquePointer? {  // return an wl_proxy if existed
         var defered: [() -> Void] = []
@@ -111,10 +114,16 @@ public class Connection {
         if interface != nil && interfacePtr == nil {
             fatalError("Failed to load wl_interface for \(interface?.interface.name)")
         }
+        let flags: UInt32 =
+            if destructor {
+                UInt32(WL_MARSHAL_FLAG_DESTROY)
+            } else {
+                0
+            }
 
         return withRawProxy(of: proxy, on: queue) { parent in
             wl_proxy_marshal_array_flags(
-                parent, opcode, interfacePtr, version, 0, &arguments)
+                parent, opcode, interfacePtr, version, flags, &arguments)
         }
     }
 
@@ -127,8 +136,21 @@ public class Connection {
             connection: self
         )
 
-        wl_proxy_add_dispatcher(raw, dispatchFn, nil, Unmanaged.passUnretained(instance).toOpaque())
-        knownProxies[instance.id] = instance
+        wl_proxy_add_dispatcher(raw, dispatchFn, Unmanaged.passUnretained(instance).toOpaque(), nil)
+        return instance
+    }
+
+    func createDeadSwiftObject<T: Proxy>(id: UInt32, type: T.Type) -> T {
+        let instance = T(
+            id: id,
+            version: 0,
+            queue: self.mainQueue,
+            raw: OpaquePointer(bitPattern: 1001)!,
+            connection: self
+        )
+        if let s = instance as? BaseProxy {
+            s.isAlive = false
+        }
         return instance
     }
 
@@ -182,7 +204,6 @@ public class Connection {
 
     /// Actually calling wl_proxy_destroy
     public func destroy(_ proxy: any Proxy) {
-        knownProxies[proxy.id] = nil
         wl_proxy_set_user_data(proxy.raw, nil)
         wl_proxy_destroy(proxy.raw)
         if let p = proxy as? BaseProxy {
@@ -302,17 +323,13 @@ extension Array {
 }
 
 // TODO: userData maybe
-public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
-    let target = OpaquePointer(target)
+public let dispatchFn: wl_dispatcher_func_t = { userData, target, opcode, _, args in
     guard
-        let userData = wl_proxy_get_user_data(target),
+        let userData = UnsafeRawPointer(userData),
         let proxy =
             Unmanaged<AnyObject>.fromOpaque(userData).takeUnretainedValue()
             as? (any Proxy)
     else {
-        let id = wl_proxy_get_id(target)
-        let name = String(cString: wl_proxy_get_class(target))
-        print("wl_proxy outlive swift object: id=\(id), name=\(name)")
         return -1
     }
 
@@ -325,6 +342,9 @@ public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
 extension Proxy {
     fileprivate func dispatch(opcode: UInt32, args: UnsafePointer<wl_argument>) -> Bool {
         do {
+            if !self.isAlive {
+                return false
+            }
             var reader = CArgumentReader(args, parent: self)
             let event = try Self.Event(from: &reader, opcode: opcode)
             if event.isDestructor {

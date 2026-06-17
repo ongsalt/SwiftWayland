@@ -45,7 +45,8 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinAppmenu {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinAppmenu.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinAppmenu.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -66,13 +67,13 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = AppmenuProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Appmenu Dbus Address Interface
@@ -139,13 +140,13 @@ public final class OrgKdeKwinAppmenu: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = AppmenuProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -200,7 +201,8 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinBlur {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinBlur.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinBlur.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -219,13 +221,13 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = BlurProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class OrgKdeKwinBlur: BaseProxy, Proxy {
@@ -291,13 +293,13 @@ public final class OrgKdeKwinBlur: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = BlurProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -352,7 +354,8 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinContrast {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinContrast.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinContrast.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -371,13 +374,13 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ContrastProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class OrgKdeKwinContrast: BaseProxy, Proxy {
@@ -568,13 +571,13 @@ public final class OrgKdeKwinContrast: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ContrastProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -631,7 +634,8 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
     /// - Parameters:
     public func `get`(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinDpms {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinDpms.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinDpms.self, version, _queue, [
             .newId,
             .object(output),
         ])
@@ -641,13 +645,13 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DpmsProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Dpms For A Wl_Output
@@ -755,12 +759,6 @@ public final class OrgKdeKwinDpms: BaseProxy, Proxy {
         case off = 3
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Event Indicating Whether Dpms Is Supported On The Wl_Output
         /// 
@@ -793,8 +791,14 @@ public final class OrgKdeKwinDpms: BaseProxy, Proxy {
             case 2:
                 self = Self.done
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1190,13 +1194,13 @@ public final class OrgKdeKwinFakeInput: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FakeInputProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -1389,7 +1393,8 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
     /// - Parameters:
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> _WlFullscreenShellModeFeedback {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let feedback = connection.sendConstructor(self, 2, _WlFullscreenShellModeFeedback.self, version, _queue, [
+        let feedback = 
+        connection.sendConstructor(self, 2, _WlFullscreenShellModeFeedback.self, version, _queue, [
             .object(surface),
             .object(output),
             .int(framerate),
@@ -1431,12 +1436,6 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
         case invalidMethod = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Advertises A Capability Of The Compositor
         /// 
@@ -1454,8 +1453,14 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
             case 0:
                 self = Self.capability(capability: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1490,12 +1495,6 @@ public final class _WlFullscreenShellModeFeedback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FullscreenShellProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Mode Switch Succeeded
         /// 
@@ -1533,8 +1532,14 @@ public final class _WlFullscreenShellModeFeedback: BaseProxy, Proxy {
             case 2:
                 self = Self.presentCancelled
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1593,7 +1598,8 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     ///   - timeout: The idle timeout in msec
     public func getIdleTimeout(seat: WlSeat, timeout: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinIdleTimeout {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinIdleTimeout.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinIdleTimeout.self, version, _queue, [
             .newId,
             .object(seat),
             .uint(timeout),
@@ -1604,13 +1610,13 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
@@ -1671,12 +1677,6 @@ public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Triggered When There Has Not Been Any User Activity In The Requested Idle Time Interval
         /// 
@@ -1695,8 +1695,14 @@ public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
             case 1:
                 self = Self.resumed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1759,7 +1765,8 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     /// 
     public func createBrightnessControl(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeExternalBrightnessDeviceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, KdeExternalBrightnessDeviceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, KdeExternalBrightnessDeviceV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -1768,13 +1775,13 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeExternalBrightnessV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Brightness Control Device
@@ -1970,12 +1977,6 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeExternalBrightnessV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Requests The Client To Change The Brightness To This Value
         /// 
@@ -1989,8 +1990,14 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
             case 0:
                 self = Self.requestedBrightness(value: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2070,13 +2077,13 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
         case invalidSurfaceState = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -2153,12 +2160,6 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
         case unsupportedVersion = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// No New Output Announcements
         /// 
@@ -2188,8 +2189,14 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
             case 1:
                 self = Self.output(output: r.newId(type: KdeOutputDeviceV2.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2900,12 +2907,6 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         case always = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Geometric Properties Of The Output
         /// 
@@ -2918,7 +2919,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         /// 
         /// This event describes the mode currently in use for this head. It is only
         /// sent if the output is enabled.
-        case currentMode(mode: KdeOutputDeviceModeV2)
+        case currentMode(mode: KdeOutputDeviceModeV2?)
 
         /// Advertise Available Output Modes And Current One
         /// 
@@ -3266,8 +3267,14 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
             case 39:
                 self = Self.abmLevel(level: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3349,12 +3356,6 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
         case reducedBlanking = 0x2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Mode Size
         /// 
@@ -3400,8 +3401,14 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
             case 4:
                 self = Self.flags(flags: try r.`enum`(Flags.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3492,7 +3499,8 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     /// output devices.
     public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeOutputConfigurationV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, KdeOutputConfigurationV2.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, KdeOutputConfigurationV2.self, version, _queue, [
             .newId,
         ])
         return id
@@ -3504,7 +3512,8 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     /// kde_output_configuration_v2.set_custom_modes.
     public func createModeList(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeModeListV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, KdeModeListV2.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, KdeModeListV2.self, version, _queue, [
             .newId,
         ])
         return id
@@ -3513,13 +3522,13 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeOutputManagementV2Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Configure Single Output Devices
@@ -4746,12 +4755,6 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         case always = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Configuration Changes Have Been Applied
         /// 
@@ -4779,8 +4782,14 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
             case 2:
                 self = Self.failureReason(reason: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4924,13 +4933,13 @@ public final class KdeModeListV2: BaseProxy, Proxy {
         case missingParameters = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -4999,12 +5008,6 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeOutputOrderV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Output Name
         /// 
@@ -5023,8 +5026,14 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
             case 1:
                 self = Self.done
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5089,12 +5098,6 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdePrimaryOutputV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Provide The Current Primary Output's Name
         /// 
@@ -5106,8 +5109,14 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
             case 0:
                 self = Self.primaryOutput(outputName: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5201,7 +5210,8 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     /// - Returns: the new screen edge
     public func getAutoHideScreenEdge(border: Border, surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeAutoHideScreenEdgeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, KdeAutoHideScreenEdgeV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, KdeAutoHideScreenEdgeV1.self, version, _queue, [
             .newId,
             .uint(border.rawValue),
             .object(surface),
@@ -5237,13 +5247,13 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
         case `right` = 4
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Auto Hide Screen Edge
@@ -5320,13 +5330,13 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeScreenEdgeV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -5427,12 +5437,6 @@ public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
         case pressed = 3
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Updates The State For A Said Key
         /// 
@@ -5444,8 +5448,14 @@ public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
             case 0:
                 self = Self.statechanged(key: r.uint(), state: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5570,7 +5580,8 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     ///   - desktopId: Unique id of the desktop
     public func getVirtualDesktop(desktopId: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaVirtualDesktop {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdePlasmaVirtualDesktop.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdePlasmaVirtualDesktop.self, version, _queue, [
             .newId,
             .string(desktopId),
         ])
@@ -5608,12 +5619,6 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Emitted When A New Desktop Has Been Created
         /// 
@@ -5649,8 +5654,14 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
             case 3:
                 self = Self.rows(rows: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5783,12 +5794,6 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The Desktop Got An Id
         /// 
@@ -5855,8 +5860,14 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
             case 7:
                 self = Self.outputEntered(outputName: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -6185,12 +6196,6 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
         case automatic = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Geometric Properties Of The Output
         /// 
@@ -6363,8 +6368,14 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
             case 13:
                 self = Self.vrrPolicy(vrrPolicy: try r.`enum`(VrrPolicy.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -6438,7 +6449,8 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
     /// output devices.
     public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinOutputconfiguration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinOutputconfiguration.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinOutputconfiguration.self, version, _queue, [
             .newId,
         ])
         return id
@@ -6447,13 +6459,13 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OutputmanagementProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Configure Single Output Devices
@@ -6798,15 +6810,21 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     ///   - red: red color ramp
     ///   - green: green color ramp
     ///   - blue: blue color ramp
-    public func colorcurves(outputdevice: OrgKdeKwinOutputdevice, red: UnsafeRawBufferPointer, green: UnsafeRawBufferPointer, blue: UnsafeRawBufferPointer) throws(WaylandProxyError) {
+    public func colorcurves(outputdevice: OrgKdeKwinOutputdevice, red: RawSpan, green: RawSpan, blue: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.send(self, 7, [
-            .object(outputdevice),
-            .array(red),
-            .array(green),
-            .array(blue),
-        ])
+        red.withUnsafeBufferPointer { _red in
+            green.withUnsafeBufferPointer { _green in
+                blue.withUnsafeBufferPointer { _blue in
+                    connection.send(self, 7, [
+                        .object(outputdevice),
+                        .array(_red),
+                        .array(_green),
+                        .array(_blue),
+                    ])
+                }
+            }
+        }
     }
 
     /// Release The Outputconfiguration Object
@@ -6864,12 +6882,6 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
         case automatic = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Configuration Changes Have Been Applied
         /// 
@@ -6889,8 +6901,14 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
             case 1:
                 self = Self.failed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -6948,7 +6966,8 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     /// - Parameters:
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdePlasmaSurface.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdePlasmaSurface.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -6958,13 +6977,13 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaShellProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Metadata Interface
@@ -7371,12 +7390,6 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
         case panelNotAutoHide = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Auto-Hiding Panel Is Hidden
         /// 
@@ -7395,8 +7408,14 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
             case 1:
                 self = Self.autoHiddenPanelShown
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -7577,7 +7596,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     ///   - internalWindowId: The internal window id of the window to create
     public func getWindow(internalWindowId: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaWindow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, OrgKdePlasmaWindow.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, OrgKdePlasmaWindow.self, version, _queue, [
             .newId,
             .uint(internalWindowId),
         ])
@@ -7589,7 +7609,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     ///   - internalWindowUuid: The internal window uuiid of the window to create
     public func getWindowByUuid(internalWindowUuid: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaWindow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, OrgKdePlasmaWindow.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, OrgKdePlasmaWindow.self, version, _queue, [
             .newId,
             .string(internalWindowUuid),
         ])
@@ -7601,7 +7622,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     /// 
     public func getStackingOrder(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaStackingOrder {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let stackingOrder = connection.sendConstructor(self, 3, OrgKdePlasmaStackingOrder.self, version, _queue, [
+        let stackingOrder = 
+        connection.sendConstructor(self, 3, OrgKdePlasmaStackingOrder.self, version, _queue, [
             .newId,
         ])
         return stackingOrder
@@ -7662,12 +7684,6 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
         case enabled = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Notify The Client When The Show Desktop Mode Is Entered/Left
         /// 
@@ -7718,8 +7734,14 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
             case 5:
                 self = Self.stackingOrderChanged2
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8323,12 +8345,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Window Title Has Been Changed
         /// 
@@ -8379,7 +8395,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
         /// The passed parent is another org_kde_plasma_window and this org_kde_plasma_window is a
         /// transient window to the parent window. If the parent argument is null, this
         /// org_kde_plasma_window does not have a parent window.
-        case parentWindow(parent: OrgKdePlasmaWindow)
+        case parentWindow(parent: OrgKdePlasmaWindow?)
 
         /// The Geometry Of This Window In Absolute Coordinates
         /// 
@@ -8479,8 +8495,14 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
             case 17:
                 self = Self.clientGeometry(x: r.int(), y: r.int(), width: r.uint(), height: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8533,12 +8555,6 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Notify That An App Is Starting
         /// 
@@ -8552,8 +8568,14 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
             case 0:
                 self = Self.activation(id: r.newId(type: OrgKdePlasmaActivation.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8607,12 +8629,6 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Offers The App_Id
         /// 
@@ -8631,8 +8647,14 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
             case 1:
                 self = Self.finished
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8672,12 +8694,6 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// A Window In The Stacking Order List
         /// 
@@ -8705,8 +8721,14 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
             case 1:
                 self = Self.done
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8789,7 +8811,8 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
     public func getBuffer(internalBufferId: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinRemoteBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
-        let buffer = connection.sendConstructor(self, 0, OrgKdeKwinRemoteBuffer.self, version, _queue, [
+        let buffer = 
+        connection.sendConstructor(self, 0, OrgKdeKwinRemoteBuffer.self, version, _queue, [
             .newId,
             .int(internalBufferId),
         ])
@@ -8809,25 +8832,25 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RemoteAccessProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Signals About Buffer Ready To Be Consumed By Clients
         /// 
         /// 
-        case bufferReady(id: Int32, output: WlOutput)
+        case bufferReady(id: Int32, output: WlOutput?)
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
                 self = Self.bufferReady(id: r.int(), output: r.object(type: WlOutput.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8900,12 +8923,6 @@ public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RemoteAccessProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// This Is Sent After Binding To Remote Access Manager
         /// 
@@ -8917,8 +8934,14 @@ public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
             case 0:
                 self = Self.gbmHandle(fd: r.fd(), width: r.uint(), height: r.uint(), stride: r.uint(), format: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8966,7 +8989,8 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecorationPalette {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinServerDecorationPalette.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinServerDecorationPalette.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -8976,13 +9000,13 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ServerDecorationPaletteProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Server Side Decoration Palette Interface
@@ -9043,13 +9067,13 @@ public final class OrgKdeKwinServerDecorationPalette: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ServerDecorationPaletteProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -9124,7 +9148,8 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecoration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinServerDecoration.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinServerDecoration.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -9145,12 +9170,6 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
         case server = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The Default Mode Used On The Server
         /// 
@@ -9166,8 +9185,14 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
             case 0:
                 self = Self.defaultMode(mode: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -9249,12 +9274,6 @@ public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
         case server = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The New Decoration Mode Applied By The Server
         /// 
@@ -9276,8 +9295,14 @@ public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
             case 0:
                 self = Self.mode(mode: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -9342,7 +9367,8 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinShadow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinShadow.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinShadow.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -9372,13 +9398,13 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ShadowProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class OrgKdeKwinShadow: BaseProxy, Proxy {
@@ -9675,13 +9701,13 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ShadowProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -9736,7 +9762,8 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
     /// - Parameters:
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinSlide {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, OrgKdeKwinSlide.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, OrgKdeKwinSlide.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -9755,13 +9782,13 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = SlideProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Slide A Surface From A Location To Another
@@ -9861,13 +9888,13 @@ public final class OrgKdeKwinSlide: BaseProxy, Proxy {
         case bottom = 3
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -9910,7 +9937,8 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     /// - Parameters:
     public func getExtendedSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> QtExtendedSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, QtExtendedSurface.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, QtExtendedSurface.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -9920,13 +9948,13 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = SurfaceExtensionProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class QtExtendedSurface: BaseProxy, Proxy {
@@ -10025,12 +10053,14 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func updateGenericProperty(name: String, value: UnsafeRawBufferPointer) throws(WaylandProxyError) {
+    public func updateGenericProperty(name: String, value: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.send(self, 0, [
-            .string(name),
-            .array(value),
-        ])
+        value.withUnsafeBufferPointer { _value in
+            connection.send(self, 0, [
+                .string(name),
+                .array(_value),
+            ])
+        }
     }
 
     /// 
@@ -10086,12 +10116,6 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
         case bypasswindowmanager = 4
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         case onscreenVisibility(visible: Int32)
 
@@ -10108,8 +10132,14 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
             case 2:
                 self = Self.close
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -10844,19 +10874,13 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         case rtl = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Enter Event
         /// 
         /// Notification that this seat's text-input focus is on a certain surface.
         /// When the seat has the keyboard capability the text-input focus follows
         /// the keyboard focus.
-        case enter(serial: UInt32, surface: WlSurface)
+        case enter(serial: UInt32, surface: WlSurface?)
 
         /// Leave Event
         /// 
@@ -10866,7 +10890,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         /// for the new focus.
         /// When the seat has the keyboard capability the text-input focus follows
         /// the keyboard focus.
-        case leave(serial: UInt32, surface: WlSurface)
+        case leave(serial: UInt32, surface: WlSurface?)
 
         /// State Of The Input Panel
         /// 
@@ -11016,8 +11040,14 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
             case 14:
                 self = Self.inputMethodChanged(serial: r.uint(), flags: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -11076,7 +11106,8 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     /// - Parameters:
     public func getTextInput(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpTextInputV2.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpTextInputV2.self, version, _queue, [
             .newId,
             .object(seat),
         ])
@@ -11086,13 +11117,13 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextInputUnstableV2Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -11749,18 +11780,12 @@ public final class WlTextInput: BaseProxy, Proxy {
         case rtl = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Enter Event
         /// 
         /// Notify the text-input object when it received focus. Typically in
         /// response to an activate request.
-        case enter(surface: WlSurface)
+        case enter(surface: WlSurface?)
 
         /// Leave Event
         /// 
@@ -11890,8 +11915,14 @@ public final class WlTextInput: BaseProxy, Proxy {
             case 12:
                 self = Self.textDirection(serial: r.uint(), direction: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -11925,7 +11956,8 @@ public final class WlTextInputManager: BaseProxy, Proxy {
     /// Creates a new text-input object.
     public func createTextInput(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlTextInput {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WlTextInput.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WlTextInput.self, version, _queue, [
             .newId,
         ])
         return id
@@ -11934,13 +11966,13 @@ public final class WlTextInputManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -12030,14 +12062,16 @@ public final class WlEglstreamController: BaseProxy, Proxy {
     ///   - wlSurface: wl_surface corresponds to the client surface associated with         newly created eglstream
     ///   - wlResource: wl_resource corresponding to an EGLStream
     ///   - attribs: Stream consumer attachment attribs
-    public func attachEglstreamConsumerAttribs(wlSurface: WlSurface, wlResource: WlBuffer, attribs: UnsafeRawBufferPointer) throws(WaylandProxyError) {
+    public func attachEglstreamConsumerAttribs(wlSurface: WlSurface, wlResource: WlBuffer, attribs: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.send(self, 1, [
-            .object(wlSurface),
-            .object(wlResource),
-            .array(attribs),
-        ])
+        attribs.withUnsafeBufferPointer { _attribs in
+            connection.send(self, 1, [
+                .object(wlSurface),
+                .object(wlResource),
+                .array(_attribs),
+            ])
+        }
     }
 
     
@@ -12062,13 +12096,13 @@ public final class WlEglstreamController: BaseProxy, Proxy {
         case fifoLength = 1
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -12278,7 +12312,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     ///   - pointer: Requested pointer mode
     public func streamOutput(output: WlOutput, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let stream = connection.sendConstructor(self, 0, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+        let stream = 
+        connection.sendConstructor(self, 0, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
             .newId,
             .object(output),
             .uint(pointer),
@@ -12295,7 +12330,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     ///   - pointer: Requested pointer mode
     public func streamWindow(windowUuid: String, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let stream = connection.sendConstructor(self, 1, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+        let stream = 
+        connection.sendConstructor(self, 1, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
             .newId,
             .string(windowUuid),
             .uint(pointer),
@@ -12326,7 +12362,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamVirtualOutput(name: String, width: Int32, height: Int32, scale: Double, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        let stream = connection.sendConstructor(self, 3, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+        let stream = 
+        connection.sendConstructor(self, 3, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
             .newId,
             .string(name),
             .int(width),
@@ -12352,7 +12389,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamRegion(x: Int32, y: Int32, width: UInt32, height: UInt32, scale: Double, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        let stream = connection.sendConstructor(self, 4, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+        let stream = 
+        connection.sendConstructor(self, 4, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
             .newId,
             .int(x),
             .int(y),
@@ -12378,7 +12416,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamVirtualOutputWithDescription(name: String, description: String, width: Int32, height: Int32, scale: Double, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
-        let stream = connection.sendConstructor(self, 5, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
+        let stream = 
+        connection.sendConstructor(self, 5, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
             .newId,
             .string(name),
             .string(description),
@@ -12404,13 +12443,13 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
         case `metadata` = 4
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
@@ -12489,12 +12528,6 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ZkdeScreencastUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Notifies That The Server Has Stopped The Stream. Clients Should Now Call Close.
         /// 
@@ -12528,8 +12561,14 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
             case 3:
                 self = Self.serial(objectSerialHi: r.uint(), objectSerialLow: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }

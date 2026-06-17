@@ -64,7 +64,8 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getSurfaceContentType(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpContentTypeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpContentTypeV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpContentTypeV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -79,13 +80,13 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
         case alreadyConstructed = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Content Type Object For A Surface
@@ -166,13 +167,13 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
         case game = 3
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -402,7 +403,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getOutput(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementOutputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpColorManagementOutputV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpColorManagementOutputV1.self, version, _queue, [
             .newId,
             .object(output),
         ])
@@ -420,7 +422,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, WpColorManagementSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, WpColorManagementSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -437,7 +440,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getSurfaceFeedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementSurfaceFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 3, WpColorManagementSurfaceFeedbackV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 3, WpColorManagementSurfaceFeedbackV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -457,7 +461,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// - Returns: the new creator object
     public func createIccCreator(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionCreatorIccV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let obj = connection.sendConstructor(self, 4, WpImageDescriptionCreatorIccV1.self, version, _queue, [
+        let obj = 
+        connection.sendConstructor(self, 4, WpImageDescriptionCreatorIccV1.self, version, _queue, [
             .newId,
         ])
         return obj
@@ -476,7 +481,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// - Returns: the new creator object
     public func createParametricCreator(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionCreatorParamsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let obj = connection.sendConstructor(self, 5, WpImageDescriptionCreatorParamsV1.self, version, _queue, [
+        let obj = 
+        connection.sendConstructor(self, 5, WpImageDescriptionCreatorParamsV1.self, version, _queue, [
             .newId,
         ])
         return obj
@@ -521,7 +527,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// request. The wp_image_description_v1.ready event shall be sent.
     public func createWindowsScrgb(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let imageDescription = connection.sendConstructor(self, 6, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 6, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
         return imageDescription
@@ -537,7 +544,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func getImageDescription(reference: WpImageDescriptionReferenceV1, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        let imageDescription = connection.sendConstructor(self, 7, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 7, WpImageDescriptionV1.self, version, _queue, [
             .newId,
             .object(reference),
         ])
@@ -567,7 +575,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func createWindowsBt2100(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        let imageDescription = connection.sendConstructor(self, 8, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 8, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
         return imageDescription
@@ -682,12 +691,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         case compoundPower24 = 14
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Supported Rendering Intent
         /// 
@@ -742,8 +745,14 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
             case 4:
                 self = Self.done
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -832,7 +841,8 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     /// Otherwise the object shall immediately deliver the ready event.
     public func getImageDescription(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let imageDescription = connection.sendConstructor(self, 1, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 1, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
         return imageDescription
@@ -841,12 +851,6 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Image Description Changed
         /// 
@@ -863,8 +867,14 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
             case 0:
                 self = Self.imageDescriptionChanged
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -996,13 +1006,13 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
         case inert = 2
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Color Management Extension To A Surface
@@ -1122,7 +1132,8 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     /// otherwise the object shall immediately deliver the ready event.
     public func getPreferred(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let imageDescription = connection.sendConstructor(self, 1, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 1, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
         return imageDescription
@@ -1137,7 +1148,8 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     /// unsupported_feature error is emitted.
     public func getPreferredParametric(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let imageDescription = connection.sendConstructor(self, 2, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 2, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
         return imageDescription
@@ -1152,12 +1164,6 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
 
         /// attempted to use an unsupported feature
         case unsupportedFeature = 1
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
     }
 
     public enum Event: MessageProtocol {
@@ -1192,8 +1198,14 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
             case 1:
                 self = Self.preferredChanged2(identityHi: r.uint(), identityLo: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1277,7 +1289,8 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
     /// request.
     public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let imageDescription = connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
         connection.destroy(self)
@@ -1351,13 +1364,13 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
         case outOfFile = 4
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Holder Of Image Description Parameters
@@ -1630,7 +1643,8 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// request.
     public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let imageDescription = connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
+        let imageDescription = 
+        connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
         connection.destroy(self)
@@ -1950,13 +1964,13 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
         case invalidLuminance = 5
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Colorimetric Image Description
@@ -2076,7 +2090,8 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     /// error no_information is raised.
     public func getInformation(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionInfoV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let information = connection.sendConstructor(self, 1, WpImageDescriptionInfoV1.self, version, _queue, [
+        let information = 
+        connection.sendConstructor(self, 1, WpImageDescriptionInfoV1.self, version, _queue, [
             .newId,
         ])
         return information
@@ -2105,12 +2120,6 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
 
         /// the relevant output no longer exists
         case noOutput = 3
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
     }
 
     public enum Event: MessageProtocol {
@@ -2171,8 +2180,14 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
             case 2:
                 self = Self.ready2(identityHi: r.uint(), identityLo: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2417,12 +2432,6 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// End Of Information
         /// 
@@ -2556,8 +2565,14 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
             case 10:
                 self = Self.targetMaxFall(maxFall: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2599,13 +2614,13 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -2721,7 +2736,8 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorRepresentationSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpColorRepresentationSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpColorRepresentationSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -2734,12 +2750,6 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// color representation surface exists already
         case surfaceExists = 1
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
     }
 
     public enum Event: MessageProtocol {
@@ -2775,8 +2785,14 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
             case 2:
                 self = Self.done
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3006,13 +3022,13 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
         case type5 = 6
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -3122,7 +3138,8 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     /// See the documentation for wp_drm_lease_request_v1 for details.
     public func createLeaseRequest(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseRequestV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WpDrmLeaseRequestV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WpDrmLeaseRequestV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -3145,12 +3162,6 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Open A Non-Master Fd For This Drm Node
         /// 
@@ -3216,8 +3227,14 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
             case 3:
                 self = Self.released
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3311,12 +3328,6 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Name
         /// 
@@ -3379,8 +3390,14 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
             case 4:
                 self = Self.withdrawn
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3456,7 +3473,8 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     /// will raise the empty_lease error.
     public func submit(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpDrmLeaseV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpDrmLeaseV1.self, version, _queue, [
             .newId,
         ])
         connection.destroy(self)
@@ -3477,13 +3495,13 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
         case emptyLease = 2
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// A Drm Lease
@@ -3548,12 +3566,6 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Shares The Drm File Descriptor
         /// 
@@ -3589,8 +3601,14 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
             case 1:
                 self = Self.finished
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3677,7 +3695,8 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getTearingControl(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpTearingControlV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpTearingControlV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpTearingControlV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -3692,13 +3711,13 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
         case tearingControlExists = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Per-Surface Tearing Control Interface
@@ -3773,13 +3792,13 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
         case `async` = 1
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -3853,7 +3872,8 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     /// - Returns: the new surface scale info interface id
     public func getFractionalScale(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpFractionalScaleV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpFractionalScaleV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpFractionalScaleV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -3868,13 +3888,13 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
         case fractionalScaleExists = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Fractional Scale Interface To A Wl_Surface
@@ -3924,12 +3944,6 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FractionalScaleV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Notify Of New Preferred Scale
         /// 
@@ -3943,8 +3957,14 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
             case 0:
                 self = Self.preferredScale(scale: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4154,7 +4174,8 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     /// - Parameters:
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpFullscreenShellModeFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let feedback = connection.sendConstructor(self, 2, ZwpFullscreenShellModeFeedbackV1.self, version, _queue, [
+        let feedback = 
+        connection.sendConstructor(self, 2, ZwpFullscreenShellModeFeedbackV1.self, version, _queue, [
             .object(surface),
             .object(output),
             .int(framerate),
@@ -4199,12 +4220,6 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         case role = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Advertises A Capability Of The Compositor
         /// 
@@ -4222,8 +4237,14 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
             case 0:
                 self = Self.capability(capability: try r.`enum`(Capability.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4261,12 +4282,6 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FullscreenShellUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Mode Switch Succeeded
         /// 
@@ -4308,8 +4323,14 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
             case 2:
                 self = Self.presentCancelled
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4388,7 +4409,8 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     ///   - surface: the surface that inhibits the idle behavior
     public func createInhibitor(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpIdleInhibitorV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpIdleInhibitorV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpIdleInhibitorV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -4398,13 +4420,13 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Context Object For Inhibiting Idle Behavior
@@ -4449,13 +4471,13 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -4949,11 +4971,13 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
 
     /// 
     /// - Parameters:
-    public func modifiersMap(map: UnsafeRawBufferPointer) throws(WaylandProxyError) {
+    public func modifiersMap(map: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        connection.send(self, 7, [
-            .array(map),
-        ])
+        map.withUnsafeBufferPointer { _map in
+            connection.send(self, 7, [
+                .array(_map),
+            ])
+        }
     }
 
     /// Keysym
@@ -4984,7 +5008,8 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
     /// text like it is done for CJK languages.
     public func grabKeyboard(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlKeyboard {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let keyboard = connection.sendConstructor(self, 9, WlKeyboard.self, version, _queue, [
+        let keyboard = 
+        connection.sendConstructor(self, 9, WlKeyboard.self, version, _queue, [
             .newId,
         ])
         return keyboard
@@ -5062,12 +5087,6 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Surrounding Text Event
         /// 
@@ -5103,8 +5122,14 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
             case 5:
                 self = Self.preferredLanguage(language: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5151,12 +5176,6 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Activate Event
         /// 
@@ -5169,7 +5188,7 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
         /// The text input corresponding to the context argument was deactivated.
         /// The input method context should be destroyed after deactivation is
         /// handled.
-        case deactivate(context: ZwpInputMethodContextV1)
+        case deactivate(context: ZwpInputMethodContextV1?)
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -5178,8 +5197,14 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
             case 1:
                 self = Self.deactivate(context: r.object(type: ZwpInputMethodContextV1.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5218,7 +5243,8 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getInputPanelSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputPanelSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwpInputPanelSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwpInputPanelSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -5228,13 +5254,13 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
@@ -5301,13 +5327,13 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
         case centerBottom = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -5421,7 +5447,8 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     ///   - keyboard: the wl_keyboard object for which to get timestamp events
     public func getKeyboardTimestamps(keyboard: WlKeyboard, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpInputTimestampsV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpInputTimestampsV1.self, version, _queue, [
             .newId,
             .object(keyboard),
         ])
@@ -5442,7 +5469,8 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     ///   - pointer: the wl_pointer object for which to get timestamp events
     public func getPointerTimestamps(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, ZwpInputTimestampsV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, ZwpInputTimestampsV1.self, version, _queue, [
             .newId,
             .object(pointer),
         ])
@@ -5463,7 +5491,8 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     ///   - touch: the wl_touch object for which to get timestamp events
     public func getTouchTimestamps(touch: WlTouch, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 3, ZwpInputTimestampsV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 3, ZwpInputTimestampsV1.self, version, _queue, [
             .newId,
             .object(touch),
         ])
@@ -5473,13 +5502,13 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputTimestampsUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Context Object For Input Timestamps
@@ -5541,12 +5570,6 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputTimestampsUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// High-Resolution Timestamp Event
         /// 
@@ -5569,8 +5592,14 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
             case 0:
                 self = Self.timestamp(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5649,7 +5678,8 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     ///   - seat: the wl_seat for which keyboard shortcuts should be disabled
     public func inhibitShortcuts(surface: WlSurface, seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpKeyboardShortcutsInhibitorV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpKeyboardShortcutsInhibitorV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpKeyboardShortcutsInhibitorV1.self, version, _queue, [
             .newId,
             .object(surface),
             .object(seat),
@@ -5665,13 +5695,13 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
         case alreadyInhibited = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Context Object For Keyboard Shortcuts Inhibitor
@@ -5747,12 +5777,6 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KeyboardShortcutsInhibitUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Shortcuts Are Inhibited
         /// 
@@ -5780,8 +5804,14 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
             case 1:
                 self = Self.inactive
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5962,7 +5992,8 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     /// - Returns: id for the newly created zwp_linux_buffer_params_v1
     public func createParams(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxBufferParamsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let paramsId = connection.sendConstructor(self, 1, ZwpLinuxBufferParamsV1.self, version, _queue, [
+        let paramsId = 
+        connection.sendConstructor(self, 1, ZwpLinuxBufferParamsV1.self, version, _queue, [
             .newId,
         ])
         return paramsId
@@ -5977,7 +6008,8 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     public func getDefaultFeedback(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxDmabufFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
-        let id = connection.sendConstructor(self, 2, ZwpLinuxDmabufFeedbackV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, ZwpLinuxDmabufFeedbackV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -5995,7 +6027,8 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     public func getSurfaceFeedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxDmabufFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
-        let id = connection.sendConstructor(self, 3, ZwpLinuxDmabufFeedbackV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 3, ZwpLinuxDmabufFeedbackV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -6005,12 +6038,6 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = LinuxDmabufV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Supported Buffer Format
         /// 
@@ -6055,8 +6082,14 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
             case 1:
                 self = Self.modifier(format: r.uint(), modifierHi: r.uint(), modifierLo: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -6369,7 +6402,8 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     public func createImmed(width: Int32, height: Int32, format: UInt32, flags: Flags, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        let bufferId = connection.sendConstructor(self, 3, WlBuffer.self, version, _queue, [
+        let bufferId = 
+        connection.sendConstructor(self, 3, WlBuffer.self, version, _queue, [
             .newId,
             .int(width),
             .int(height),
@@ -6394,12 +6428,14 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - device: device dev_t value
-    public func setSamplingDevice(device: UnsafeRawBufferPointer) throws(WaylandProxyError) {
+    public func setSamplingDevice(device: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 6 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 6) }
-        connection.send(self, 4, [
-            .array(device),
-        ])
+        device.withUnsafeBufferPointer { _device in
+            connection.send(self, 4, [
+                .array(_device),
+            ])
+        }
     }
 
     
@@ -6450,12 +6486,6 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         public static let bottomFirst = Flags(rawValue: 4)
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Buffer Creation Succeeded
         /// 
@@ -6481,8 +6511,14 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
             case 1:
                 self = Self.failed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -6627,12 +6663,6 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         public static let sampling = TrancheFlags(rawValue: 2)
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// All Feedback Has Been Sent
         /// 
@@ -6762,8 +6792,14 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
             case 6:
                 self = Self.trancheFlags(flags: try r.`enum`(TrancheFlags.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -6858,7 +6894,8 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     /// - Returns: the new synchronization interface id
     public func getSynchronization(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxSurfaceSynchronizationV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpLinuxSurfaceSynchronizationV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpLinuxSurfaceSynchronizationV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -6873,13 +6910,13 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
         case synchronizationExists = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Per-Surface Explicit Synchronization Support
@@ -7011,7 +7048,8 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     /// - Returns: new zwp_linux_buffer_release_v1 object
     public func getRelease(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxBufferReleaseV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let release = connection.sendConstructor(self, 2, ZwpLinuxBufferReleaseV1.self, version, _queue, [
+        let release = 
+        connection.sendConstructor(self, 2, ZwpLinuxBufferReleaseV1.self, version, _queue, [
             .newId,
         ])
         return release
@@ -7040,13 +7078,13 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
         case noBuffer = 5
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Buffer Release Explicit Synchronization
@@ -7095,12 +7133,6 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ZwpLinuxExplicitSynchronizationUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Release Buffer With Fence
         /// 
@@ -7139,8 +7171,14 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
             case 1:
                 self = Self.immediateRelease
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -7240,7 +7278,8 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     /// - Returns: the new synchronization surface object id
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpLinuxDrmSyncobjSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpLinuxDrmSyncobjSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpLinuxDrmSyncobjSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -7256,7 +7295,8 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     ///   - fd: drm_syncobj file descriptor
     public func importTimeline(fd: FileHandle, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpLinuxDrmSyncobjTimelineV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, WpLinuxDrmSyncobjTimelineV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, WpLinuxDrmSyncobjTimelineV1.self, version, _queue, [
             .newId,
             .fd(fd),
         ])
@@ -7274,13 +7314,13 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
         case invalidTimeline = 1
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Synchronization Object Timeline
@@ -7318,13 +7358,13 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = LinuxDrmSyncobjV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Per-Surface Explicit Synchronization
@@ -7528,13 +7568,13 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
         case conflictingPoints = 6
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -7697,7 +7737,8 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     ///   - lifetime: lock lifetime
     public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion? = nil, lifetime: Lifetime, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLockedPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpLockedPointerV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpLockedPointerV1.self, version, _queue, [
             .newId,
             .object(surface),
             .object(pointer),
@@ -7732,7 +7773,8 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     ///   - lifetime: confinement lifetime
     public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion? = nil, lifetime: Lifetime, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpConfinedPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, ZwpConfinedPointerV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, ZwpConfinedPointerV1.self, version, _queue, [
             .newId,
             .object(surface),
             .object(pointer),
@@ -7756,13 +7798,13 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
         case persistent = 2
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Receive Relative Pointer Motion Events
@@ -7894,12 +7936,6 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerConstraintsUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Lock Activation Event
         /// 
@@ -7923,8 +7959,14 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
             case 1:
                 self = Self.unlocked
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8023,12 +8065,6 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerConstraintsUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Pointer Confined
         /// 
@@ -8053,8 +8089,14 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
             case 1:
                 self = Self.unconfined
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8165,7 +8207,8 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getSwipeGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGestureSwipeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwpPointerGestureSwipeV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwpPointerGestureSwipeV1.self, version, _queue, [
             .newId,
             .object(pointer),
         ])
@@ -8180,7 +8223,8 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getPinchGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGesturePinchV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpPointerGesturePinchV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpPointerGesturePinchV1.self, version, _queue, [
             .newId,
             .object(pointer),
         ])
@@ -8208,7 +8252,8 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     public func getHoldGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGestureHoldV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        let id = connection.sendConstructor(self, 3, ZwpPointerGestureHoldV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 3, ZwpPointerGestureHoldV1.self, version, _queue, [
             .newId,
             .object(pointer),
         ])
@@ -8218,13 +8263,13 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// A Swipe Gesture Object
@@ -8342,18 +8387,12 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Multi-Finger Swipe Begin
         /// 
         /// This event is sent when a multi-finger swipe gesture is detected
         /// on the device.
-        case begin(serial: UInt32, time: UInt32, surface: WlSurface, fingers: UInt32)
+        case begin(serial: UInt32, time: UInt32, surface: WlSurface?, fingers: UInt32)
 
         /// Multi-Finger Swipe Motion
         /// 
@@ -8382,8 +8421,14 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
             case 2:
                 self = Self.end(serial: r.uint(), time: r.uint(), cancelled: r.int())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8513,18 +8558,12 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Multi-Finger Pinch Begin
         /// 
         /// This event is sent when a multi-finger pinch gesture is detected
         /// on the device.
-        case begin(serial: UInt32, time: UInt32, surface: WlSurface, fingers: UInt32)
+        case begin(serial: UInt32, time: UInt32, surface: WlSurface?, fingers: UInt32)
 
         /// Multi-Finger Pinch Motion
         /// 
@@ -8558,8 +8597,14 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
             case 2:
                 self = Self.end(serial: r.uint(), time: r.uint(), cancelled: r.int())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8663,17 +8708,11 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Multi-Finger Hold Begin
         /// 
         /// This event is sent when a hold gesture is detected on the device.
-        case begin(serial: UInt32, time: UInt32, surface: WlSurface, fingers: UInt32)
+        case begin(serial: UInt32, time: UInt32, surface: WlSurface?, fingers: UInt32)
 
         /// Multi-Finger Hold End
         /// 
@@ -8694,8 +8733,14 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
             case 1:
                 self = Self.end(serial: r.uint(), time: r.uint(), cancelled: r.int())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8803,7 +8848,8 @@ public final class WpPresentation: BaseProxy, Proxy {
     /// - Returns: new feedback object
     public func feedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpPresentationFeedback {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let callback = connection.sendConstructor(self, 1, WpPresentationFeedback.self, version, _queue, [
+        let callback = 
+        connection.sendConstructor(self, 1, WpPresentationFeedback.self, version, _queue, [
             .object(surface),
             .newId,
         ])
@@ -8819,12 +8865,6 @@ public final class WpPresentation: BaseProxy, Proxy {
 
         /// invalid flag
         case invalidFlag = 1
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
     }
 
     public enum Event: MessageProtocol {
@@ -8860,8 +8900,14 @@ public final class WpPresentation: BaseProxy, Proxy {
             case 0:
                 self = Self.clockId(clkId: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -8966,12 +9012,6 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         public static let zeroCopy = Kind(rawValue: 0x8)
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Presentation Synchronized To This Output
         /// 
@@ -8982,7 +9022,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         /// times, this event is sent for each bound instance that matches
         /// the synchronized output. If a client has not bound to the
         /// right wl_output global at all, this event is not sent.
-        case syncOutput(output: WlOutput)
+        case syncOutput(output: WlOutput?)
 
         /// The Content Update Was Displayed
         /// 
@@ -9049,8 +9089,14 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             case 2:
                 self = Self.discarded
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -9121,7 +9167,8 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     /// Create a new primary selection source.
     public func createSource(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPrimarySelectionSourceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwpPrimarySelectionSourceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwpPrimarySelectionSourceV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -9134,7 +9181,8 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getDevice(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPrimarySelectionDeviceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpPrimarySelectionDeviceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpPrimarySelectionDeviceV1.self, version, _queue, [
             .newId,
             .object(seat),
         ])
@@ -9154,13 +9202,13 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
@@ -9253,12 +9301,6 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Introduce A New Wp_Primary_Selection_Offer
         /// 
@@ -9279,7 +9321,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
         /// The data_offer is valid until a new offer or NULL is received
         /// or until the client loses keyboard focus. The client must destroy the
         /// previous selection data_offer, if any, upon receiving this event.
-        case selection(id: ZwpPrimarySelectionOfferV1)
+        case selection(id: ZwpPrimarySelectionOfferV1?)
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -9288,8 +9330,14 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
             case 1:
                 self = Self.selection(id: r.object(type: ZwpPrimarySelectionOfferV1.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -9379,12 +9427,6 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Advertise Offered Mime Type
         /// 
@@ -9399,8 +9441,14 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
             case 0:
                 self = Self.offer(mimeType: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -9487,12 +9535,6 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Send The Primary Selection Contents
         /// 
@@ -9514,8 +9556,14 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
             case 1:
                 self = Self.cancelled
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -9588,7 +9636,8 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getRelativePointer(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpRelativePointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpRelativePointerV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpRelativePointerV1.self, version, _queue, [
             .newId,
             .object(pointer),
         ])
@@ -9598,13 +9647,13 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RelativePointerUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Relative Pointer Object
@@ -9680,12 +9729,6 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RelativePointerUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Relative Pointer Motion
         /// 
@@ -9721,8 +9764,14 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
             case 0:
                 self = Self.relativeMotion(utimeHi: r.uint(), utimeLo: r.uint(), dx: r.fixed(), dy: r.fixed(), dxUnaccel: r.fixed(), dyUnaccel: r.fixed())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -9819,7 +9868,8 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     ///   - a: value of the buffer's alpha channel
     public func createU32RgbaBuffer(r: UInt32, g: UInt32, b: UInt32, a: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WlBuffer.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WlBuffer.self, version, _queue, [
             .newId,
             .uint(r),
             .uint(g),
@@ -9832,13 +9882,13 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = SinglePixelBufferV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -9897,7 +9947,8 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
     ///   - seat: The wl_seat object to retrieve the tablets for
     public func getTabletSeat(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTabletSeatV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let tabletSeat = connection.sendConstructor(self, 0, ZwpTabletSeatV1.self, version, _queue, [
+        let tabletSeat = 
+        connection.sendConstructor(self, 0, ZwpTabletSeatV1.self, version, _queue, [
             .newId,
             .object(seat),
         ])
@@ -9918,13 +9969,13 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Controller Object For Graphic Tablet Devices Of A Seat
@@ -9988,12 +10039,6 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// New Device Notification
         /// 
@@ -10018,8 +10063,14 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
             case 1:
                 self = Self.toolAdded(id: r.newId(type: ZwpTabletToolV1.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -10441,12 +10492,6 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         case role = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Tool Type
         /// 
@@ -10524,7 +10569,7 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         /// If any button is logically down when the tool comes into proximity,
         /// the respective button event is sent after the proximity_in event but
         /// within the same frame as the proximity_in event.
-        case proximityIn(serial: UInt32, tablet: ZwpTabletV1, surface: WlSurface)
+        case proximityIn(serial: UInt32, tablet: ZwpTabletV1?, surface: WlSurface?)
 
         /// Proximity Out Event
         /// 
@@ -10689,8 +10734,14 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
             case 18:
                 self = Self.frame(time: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -10785,12 +10836,6 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Tablet Device Name
         /// 
@@ -10848,8 +10893,14 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
             case 4:
                 self = Self.removed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -10913,7 +10964,8 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     ///   - seat: The wl_seat object to retrieve the tablets for
     public func getTabletSeat(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTabletSeatV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let tabletSeat = connection.sendConstructor(self, 0, ZwpTabletSeatV2.self, version, _queue, [
+        let tabletSeat = 
+        connection.sendConstructor(self, 0, ZwpTabletSeatV2.self, version, _queue, [
             .newId,
             .object(seat),
         ])
@@ -10934,13 +10986,13 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Controller Object For Graphic Tablet Devices Of A Seat
@@ -11016,12 +11068,6 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// New Device Notification
         /// 
@@ -11061,8 +11107,14 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
             case 2:
                 self = Self.padAdded(id: r.newId(type: ZwpTabletPadV2.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -11482,12 +11534,6 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         case role = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Tool Type
         /// 
@@ -11565,7 +11611,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         /// If any button is logically down when the tool comes into proximity,
         /// the respective button event is sent after the proximity_in event but
         /// within the same frame as the proximity_in event.
-        case proximityIn(serial: UInt32, tablet: ZwpTabletV2, surface: WlSurface)
+        case proximityIn(serial: UInt32, tablet: ZwpTabletV2?, surface: WlSurface?)
 
         /// Proximity Out Event
         /// 
@@ -11730,8 +11776,14 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
             case 18:
                 self = Self.frame(time: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -11855,12 +11907,6 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         case i2c = 24
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Tablet Device Name
         /// 
@@ -11939,8 +11985,14 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
             case 5:
                 self = Self.bustype(bustype: try r.`enum`(Bustype.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -12072,12 +12124,6 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         case finger = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Ring Event Source
         /// 
@@ -12137,8 +12183,14 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
             case 3:
                 self = Self.frame(time: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -12270,12 +12322,6 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
         case finger = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Strip Event Source
         /// 
@@ -12337,8 +12383,14 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
             case 3:
                 self = Self.frame(time: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -12481,12 +12533,6 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Buttons Announced
         /// 
@@ -12591,8 +12637,14 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
             case 6:
                 self = Self.dial(dial: r.newId(type: ZwpTabletPadDialV2.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -12821,12 +12873,6 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         case pressed = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Group Announced
         /// 
@@ -12872,13 +12918,13 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         /// Enter Event
         /// 
         /// Notification that this pad is focused on the specified surface.
-        case enter(serial: UInt32, tablet: ZwpTabletV2, surface: WlSurface)
+        case enter(serial: UInt32, tablet: ZwpTabletV2?, surface: WlSurface?)
 
         /// Leave Event
         /// 
         /// Notification that this pad is no longer focused on the specified
         /// surface.
-        case leave(serial: UInt32, surface: WlSurface)
+        case leave(serial: UInt32, surface: WlSurface?)
 
         /// Pad Removed Event
         /// 
@@ -12908,8 +12954,14 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
             case 7:
                 self = Self.removed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -13018,12 +13070,6 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Delta Movement
         /// 
@@ -13057,8 +13103,14 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
             case 1:
                 self = Self.frame(time: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -13737,18 +13789,12 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         case rtl = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Enter Event
         /// 
         /// Notify the text_input object when it received focus. Typically in
         /// response to an activate request.
-        case enter(surface: WlSurface)
+        case enter(surface: WlSurface?)
 
         /// Leave Event
         /// 
@@ -13878,8 +13924,14 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
             case 12:
                 self = Self.textDirection(serial: r.uint(), direction: try r.`enum`(TextDirection.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -13913,7 +13965,8 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
     /// Creates a new text_input object.
     public func createTextInput(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwpTextInputV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwpTextInputV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -13922,13 +13975,13 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextInputUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -14441,12 +14494,14 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - _: available actions
-    public func setAvailableActions(_ availableActions: UnsafeRawBufferPointer) throws(WaylandProxyError) {
+    public func setAvailableActions(_ availableActions: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        connection.send(self, 8, [
-            .array(availableActions),
-        ])
+        availableActions.withUnsafeBufferPointer { _availableActions in
+            connection.send(self, 8, [
+                .array(_availableActions),
+            ])
+        }
     }
 
     /// Show Input Panel
@@ -14615,12 +14670,6 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         case composeError = 7
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Enter Event
         /// 
@@ -14630,7 +14679,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         /// When the seat has the keyboard capability the text-input focus follows
         /// the keyboard focus. This event sets the current surface for the
         /// text-input object.
-        case enter(surface: WlSurface)
+        case enter(surface: WlSurface?)
 
         /// Leave Event
         /// 
@@ -14643,7 +14692,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         /// event.
         /// When the seat has the keyboard capability the text-input focus follows
         /// the keyboard focus.
-        case leave(surface: WlSurface)
+        case leave(surface: WlSurface?)
 
         /// Pre-Edit
         /// 
@@ -14660,7 +14709,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         /// and reset to initial on the next zwp_text_input_v3.done event.
         /// The initial value of text is an empty string, and cursor_begin,
         /// cursor_end and cursor_hidden are all 0.
-        case preeditString(text: String, cursorBegin: Int32, cursorEnd: Int32)
+        case preeditString(text: String?, cursorBegin: Int32, cursorEnd: Int32)
 
         /// Text Commit
         /// 
@@ -14670,7 +14719,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         /// Values set with this event are double-buffered. They must be applied
         /// and reset to initial on the next zwp_text_input_v3.done event.
         /// The initial value of text is an empty string.
-        case commitString(text: String)
+        case commitString(text: String?)
 
         /// Delete Surrounding Text
         /// 
@@ -14759,9 +14808,9 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
             case 1:
                 self = Self.leave(surface: r.object(type: WlSurface.self))
             case 2:
-                self = Self.preeditString(text: r.string(), cursorBegin: r.int(), cursorEnd: r.int())
+                self = Self.preeditString(text: r.nullableString(), cursorBegin: r.int(), cursorEnd: r.int())
             case 3:
-                self = Self.commitString(text: r.string())
+                self = Self.commitString(text: r.nullableString())
             case 4:
                 self = Self.deleteSurroundingText(beforeLength: r.uint(), afterLength: r.uint())
             case 5:
@@ -14773,8 +14822,14 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
             case 8:
                 self = Self.preeditHint(start: r.uint(), end: r.uint(), hint: try r.`enum`(PreeditHint.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -14833,7 +14888,8 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     /// - Parameters:
     public func getTextInput(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV3 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpTextInputV3.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpTextInputV3.self, version, _queue, [
             .newId,
             .object(seat),
         ])
@@ -14843,13 +14899,13 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextInputUnstableV3Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -14928,7 +14984,8 @@ public final class WpViewporter: BaseProxy, Proxy {
     /// - Returns: the new viewport interface id
     public func getViewport(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpViewport {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpViewport.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpViewport.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -14943,13 +15000,13 @@ public final class WpViewporter: BaseProxy, Proxy {
         case viewportExists = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Crop And Scale Interface To A Wl_Surface
@@ -15134,13 +15191,13 @@ public final class WpViewport: BaseProxy, Proxy {
         case noSurface = 3
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -15237,7 +15294,8 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     ///   - closeFd: FD signaling when done
     public func createListener(listenFd: FileHandle, closeFd: FileHandle, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpSecurityContextV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpSecurityContextV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpSecurityContextV1.self, version, _queue, [
             .newId,
             .fd(listenFd),
             .fd(closeFd),
@@ -15256,13 +15314,13 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
         case nested = 2
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Client Security Context
@@ -15429,13 +15487,13 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
         case invalidMetadata = 3
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -15510,7 +15568,8 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpAlphaModifierSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpAlphaModifierSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpAlphaModifierSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -15525,13 +15584,13 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
         case alreadyConstructed = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Alpha Modifier Object For A Surface
@@ -15610,13 +15669,13 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
         case noSurface = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -15698,7 +15757,8 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getFifo(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpFifoV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpFifoV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpFifoV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -15713,13 +15773,13 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
         case alreadyExists = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Fifo Interface
@@ -15817,13 +15877,13 @@ public final class WpFifoV1: BaseProxy, Proxy {
         case surfaceDestroyed = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -15909,7 +15969,8 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getTimer(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpCommitTimerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WpCommitTimerV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WpCommitTimerV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -15924,13 +15985,13 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
         case commitTimerExists = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Surface Commit Timer
@@ -16025,13 +16086,13 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
         case surfaceDestroyed = 2
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -16144,13 +16205,13 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerWarpV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -16212,7 +16273,8 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     /// response to this request.
     public func lock(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ExtSessionLockV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ExtSessionLockV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ExtSessionLockV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -16221,13 +16283,13 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ExtSessionLockV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Manage Lock State And Create Lock Surfaces
@@ -16364,7 +16426,8 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getLockSurface(surface: WlSurface, output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ExtSessionLockSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ExtSessionLockSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ExtSessionLockSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
             .object(output),
@@ -16420,12 +16483,6 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
         case alreadyConstructed = 4
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Session Successfully Locked
         /// 
@@ -16467,8 +16524,14 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
             case 1:
                 self = Self.finished
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -16602,12 +16665,6 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
         case invalidSerial = 3
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// The Client Should Resize Its Surface
         /// 
@@ -16623,8 +16680,14 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
             case 0:
                 self = Self.configure(serial: r.uint(), width: r.uint(), height: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }

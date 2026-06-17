@@ -89,7 +89,7 @@ public final class WlDisplay: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue)
         connection.send(self, 0, [
-            .object(callback),
+            .newId,
         ])
     }
 
@@ -107,7 +107,8 @@ public final class WlDisplay: BaseProxy, Proxy {
     /// - Returns: global registry object
     public func getRegistry(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlRegistry {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let registry = connection.sendConstructor(self, 1, WlRegistry.self, version, _queue, [
+        let registry = 
+        connection.sendConstructor(self, 1, WlRegistry.self, version, _queue, [
             .newId,
         ])
         return registry
@@ -140,7 +141,7 @@ public final class WlDisplay: BaseProxy, Proxy {
         /// by the object interface.  As such, each interface defines its
         /// own set of error codes.  The message is a brief description
         /// of the error, for (debugging) convenience.
-        case error(objectId: any Proxy, code: UInt32, `message`: String)
+        case error(objectId: (any Proxy)?, code: UInt32, `message`: String)
 
         /// Acknowledge Object Id Deletion
         /// 
@@ -158,8 +159,14 @@ public final class WlDisplay: BaseProxy, Proxy {
             case 1:
                 self = Self.deleteId(id: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -246,12 +253,6 @@ public final class WlRegistry: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Announce Global Object
         /// 
@@ -280,8 +281,14 @@ public final class WlRegistry: BaseProxy, Proxy {
             case 1:
                 self = Self.globalRemove(name: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -316,12 +323,6 @@ public final class WlCallback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Done Event
         /// 
@@ -337,8 +338,14 @@ public final class WlCallback: BaseProxy, Proxy {
             case 0:
                 self = Self.done(callbackData: r.uint())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -388,7 +395,8 @@ public final class WlCompositor: BaseProxy, Proxy {
     /// - Returns: the new surface
     public func createSurface(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WlSurface.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WlSurface.self, version, _queue, [
             .newId,
         ])
         return id
@@ -401,7 +409,8 @@ public final class WlCompositor: BaseProxy, Proxy {
     /// - Returns: the new region
     public func createRegion(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlRegion {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WlRegion.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WlRegion.self, version, _queue, [
             .newId,
         ])
         return id
@@ -410,13 +419,13 @@ public final class WlCompositor: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// A Shared Memory Pool
@@ -514,7 +523,8 @@ public final class WlShmPool: BaseProxy, Proxy {
     /// - Returns: buffer to create
     public func createBuffer(offset: Int32, width: Int32, height: Int32, stride: Int32, format: WlShm.Format, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WlBuffer.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WlBuffer.self, version, _queue, [
             .newId,
             .int(offset),
             .int(width),
@@ -562,13 +572,13 @@ public final class WlShmPool: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Shared Memory Support
@@ -646,7 +656,8 @@ public final class WlShm: BaseProxy, Proxy {
     /// - Returns: pool to create
     public func createPool(fd: FileHandle, size: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlShmPool {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WlShmPool.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WlShmPool.self, version, _queue, [
             .newId,
             .fd(fd),
             .int(size),
@@ -1040,12 +1051,6 @@ public final class WlShm: BaseProxy, Proxy {
         case p030 = 0x30333050
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Pixel Format Description
         /// 
@@ -1059,8 +1064,14 @@ public final class WlShm: BaseProxy, Proxy {
             case 0:
                 self = Self.format(format: try r.`enum`(Format.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1119,12 +1130,6 @@ public final class WlBuffer: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Compositor Releases Buffer
         /// 
@@ -1147,8 +1152,14 @@ public final class WlBuffer: BaseProxy, Proxy {
             case 0:
                 self = Self.release
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1411,12 +1422,6 @@ public final class WlDataOffer: BaseProxy, Proxy {
         case invalidOffer = 3
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Advertise Offered Mime Type
         /// 
@@ -1474,8 +1479,14 @@ public final class WlDataOffer: BaseProxy, Proxy {
             case 2:
                 self = Self.action(dndAction: try r.`enum`(WlDataDeviceManager.DndAction.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1647,19 +1658,13 @@ public final class WlDataSource: BaseProxy, Proxy {
         case invalidSource = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// A Target Accepts An Offered Mime Type
         /// 
         /// Sent when a target accepts pointer_focus or motion events.  If
         /// a target does not accept any of the offered types, type is NULL.
         /// Used for feedback during drag-and-drop.
-        case target(mimeType: String)
+        case target(mimeType: String?)
 
         /// Send The Data
         /// 
@@ -1736,7 +1741,7 @@ public final class WlDataSource: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.target(mimeType: r.string())
+                self = Self.target(mimeType: r.nullableString())
             case 1:
                 self = Self.send(mimeType: r.string(), fd: r.fd())
             case 2:
@@ -1748,8 +1753,14 @@ public final class WlDataSource: BaseProxy, Proxy {
             case 5:
                 self = Self.action(dndAction: try r.`enum`(WlDataDeviceManager.DndAction.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2004,12 +2015,6 @@ public final class WlDataDevice: BaseProxy, Proxy {
         case usedSource = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Introduce A New Wl_Data_Offer
         /// 
@@ -2028,7 +2033,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
         /// a surface owned by the client.  The position of the pointer at
         /// enter time is provided by the x and y arguments, in surface-local
         /// coordinates.
-        case enter(serial: UInt32, surface: WlSurface, x: Double, y: Double, id: WlDataOffer)
+        case enter(serial: UInt32, surface: WlSurface?, x: Double, y: Double, id: WlDataOffer?)
 
         /// End Drag-And-Drop Session
         /// 
@@ -2074,7 +2079,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
         /// keyboard focus within the same client doesn't mean a new selection
         /// will be sent.  The client must destroy the previous selection
         /// data_offer, if any, upon receiving this event.
-        case selection(id: WlDataOffer)
+        case selection(id: WlDataOffer?)
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -2091,8 +2096,14 @@ public final class WlDataDevice: BaseProxy, Proxy {
             case 5:
                 self = Self.selection(id: r.object(type: WlDataOffer.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2154,7 +2165,8 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     /// - Returns: data source to create
     public func createDataSource(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlDataSource {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WlDataSource.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WlDataSource.self, version, _queue, [
             .newId,
         ])
         return id
@@ -2170,7 +2182,8 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     /// - Returns: data device to create
     public func getDataDevice(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlDataDevice {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WlDataDevice.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WlDataDevice.self, version, _queue, [
             .newId,
             .object(seat),
         ])
@@ -2199,13 +2212,13 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
         public static let ask = DndAction(rawValue: 4)
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Create Desktop-Style Surfaces
@@ -2257,7 +2270,8 @@ public final class WlShell: BaseProxy, Proxy {
     /// - Returns: shell surface to create
     public func getShellSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlShellSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WlShellSurface.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WlShellSurface.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -2272,13 +2286,13 @@ public final class WlShell: BaseProxy, Proxy {
         case role = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Desktop-Style Metadata Interface
@@ -2806,12 +2820,6 @@ public final class WlShellSurface: BaseProxy, Proxy {
         case fill = 3
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Ping Client
         /// 
@@ -2852,8 +2860,14 @@ public final class WlShellSurface: BaseProxy, Proxy {
             case 2:
                 self = Self.popupDone
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3274,7 +3288,7 @@ public final class WlSurface: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue)
         connection.send(self, 3, [
-            .object(callback),
+            .newId,
         ])
     }
 
@@ -3519,12 +3533,6 @@ public final class WlSurface: BaseProxy, Proxy {
         case defunctRoleObject = 4
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Surface Enters An Output
         /// 
@@ -3532,7 +3540,7 @@ public final class WlSurface: BaseProxy, Proxy {
         /// results in some part of it being within the scanout region of an
         /// output.
         /// Note that a surface may be overlapping with zero or more outputs.
-        case enter(output: WlOutput)
+        case enter(output: WlOutput?)
 
         /// Surface Leaves An Output
         /// 
@@ -3544,7 +3552,7 @@ public final class WlSurface: BaseProxy, Proxy {
         /// has been sent, and the compositor might expect new surface content
         /// updates even if no enter event has been sent. The frame event should be
         /// used instead.
-        case leave(output: WlOutput)
+        case leave(output: WlOutput?)
 
         /// Preferred Buffer Scale For The Surface
         /// 
@@ -3581,8 +3589,14 @@ public final class WlSurface: BaseProxy, Proxy {
             case 3:
                 self = Self.preferredBufferTransform(transform: try r.`enum`(WlOutput.Transform.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3684,7 +3698,8 @@ public final class WlSeat: BaseProxy, Proxy {
     /// - Returns: seat pointer
     public func getPointer(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlPointer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, WlPointer.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, WlPointer.self, version, _queue, [
             .newId,
         ])
         return id
@@ -3703,7 +3718,8 @@ public final class WlSeat: BaseProxy, Proxy {
     /// - Returns: seat keyboard
     public func getKeyboard(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlKeyboard {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WlKeyboard.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WlKeyboard.self, version, _queue, [
             .newId,
         ])
         return id
@@ -3722,7 +3738,8 @@ public final class WlSeat: BaseProxy, Proxy {
     /// - Returns: seat touch interface
     public func getTouch(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlTouch {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 2, WlTouch.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, WlTouch.self, version, _queue, [
             .newId,
         ])
         return id
@@ -3762,12 +3779,6 @@ public final class WlSeat: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// get_pointer, get_keyboard or get_touch called on seat without the matching capability
         case missingCapability = 0
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
     }
 
     public enum Event: MessageProtocol {
@@ -3819,8 +3830,14 @@ public final class WlSeat: BaseProxy, Proxy {
             case 1:
                 self = Self.name(name: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4185,12 +4202,6 @@ public final class WlPointer: BaseProxy, Proxy {
         case inverted = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Enter Event
         /// 
@@ -4199,7 +4210,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// When a seat's focus enters a surface, the pointer image
         /// is undefined and a client should respond to this event by setting
         /// an appropriate pointer image with the set_cursor request.
-        case enter(serial: UInt32, surface: WlSurface, surfaceX: Double, surfaceY: Double)
+        case enter(serial: UInt32, surface: WlSurface?, surfaceX: Double, surfaceY: Double)
 
         /// Leave Event
         /// 
@@ -4207,7 +4218,7 @@ public final class WlPointer: BaseProxy, Proxy {
         /// a certain surface.
         /// The leave notification is sent before the enter notification
         /// for the new focus.
-        case leave(serial: UInt32, surface: WlSurface)
+        case leave(serial: UInt32, surface: WlSurface?)
 
         /// Pointer Motion Event
         /// 
@@ -4426,8 +4437,14 @@ public final class WlPointer: BaseProxy, Proxy {
             case 10:
                 self = Self.axisRelativeDirection(axis: try r.`enum`(Axis.self), direction: try r.`enum`(AxisRelativeDirection.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4629,12 +4646,6 @@ public final class WlKeyboard: BaseProxy, Proxy {
         case repeated = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Keyboard Mapping
         /// 
@@ -4657,7 +4668,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         /// wl_keyboard already had an active surface immediately before this event.
         /// Clients should not use the list of pressed keys to emulate key-press
         /// events. The order of keys in the list is unspecified.
-        case enter(serial: UInt32, surface: WlSurface, keys: UnsafeRawBufferPointer)
+        case enter(serial: UInt32, surface: WlSurface?, keys: UnsafeRawBufferPointer)
 
         /// Leave Event
         /// 
@@ -4669,7 +4680,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         /// defaults. The compositor must not send this event if the active surface
         /// of the wl_keyboard was not equal to the surface argument immediately
         /// before this event.
-        case leave(serial: UInt32, surface: WlSurface)
+        case leave(serial: UInt32, surface: WlSurface?)
 
         /// Key Event
         /// 
@@ -4737,8 +4748,14 @@ public final class WlKeyboard: BaseProxy, Proxy {
             case 5:
                 self = Self.repeatInfo(rate: r.int(), delay: r.int())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4920,12 +4937,6 @@ public final class WlTouch: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Touch Down Event And Beginning Of A Touch Sequence
         /// 
@@ -4933,7 +4944,7 @@ public final class WlTouch: BaseProxy, Proxy {
         /// assigned a unique ID. Future events from this touch point reference
         /// this ID. The ID ceases to be valid after a touch up event and may be
         /// reused in the future.
-        case down(serial: UInt32, time: UInt32, surface: WlSurface, id: Int32, x: Double, y: Double)
+        case down(serial: UInt32, time: UInt32, surface: WlSurface?, id: Int32, x: Double, y: Double)
 
         /// End Of A Touch Event Sequence
         /// 
@@ -5034,8 +5045,14 @@ public final class WlTouch: BaseProxy, Proxy {
             case 6:
                 self = Self.orientation(id: r.int(), orientation: r.fixed())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5256,12 +5273,6 @@ public final class WlOutput: BaseProxy, Proxy {
         public static let preferred = Mode(rawValue: 0x2)
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Properties Of The Output
         /// 
@@ -5396,8 +5407,14 @@ public final class WlOutput: BaseProxy, Proxy {
             case 5:
                 self = Self.description(description: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -5526,13 +5543,13 @@ public final class WlRegion: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Sub-Surface Compositing
@@ -5630,7 +5647,8 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     /// - Returns: the new sub-surface object ID
     public func getSubsurface(surface: WlSurface, parent: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlSubsurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, WlSubsurface.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, WlSubsurface.self, version, _queue, [
             .newId,
             .object(surface),
             .object(parent),
@@ -5649,13 +5667,13 @@ public final class WlSubcompositor: BaseProxy, Proxy {
         case badParent = 1
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Sub-Surface Interface To A Wl_Surface
@@ -5896,13 +5914,13 @@ public final class WlSubsurface: BaseProxy, Proxy {
         case badSurface = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Wayland Protocol Fixes
@@ -5969,13 +5987,13 @@ public final class WlFixes: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 

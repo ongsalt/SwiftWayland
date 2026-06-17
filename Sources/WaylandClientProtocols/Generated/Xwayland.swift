@@ -75,7 +75,8 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getXwaylandSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XwaylandSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, XwaylandSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, XwaylandSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
         ])
@@ -90,13 +91,13 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
         case role = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Interface For Associating Xwayland Windows To Wl_Surfaces
@@ -192,13 +193,13 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
         case invalidSerial = 1
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -287,7 +288,8 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     ///   - seat: the seat for which the keyboard should be grabbed
     public func grabKeyboard(surface: WlSurface, seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpXwaylandKeyboardGrabV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwpXwaylandKeyboardGrabV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwpXwaylandKeyboardGrabV1.self, version, _queue, [
             .newId,
             .object(surface),
             .object(seat),
@@ -298,13 +300,13 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Interface For Grabbing The Keyboard
@@ -340,13 +342,13 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 

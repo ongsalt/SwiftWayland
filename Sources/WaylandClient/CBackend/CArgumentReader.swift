@@ -31,7 +31,7 @@ struct CArgumentReader: ArgumentReader {
     mutating func array() -> UnsafeRawBufferPointer {
         let array = consume().a!
         return UnsafeRawBufferPointer(
-            start: array.pointee.data, 
+            start: array.pointee.data,
             count: array.pointee.size
         )
     }
@@ -40,14 +40,28 @@ struct CArgumentReader: ArgumentReader {
         String(cString: consume().s)
     }
 
-    mutating func object() -> any Proxy {
-        Unmanaged<AnyObject>.fromOpaque(
-            wl_proxy_get_user_data(consume().o!)
-        ).takeUnretainedValue() as! any Proxy
+    mutating func nullableString() -> String? {
+        let arg = consume()
+        if arg.s == nil {
+            return nil
+        }
+        return String(cString: arg.s)
     }
 
-    mutating func object<P>(type: P.Type) -> P where P: Proxy {
-        object() as! P
+    mutating func object() -> (any Proxy)? {
+        let arg = consume()
+        if arg.o == nil {
+            return nil
+        }
+
+        return Unmanaged<AnyObject>
+            .fromOpaque(wl_proxy_get_user_data(arg.o!))
+            .takeUnretainedValue()
+            as! (any Proxy)?
+    }
+
+    mutating func object<P>(type: P.Type) -> P? where P: Proxy {
+        object() as? P
     }
 
     mutating func newId<P>(type: P.Type) -> P where P: Proxy {

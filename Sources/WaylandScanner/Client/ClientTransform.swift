@@ -19,17 +19,7 @@ public func transform(
     protocolName: String,
     prefixMap: [(from: String, to: String)] = []
 ) -> ClassDeclaration {
-    let destructors = interface.requests
-        .filter { $0.arguments.count == 0 && $0.type == .destructor }
-    
     let name = remapName(interface.name, prefixMap: prefixMap).camel
-
-    let deinitDecl: DeinitDeclaration? =
-        if name == "WlDisplay" {
-            nil
-        } else {
-            DeinitDeclaration(destructors: destructors.map(\.name.lowerCamel))
-        }
 
     return ClassDeclaration(
         name: name,
@@ -41,18 +31,17 @@ public func transform(
             .map { (index, request) in
                 var arguments: [ArgumentDeclaration] = []
                 var returns: [ArgumentDeclaration] = []
-                var callbacks: [CallbackDeclaration] = []
+                var callbacks: [ArgumentDeclaration] = []
 
                 for (index, arg) in request.arguments.enumerated() {
                     if arg.interface == "wl_callback" {
-                        arguments.append(
-                            ArgumentDeclaration(
-                                name: arg.name.lowerCamel,
-                                swiftType: CALLBACK_TYPE,
-                                arg: arg,
-                            )
+                        let a = ArgumentDeclaration(
+                            name: arg.name.lowerCamel,
+                            arg: arg,
                         )
-                        callbacks.append(CallbackDeclaration(name: arg.name.lowerCamel))
+
+                        arguments.append(a)
+                        callbacks.append(a)
                         continue
                     }
 
@@ -70,7 +59,6 @@ public func transform(
                     let decl = ArgumentDeclaration(
                         name: arg.name.lowerCamel,
                         externalName: externalName,
-                        swiftType: arg.getSwiftType(isEvent: false, prefixMap: prefixMap),
                         arg: arg,
                     )
 
@@ -84,7 +72,6 @@ public func transform(
                 let messageArguments = request.arguments.map { arg in
                     ArgumentDeclaration(
                         name: arg.name.lowerCamel,
-                        swiftType: "__ignored",
                         arg: arg,
                     )
                 }
@@ -100,10 +87,8 @@ public func transform(
                     callbacks: callbacks,
                     messageArguments: messageArguments,
                     description: request.description,
-                    throws: nil,
                 )
             },
-        deinit: deinitDecl,
         enums: interface.enums.map { e in
             EnumDeclaration(
                 name: e.name.camel,
@@ -129,7 +114,6 @@ public func transform(
 
                     return ArgumentDeclaration(
                         name: arg.name.lowerCamel,
-                        swiftType: swiftType,  // for object/newId
                         arg: arg,
                     )
                 },
@@ -161,7 +145,11 @@ extension Argument {
     func getSwiftType(isEvent: Bool, prefixMap: [(from: String, to: String)] = []) -> String {
         switch self.type {
         case .string:
-            return "String"
+            return if self.nullable {
+                "String?"
+            } else {
+                "String"
+            }
         case .array:
             return "UnsafeRawBufferPointer"
         case .fd:
@@ -177,12 +165,19 @@ extension Argument {
         case .fixed:
             return "Double"
 
-        // TODO: namespace?
-        case .enum:
-            fatalError("there should not be an enum here")
+        // Object received MAY actually be already destroyed at the time we receive the message, so this is always nullable
         case .object:
             // self.interface must not be nil if its an in parameter (shuold be fine tho)
-            return self.interface.map { remapName($0, prefixMap: prefixMap).camel } ?? "any Proxy"
+            var name =
+                self.interface.map { remapName($0, prefixMap: prefixMap).camel } ?? "any Proxy"
+            if self.nullable || isEvent {
+                if self.interface != nil {
+                    name += "?"
+                } else {
+                    name = "(\(name))?"
+                }
+            }
+            return name
         case .newId:
             return remapName(self.interface!, prefixMap: prefixMap).camel  // dynamic newId in wl_registry.bind is excluded
         }

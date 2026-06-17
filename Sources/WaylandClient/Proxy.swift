@@ -6,18 +6,18 @@ public protocol Proxy: AnyObject, Identifiable {
 
     var connection: Connection { get }
     var queue: EventQueue { get }
+
+    var raw: OpaquePointer { get }
     var id: UInt32 { get }
     var version: UInt32 { get }
 
-    // TODO: find a way so it that we dont need to copy this everytime, making it a class???
-    static var interface: Interface { get }
-    static var `protocol`: Protocol { get }
-
     var isAlive: Bool { get }
     var onEvent: ((Event) -> Void)? { get }
-    var raw: OpaquePointer { get }
 
     init(id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection)
+
+    static var interface: Interface { get }
+    static var `protocol`: Protocol { get }
 }
 
 extension Proxy {
@@ -66,9 +66,8 @@ public struct NoEvent: MessageProtocol {
 }
 
 public enum DecodingError: Error {
-    case unknownOpcode(UInt32)
-    case objectNotFound(id: UInt32)
     case unknownEnumCase(case: UInt32, enumName: String)
+    case badMessage(opcode: UInt32)
 }
 
 public protocol MessageProtocol {
@@ -87,10 +86,16 @@ public protocol ArgumentReader {
     mutating func fd() -> FileHandle
     // NON OWNING, do not free this
     mutating func array() -> UnsafeRawBufferPointer
-    mutating func string() -> String
 
-    mutating func object() -> any Proxy
-    mutating func object<P: Proxy>(type: P.Type) -> P
+    mutating func string() -> String
+    mutating func nullableString() -> String?
+
+    mutating func object() -> (any Proxy)?
+    mutating func object<P>(type: P.Type) -> P? where P: Proxy
+
+    // it now can be null when either object is actually nullable OR its dead
+    // mutating func nullableObject() -> (any Proxy)?
+
     mutating func newId<P: Proxy>(type: P.Type) -> P
 }
 

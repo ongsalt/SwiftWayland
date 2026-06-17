@@ -17,7 +17,6 @@ public struct ClassDeclaration: Sendable {
     var protocolName: String
     var description: Description? = nil
     var methods: [MethodDeclaration]
-    var `deinit`: DeinitDeclaration?
     var enums: [EnumDeclaration] = []
     var events: [EventDeclaration] = []
 }
@@ -28,16 +27,13 @@ struct MethodDeclaration: Sendable {
     var requestId: UInt32
     var isDestructor: Bool
     var since: UInt32?
+    // function arguments
     var arguments: [ArgumentDeclaration]
-    var returns: [ArgumentDeclaration] // TODO: make a type for this
-    var callbacks: [CallbackDeclaration]
+    var returns: [ArgumentDeclaration] // this wont return more than 1 object anyway
+    var callbacks: [ArgumentDeclaration]
+    // all arguments
     var messageArguments: [ArgumentDeclaration]
     var description: Description?
-    var `throws`: String?
-}
-
-struct CallbackDeclaration: Sendable {
-    var name: String
 }
 
 struct EventDeclaration: Sendable {
@@ -50,15 +46,8 @@ struct EventDeclaration: Sendable {
 struct ArgumentDeclaration: Sendable {
     var name: String
     var externalName: String? = nil
-    var swiftType: String
-    var defaultValue: String? = nil
     var arg: Argument
     // do this have since field
-}
-
-
-struct DeinitDeclaration: Sendable {
-    var destructors: [String]
 }
 
 struct EnumDeclaration: Sendable {

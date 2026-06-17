@@ -59,7 +59,8 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
     /// - Returns: data source to create
     public func createDataSource(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrDataControlSourceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrDataControlSourceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrDataControlSourceV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -72,7 +73,8 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getDataDevice(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrDataControlDeviceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 1, ZwlrDataControlDeviceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 1, ZwlrDataControlDeviceV1.self, version, _queue, [
             .newId,
             .object(seat),
         ])
@@ -93,13 +95,13 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrDataControlUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Manage A Data Device For A Seat
@@ -251,12 +253,6 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
         case usedSource = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Introduce A New Wlr_Data_Control_Offer
         /// 
@@ -283,7 +279,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
         /// event.
         /// The first selection event is sent upon binding the
         /// wlr_data_control_device object.
-        case selection(id: ZwlrDataControlOfferV1)
+        case selection(id: ZwlrDataControlOfferV1?)
 
         /// This Data Control Is No Longer Valid
         /// 
@@ -305,7 +301,7 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
         /// If the compositor supports primary selection, the first
         /// primary_selection event is sent upon binding the
         /// wlr_data_control_device object.
-        case primarySelection(id: ZwlrDataControlOfferV1)
+        case primarySelection(id: ZwlrDataControlOfferV1?)
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -318,8 +314,14 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
             case 3:
                 self = Self.primarySelection(id: r.object(type: ZwlrDataControlOfferV1.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -415,12 +417,6 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
         case invalidOffer = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Send The Data
         /// 
@@ -442,8 +438,14 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
             case 1:
                 self = Self.cancelled
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -534,12 +536,6 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrDataControlUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Advertise Offered Mime Type
         /// 
@@ -552,8 +548,14 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
             case 0:
                 self = Self.offer(mimeType: r.string())
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -619,7 +621,8 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
     ///   - overlayCursor: include custom client hardware cursor on top of the frame
     public func captureOutput(overlayCursor: Int32, output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrExportDmabufFrameV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let frame = connection.sendConstructor(self, 0, ZwlrExportDmabufFrameV1.self, version, _queue, [
+        let frame = 
+        connection.sendConstructor(self, 0, ZwlrExportDmabufFrameV1.self, version, _queue, [
             .newId,
             .int(overlayCursor),
             .object(output),
@@ -641,13 +644,13 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrExportDmabufUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// A Dma-Buf Frame
@@ -836,12 +839,6 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
         case resizing = 2
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// A Frame Description
         /// 
@@ -896,8 +893,14 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
             case 3:
                 self = Self.cancel(reason: try r.`enum`(CancelReason.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -969,12 +972,6 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrForeignToplevelManagementUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// A Toplevel Has Been Created
         /// 
@@ -1010,8 +1007,14 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
             case 1:
                 self = Self.finished
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1374,12 +1377,6 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
         case invalidRectangle = 0
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Title Change
         /// 
@@ -1395,14 +1392,14 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
         /// 
         /// This event is emitted whenever the toplevel becomes visible on
         /// the given output. A toplevel may be visible on multiple outputs.
-        case outputEnter(output: WlOutput)
+        case outputEnter(output: WlOutput?)
 
         /// Toplevel Left An Output
         /// 
         /// This event is emitted whenever the toplevel stops being visible on
         /// the given output. It is guaranteed that an entered-output event
         /// with the same output has been emitted before this event.
-        case outputLeave(output: WlOutput)
+        case outputLeave(output: WlOutput?)
 
         /// The Toplevel State Changed
         /// 
@@ -1431,7 +1428,7 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
         /// 
         /// This event is emitted whenever the parent of the toplevel changes.
         /// No event is emitted when the parent handle is destroyed by the client.
-        case parent(parent: ZwlrForeignToplevelHandleV1)
+        case parent(parent: ZwlrForeignToplevelHandleV1?)
 
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
@@ -1452,8 +1449,14 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
             case 7:
                 self = Self.parent(parent: r.object(type: ZwlrForeignToplevelHandleV1.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1513,7 +1516,8 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getGammaControl(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrGammaControlV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrGammaControlV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrGammaControlV1.self, version, _queue, [
             .newId,
             .object(output),
         ])
@@ -1534,13 +1538,13 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrGammaControlUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Adjust Gamma Tables For An Output
@@ -1636,12 +1640,6 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
         case invalidGamma = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Size Of Gamma Ramps
         /// 
@@ -1667,8 +1665,14 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
             case 1:
                 self = Self.failed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -1717,7 +1721,8 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
     /// compositor will not send input events to other clients.
     public func getInhibitor(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrInputInhibitorV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrInputInhibitorV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrInputInhibitorV1.self, version, _queue, [
             .newId,
         ])
         return id
@@ -1731,13 +1736,13 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
         case alreadyInhibited = 0
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Inhibits Input To Other Clients
@@ -1779,13 +1784,13 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrInputInhibitUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -1883,7 +1888,8 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
     ///   - namespace: namespace for the layer surface
     public func getLayerSurface(surface: WlSurface, output: WlOutput? = nil, layer: Layer, namespace: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrLayerSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrLayerSurfaceV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrLayerSurfaceV1.self, version, _queue, [
             .newId,
             .object(surface),
             .object(output),
@@ -1930,13 +1936,13 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
         case overlay = 3
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Layer Metadata Interface
@@ -2365,12 +2371,6 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
         public static let `right` = Anchor(rawValue: 8)
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Suggest A Surface Change
         /// 
@@ -2407,8 +2407,14 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
             case 1:
                 self = Self.closed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2517,7 +2523,8 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func createConfiguration(serial: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrOutputConfigurationV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrOutputConfigurationV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrOutputConfigurationV1.self, version, _queue, [
             .newId,
             .uint(serial),
         ])
@@ -2539,12 +2546,6 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Introduce A New Head
         /// 
@@ -2592,8 +2593,14 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
             case 2:
                 self = Self.finished
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -2817,12 +2824,6 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
         case enabled = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Head Name
         /// 
@@ -2885,7 +2886,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
         /// 
         /// This event describes the mode currently in use for this head. It is only
         /// sent if the output is enabled.
-        case currentMode(mode: ZwlrOutputModeV1)
+        case currentMode(mode: ZwlrOutputModeV1?)
 
         /// Current Position
         /// 
@@ -3008,8 +3009,14 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
             case 13:
                 self = Self.adaptiveSync(state: try r.`enum`(AdaptiveSyncState.self))
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3095,12 +3102,6 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrOutputManagementUnstableV1Protocol
     
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Mode Size
         /// 
@@ -3139,8 +3140,14 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
             case 3:
                 self = Self.finished
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3244,7 +3251,8 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
     /// - Returns: a new object to configure the head
     public func enableHead(head: ZwlrOutputHeadV1, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrOutputConfigurationHeadV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrOutputConfigurationHeadV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrOutputConfigurationHeadV1.self, version, _queue, [
             .newId,
             .object(head),
         ])
@@ -3323,12 +3331,6 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
         case alreadyUsed = 3
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Configuration Changes Succeeded
         /// 
@@ -3366,8 +3368,14 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
             case 2:
                 self = Self.cancelled
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3576,13 +3584,13 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
         case invalidAdaptiveSyncState = 6
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 
@@ -3643,7 +3651,8 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func getOutputPower(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrOutputPowerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrOutputPowerV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrOutputPowerV1.self, version, _queue, [
             .newId,
             .object(output),
         ])
@@ -3664,13 +3673,13 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrOutputPowerManagementUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Adjust Power Management Mode For An Output
@@ -3764,12 +3773,6 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
         case invalidMode = 1
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Report A Power Management Mode Change
         /// 
@@ -3800,8 +3803,14 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
             case 1:
                 self = Self.failed
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -3909,7 +3918,8 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
     ///   - overlayCursor: composite cursor onto the frame
     public func captureOutput(overlayCursor: Int32, output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrScreencopyFrameV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let frame = connection.sendConstructor(self, 0, ZwlrScreencopyFrameV1.self, version, _queue, [
+        let frame = 
+        connection.sendConstructor(self, 0, ZwlrScreencopyFrameV1.self, version, _queue, [
             .newId,
             .int(overlayCursor),
             .object(output),
@@ -3928,7 +3938,8 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
     ///   - overlayCursor: composite cursor onto the frame
     public func captureOutputRegion(overlayCursor: Int32, output: WlOutput, x: Int32, y: Int32, width: Int32, height: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrScreencopyFrameV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let frame = connection.sendConstructor(self, 1, ZwlrScreencopyFrameV1.self, version, _queue, [
+        let frame = 
+        connection.sendConstructor(self, 1, ZwlrScreencopyFrameV1.self, version, _queue, [
             .newId,
             .int(overlayCursor),
             .object(output),
@@ -3954,13 +3965,13 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrScreencopyUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// A Frame Ready For Copy
@@ -4201,12 +4212,6 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
         public static let yInvert = Flags(rawValue: 1)
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Wl_Shm Buffer Information
         /// 
@@ -4283,8 +4288,14 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
             case 6:
                 self = Self.bufferDone
             default:
-                fatalError("Unknown message: opcode=\(opcode)")
+                throw DecodingError.badMessage(opcode: opcode)
             }
+        }
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
         }
     }
 }
@@ -4627,13 +4638,13 @@ public final class ZwlrVirtualPointerV1: BaseProxy, Proxy {
         case invalidAxisSource = 1
     }
 
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 /// Virtual Pointer Manager
@@ -4710,7 +4721,8 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     /// - Parameters:
     public func createVirtualPointer(seat: WlSeat? = nil, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrVirtualPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let id = connection.sendConstructor(self, 0, ZwlrVirtualPointerV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 0, ZwlrVirtualPointerV1.self, version, _queue, [
             .object(seat),
             .newId,
         ])
@@ -4739,7 +4751,8 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     public func createVirtualPointerWithOutput(seat: WlSeat? = nil, output: WlOutput? = nil, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwlrVirtualPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        let id = connection.sendConstructor(self, 2, ZwlrVirtualPointerV1.self, version, _queue, [
+        let id = 
+        connection.sendConstructor(self, 2, ZwlrVirtualPointerV1.self, version, _queue, [
             .object(seat),
             .object(output),
             .newId,
@@ -4750,13 +4763,13 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WlrVirtualPointerUnstableV1Protocol
     
+    public typealias Event = NoEvent
+
     deinit {
         if self.isAlive {
             connection.destroy(self)
         }
     }
-
-    public typealias Event = NoEvent
 }
 
 

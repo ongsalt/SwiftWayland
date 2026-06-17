@@ -180,7 +180,7 @@ public struct Argument: Codable, Sendable {
 }
 
 public enum Primitive: String, Codable, Sendable {
-    case int, uint, fixed, object, string, array, fd, `enum`
+    case int, uint, fixed, object, string, array, fd
     case newId = "new_id"
 }
 

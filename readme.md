@@ -37,12 +37,11 @@ See the `Examples` target for more.
 
 # Features
 
-## Object Lifetime
-When a proxy is deinitialized, it automatically calls `wl_proxy_destroy`. It do not send requests that are marked with `type="destructor"`, call it manually if need. The object will be in invalid state if any destructor was called and will throw if try to use it afterward.
+## Proxy Lifetime
+No automatic destruction are performed. call `Proxy.destroy(_:)` or a request with `type="destructor"` to destroy the handle. Object referenced from an incoming message are always nullable in case that it was already destroyed.
 
 ## Name Translation
 Some signatures are transformed into more idiomatic Swift — for example, `setMode(mode:)` becomes `setMode(_:)`.
-
 
 # Code Generation
 Code generation is handled by a build tool plugin using protocol definitions from [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols).
@@ -63,7 +62,7 @@ dnf install wayland-devel
 # Todos
 - Less copying once we have borrowing sequence
 - spi export
-- think about raii
 - dynamically link libwayland
 - server support
 - switch back to build tool plugin later
+- stop hijacking object_data
