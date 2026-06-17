@@ -60,8 +60,10 @@ extension ClassDeclaration: Code {
                 gen.add()
             }
 
-            self.deinit.generate(gen)
-            gen.add()
+            if let d = self.deinit {
+                d.generate(gen)
+                gen.add()
+            }
 
             if self.events.isEmpty {
                 gen.add("public typealias Event = NoEvent")

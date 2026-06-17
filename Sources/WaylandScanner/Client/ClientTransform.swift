@@ -21,12 +21,18 @@ public func transform(
 ) -> ClassDeclaration {
     let destructors = interface.requests
         .filter { $0.arguments.count == 0 && $0.type == .destructor }
-        
-    let deinitDecl: DeinitDeclaration = DeinitDeclaration(
-        destructors: destructors.map(\.name.lowerCamel))
+    
+    let name = remapName(interface.name, prefixMap: prefixMap).camel
+
+    let deinitDecl: DeinitDeclaration? =
+        if name == "WlDisplay" {
+            nil
+        } else {
+            DeinitDeclaration(destructors: destructors.map(\.name.lowerCamel))
+        }
 
     return ClassDeclaration(
-        name: remapName(interface.name, prefixMap: prefixMap).camel,
+        name: name,
         interface: interface,
         protocolName: protocolName,
         description: interface.description,

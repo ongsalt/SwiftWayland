@@ -130,12 +130,6 @@ public final class WlDisplay: BaseProxy, Proxy {
         case implementation = 3
     }
 
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
-
     public enum Event: MessageProtocol {
         /// Fatal Error Event
         /// 

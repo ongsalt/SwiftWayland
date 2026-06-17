@@ -17,7 +17,7 @@ public struct ClassDeclaration: Sendable {
     var protocolName: String
     var description: Description? = nil
     var methods: [MethodDeclaration]
-    var `deinit`: DeinitDeclaration
+    var `deinit`: DeinitDeclaration?
     var enums: [EnumDeclaration] = []
     var events: [EventDeclaration] = []
 }
