@@ -19,6 +19,66 @@
             "target": "Examples",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release Examples"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Examples}",
+            "name": "Debug Window",
+            "target": "Window",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Window"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Examples}",
+            "name": "Release Window",
+            "target": "Window",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Window"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Examples}",
+            "name": "Debug HexGrid",
+            "target": "HexGrid",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug HexGrid"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Examples}",
+            "name": "Release HexGrid",
+            "target": "HexGrid",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release HexGrid"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Examples}",
+            "name": "Debug Clipboard",
+            "target": "Clipboard",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Clipboard"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Examples}",
+            "name": "Release Clipboard",
+            "target": "Clipboard",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Clipboard"
         }
     ]
 }

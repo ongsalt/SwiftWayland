@@ -107,25 +107,20 @@ public class Connection {
             }
         }
 
-        var sender = proxy.raw
-        // if queue was set, then create proxy to self first
-        if let queue {
-            sender = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(sender)))
-            wl_proxy_set_queue(sender, queue.raw)
-        }
-
         let interfacePtr = interface?.ensureLoaded()
         if interface != nil && interfacePtr == nil {
             fatalError("Failed to load wl_interface for \(interface?.interface.name)")
         }
         let flags: UInt32 =
-            if queue != nil && queue !== self.mainQueue { UInt32(WL_MARSHAL_FLAG_DESTROY) } else {
+            if interface != nil {
+                UInt32(WL_MARSHAL_FLAG_DESTROY)
+            } else {
                 0
             }
-        let returnValue = wl_proxy_marshal_array_flags(
-            sender, opcode, interfacePtr, version, flags, &arguments)
 
-        return returnValue
+        return withRawProxy(of: proxy, on: queue) { parent in
+            wl_proxy_marshal_array_flags(parent, opcode, interfacePtr, version, flags, &arguments)
+        }
     }
 
     func createSwiftObject<T: Proxy>(from raw: OpaquePointer, type: T.Type) -> T {
@@ -142,31 +137,41 @@ public class Connection {
         return instance
     }
 
+    func withRawProxy<T>(
+        of parent: any Proxy, on queue: EventQueue? = nil, body: (OpaquePointer) -> T
+    ) -> T {
+        var sender = parent.raw
+        if let queue, queue !== self.mainQueue {
+            sender = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(sender)))
+            wl_proxy_set_queue(sender, queue.raw)
+        }
+
+        let ret = body(sender)
+
+        if queue != nil && queue !== self.mainQueue {
+            wl_proxy_destroy(sender)
+        }
+
+        return ret
+    }
+
     public func createCallback(
         fn: @escaping (UInt32) -> Void,
         queue: EventQueue?
     ) -> WlCallback {
-        var rawParent = rawDisplay
-        if let queue {
-            rawParent = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(rawParent)))
-            wl_proxy_set_queue(rawParent, queue.raw)
-        }
+        withRawProxy(of: display, on: queue) { parent in
+            let ptr = wl_proxy_create(parent, WlCallback.ensureLoaded())!
+            let callback = self.createSwiftObject(from: ptr, type: WlCallback.self)
 
-        let ptr = wl_proxy_create(rawParent, WlCallback.ensureLoaded())!
-        let callback = self.createSwiftObject(from: ptr, type: WlCallback.self)
-
-        callback.onEvent = { event in
-            switch event {
-            case .done(let callbackData):
-                fn(callbackData)
+            callback.onEvent = { event in
+                switch event {
+                case .done(let callbackData):
+                    fn(callbackData)
+                }
             }
-        }
 
-        if queue != nil && queue !== self.mainQueue {
-            wl_proxy_destroy(rawParent)
+            return callback
         }
-
-        return callback
     }
 
     public func createEventQueue(name: String? = nil) -> EventQueue {
@@ -191,6 +196,7 @@ public class Connection {
 
     /// Remove it from swift-side object list. and remove reference to it
     func deregister(proxyId: UInt32) {
+        // or should we really destroy it
         if let p = knownProxies[proxyId] {
             wl_proxy_set_user_data(p.raw, nil)
         }
