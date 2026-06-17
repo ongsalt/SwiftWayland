@@ -111,15 +111,10 @@ public class Connection {
         if interface != nil && interfacePtr == nil {
             fatalError("Failed to load wl_interface for \(interface?.interface.name)")
         }
-        let flags: UInt32 =
-            if interface != nil {
-                UInt32(WL_MARSHAL_FLAG_DESTROY)
-            } else {
-                0
-            }
 
         return withRawProxy(of: proxy, on: queue) { parent in
-            wl_proxy_marshal_array_flags(parent, opcode, interfacePtr, version, flags, &arguments)
+            wl_proxy_marshal_array_flags(
+                parent, opcode, interfacePtr, version, UInt32(WL_MARSHAL_FLAG_DESTROY), &arguments)
         }
     }
 
