@@ -14,4 +14,3 @@ public enum Arg {
     case object((any Proxy)?) // id type (*wl_proxy, or our id)
     case newId // we return the newly created object instead
 }
-

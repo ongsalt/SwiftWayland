@@ -329,7 +329,7 @@ extension Proxy {
     fileprivate func dispatch(opcode: UInt32, args: UnsafePointer<wl_argument>) -> Bool {
         do {
             var reader = CArgumentReader(args, parent: self)
-            let event = try Self.Event.init(from: &reader, opcode: opcode)
+            let event = try Self.Event(from: &reader, opcode: opcode)
             if event.isDestructor {
                 (self as? BaseProxy)?.isAlive = false
                 self.connection.deregister(proxyId: self.id)

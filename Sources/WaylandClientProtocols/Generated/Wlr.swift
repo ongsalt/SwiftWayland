@@ -942,13 +942,13 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.frame(width: r.uint(), height: r.uint(), offsetX: r.uint(), offsetY: r.uint(), bufferFlags: r.uint(), flags: try _parseEnum(into: Flags.self, r.uint()), format: r.uint(), modHigh: r.uint(), modLow: r.uint(), numObjects: r.uint())
+                self = Self.frame(width: r.uint(), height: r.uint(), offsetX: r.uint(), offsetY: r.uint(), bufferFlags: r.uint(), flags: try r.`enum`(Flags.self), format: r.uint(), modHigh: r.uint(), modLow: r.uint(), numObjects: r.uint())
             case 1:
                 self = Self.object(index: r.uint(), fd: r.fd(), size: r.uint(), offset: r.uint(), stride: r.uint(), planeIndex: r.uint())
             case 2:
                 self = Self.ready(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint())
             case 3:
-                self = Self.cancel(reason: try _parseEnum(into: CancelReason.self, r.uint()))
+                self = Self.cancel(reason: try r.`enum`(CancelReason.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -3105,7 +3105,7 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
             case 12:
                 self = Self.serialNumber(serialNumber: r.string())
             case 13:
-                self = Self.adaptiveSync(state: try _parseEnum(into: AdaptiveSyncState.self, r.uint()))
+                self = Self.adaptiveSync(state: try r.`enum`(AdaptiveSyncState.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -3925,7 +3925,7 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.mode(mode: try _parseEnum(into: Mode.self, r.uint()))
+                self = Self.mode(mode: try r.`enum`(Mode.self))
             case 1:
                 self = Self.failed
             default:
@@ -4416,9 +4416,9 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.buffer(format: try _parseEnum(into: WlShm.Format.self, r.uint()), width: r.uint(), height: r.uint(), stride: r.uint())
+                self = Self.buffer(format: try r.`enum`(WlShm.Format.self), width: r.uint(), height: r.uint(), stride: r.uint())
             case 1:
-                self = Self.flags(flags: try _parseEnum(into: Flags.self, r.uint()))
+                self = Self.flags(flags: try r.`enum`(Flags.self))
             case 2:
                 self = Self.ready(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint())
             case 3:

@@ -1057,7 +1057,7 @@ public final class WlShm: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.format(format: try _parseEnum(into: Format.self, r.uint()))
+                self = Self.format(format: try r.`enum`(Format.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -1488,9 +1488,9 @@ public final class WlDataOffer: BaseProxy, Proxy {
             case 0:
                 self = Self.offer(mimeType: r.string())
             case 1:
-                self = Self.sourceActions(sourceActions: try _parseEnum(into: WlDataDeviceManager.DndAction.self, r.uint()))
+                self = Self.sourceActions(sourceActions: try r.`enum`(WlDataDeviceManager.DndAction.self))
             case 2:
-                self = Self.action(dndAction: try _parseEnum(into: WlDataDeviceManager.DndAction.self, r.uint()))
+                self = Self.action(dndAction: try r.`enum`(WlDataDeviceManager.DndAction.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -1773,7 +1773,7 @@ public final class WlDataSource: BaseProxy, Proxy {
             case 4:
                 self = Self.dndFinished
             case 5:
-                self = Self.action(dndAction: try _parseEnum(into: WlDataDeviceManager.DndAction.self, r.uint()))
+                self = Self.action(dndAction: try r.`enum`(WlDataDeviceManager.DndAction.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -2866,7 +2866,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
             case 0:
                 self = Self.ping(serial: r.uint())
             case 1:
-                self = Self.configure(edges: try _parseEnum(into: Resize.self, r.uint()), width: r.int(), height: r.int())
+                self = Self.configure(edges: try r.`enum`(Resize.self), width: r.int(), height: r.int())
             case 2:
                 self = Self.popupDone
             default:
@@ -3606,7 +3606,7 @@ public final class WlSurface: BaseProxy, Proxy {
             case 2:
                 self = Self.preferredBufferScale(factor: r.int())
             case 3:
-                self = Self.preferredBufferTransform(transform: try _parseEnum(into: WlOutput.Transform.self, r.uint()))
+                self = Self.preferredBufferTransform(transform: try r.`enum`(WlOutput.Transform.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -3851,7 +3851,7 @@ public final class WlSeat: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.capabilities(capabilities: try _parseEnum(into: Capability.self, r.uint()))
+                self = Self.capabilities(capabilities: try r.`enum`(Capability.self))
             case 1:
                 self = Self.name(name: r.string())
             default:
@@ -4455,21 +4455,21 @@ public final class WlPointer: BaseProxy, Proxy {
             case 2:
                 self = Self.motion(time: r.uint(), surfaceX: r.fixed(), surfaceY: r.fixed())
             case 3:
-                self = Self.button(serial: r.uint(), time: r.uint(), button: r.uint(), state: try _parseEnum(into: ButtonState.self, r.uint()))
+                self = Self.button(serial: r.uint(), time: r.uint(), button: r.uint(), state: try r.`enum`(ButtonState.self))
             case 4:
-                self = Self.axis(time: r.uint(), axis: try _parseEnum(into: Axis.self, r.uint()), value: r.fixed())
+                self = Self.axis(time: r.uint(), axis: try r.`enum`(Axis.self), value: r.fixed())
             case 5:
                 self = Self.frame
             case 6:
-                self = Self.axisSource(axisSource: try _parseEnum(into: AxisSource.self, r.uint()))
+                self = Self.axisSource(axisSource: try r.`enum`(AxisSource.self))
             case 7:
-                self = Self.axisStop(time: r.uint(), axis: try _parseEnum(into: Axis.self, r.uint()))
+                self = Self.axisStop(time: r.uint(), axis: try r.`enum`(Axis.self))
             case 8:
-                self = Self.axisDiscrete(axis: try _parseEnum(into: Axis.self, r.uint()), discrete: r.int())
+                self = Self.axisDiscrete(axis: try r.`enum`(Axis.self), discrete: r.int())
             case 9:
-                self = Self.axisValue120(axis: try _parseEnum(into: Axis.self, r.uint()), value120: r.int())
+                self = Self.axisValue120(axis: try r.`enum`(Axis.self), value120: r.int())
             case 10:
-                self = Self.axisRelativeDirection(axis: try _parseEnum(into: Axis.self, r.uint()), direction: try _parseEnum(into: AxisRelativeDirection.self, r.uint()))
+                self = Self.axisRelativeDirection(axis: try r.`enum`(Axis.self), direction: try r.`enum`(AxisRelativeDirection.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -4779,13 +4779,13 @@ public final class WlKeyboard: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.keymap(format: try _parseEnum(into: KeymapFormat.self, r.uint()), fd: r.fd(), size: r.uint())
+                self = Self.keymap(format: try r.`enum`(KeymapFormat.self), fd: r.fd(), size: r.uint())
             case 1:
                 self = Self.enter(serial: r.uint(), surface: r.object(type: WlSurface.self), keys: r.array())
             case 2:
                 self = Self.leave(serial: r.uint(), surface: r.object(type: WlSurface.self))
             case 3:
-                self = Self.key(serial: r.uint(), time: r.uint(), key: r.uint(), state: try _parseEnum(into: KeyState.self, r.uint()))
+                self = Self.key(serial: r.uint(), time: r.uint(), key: r.uint(), state: try r.`enum`(KeyState.self))
             case 4:
                 self = Self.modifiers(serial: r.uint(), modsDepressed: r.uint(), modsLatched: r.uint(), modsLocked: r.uint(), group: r.uint())
             case 5:
@@ -5458,7 +5458,7 @@ public final class WlOutput: BaseProxy, Proxy {
             case 0:
                 self = Self.geometry(x: r.int(), y: r.int(), physicalWidth: r.int(), physicalHeight: r.int(), subpixel: r.int(), make: r.string(), model: r.string(), transform: r.int())
             case 1:
-                self = Self.mode(flags: try _parseEnum(into: Mode.self, r.uint()), width: r.int(), height: r.int(), refresh: r.int())
+                self = Self.mode(flags: try r.`enum`(Mode.self), width: r.int(), height: r.int(), refresh: r.int())
             case 2:
                 self = Self.done
             case 3:

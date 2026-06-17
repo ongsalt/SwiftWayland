@@ -86,9 +86,9 @@ public protocol ArgumentReader {
     mutating func uint() -> UInt32
     mutating func fd() -> FileHandle
     // NON OWNING, do not free this
-    mutating func array() -> UnsafeRawBufferPointer 
+    mutating func array() -> UnsafeRawBufferPointer
     mutating func string() -> String
-    
+
     mutating func object() -> any Proxy
     mutating func object<P: Proxy>(type: P.Type) -> P
     mutating func newId<P: Proxy>(type: P.Type) -> P
@@ -98,17 +98,19 @@ extension ArgumentReader {
     public mutating func fixed() -> Double {
         Double(self.int()) / 256
     }
+
+    public mutating func `enum`<T>(_ type: T.Type) throws(DecodingError) -> T
+    where T: RawRepresentable, T.RawValue == UInt32 {
+        let rawValue = self.uint()
+        guard let instance = T(rawValue: rawValue) else {
+            throw .unknownEnumCase(case: rawValue, enumName: String(describing: T.self))
+        }
+        return instance
+    }
+
 }
 
 public enum WaylandProxyError: Error {
     case destroyed
     case unsupportedVersion(current: UInt32, required: UInt32)
-}
-
-public func _parseEnum<T>(into: T.Type, _ rawValue: UInt32) throws(DecodingError) -> T
-where T: RawRepresentable, T.RawValue == UInt32 {
-    guard let instance = T(rawValue: rawValue) else {
-        throw .unknownEnumCase(case: rawValue, enumName: String(describing: T.self))
-    }
-    return instance
 }

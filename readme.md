@@ -31,6 +31,8 @@ xdgWmBase.onEvent = {
 try connection.roundtrip()
 ```
 
+`array` argument will be transformed into a non owning UnsafeRawBufferPointer, so DO NOT FREE THIS. (might make it `RawSpan` later)
+
 See the `Examples` target for more.
 
 # Features
@@ -60,7 +62,6 @@ dnf install wayland-devel
 
 # Todos
 - Less copying once we have borrowing sequence
-- use span instead of raw pointer?
 - spi export
 - think about raii
 - dynamically link libwayland

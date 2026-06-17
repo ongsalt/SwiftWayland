@@ -278,7 +278,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.configure(mode: try _parseEnum(into: Mode.self, r.uint()))
+                self = Self.configure(mode: try r.`enum`(Mode.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }

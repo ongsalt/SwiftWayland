@@ -3278,13 +3278,13 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
             case 9:
                 self = Self.eisaId(eisaid: r.string())
             case 10:
-                self = Self.capabilities(flags: try _parseEnum(into: Capability.self, r.uint()))
+                self = Self.capabilities(flags: try r.`enum`(Capability.self))
             case 11:
                 self = Self.overscan(overscan: r.uint())
             case 12:
-                self = Self.vrrPolicy(vrrPolicy: try _parseEnum(into: VrrPolicy.self, r.uint()))
+                self = Self.vrrPolicy(vrrPolicy: try r.`enum`(VrrPolicy.self))
             case 13:
-                self = Self.rgbRange(rgbRange: try _parseEnum(into: RgbRange.self, r.uint()))
+                self = Self.rgbRange(rgbRange: try r.`enum`(RgbRange.self))
             case 14:
                 self = Self.name(name: r.string())
             case 15:
@@ -3294,7 +3294,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
             case 17:
                 self = Self.wideColorGamut(wcgEnabled: r.uint())
             case 18:
-                self = Self.autoRotatePolicy(policy: try _parseEnum(into: AutoRotatePolicy.self, r.uint()))
+                self = Self.autoRotatePolicy(policy: try r.`enum`(AutoRotatePolicy.self))
             case 19:
                 self = Self.iccProfilePath(profilePath: r.string())
             case 20:
@@ -3304,11 +3304,11 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
             case 22:
                 self = Self.sdrGamutWideness(gamutWideness: r.uint())
             case 23:
-                self = Self.colorProfileSource(source: try _parseEnum(into: ColorProfileSource.self, r.uint()))
+                self = Self.colorProfileSource(source: try r.`enum`(ColorProfileSource.self))
             case 24:
                 self = Self.brightness(brightness: r.uint())
             case 25:
-                self = Self.colorPowerTradeoff(preference: try _parseEnum(into: ColorPowerTradeoff.self, r.uint()))
+                self = Self.colorPowerTradeoff(preference: try r.`enum`(ColorPowerTradeoff.self))
             case 26:
                 self = Self.dimming(multiplier: r.uint())
             case 27:
@@ -3322,7 +3322,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
             case 31:
                 self = Self.automaticMaxBitsPerColorLimit(maxBpcLimit: r.uint())
             case 32:
-                self = Self.edrPolicy(policy: try _parseEnum(into: EdrPolicy.self, r.uint()))
+                self = Self.edrPolicy(policy: try r.`enum`(EdrPolicy.self))
             case 33:
                 self = Self.sharpness(sharpness: r.uint())
             case 34:
@@ -3334,7 +3334,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
             case 37:
                 self = Self.hdrIccProfilePath(profilePath: r.string())
             case 38:
-                self = Self.hdrColorProfileSource(source: try _parseEnum(into: ColorProfileSource.self, r.uint()))
+                self = Self.hdrColorProfileSource(source: try r.`enum`(ColorProfileSource.self))
             case 39:
                 self = Self.abmLevel(level: r.uint())
             default:
@@ -3464,7 +3464,7 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
             case 3:
                 self = Self.removed
             case 4:
-                self = Self.flags(flags: try _parseEnum(into: Flags.self, r.uint()))
+                self = Self.flags(flags: try r.`enum`(Flags.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -6462,11 +6462,11 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
             case 10:
                 self = Self.eisaId(eisaid: r.string())
             case 11:
-                self = Self.capabilities(flags: try _parseEnum(into: Capability.self, r.uint()))
+                self = Self.capabilities(flags: try r.`enum`(Capability.self))
             case 12:
                 self = Self.overscan(overscan: r.uint())
             case 13:
-                self = Self.vrrPolicy(vrrPolicy: try _parseEnum(into: VrrPolicy.self, r.uint()))
+                self = Self.vrrPolicy(vrrPolicy: try r.`enum`(VrrPolicy.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -11158,11 +11158,11 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
             case 1:
                 self = Self.leave(serial: r.uint(), surface: r.object(type: WlSurface.self))
             case 2:
-                self = Self.inputPanelState(state: try _parseEnum(into: InputPanelVisibility.self, r.uint()), x: r.int(), y: r.int(), width: r.int(), height: r.int())
+                self = Self.inputPanelState(state: try r.`enum`(InputPanelVisibility.self), x: r.int(), y: r.int(), width: r.int(), height: r.int())
             case 3:
                 self = Self.preeditString(text: r.string(), commit: r.string())
             case 4:
-                self = Self.preeditStyling(index: r.uint(), length: r.uint(), style: try _parseEnum(into: PreeditStyle.self, r.uint()))
+                self = Self.preeditStyling(index: r.uint(), length: r.uint(), style: try r.`enum`(PreeditStyle.self))
             case 5:
                 self = Self.preeditCursor(index: r.int())
             case 6:
@@ -11178,7 +11178,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
             case 11:
                 self = Self.language(language: r.string())
             case 12:
-                self = Self.textDirection(direction: try _parseEnum(into: TextDirection.self, r.uint()))
+                self = Self.textDirection(direction: try r.`enum`(TextDirection.self))
             case 13:
                 self = Self.configureSurroundingText(beforeCursor: r.int(), afterCursor: r.int())
             case 14:

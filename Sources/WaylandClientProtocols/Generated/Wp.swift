@@ -759,13 +759,13 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.supportedIntent(renderIntent: try _parseEnum(into: RenderIntent.self, r.uint()))
+                self = Self.supportedIntent(renderIntent: try r.`enum`(RenderIntent.self))
             case 1:
-                self = Self.supportedFeature(feature: try _parseEnum(into: Feature.self, r.uint()))
+                self = Self.supportedFeature(feature: try r.`enum`(Feature.self))
             case 2:
-                self = Self.supportedTfNamed(tf: try _parseEnum(into: TransferFunction.self, r.uint()))
+                self = Self.supportedTfNamed(tf: try r.`enum`(TransferFunction.self))
             case 3:
-                self = Self.supportedPrimariesNamed(primaries: try _parseEnum(into: Primaries.self, r.uint()))
+                self = Self.supportedPrimariesNamed(primaries: try r.`enum`(Primaries.self))
             case 4:
                 self = Self.done
             default:
@@ -2216,7 +2216,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.failed(cause: try _parseEnum(into: Cause.self, r.uint()), msg: r.string())
+                self = Self.failed(cause: try r.`enum`(Cause.self), msg: r.string())
             case 1:
                 self = Self.ready(identity: r.uint())
             case 2:
@@ -2585,11 +2585,11 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
             case 2:
                 self = Self.primaries(rX: r.int(), rY: r.int(), gX: r.int(), gY: r.int(), bX: r.int(), bY: r.int(), wX: r.int(), wY: r.int())
             case 3:
-                self = Self.primariesNamed(primaries: try _parseEnum(into: WpColorManagerV1.Primaries.self, r.uint()))
+                self = Self.primariesNamed(primaries: try r.`enum`(WpColorManagerV1.Primaries.self))
             case 4:
                 self = Self.tfPower(eexp: r.uint())
             case 5:
-                self = Self.tfNamed(tf: try _parseEnum(into: WpColorManagerV1.TransferFunction.self, r.uint()))
+                self = Self.tfNamed(tf: try r.`enum`(WpColorManagerV1.TransferFunction.self))
             case 6:
                 self = Self.luminances(minLum: r.uint(), maxLum: r.uint(), referenceLum: r.uint())
             case 7:
@@ -2832,9 +2832,9 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.supportedAlphaMode(alphaMode: try _parseEnum(into: WpColorRepresentationSurfaceV1.AlphaMode.self, r.uint()))
+                self = Self.supportedAlphaMode(alphaMode: try r.`enum`(WpColorRepresentationSurfaceV1.AlphaMode.self))
             case 1:
-                self = Self.supportedCoefficientsAndRanges(coefficients: try _parseEnum(into: WpColorRepresentationSurfaceV1.Coefficients.self, r.uint()), range: try _parseEnum(into: WpColorRepresentationSurfaceV1.Range.self, r.uint()))
+                self = Self.supportedCoefficientsAndRanges(coefficients: try r.`enum`(WpColorRepresentationSurfaceV1.Coefficients.self), range: try r.`enum`(WpColorRepresentationSurfaceV1.Range.self))
             case 2:
                 self = Self.done
             default:
@@ -4343,7 +4343,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.capability(capability: try _parseEnum(into: Capability.self, r.uint()))
+                self = Self.capability(capability: try r.`enum`(Capability.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -6949,7 +6949,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
             case 5:
                 self = Self.trancheFormats(indices: r.array())
             case 6:
-                self = Self.trancheFlags(flags: try _parseEnum(into: TrancheFlags.self, r.uint()))
+                self = Self.trancheFlags(flags: try r.`enum`(TrancheFlags.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -9339,7 +9339,7 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             case 0:
                 self = Self.syncOutput(output: r.object(type: WlOutput.self))
             case 1:
-                self = Self.presented(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint(), refresh: r.uint(), seqHi: r.uint(), seqLo: r.uint(), flags: try _parseEnum(into: Kind.self, r.uint()))
+                self = Self.presented(tvSecHi: r.uint(), tvSecLo: r.uint(), tvNsec: r.uint(), refresh: r.uint(), seqHi: r.uint(), seqLo: r.uint(), flags: try r.`enum`(Kind.self))
             case 2:
                 self = Self.discarded
             default:
@@ -11035,13 +11035,13 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.type(toolType: try _parseEnum(into: Type.self, r.uint()))
+                self = Self.type(toolType: try r.`enum`(Type.self))
             case 1:
                 self = Self.hardwareSerial(hardwareSerialHi: r.uint(), hardwareSerialLo: r.uint())
             case 2:
                 self = Self.hardwareIdWacom(hardwareIdHi: r.uint(), hardwareIdLo: r.uint())
             case 3:
-                self = Self.capability(capability: try _parseEnum(into: Capability.self, r.uint()))
+                self = Self.capability(capability: try r.`enum`(Capability.self))
             case 4:
                 self = Self.done
             case 5:
@@ -11069,7 +11069,7 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
             case 16:
                 self = Self.wheel(degrees: r.int(), clicks: r.int())
             case 17:
-                self = Self.button(serial: r.uint(), button: r.uint(), state: try _parseEnum(into: ButtonState.self, r.uint()))
+                self = Self.button(serial: r.uint(), button: r.uint(), state: try r.`enum`(ButtonState.self))
             case 18:
                 self = Self.frame(time: r.uint())
             default:
@@ -12112,13 +12112,13 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.type(toolType: try _parseEnum(into: Type.self, r.uint()))
+                self = Self.type(toolType: try r.`enum`(Type.self))
             case 1:
                 self = Self.hardwareSerial(hardwareSerialHi: r.uint(), hardwareSerialLo: r.uint())
             case 2:
                 self = Self.hardwareIdWacom(hardwareIdHi: r.uint(), hardwareIdLo: r.uint())
             case 3:
-                self = Self.capability(capability: try _parseEnum(into: Capability.self, r.uint()))
+                self = Self.capability(capability: try r.`enum`(Capability.self))
             case 4:
                 self = Self.done
             case 5:
@@ -12146,7 +12146,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
             case 16:
                 self = Self.wheel(degrees: r.fixed(), clicks: r.int())
             case 17:
-                self = Self.button(serial: r.uint(), button: r.uint(), state: try _parseEnum(into: ButtonState.self, r.uint()))
+                self = Self.button(serial: r.uint(), button: r.uint(), state: try r.`enum`(ButtonState.self))
             case 18:
                 self = Self.frame(time: r.uint())
             default:
@@ -12366,7 +12366,7 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
             case 4:
                 self = Self.removed
             case 5:
-                self = Self.bustype(bustype: try _parseEnum(into: Bustype.self, r.uint()))
+                self = Self.bustype(bustype: try r.`enum`(Bustype.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -12567,7 +12567,7 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.source(source: try _parseEnum(into: Source.self, r.uint()))
+                self = Self.source(source: try r.`enum`(Source.self))
             case 1:
                 self = Self.angle(degrees: r.fixed())
             case 2:
@@ -12776,7 +12776,7 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
         public init(from r: inout some ArgumentReader, opcode: UInt32) throws(DecodingError) {
             switch opcode {
             case 0:
-                self = Self.source(source: try _parseEnum(into: Source.self, r.uint()))
+                self = Self.source(source: try r.`enum`(Source.self))
             case 1:
                 self = Self.position(position: r.uint())
             case 2:
@@ -13365,7 +13365,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
             case 3:
                 self = Self.done
             case 4:
-                self = Self.button(time: r.uint(), button: r.uint(), state: try _parseEnum(into: ButtonState.self, r.uint()))
+                self = Self.button(time: r.uint(), button: r.uint(), state: try r.`enum`(ButtonState.self))
             case 5:
                 self = Self.enter(serial: r.uint(), tablet: r.object(type: ZwpTabletV2.self), surface: r.object(type: WlSurface.self))
             case 6:
@@ -14330,7 +14330,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
             case 4:
                 self = Self.preeditString(serial: r.uint(), text: r.string(), commit: r.string())
             case 5:
-                self = Self.preeditStyling(index: r.uint(), length: r.uint(), style: try _parseEnum(into: PreeditStyle.self, r.uint()))
+                self = Self.preeditStyling(index: r.uint(), length: r.uint(), style: try r.`enum`(PreeditStyle.self))
             case 6:
                 self = Self.preeditCursor(index: r.int())
             case 7:
@@ -14344,7 +14344,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
             case 11:
                 self = Self.language(serial: r.uint(), language: r.string())
             case 12:
-                self = Self.textDirection(serial: r.uint(), direction: try _parseEnum(into: TextDirection.self, r.uint()))
+                self = Self.textDirection(serial: r.uint(), direction: try r.`enum`(TextDirection.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
@@ -15238,11 +15238,11 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
             case 5:
                 self = Self.done(serial: r.uint())
             case 6:
-                self = Self.action(action: try _parseEnum(into: Action.self, r.uint()), serial: r.uint())
+                self = Self.action(action: try r.`enum`(Action.self), serial: r.uint())
             case 7:
                 self = Self.language(language: r.string())
             case 8:
-                self = Self.preeditHint(start: r.uint(), end: r.uint(), hint: try _parseEnum(into: PreeditHint.self, r.uint()))
+                self = Self.preeditHint(start: r.uint(), end: r.uint(), hint: try r.`enum`(PreeditHint.self))
             default:
                 fatalError("Unknown message: opcode=\(opcode)")
             }
