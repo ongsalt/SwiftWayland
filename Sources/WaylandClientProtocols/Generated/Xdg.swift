@@ -62,7 +62,7 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     /// with the manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -101,18 +101,9 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgDecorationUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -179,7 +170,7 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
     /// first.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -249,18 +240,9 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
         case serverSide = 2
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -339,7 +321,7 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     /// used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -370,18 +352,9 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -432,7 +405,7 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     /// used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -461,18 +434,9 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -521,7 +485,7 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
     /// given the handle sent via xdg_exported.handle.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -529,18 +493,9 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -612,7 +567,7 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
     /// be invalidated.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -636,18 +591,9 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -726,7 +672,7 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
     /// used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -763,18 +709,9 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
         case invalidSurface = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -825,7 +762,7 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     /// used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -854,18 +791,9 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -914,7 +842,7 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
     /// given the handle sent via xdg_exported.handle.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -922,18 +850,9 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1005,7 +924,7 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
     /// be invalidated.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1035,18 +954,9 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
         case invalidSurface = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1125,7 +1035,7 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     /// Any objects already created through this instance are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1147,18 +1057,9 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgOutputUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1260,7 +1161,7 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
     /// going to use the xdg_output object anymore.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1268,18 +1169,9 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgOutputUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1482,7 +1374,7 @@ public final class XdgWmBase: BaseProxy, Proxy {
     /// and will result in a defunct_surfaces error.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1564,18 +1456,9 @@ public final class XdgWmBase: BaseProxy, Proxy {
         case unresponsive = 6
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1772,7 +1655,7 @@ public final class XdgPositioner: BaseProxy, Proxy {
     /// Notify the compositor that the xdg_positioner will no longer be used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -2025,18 +1908,9 @@ public final class XdgPositioner: BaseProxy, Proxy {
         public static let resizeY = ConstraintAdjustment(rawValue: 32)
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2194,7 +2068,7 @@ public final class XdgSurface: BaseProxy, Proxy {
     /// a defunct_role_object error is raised.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -2346,18 +2220,9 @@ public final class XdgSurface: BaseProxy, Proxy {
         case defunctRoleObject = 6
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2660,7 +2525,7 @@ public final class XdgToplevel: BaseProxy, Proxy {
     /// see "Unmapping" behavior in interface section for details.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3107,18 +2972,9 @@ public final class XdgToplevel: BaseProxy, Proxy {
         case minimize = 4
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3333,7 +3189,7 @@ public final class XdgPopup: BaseProxy, Proxy {
     /// xdg_wm_base.not_the_topmost_popup protocol error will be sent.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3422,18 +3278,9 @@ public final class XdgPopup: BaseProxy, Proxy {
         case invalidGrab = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3574,7 +3421,7 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     /// affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3608,18 +3455,9 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
         case invalidSource = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3675,7 +3513,7 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
     /// ongoing_drag error is raised.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3719,18 +3557,9 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
         case ongoingDrag = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3797,7 +3626,7 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     /// the xdg_dialog_v1 objects generated through it.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3827,18 +3656,9 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
         case alreadyUsed = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3890,7 +3710,7 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     /// effects.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3925,18 +3745,9 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgDialogV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4028,7 +3839,7 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     /// This does not destroy objects created with the manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4078,18 +3889,9 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgToplevelIconV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4186,7 +3988,7 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
     /// until the toplevel icon is reset explicitly.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4259,18 +4061,9 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
         case noBuffer = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4354,7 +4147,7 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
     /// effects.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4407,18 +4200,9 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgToplevelTagV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4474,7 +4258,7 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     /// Notify that the object will no longer be used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4502,18 +4286,9 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XdgSystemBellV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 

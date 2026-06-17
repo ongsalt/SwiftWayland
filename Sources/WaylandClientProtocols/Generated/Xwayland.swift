@@ -56,7 +56,7 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     /// The child objects created via this interface are unaffected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -90,18 +90,9 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
         case role = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -185,7 +176,7 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     /// Any already existing associations are unaffected by this action.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -201,18 +192,9 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
         case invalidSerial = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -276,7 +258,7 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     /// Destroy the keyboard grab manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -316,18 +298,9 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -359,7 +332,7 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     /// will ungrab the keyboard.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -367,18 +340,9 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 

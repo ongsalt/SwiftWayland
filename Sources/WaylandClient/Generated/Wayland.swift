@@ -130,6 +130,12 @@ public final class WlDisplay: BaseProxy, Proxy {
         case implementation = 3
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Fatal Error Event
         /// 
@@ -246,6 +252,12 @@ public final class WlRegistry: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Announce Global Object
         /// 
@@ -310,6 +322,12 @@ public final class WlCallback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Done Event
         /// 
@@ -398,6 +416,12 @@ public final class WlCompositor: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -515,7 +539,7 @@ public final class WlShmPool: BaseProxy, Proxy {
     /// are gone.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -544,18 +568,9 @@ public final class WlShmPool: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -653,7 +668,7 @@ public final class WlShm: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -1031,18 +1046,9 @@ public final class WlShm: BaseProxy, Proxy {
         case p030 = 808661072
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1111,7 +1117,7 @@ public final class WlBuffer: BaseProxy, Proxy {
     /// For possible side-effects to a surface, see wl_surface.attach.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1119,18 +1125,9 @@ public final class WlBuffer: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1338,7 +1335,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
     /// Destroy the data offer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -1420,18 +1417,9 @@ public final class WlDataOffer: BaseProxy, Proxy {
         case invalidOffer = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1625,7 +1613,7 @@ public final class WlDataSource: BaseProxy, Proxy {
     /// Destroy the data source.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -1665,18 +1653,9 @@ public final class WlDataSource: BaseProxy, Proxy {
         case invalidSource = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2015,7 +1994,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -2031,18 +2010,9 @@ public final class WlDataDevice: BaseProxy, Proxy {
         case usedSource = 1
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2235,6 +2205,12 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
         public static let ask = DndAction(rawValue: 4)
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -2300,6 +2276,12 @@ public final class WlShell: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// given wl_surface has another role
         case role = 0
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public typealias Event = NoEvent
@@ -2830,6 +2812,12 @@ public final class WlShellSurface: BaseProxy, Proxy {
         case fill = 3
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Ping Client
         /// 
@@ -3147,7 +3135,7 @@ public final class WlSurface: BaseProxy, Proxy {
     /// Deletes the surface and invalidates its object ID.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3537,18 +3525,9 @@ public final class WlSurface: BaseProxy, Proxy {
         case defunctRoleObject = 4
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3762,7 +3741,7 @@ public final class WlSeat: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 3, [
         ])
     }
@@ -3791,18 +3770,9 @@ public final class WlSeat: BaseProxy, Proxy {
         case missingCapability = 0
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4170,7 +4140,7 @@ public final class WlPointer: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -4221,18 +4191,9 @@ public final class WlPointer: BaseProxy, Proxy {
         case inverted = 1
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4647,7 +4608,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4674,18 +4635,9 @@ public final class WlKeyboard: BaseProxy, Proxy {
         case repeated = 2
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4966,7 +4918,7 @@ public final class WlTouch: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4974,18 +4926,9 @@ public final class WlTouch: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5252,7 +5195,7 @@ public final class WlOutput: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5319,18 +5262,9 @@ public final class WlOutput: BaseProxy, Proxy {
         public static let preferred = Mode(rawValue: 2)
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5552,7 +5486,7 @@ public final class WlRegion: BaseProxy, Proxy {
     /// Destroy the region.  This will invalidate the object ID.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5598,18 +5532,9 @@ public final class WlRegion: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5681,7 +5606,7 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     /// objects, wl_subsurface objects included.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5730,18 +5655,9 @@ public final class WlSubcompositor: BaseProxy, Proxy {
         case badParent = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5869,7 +5785,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
     /// to the parent is deleted. The wl_surface is unmapped immediately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5986,18 +5902,9 @@ public final class WlSubsurface: BaseProxy, Proxy {
         case badSurface = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -6041,7 +5948,7 @@ public final class WlFixes: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -6068,18 +5975,9 @@ public final class WlFixes: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WaylandProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 

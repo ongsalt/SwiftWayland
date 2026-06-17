@@ -60,10 +60,8 @@ extension ClassDeclaration: Code {
                 gen.add()
             }
 
-            if let d = self.deinit {
-                gen.walk(node: d)
-                gen.add()
-            }
+            self.deinit.generate(gen)
+            gen.add()
 
             if self.events.isEmpty {
                 gen.add("public typealias Event = NoEvent")
@@ -175,7 +173,7 @@ extension MethodDeclaration: Code {
             }
 
             if self.isDestructor {
-                gen << "self.markDead()"
+                gen << "connection.destroy(self)"
             }
 
             // currently returns.count will not be > 1
@@ -301,23 +299,9 @@ extension EnumCaseDeclaration: Code {
 
 extension DeinitDeclaration: Code {
     func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
-        gen << "var destructor: Destructor? = .\(destructors[0])"
-        gen.add()
-
-        gen.block("enum Destructor {", endWith: "}") {
-            for m in destructors {
-                gen << "case \(m)"
-            }
-        }
-        gen.add()
         gen.block("deinit {", endWith: "}") {
             gen.block("if self.isAlive {", endWith: "}") {
-                gen.block("switch self.destructor {", endWith: "}") {
-                    for m in destructors {
-                        gen << "case .\(m): try? self.\(m.gravedIfNeeded)()"
-                    }
-                    gen << "case nil: break"
-                }
+                gen << "connection.destroy(self)"
             }
         }
     }

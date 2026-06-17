@@ -21,10 +21,9 @@ public func transform(
 ) -> ClassDeclaration {
     let destructors = interface.requests
         .filter { $0.arguments.count == 0 && $0.type == .destructor }
-    let deinitDecl: DeinitDeclaration? =
-        if destructors.isEmpty { nil } else {
-            DeinitDeclaration(destructors: destructors.map(\.name.lowerCamel))
-        }
+        
+    let deinitDecl: DeinitDeclaration = DeinitDeclaration(
+        destructors: destructors.map(\.name.lowerCamel))
 
     return ClassDeclaration(
         name: remapName(interface.name, prefixMap: prefixMap).camel,

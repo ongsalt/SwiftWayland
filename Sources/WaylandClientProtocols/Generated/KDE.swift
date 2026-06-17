@@ -58,7 +58,7 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -66,18 +66,9 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = AppmenuProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -140,7 +131,7 @@ public final class OrgKdeKwinAppmenu: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -148,18 +139,9 @@ public final class OrgKdeKwinAppmenu: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = AppmenuProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -237,6 +219,12 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = BlurProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -295,7 +283,7 @@ public final class OrgKdeKwinBlur: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -303,18 +291,9 @@ public final class OrgKdeKwinBlur: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = BlurProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -392,6 +371,12 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ContrastProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -544,7 +529,7 @@ public final class OrgKdeKwinContrast: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 5, [
         ])
     }
@@ -583,18 +568,9 @@ public final class OrgKdeKwinContrast: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ContrastProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -665,6 +641,12 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DpmsProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -755,7 +737,7 @@ public final class OrgKdeKwinDpms: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -773,18 +755,9 @@ public final class OrgKdeKwinDpms: BaseProxy, Proxy {
         case off = 3
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1198,7 +1171,7 @@ public final class OrgKdeKwinFakeInput: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 11, [
         ])
     }
@@ -1217,18 +1190,9 @@ public final class OrgKdeKwinFakeInput: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FakeInputProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1356,7 +1320,7 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
     /// to free some of those bindings.
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1467,18 +1431,9 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
         case invalidMethod = 0
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1535,6 +1490,12 @@ public final class _WlFullscreenShellModeFeedback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FullscreenShellProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Mode Switch Succeeded
         /// 
@@ -1643,6 +1604,12 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -1687,7 +1654,7 @@ public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1704,18 +1671,9 @@ public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1791,7 +1749,7 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1810,18 +1768,9 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeExternalBrightnessV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1931,7 +1880,7 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -2021,18 +1970,9 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeExternalBrightnessV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2117,7 +2057,7 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
     /// This won't affect the surface previously marked with the allow request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -2130,18 +2070,9 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
         case invalidSurfaceState = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2220,6 +2151,12 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
     public enum Error: UInt32 {
         /// the registry was bound with an unsupported version
         case unsupportedVersion = 0
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public enum Event: MessageProtocol {
@@ -2820,7 +2757,7 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 21 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 21) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -2963,18 +2900,9 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         case always = 1
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3421,6 +3349,12 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
         case reducedBlanking = 2
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Mode Size
         /// 
@@ -3579,6 +3513,12 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeOutputManagementV2Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -4303,7 +4243,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 6, [
         ])
     }
@@ -4806,18 +4746,9 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         case always = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4935,7 +4866,7 @@ public final class KdeModeListV2: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4993,18 +4924,9 @@ public final class KdeModeListV2: BaseProxy, Proxy {
         case missingParameters = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5069,7 +4991,7 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5077,18 +4999,9 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeOutputOrderV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5168,7 +5081,7 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5176,18 +5089,9 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdePrimaryOutputV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5273,7 +5177,7 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     /// with this manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5333,18 +5237,9 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
         case `right` = 4
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5398,7 +5293,7 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     /// it will be deactivated and the surface will be made visible.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5425,18 +5320,9 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KdeScreenEdgeV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5505,7 +5391,7 @@ public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -5541,18 +5427,9 @@ public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
         case pressed = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5731,6 +5608,12 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Emitted When A New Desktop Has Been Created
         /// 
@@ -5900,6 +5783,12 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OrgKdePlasmaVirtualDesktopProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// The Desktop Got An Id
         /// 
@@ -6296,6 +6185,12 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
         case automatic = 2
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Geometric Properties Of The Output
         /// 
@@ -6552,6 +6447,12 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = OutputmanagementProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -6914,7 +6815,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 8, [
         ])
     }
@@ -6963,18 +6864,9 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
         case automatic = 2
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7066,6 +6958,12 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaShellProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -7226,7 +7124,7 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
     /// The shell surface role is lost and wl_surface is unmapped.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -7473,18 +7371,9 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
         case panelNotAutoHide = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7771,6 +7660,12 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
         case disabled = 0
 
         case enabled = 1
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public enum Event: MessageProtocol {
@@ -8330,7 +8225,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Removes the resource bound for this org_kde_plasma_window.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 7, [
         ])
     }
@@ -8428,18 +8323,9 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8639,7 +8525,7 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
     /// by this manager object will be unaffected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -8647,18 +8533,9 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8722,7 +8599,7 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
     /// longer be used.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -8730,18 +8607,9 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8804,6 +8672,12 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// A Window In The Stacking Order List
         /// 
@@ -8927,7 +8801,7 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -8935,18 +8809,9 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RemoteAccessProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9027,7 +8892,7 @@ public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -9035,18 +8900,9 @@ public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RemoteAccessProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9120,6 +8976,12 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ServerDecorationPaletteProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -9173,7 +9035,7 @@ public final class OrgKdeKwinServerDecorationPalette: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -9181,18 +9043,9 @@ public final class OrgKdeKwinServerDecorationPalette: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ServerDecorationPaletteProtocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9292,6 +9145,12 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
         case server = 2
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// The Default Mode Used On The Server
         /// 
@@ -9358,7 +9217,7 @@ public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -9390,18 +9249,9 @@ public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
         case server = 2
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9514,7 +9364,7 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -9522,18 +9372,9 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ShadowProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9826,7 +9667,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 13, [
         ])
     }
@@ -9834,18 +9675,9 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ShadowProtocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9923,6 +9755,12 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = SlideProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -10005,7 +9843,7 @@ public final class OrgKdeKwinSlide: BaseProxy, Proxy {
     /// 
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 3, [
         ])
     }
@@ -10023,18 +9861,9 @@ public final class OrgKdeKwinSlide: BaseProxy, Proxy {
         case bottom = 3
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -10091,6 +9920,12 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = SurfaceExtensionProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -10249,6 +10084,12 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
         case staysontop = 2
 
         case bypasswindowmanager = 4
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public enum Event: MessageProtocol {
@@ -10700,7 +10541,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
     /// through this wp_text_input object
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -11003,18 +10844,9 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         case rtl = 2
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -11232,7 +11064,7 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     /// Destroy the wp_text_input_manager object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -11254,18 +11086,9 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextInputUnstableV2Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -11926,6 +11749,12 @@ public final class WlTextInput: BaseProxy, Proxy {
         case rtl = 2
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Enter Event
         /// 
@@ -12105,6 +11934,12 @@ public final class WlTextInputManager: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextProtocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -12225,6 +12060,12 @@ public final class WlEglstreamController: BaseProxy, Proxy {
 
         /// Tells the server the desired fifo length when the desired presenation_mode is fifo.
         case fifoLength = 1
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public typealias Event = NoEvent
@@ -12467,7 +12308,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     /// Destroy the zkde_screencast_unstable_v1 object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -12563,18 +12404,9 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
         case `metadata` = 4
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -12649,7 +12481,7 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
     /// 
     public func close() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -12657,18 +12489,9 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ZkdeScreencastUnstableV1Protocol
     
-    var destructor: Destructor? = .close
-
-    enum Destructor {
-        case close
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .close: try? self.close()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 

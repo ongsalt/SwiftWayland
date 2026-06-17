@@ -50,7 +50,7 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     /// with the manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -79,18 +79,9 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
         case alreadyConstructed = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -139,7 +130,7 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     /// buffering semantics. See set_content_type for details.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -175,18 +166,9 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
         case game = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -406,7 +388,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     /// objects in any way.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -700,18 +682,9 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         case compoundPower24 = 14
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -825,7 +798,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     /// affect any remaining protocol objects.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -868,18 +841,9 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -956,7 +920,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     /// unset_image_description.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1032,18 +996,9 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
         case inert = 2
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1131,7 +1086,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     /// Destroy the wp_color_management_surface_feedback_v1 object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -1199,18 +1154,9 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
         case unsupportedFeature = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -1331,7 +1277,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
     /// request.
     public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         let imageDescription = connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
@@ -1403,6 +1349,12 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
 
         /// offset + length exceeds file size
         case outOfFile = 4
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public typealias Event = NoEvent
@@ -1678,7 +1630,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     /// request.
     public func create(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         let imageDescription = connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
             .newId,
         ])
@@ -1998,6 +1950,12 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
         case invalidLuminance = 5
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -2103,7 +2061,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     /// yet been followed by a wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -2149,18 +2107,9 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
         case noOutput = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2468,6 +2417,12 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// End Of Information
         /// 
@@ -2636,7 +2591,7 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     /// description.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -2644,18 +2599,9 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2759,7 +2705,7 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     /// affect any other objects in any way.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -2790,18 +2736,9 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
         case surfaceExists = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -2918,7 +2855,7 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     /// wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3069,18 +3006,9 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
         case type5 = 6
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3217,6 +3145,12 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Open A Non-Master Fd For This Drm Node
         /// 
@@ -3369,7 +3303,7 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
     /// nor leases will be affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3377,18 +3311,9 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3531,7 +3456,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     /// will raise the empty_lease error.
     public func submit(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         let id = connection.sendConstructor(self, 1, WpDrmLeaseV1.self, version, _queue, [
             .newId,
         ])
@@ -3550,6 +3475,12 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
 
         /// requested a lease without requesting a connector
         case emptyLease = 2
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public typealias Event = NoEvent
@@ -3609,7 +3540,7 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     /// wp_drm_lease_device_v1 interface.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3617,18 +3548,9 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = DrmLeaseV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3740,7 +3662,7 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     /// by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3770,18 +3692,9 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
         case tearingControlExists = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3846,7 +3759,7 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
     /// vsync. The change will be applied on the next wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -3860,18 +3773,9 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
         case `async` = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -3931,7 +3835,7 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     /// wp_fractional_scale_v1 objects included.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -3964,18 +3868,9 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
         case fractionalScaleExists = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4021,7 +3916,7 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
     /// preferred_scale events will no longer be sent.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4029,18 +3924,9 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FractionalScaleV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4193,7 +4079,7 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     /// to free some of those bindings.
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4313,18 +4199,9 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
         case role = 1
     }
 
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4384,6 +4261,12 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = FullscreenShellUnstableV1Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Mode Switch Succeeded
         /// 
@@ -4492,7 +4375,7 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     /// Destroy the inhibit manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4515,18 +4398,9 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4567,7 +4441,7 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
     /// Remove the inhibitor effect from the associated wl_surface.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -4575,18 +4449,9 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -4969,7 +4834,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
         )
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5197,18 +5062,9 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5295,6 +5151,12 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Activate Event
         /// 
@@ -5366,6 +5228,12 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -5431,6 +5299,12 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
     
     public enum Position: UInt32 {
         case centerBottom = 0
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public typealias Event = NoEvent
@@ -5528,7 +5402,7 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     /// affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5599,18 +5473,9 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputTimestampsUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5668,7 +5533,7 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
     /// timestamp events will be emitted.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5676,18 +5541,9 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = InputTimestampsUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5776,7 +5632,7 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     /// Destroy the keyboard shortcuts inhibitor manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5809,18 +5665,9 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
         case alreadyInhibited = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -5892,7 +5739,7 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
     /// Remove the keyboard shortcuts inhibitor from the associated wl_surface.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -5900,18 +5747,9 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = KeyboardShortcutsInhibitUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -6109,7 +5947,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     /// remain valid.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -6167,18 +6005,9 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = LinuxDmabufV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -6397,7 +6226,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     /// wl_buffer creation.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -6621,18 +6450,9 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         public static let bottomFirst = Flags(rawValue: 4)
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -6788,7 +6608,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
     /// use the zwp_linux_dmabuf_feedback_v1 object anymore.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -6807,18 +6627,9 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         public static let sampling = TrancheFlags(rawValue: 2)
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7024,7 +6835,7 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     /// factory, shall not be affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -7062,18 +6873,9 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
         case synchronizationExists = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7156,7 +6958,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     /// affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -7238,18 +7040,9 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
         case noBuffer = 5
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7302,6 +7095,12 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ZwpLinuxExplicitSynchronizationUnstableV1Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Release Buffer With Fence
         /// 
@@ -7418,7 +7217,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     /// shall not be affected by this request.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -7475,18 +7274,9 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
         case invalidTimeline = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7520,7 +7310,7 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     /// set_acquire_point and set_release_point are not unset.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -7528,18 +7318,9 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = LinuxDrmSyncobjV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7637,7 +7418,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     /// commit will not be affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -7747,18 +7528,9 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
         case conflictingPoints = 6
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -7882,7 +7654,7 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     /// pointer constraints object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -7984,18 +7756,9 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
         case persistent = 2
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8086,7 +7849,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     /// unlock the pointer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -8131,18 +7894,9 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerConstraintsUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8239,7 +7993,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     /// unconfine the pointer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -8269,18 +8023,9 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerConstraintsUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8449,7 +8194,7 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     public func release() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -8473,18 +8218,9 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
-    var destructor: Destructor? = .release
-
-    enum Destructor {
-        case release
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .release: try? self.release()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8598,7 +8334,7 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -8606,18 +8342,9 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8778,7 +8505,7 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -8786,18 +8513,9 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -8937,7 +8655,7 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -8945,18 +8663,9 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9073,7 +8782,7 @@ public final class WpPresentation: BaseProxy, Proxy {
     /// are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -9112,18 +8821,9 @@ public final class WpPresentation: BaseProxy, Proxy {
         case invalidFlag = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9264,6 +8964,12 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
         public static let hwCompletion = Kind(rawValue: 4)
 
         public static let zeroCopy = Kind(rawValue: 8)
+    }
+
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
     }
 
     public enum Event: MessageProtocol {
@@ -9440,7 +9146,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     /// Destroy the primary selection device manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -9448,18 +9154,9 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9548,7 +9245,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     /// Destroy the primary selection device.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -9556,18 +9253,9 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9683,7 +9371,7 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
     /// Destroy the primary selection offer.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -9691,18 +9379,9 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9800,7 +9479,7 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
     /// Destroy the primary selection source.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -9808,18 +9487,9 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -9905,7 +9575,7 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     /// relative pointer manager object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -9928,18 +9598,9 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RelativePointerUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -10011,7 +9672,7 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
     /// 
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -10019,18 +9680,9 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = RelativePointerUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -10142,7 +9794,7 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     /// The child objects created via this interface are unaffected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -10180,18 +9832,9 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = SinglePixelBufferV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -10267,7 +9910,7 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
     /// object are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -10275,18 +9918,9 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -10346,7 +9980,7 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
     /// object are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -10354,18 +9988,9 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -10749,7 +10374,7 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
     /// This destroys the client's resource for this tool object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -10816,18 +10441,9 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         case role = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -11161,7 +10777,7 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
     /// This destroys the client's resource for this tablet object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -11169,18 +10785,9 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -11319,7 +10926,7 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     /// object are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -11327,18 +10934,9 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -11410,7 +11008,7 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
     /// object are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -11418,18 +11016,9 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -11826,7 +11415,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this tool object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -11893,18 +11482,9 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         case role = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -12250,7 +11830,7 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this tablet object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -12275,18 +11855,9 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
         case i2c = 24
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -12488,7 +12059,7 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this ring object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -12501,18 +12072,9 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
         case finger = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -12695,7 +12257,7 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this strip object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -12708,18 +12270,9 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
         case finger = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -12920,7 +12473,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
     /// are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -12928,18 +12481,9 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -13261,7 +12805,7 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
     /// are unaffected and should be destroyed separately.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -13277,18 +12821,9 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
         case pressed = 1
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -13475,7 +13010,7 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
     /// This destroys the client's resource for this dial object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -13483,18 +13018,9 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TabletV2Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -14211,6 +13737,12 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         case rtl = 2
     }
 
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public enum Event: MessageProtocol {
         /// Enter Event
         /// 
@@ -14390,6 +13922,12 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextInputUnstableV1Protocol
     
+    deinit {
+        if self.isAlive {
+            connection.destroy(self)
+        }
+    }
+
     public typealias Event = NoEvent
 }
 
@@ -14704,7 +14242,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// through this wp_text_input object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -15077,18 +14615,9 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         case composeError = 7
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -15292,7 +14821,7 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     /// Destroy the wp_text_input_manager object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -15314,18 +14843,9 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = TextInputUnstableV3Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -15390,7 +14910,7 @@ public final class WpViewporter: BaseProxy, Proxy {
     /// wp_viewport objects included.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -15423,18 +14943,9 @@ public final class WpViewporter: BaseProxy, Proxy {
         case viewportExists = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -15553,7 +15064,7 @@ public final class WpViewport: BaseProxy, Proxy {
     /// The change is applied on the next wl_surface.commit.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -15623,18 +15134,9 @@ public final class WpViewport: BaseProxy, Proxy {
         case noSurface = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -15711,7 +15213,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     /// manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -15754,18 +15256,9 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
         case nested = 2
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -15842,7 +15335,7 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     /// Destroy the security context object.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -15936,18 +15429,9 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
         case invalidMetadata = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16012,7 +15496,7 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     /// created with the manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -16041,18 +15525,9 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
         case alreadyConstructed = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16101,7 +15576,7 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
     /// set_multiplier.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -16135,18 +15610,9 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
         case noSurface = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16214,7 +15680,7 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     /// are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -16247,18 +15713,9 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
         case alreadyExists = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16347,7 +15804,7 @@ public final class WpFifoV1: BaseProxy, Proxy {
     /// unaffected by this object's destruction.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -16360,18 +15817,9 @@ public final class WpFifoV1: BaseProxy, Proxy {
         case surfaceDestroyed = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16447,7 +15895,7 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     /// are not affected.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -16476,18 +15924,9 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
         case commitTimerExists = 0
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16567,7 +16006,7 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
     /// Existing timing constraints are not affected by the destruction.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 1, [
         ])
     }
@@ -16586,18 +16025,9 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
         case surfaceDestroyed = 2
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16679,7 +16109,7 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     /// Destroy the pointer warp manager.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -16714,18 +16144,9 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = PointerWarpV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16778,7 +16199,7 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     /// remain valid.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -16800,18 +16221,9 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     
     public static let `protocol`: Protocol = ExtSessionLockV1Protocol
     
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -16932,7 +16344,7 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
     /// sent, the unlock_and_destroy request must be used instead.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -16983,7 +16395,7 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
     /// it processes the unlock_and_destroy request.
     public func unlockAndDestroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 2, [
         ])
     }
@@ -17008,20 +16420,9 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
         case alreadyConstructed = 4
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-        case unlockAndDestroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case .unlockAndDestroy: try? self.unlockAndDestroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 
@@ -17148,7 +16549,7 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
     /// must fall back to rendering a solid color.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        self.markDead()
+        connection.destroy(self)
         connection.send(self, 0, [
         ])
     }
@@ -17201,18 +16602,9 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
         case invalidSerial = 3
     }
 
-    var destructor: Destructor? = .destroy
-
-    enum Destructor {
-        case destroy
-    }
-
     deinit {
         if self.isAlive {
-            switch self.destructor {
-                case .destroy: try? self.destroy()
-                case nil: break
-            }
+            connection.destroy(self)
         }
     }
 

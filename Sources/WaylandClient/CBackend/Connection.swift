@@ -182,20 +182,12 @@ public class Connection {
 
     /// Actually calling wl_proxy_destroy
     public func destroy(_ proxy: any Proxy) {
-        deregister(proxyId: proxy.id)
+        knownProxies[proxy.id] = nil
+        wl_proxy_set_user_data(proxy.raw, nil)
         wl_proxy_destroy(proxy.raw)
         if let p = proxy as? BaseProxy {
-            p.markDead()
+            p.isAlive = false
         }
-    }
-
-    /// Remove it from swift-side object list. and remove reference to it
-    func deregister(proxyId: UInt32) {
-        // or should we really destroy it
-        if let p = knownProxies[proxyId] {
-            wl_proxy_set_user_data(p.raw, nil)
-        }
-        knownProxies[proxyId] = nil
     }
 
     @discardableResult
@@ -336,8 +328,7 @@ extension Proxy {
             var reader = CArgumentReader(args, parent: self)
             let event = try Self.Event(from: &reader, opcode: opcode)
             if event.isDestructor {
-                (self as? BaseProxy)?.isAlive = false
-                self.connection.deregister(proxyId: self.id)
+                self.connection.destroy(self)
             }
             self.onEvent?(event)
             return true

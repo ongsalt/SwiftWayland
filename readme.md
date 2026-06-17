@@ -38,7 +38,7 @@ See the `Examples` target for more.
 # Features
 
 ## Object Lifetime
-When a proxy is deinitialized, it automatically calls its destructor. Some interfaces expose multiple destructor variants; you can select which one to use (or none) via the `destructor` property.
+When a proxy is deinitialized, it automatically calls `wl_proxy_destroy`. It do not send requests that are marked with `type="destructor"`, call it manually if need. The object will be in invalid state if any destructor was called and will throw if try to use it afterward.
 
 ## Name Translation
 Some signatures are transformed into more idiomatic Swift — for example, `setMode(mode:)` becomes `setMode(_:)`.
