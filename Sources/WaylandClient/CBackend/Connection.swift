@@ -181,17 +181,19 @@ public class Connection {
     }
 
     /// Actually calling wl_proxy_destroy
-    public func destroy(_ proxy: some Proxy) {
-        knownProxies[proxy.id] = nil
+    public func destroy(_ proxy: any Proxy) {
+        deregister(proxyId: proxy.id)
         wl_proxy_destroy(proxy.raw)
         if let p = proxy as? BaseProxy {
             p.markDead()
         }
     }
 
-    /// Just remove it from swift-side object list.
-    ///
+    /// Remove it from swift-side object list. and remove reference to it
     func deregister(proxyId: UInt32) {
+        if let p = knownProxies[proxyId] {
+            wl_proxy_set_user_data(p.raw, nil)
+        }
         knownProxies[proxyId] = nil
     }
 
@@ -314,7 +316,9 @@ public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
             Unmanaged<AnyObject>.fromOpaque(userData).takeUnretainedValue()
             as? (any Proxy)
     else {
-        print("wl_proxy outlive swift object: target=\(target) userData=\(wl_proxy_get_user_data(OpaquePointer(target)))")
+        print(
+            "wl_proxy outlive swift object: target=\(target) userData=\(wl_proxy_get_user_data(OpaquePointer(target)))"
+        )
         return -1
     }
 
