@@ -695,355 +695,355 @@ public final class WlShm: BaseProxy, Proxy {
         case xrgb8888 = 1
 
         /// 8-bit color index format, [7:0] C
-        case c8 = 538982467
+        case c8 = 0x20203843
 
         /// 8-bit RGB format, [7:0] R:G:B 3:3:2
-        case rgb332 = 943867730
+        case rgb332 = 0x38424752
 
         /// 8-bit BGR format, [7:0] B:G:R 2:3:3
-        case bgr233 = 944916290
+        case bgr233 = 0x38524742
 
         /// 16-bit xRGB format, [15:0] x:R:G:B 4:4:4:4 little endian
-        case xrgb4444 = 842093144
+        case xrgb4444 = 0x32315258
 
         /// 16-bit xBGR format, [15:0] x:B:G:R 4:4:4:4 little endian
-        case xbgr4444 = 842089048
+        case xbgr4444 = 0x32314258
 
         /// 16-bit RGBx format, [15:0] R:G:B:x 4:4:4:4 little endian
-        case rgbx4444 = 842094674
+        case rgbx4444 = 0x32315852
 
         /// 16-bit BGRx format, [15:0] B:G:R:x 4:4:4:4 little endian
-        case bgrx4444 = 842094658
+        case bgrx4444 = 0x32315842
 
         /// 16-bit ARGB format, [15:0] A:R:G:B 4:4:4:4 little endian
-        case argb4444 = 842093121
+        case argb4444 = 0x32315241
 
         /// 16-bit ABGR format, [15:0] A:B:G:R 4:4:4:4 little endian
-        case abgr4444 = 842089025
+        case abgr4444 = 0x32314241
 
         /// 16-bit RBGA format, [15:0] R:G:B:A 4:4:4:4 little endian
-        case rgba4444 = 842088786
+        case rgba4444 = 0x32314152
 
         /// 16-bit BGRA format, [15:0] B:G:R:A 4:4:4:4 little endian
-        case bgra4444 = 842088770
+        case bgra4444 = 0x32314142
 
         /// 16-bit xRGB format, [15:0] x:R:G:B 1:5:5:5 little endian
-        case xrgb1555 = 892424792
+        case xrgb1555 = 0x35315258
 
         /// 16-bit xBGR 1555 format, [15:0] x:B:G:R 1:5:5:5 little endian
-        case xbgr1555 = 892420696
+        case xbgr1555 = 0x35314258
 
         /// 16-bit RGBx 5551 format, [15:0] R:G:B:x 5:5:5:1 little endian
-        case rgbx5551 = 892426322
+        case rgbx5551 = 0x35315852
 
         /// 16-bit BGRx 5551 format, [15:0] B:G:R:x 5:5:5:1 little endian
-        case bgrx5551 = 892426306
+        case bgrx5551 = 0x35315842
 
         /// 16-bit ARGB 1555 format, [15:0] A:R:G:B 1:5:5:5 little endian
-        case argb1555 = 892424769
+        case argb1555 = 0x35315241
 
         /// 16-bit ABGR 1555 format, [15:0] A:B:G:R 1:5:5:5 little endian
-        case abgr1555 = 892420673
+        case abgr1555 = 0x35314241
 
         /// 16-bit RGBA 5551 format, [15:0] R:G:B:A 5:5:5:1 little endian
-        case rgba5551 = 892420434
+        case rgba5551 = 0x35314152
 
         /// 16-bit BGRA 5551 format, [15:0] B:G:R:A 5:5:5:1 little endian
-        case bgra5551 = 892420418
+        case bgra5551 = 0x35314142
 
         /// 16-bit RGB 565 format, [15:0] R:G:B 5:6:5 little endian
-        case rgb565 = 909199186
+        case rgb565 = 0x36314752
 
         /// 16-bit BGR 565 format, [15:0] B:G:R 5:6:5 little endian
-        case bgr565 = 909199170
+        case bgr565 = 0x36314742
 
         /// 24-bit RGB format, [23:0] R:G:B little endian
-        case rgb888 = 875710290
+        case rgb888 = 0x34324752
 
         /// 24-bit BGR format, [23:0] B:G:R little endian
-        case bgr888 = 875710274
+        case bgr888 = 0x34324742
 
         /// 32-bit xBGR format, [31:0] x:B:G:R 8:8:8:8 little endian
-        case xbgr8888 = 875709016
+        case xbgr8888 = 0x34324258
 
         /// 32-bit RGBx format, [31:0] R:G:B:x 8:8:8:8 little endian
-        case rgbx8888 = 875714642
+        case rgbx8888 = 0x34325852
 
         /// 32-bit BGRx format, [31:0] B:G:R:x 8:8:8:8 little endian
-        case bgrx8888 = 875714626
+        case bgrx8888 = 0x34325842
 
         /// 32-bit ABGR format, [31:0] A:B:G:R 8:8:8:8 little endian
-        case abgr8888 = 875708993
+        case abgr8888 = 0x34324241
 
         /// 32-bit RGBA format, [31:0] R:G:B:A 8:8:8:8 little endian
-        case rgba8888 = 875708754
+        case rgba8888 = 0x34324152
 
         /// 32-bit BGRA format, [31:0] B:G:R:A 8:8:8:8 little endian
-        case bgra8888 = 875708738
+        case bgra8888 = 0x34324142
 
         /// 32-bit xRGB format, [31:0] x:R:G:B 2:10:10:10 little endian
-        case xrgb2101010 = 808669784
+        case xrgb2101010 = 0x30335258
 
         /// 32-bit xBGR format, [31:0] x:B:G:R 2:10:10:10 little endian
-        case xbgr2101010 = 808665688
+        case xbgr2101010 = 0x30334258
 
         /// 32-bit RGBx format, [31:0] R:G:B:x 10:10:10:2 little endian
-        case rgbx1010102 = 808671314
+        case rgbx1010102 = 0x30335852
 
         /// 32-bit BGRx format, [31:0] B:G:R:x 10:10:10:2 little endian
-        case bgrx1010102 = 808671298
+        case bgrx1010102 = 0x30335842
 
         /// 32-bit ARGB format, [31:0] A:R:G:B 2:10:10:10 little endian
-        case argb2101010 = 808669761
+        case argb2101010 = 0x30335241
 
         /// 32-bit ABGR format, [31:0] A:B:G:R 2:10:10:10 little endian
-        case abgr2101010 = 808665665
+        case abgr2101010 = 0x30334241
 
         /// 32-bit RGBA format, [31:0] R:G:B:A 10:10:10:2 little endian
-        case rgba1010102 = 808665426
+        case rgba1010102 = 0x30334152
 
         /// 32-bit BGRA format, [31:0] B:G:R:A 10:10:10:2 little endian
-        case bgra1010102 = 808665410
+        case bgra1010102 = 0x30334142
 
         /// packed YCbCr format, [31:0] Cr0:Y1:Cb0:Y0 8:8:8:8 little endian
-        case yuyv = 1448695129
+        case yuyv = 0x56595559
 
         /// packed YCbCr format, [31:0] Cb0:Y1:Cr0:Y0 8:8:8:8 little endian
-        case yvyu = 1431918169
+        case yvyu = 0x55595659
 
         /// packed YCbCr format, [31:0] Y1:Cr0:Y0:Cb0 8:8:8:8 little endian
-        case uyvy = 1498831189
+        case uyvy = 0x59565955
 
         /// packed YCbCr format, [31:0] Y1:Cb0:Y0:Cr0 8:8:8:8 little endian
-        case vyuy = 1498765654
+        case vyuy = 0x59555956
 
         /// packed AYCbCr format, [31:0] A:Y:Cb:Cr 8:8:8:8 little endian
-        case ayuv = 1448433985
+        case ayuv = 0x56555941
 
         /// 2 plane YCbCr Cr:Cb format, 2x2 subsampled Cr:Cb plane
-        case nv12 = 842094158
+        case nv12 = 0x3231564e
 
         /// 2 plane YCbCr Cb:Cr format, 2x2 subsampled Cb:Cr plane
-        case nv21 = 825382478
+        case nv21 = 0x3132564e
 
         /// 2 plane YCbCr Cr:Cb format, 2x1 subsampled Cr:Cb plane
-        case nv16 = 909203022
+        case nv16 = 0x3631564e
 
         /// 2 plane YCbCr Cb:Cr format, 2x1 subsampled Cb:Cr plane
-        case nv61 = 825644622
+        case nv61 = 0x3136564e
 
         /// 3 plane YCbCr format, 4x4 subsampled Cb (1) and Cr (2) planes
-        case yuv410 = 961959257
+        case yuv410 = 0x39565559
 
         /// 3 plane YCbCr format, 4x4 subsampled Cr (1) and Cb (2) planes
-        case yvu410 = 961893977
+        case yvu410 = 0x39555659
 
         /// 3 plane YCbCr format, 4x1 subsampled Cb (1) and Cr (2) planes
-        case yuv411 = 825316697
+        case yuv411 = 0x31315559
 
         /// 3 plane YCbCr format, 4x1 subsampled Cr (1) and Cb (2) planes
-        case yvu411 = 825316953
+        case yvu411 = 0x31315659
 
         /// 3 plane YCbCr format, 2x2 subsampled Cb (1) and Cr (2) planes
-        case yuv420 = 842093913
+        case yuv420 = 0x32315559
 
         /// 3 plane YCbCr format, 2x2 subsampled Cr (1) and Cb (2) planes
-        case yvu420 = 842094169
+        case yvu420 = 0x32315659
 
         /// 3 plane YCbCr format, 2x1 subsampled Cb (1) and Cr (2) planes
-        case yuv422 = 909202777
+        case yuv422 = 0x36315559
 
         /// 3 plane YCbCr format, 2x1 subsampled Cr (1) and Cb (2) planes
-        case yvu422 = 909203033
+        case yvu422 = 0x36315659
 
         /// 3 plane YCbCr format, non-subsampled Cb (1) and Cr (2) planes
-        case yuv444 = 875713881
+        case yuv444 = 0x34325559
 
         /// 3 plane YCbCr format, non-subsampled Cr (1) and Cb (2) planes
-        case yvu444 = 875714137
+        case yvu444 = 0x34325659
 
         /// [7:0] R
-        case r8 = 538982482
+        case r8 = 0x20203852
 
         /// [15:0] R little endian
-        case r16 = 540422482
+        case r16 = 0x20363152
 
         /// [15:0] R:G 8:8 little endian
-        case rg88 = 943212370
+        case rg88 = 0x38384752
 
         /// [15:0] G:R 8:8 little endian
-        case gr88 = 943215175
+        case gr88 = 0x38385247
 
         /// [31:0] R:G 16:16 little endian
-        case rg1616 = 842221394
+        case rg1616 = 0x32334752
 
         /// [31:0] G:R 16:16 little endian
-        case gr1616 = 842224199
+        case gr1616 = 0x32335247
 
         /// [63:0] x:R:G:B 16:16:16:16 little endian
-        case xrgb16161616f = 1211388504
+        case xrgb16161616f = 0x48345258
 
         /// [63:0] x:B:G:R 16:16:16:16 little endian
-        case xbgr16161616f = 1211384408
+        case xbgr16161616f = 0x48344258
 
         /// [63:0] A:R:G:B 16:16:16:16 little endian
-        case argb16161616f = 1211388481
+        case argb16161616f = 0x48345241
 
         /// [63:0] A:B:G:R 16:16:16:16 little endian
-        case abgr16161616f = 1211384385
+        case abgr16161616f = 0x48344241
 
         /// [31:0] X:Y:Cb:Cr 8:8:8:8 little endian
-        case xyuv8888 = 1448434008
+        case xyuv8888 = 0x56555958
 
         /// [23:0] Cr:Cb:Y 8:8:8 little endian
-        case vuy888 = 875713878
+        case vuy888 = 0x34325556
 
         /// Y followed by U then V, 10:10:10. Non-linear modifier only
-        case vuy101010 = 808670550
+        case vuy101010 = 0x30335556
 
         /// [63:0] Cr0:0:Y1:0:Cb0:0:Y0:0 10:6:10:6:10:6:10:6 little endian per 2 Y pixels
-        case y210 = 808530521
+        case y210 = 0x30313259
 
         /// [63:0] Cr0:0:Y1:0:Cb0:0:Y0:0 12:4:12:4:12:4:12:4 little endian per 2 Y pixels
-        case y212 = 842084953
+        case y212 = 0x32313259
 
         /// [63:0] Cr0:Y1:Cb0:Y0 16:16:16:16 little endian per 2 Y pixels
-        case y216 = 909193817
+        case y216 = 0x36313259
 
         /// [31:0] A:Cr:Y:Cb 2:10:10:10 little endian
-        case y410 = 808531033
+        case y410 = 0x30313459
 
         /// [63:0] A:0:Cr:0:Y:0:Cb:0 12:4:12:4:12:4:12:4 little endian
-        case y412 = 842085465
+        case y412 = 0x32313459
 
         /// [63:0] A:Cr:Y:Cb 16:16:16:16 little endian
-        case y416 = 909194329
+        case y416 = 0x36313459
 
         /// [31:0] X:Cr:Y:Cb 2:10:10:10 little endian
-        case xvyu2101010 = 808670808
+        case xvyu2101010 = 0x30335658
 
         /// [63:0] X:0:Cr:0:Y:0:Cb:0 12:4:12:4:12:4:12:4 little endian
-        case xvyu1216161616 = 909334104
+        case xvyu1216161616 = 0x36335658
 
         /// [63:0] X:Cr:Y:Cb 16:16:16:16 little endian
-        case xvyu16161616 = 942954072
+        case xvyu16161616 = 0x38345658
 
         /// [63:0]   A3:A2:Y3:0:Cr0:0:Y2:0:A1:A0:Y1:0:Cb0:0:Y0:0  1:1:8:2:8:2:8:2:1:1:8:2:8:2:8:2 little endian
-        case y0l0 = 810299481
+        case y0l0 = 0x304c3059
 
         /// [63:0]   X3:X2:Y3:0:Cr0:0:Y2:0:X1:X0:Y1:0:Cb0:0:Y0:0  1:1:8:2:8:2:8:2:1:1:8:2:8:2:8:2 little endian
-        case x0l0 = 810299480
+        case x0l0 = 0x304c3058
 
         /// [63:0]   A3:A2:Y3:Cr0:Y2:A1:A0:Y1:Cb0:Y0  1:1:10:10:10:1:1:10:10:10 little endian
-        case y0l2 = 843853913
+        case y0l2 = 0x324c3059
 
         /// [63:0]   X3:X2:Y3:Cr0:Y2:X1:X0:Y1:Cb0:Y0  1:1:10:10:10:1:1:10:10:10 little endian
-        case x0l2 = 843853912
+        case x0l2 = 0x324c3058
 
-        case yuv4208Bit = 942691673
+        case yuv4208Bit = 0x38305559
 
-        case yuv42010Bit = 808539481
+        case yuv42010Bit = 0x30315559
 
-        case xrgb8888A8 = 943805016
+        case xrgb8888A8 = 0x38415258
 
-        case xbgr8888A8 = 943800920
+        case xbgr8888A8 = 0x38414258
 
-        case rgbx8888A8 = 943806546
+        case rgbx8888A8 = 0x38415852
 
-        case bgrx8888A8 = 943806530
+        case bgrx8888A8 = 0x38415842
 
-        case rgb888A8 = 943798354
+        case rgb888A8 = 0x38413852
 
-        case bgr888A8 = 943798338
+        case bgr888A8 = 0x38413842
 
-        case rgb565A8 = 943797586
+        case rgb565A8 = 0x38413552
 
-        case bgr565A8 = 943797570
+        case bgr565A8 = 0x38413542
 
         /// non-subsampled Cr:Cb plane
-        case nv24 = 875714126
+        case nv24 = 0x3432564e
 
         /// non-subsampled Cb:Cr plane
-        case nv42 = 842290766
+        case nv42 = 0x3234564e
 
         /// 2x1 subsampled Cr:Cb plane, 10 bit per channel
-        case p210 = 808530512
+        case p210 = 0x30313250
 
         /// 2x2 subsampled Cr:Cb plane 10 bits per channel
-        case p010 = 808530000
+        case p010 = 0x30313050
 
         /// 2x2 subsampled Cr:Cb plane 12 bits per channel
-        case p012 = 842084432
+        case p012 = 0x32313050
 
         /// 2x2 subsampled Cr:Cb plane 16 bits per channel
-        case p016 = 909193296
+        case p016 = 0x36313050
 
         /// [63:0] A:x:B:x:G:x:R:x 10:6:10:6:10:6:10:6 little endian
-        case axbxgxrx106106106106 = 808534593
+        case axbxgxrx106106106106 = 0x30314241
 
         /// 2x2 subsampled Cr:Cb plane
-        case nv15 = 892425806
+        case nv15 = 0x3531564e
 
-        case q410 = 808531025
+        case q410 = 0x30313451
 
-        case q401 = 825242705
+        case q401 = 0x31303451
 
         /// [63:0] x:R:G:B 16:16:16:16 little endian
-        case xrgb16161616 = 942953048
+        case xrgb16161616 = 0x38345258
 
         /// [63:0] x:B:G:R 16:16:16:16 little endian
-        case xbgr16161616 = 942948952
+        case xbgr16161616 = 0x38344258
 
         /// [63:0] A:R:G:B 16:16:16:16 little endian
-        case argb16161616 = 942953025
+        case argb16161616 = 0x38345241
 
         /// [63:0] A:B:G:R 16:16:16:16 little endian
-        case abgr16161616 = 942948929
+        case abgr16161616 = 0x38344241
 
         /// [7:0] C0:C1:C2:C3:C4:C5:C6:C7 1:1:1:1:1:1:1:1 eight pixels/byte
-        case c1 = 538980675
+        case c1 = 0x20203143
 
         /// [7:0] C0:C1:C2:C3 2:2:2:2 four pixels/byte
-        case c2 = 538980931
+        case c2 = 0x20203243
 
         /// [7:0] C0:C1 4:4 two pixels/byte
-        case c4 = 538981443
+        case c4 = 0x20203443
 
         /// [7:0] D0:D1:D2:D3:D4:D5:D6:D7 1:1:1:1:1:1:1:1 eight pixels/byte
-        case d1 = 538980676
+        case d1 = 0x20203144
 
         /// [7:0] D0:D1:D2:D3 2:2:2:2 four pixels/byte
-        case d2 = 538980932
+        case d2 = 0x20203244
 
         /// [7:0] D0:D1 4:4 two pixels/byte
-        case d4 = 538981444
+        case d4 = 0x20203444
 
         /// [7:0] D
-        case d8 = 538982468
+        case d8 = 0x20203844
 
         /// [7:0] R0:R1:R2:R3:R4:R5:R6:R7 1:1:1:1:1:1:1:1 eight pixels/byte
-        case r1 = 538980690
+        case r1 = 0x20203152
 
         /// [7:0] R0:R1:R2:R3 2:2:2:2 four pixels/byte
-        case r2 = 538980946
+        case r2 = 0x20203252
 
         /// [7:0] R0:R1 4:4 two pixels/byte
-        case r4 = 538981458
+        case r4 = 0x20203452
 
         /// [15:0] x:R 6:10 little endian
-        case r10 = 540029266
+        case r10 = 0x20303152
 
         /// [15:0] x:R 4:12 little endian
-        case r12 = 540160338
+        case r12 = 0x20323152
 
         /// [31:0] A:Cr:Cb:Y 8:8:8:8 little endian
-        case avuy8888 = 1498764865
+        case avuy8888 = 0x59555641
 
         /// [31:0] X:Cr:Cb:Y 8:8:8:8 little endian
-        case xvuy8888 = 1498764888
+        case xvuy8888 = 0x59555658
 
         /// 2x2 subsampled Cr:Cb plane 10 bits per channel packed
-        case p030 = 808661072
+        case p030 = 0x30333050
     }
 
     deinit {
@@ -2795,7 +2795,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         }
 
         /// do not set keyboard focus
-        public static let inactive = Transient(rawValue: 1)
+        public static let inactive = Transient(rawValue: 0x1)
     }
 
     public enum FullscreenMethod: UInt32 {
@@ -5256,10 +5256,10 @@ public final class WlOutput: BaseProxy, Proxy {
         }
 
         /// indicates this is the current mode
-        public static let current = Mode(rawValue: 1)
+        public static let current = Mode(rawValue: 0x1)
 
         /// indicates this is the preferred mode
-        public static let preferred = Mode(rawValue: 2)
+        public static let preferred = Mode(rawValue: 0x2)
     }
 
     deinit {

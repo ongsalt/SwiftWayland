@@ -2804,54 +2804,54 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
         }
 
         /// if this output_device can use overscan
-        public static let overscan = Capability(rawValue: 1)
+        public static let overscan = Capability(rawValue: 0x1)
 
         /// if this outputdevice supports variable refresh rate
-        public static let vrr = Capability(rawValue: 2)
+        public static let vrr = Capability(rawValue: 0x2)
 
         /// if setting the rgb range is possible
-        public static let rgbRange = Capability(rawValue: 4)
+        public static let rgbRange = Capability(rawValue: 0x4)
 
         /// if this outputdevice supports high dynamic range
-        public static let highDynamicRange = Capability(rawValue: 8)
+        public static let highDynamicRange = Capability(rawValue: 0x8)
 
         /// if this outputdevice supports a wide color gamut
-        public static let wideColorGamut = Capability(rawValue: 16)
+        public static let wideColorGamut = Capability(rawValue: 0x10)
 
         /// if this outputdevice supports autorotation
-        public static let autoRotate = Capability(rawValue: 32)
+        public static let autoRotate = Capability(rawValue: 0x20)
 
         /// if this outputdevice supports icc profiles
-        public static let iccProfile = Capability(rawValue: 64)
+        public static let iccProfile = Capability(rawValue: 0x40)
 
         /// if this outputdevice supports the brightness setting
-        public static let brightness = Capability(rawValue: 128)
+        public static let brightness = Capability(rawValue: 0x80)
 
         /// if this outputdevice supports the built-in color profile
-        public static let builtInColor = Capability(rawValue: 256)
+        public static let builtInColor = Capability(rawValue: 0x100)
 
         /// if this outputdevice supports DDC/CI
-        public static let ddcCi = Capability(rawValue: 512)
+        public static let ddcCi = Capability(rawValue: 0x200)
 
         /// if this outputdevice supports setting max bpc
-        public static let maxBitsPerColor = Capability(rawValue: 1024)
+        public static let maxBitsPerColor = Capability(rawValue: 0x400)
 
         /// if this outputdevice supports EDR
-        public static let edr = Capability(rawValue: 2048)
+        public static let edr = Capability(rawValue: 0x800)
 
         /// if this outputdevice supports the sharpness setting
-        public static let sharpness = Capability(rawValue: 4096)
+        public static let sharpness = Capability(rawValue: 0x1000)
 
         /// if this outputdevice supports custom modes
-        public static let customModes = Capability(rawValue: 8192)
+        public static let customModes = Capability(rawValue: 0x2000)
 
-        public static let autoBrightness = Capability(rawValue: 16384)
+        public static let autoBrightness = Capability(rawValue: 0x4000)
 
         /// if this outputdevice supports HDR ICC profiles
-        public static let hdrIccProfile = Capability(rawValue: 32768)
+        public static let hdrIccProfile = Capability(rawValue: 0x8000)
 
         /// if this outputdevice supports the abm level setting
-        public static let abmLevel = Capability(rawValue: 65536)
+        public static let abmLevel = Capability(rawValue: 0x10000)
     }
 
     public enum VrrPolicy: UInt32 {
@@ -3344,9 +3344,9 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
     public static let `protocol`: Protocol = KdeOutputDeviceV2Protocol
     
     public enum Flags: UInt32 {
-        case custom = 1
+        case custom = 0x1
 
-        case reducedBlanking = 2
+        case reducedBlanking = 0x2
     }
 
     deinit {
@@ -6152,10 +6152,10 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
 
     public enum Mode: UInt32 {
         /// indicates this is the current mode
-        case current = 1
+        case current = 0x1
 
         /// indicates this is the preferred mode
-        case preferred = 2
+        case preferred = 0x2
     }
 
     public enum Enablement: UInt32 {
@@ -7611,49 +7611,49 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     public static let `protocol`: Protocol = PlasmaWindowManagementProtocol
     
     public enum State: UInt32 {
-        case active = 1
+        case active = 0x1
 
-        case minimized = 2
+        case minimized = 0x2
 
-        case maximized = 4
+        case maximized = 0x4
 
-        case fullscreen = 8
+        case fullscreen = 0x8
 
-        case keepAbove = 16
+        case keepAbove = 0x10
 
-        case keepBelow = 32
+        case keepBelow = 0x20
 
-        case onAllDesktops = 64
+        case onAllDesktops = 0x40
 
-        case demandsAttention = 128
+        case demandsAttention = 0x80
 
-        case closeable = 256
+        case closeable = 0x100
 
-        case minimizable = 512
+        case minimizable = 0x200
 
-        case maximizable = 1024
+        case maximizable = 0x400
 
-        case fullscreenable = 2048
+        case fullscreenable = 0x800
 
-        case skiptaskbar = 4096
+        case skiptaskbar = 0x1000
 
-        case shadeable = 8192
+        case shadeable = 0x2000
 
-        case shaded = 16384
+        case shaded = 0x4000
 
-        case movable = 32768
+        case movable = 0x8000
 
-        case resizable = 65536
+        case resizable = 0x10000
 
-        case virtualDesktopChangeable = 131072
+        case virtualDesktopChangeable = 0x20000
 
-        case skipswitcher = 262144
+        case skipswitcher = 0x40000
 
-        case noBorder = 524288
+        case noBorder = 0x80000
 
-        case canSetNoBorder = 1048576
+        case canSetNoBorder = 0x100000
 
-        case excludeFromCapture = 2097152
+        case excludeFromCapture = 0x200000
     }
 
     public enum ShowDesktop: UInt32 {
@@ -10711,37 +10711,37 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         }
 
         /// no special behaviour
-        public static let `none`: ContentHint = []
+        public static let `none` = ContentHint(rawValue: 0x0)
 
         /// suggest word completions
-        public static let autoCompletion = ContentHint(rawValue: 1)
+        public static let autoCompletion = ContentHint(rawValue: 0x1)
 
         /// suggest word corrections
-        public static let autoCorrection = ContentHint(rawValue: 2)
+        public static let autoCorrection = ContentHint(rawValue: 0x2)
 
         /// switch to uppercase letters at the start of a sentence
-        public static let autoCapitalization = ContentHint(rawValue: 4)
+        public static let autoCapitalization = ContentHint(rawValue: 0x4)
 
         /// prefer lowercase letters
-        public static let lowercase = ContentHint(rawValue: 8)
+        public static let lowercase = ContentHint(rawValue: 0x8)
 
         /// prefer uppercase letters
-        public static let uppercase = ContentHint(rawValue: 16)
+        public static let uppercase = ContentHint(rawValue: 0x10)
 
         /// prefer casing for titles and headings (can be language dependent)
-        public static let titlecase = ContentHint(rawValue: 32)
+        public static let titlecase = ContentHint(rawValue: 0x20)
 
         /// characters should be hidden
-        public static let hiddenText = ContentHint(rawValue: 64)
+        public static let hiddenText = ContentHint(rawValue: 0x40)
 
         /// typed text should not be stored
-        public static let sensitiveData = ContentHint(rawValue: 128)
+        public static let sensitiveData = ContentHint(rawValue: 0x80)
 
         /// just latin characters should be entered
-        public static let latin = ContentHint(rawValue: 256)
+        public static let latin = ContentHint(rawValue: 0x100)
 
         /// the text input is multiline
-        public static let multiline = ContentHint(rawValue: 512)
+        public static let multiline = ContentHint(rawValue: 0x200)
     }
 
     public enum ContentPurpose: UInt32 {
@@ -11638,43 +11638,43 @@ public final class WlTextInput: BaseProxy, Proxy {
     
     public enum ContentHint: UInt32 {
         /// no special behaviour
-        case `none` = 0
+        case `none` = 0x0
 
         /// auto completion, correction and capitalization
-        case `default` = 7
+        case `default` = 0x7
 
         /// hidden and sensitive text
-        case password = 192
+        case password = 0xc0
 
         /// suggest word completions
-        case autoCompletion = 1
+        case autoCompletion = 0x1
 
         /// suggest word corrections
-        case autoCorrection = 2
+        case autoCorrection = 0x2
 
         /// switch to uppercase letters at the start of a sentence
-        case autoCapitalization = 4
+        case autoCapitalization = 0x4
 
         /// prefer lowercase letters
-        case lowercase = 8
+        case lowercase = 0x8
 
         /// prefer uppercase letters
-        case uppercase = 16
+        case uppercase = 0x10
 
         /// prefer casing for titles and headings (can be language dependent)
-        case titlecase = 32
+        case titlecase = 0x20
 
         /// characters should be hidden
-        case hiddenText = 64
+        case hiddenText = 0x40
 
         /// typed text should not be stored
-        case sensitiveData = 128
+        case sensitiveData = 0x80
 
         /// just latin characters should be entered
-        case latin = 256
+        case latin = 0x100
 
         /// the text input is multiline
-        case multiline = 512
+        case multiline = 0x200
     }
 
     public enum ContentPurpose: UInt32 {

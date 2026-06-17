@@ -107,7 +107,7 @@ public func transform(
                 cases: e.entries.map { entry in
                     EnumCaseDeclaration(
                         name: entry.name.lowerCamel,
-                        value: entry.intValue,
+                        value: entry.value,
                         summary: entry.summary
                     )
                 },

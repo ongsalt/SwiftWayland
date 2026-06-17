@@ -74,7 +74,7 @@ struct EnumDeclaration: Sendable {
 // this is event enum tho
 struct EnumCaseDeclaration: Sendable {
     var name: String
-    var value: UInt32
+    var value: String
     var summary: String?
 }
 

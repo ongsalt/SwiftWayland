@@ -822,7 +822,7 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
     
     public enum Flags: UInt32 {
         /// clients should copy frame before processing
-        case transient = 1
+        case transient = 0x1
     }
 
     public enum CancelReason: UInt32 {

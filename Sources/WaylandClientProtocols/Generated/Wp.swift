@@ -8957,13 +8957,13 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             self.rawValue = rawValue
         }
 
-        public static let vsync = Kind(rawValue: 1)
+        public static let vsync = Kind(rawValue: 0x1)
 
-        public static let hwClock = Kind(rawValue: 2)
+        public static let hwClock = Kind(rawValue: 0x2)
 
-        public static let hwCompletion = Kind(rawValue: 4)
+        public static let hwCompletion = Kind(rawValue: 0x4)
 
-        public static let zeroCopy = Kind(rawValue: 8)
+        public static let zeroCopy = Kind(rawValue: 0x8)
     }
 
     deinit {
@@ -10384,28 +10384,28 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
     
     public enum `Type`: UInt32 {
         /// Pen
-        case pen = 320
+        case pen = 0x140
 
         /// Eraser
-        case eraser = 321
+        case eraser = 0x141
 
         /// Brush
-        case brush = 322
+        case brush = 0x142
 
         /// Pencil
-        case pencil = 323
+        case pencil = 0x143
 
         /// Airbrush
-        case airbrush = 324
+        case airbrush = 0x144
 
         /// Finger
-        case finger = 325
+        case finger = 0x145
 
         /// Mouse
-        case mouse = 326
+        case mouse = 0x146
 
         /// Lens
-        case lens = 327
+        case lens = 0x147
     }
 
     public enum Capability: UInt32 {
@@ -11425,28 +11425,28 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
     
     public enum `Type`: UInt32 {
         /// Pen
-        case pen = 320
+        case pen = 0x140
 
         /// Eraser
-        case eraser = 321
+        case eraser = 0x141
 
         /// Brush
-        case brush = 322
+        case brush = 0x142
 
         /// Pencil
-        case pencil = 323
+        case pencil = 0x143
 
         /// Airbrush
-        case airbrush = 324
+        case airbrush = 0x144
 
         /// Finger
-        case finger = 325
+        case finger = 0x145
 
         /// Mouse
-        case mouse = 326
+        case mouse = 0x146
 
         /// Lens
-        case lens = 327
+        case lens = 0x147
     }
 
     public enum Capability: UInt32 {
@@ -13626,43 +13626,43 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         }
 
         /// no special behaviour
-        public static let `none`: ContentHint = []
+        public static let `none` = ContentHint(rawValue: 0x0)
 
         /// auto completion, correction and capitalization
-        public static let `default` = ContentHint(rawValue: 7)
+        public static let `default` = ContentHint(rawValue: 0x7)
 
         /// hidden and sensitive text
-        public static let password = ContentHint(rawValue: 192)
+        public static let password = ContentHint(rawValue: 0xc0)
 
         /// suggest word completions
-        public static let autoCompletion = ContentHint(rawValue: 1)
+        public static let autoCompletion = ContentHint(rawValue: 0x1)
 
         /// suggest word corrections
-        public static let autoCorrection = ContentHint(rawValue: 2)
+        public static let autoCorrection = ContentHint(rawValue: 0x2)
 
         /// switch to uppercase letters at the start of a sentence
-        public static let autoCapitalization = ContentHint(rawValue: 4)
+        public static let autoCapitalization = ContentHint(rawValue: 0x4)
 
         /// prefer lowercase letters
-        public static let lowercase = ContentHint(rawValue: 8)
+        public static let lowercase = ContentHint(rawValue: 0x8)
 
         /// prefer uppercase letters
-        public static let uppercase = ContentHint(rawValue: 16)
+        public static let uppercase = ContentHint(rawValue: 0x10)
 
         /// prefer casing for titles and headings (can be language dependent)
-        public static let titlecase = ContentHint(rawValue: 32)
+        public static let titlecase = ContentHint(rawValue: 0x20)
 
         /// characters should be hidden
-        public static let hiddenText = ContentHint(rawValue: 64)
+        public static let hiddenText = ContentHint(rawValue: 0x40)
 
         /// typed text should not be stored
-        public static let sensitiveData = ContentHint(rawValue: 128)
+        public static let sensitiveData = ContentHint(rawValue: 0x80)
 
         /// just latin characters should be entered
-        public static let latin = ContentHint(rawValue: 256)
+        public static let latin = ContentHint(rawValue: 0x100)
 
         /// the text input is multiline
-        public static let multiline = ContentHint(rawValue: 512)
+        public static let multiline = ContentHint(rawValue: 0x200)
     }
 
     public enum ContentPurpose: UInt32 {
@@ -14493,46 +14493,46 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
         }
 
         /// no special behavior
-        public static let `none`: ContentHint = []
+        public static let `none` = ContentHint(rawValue: 0x0)
 
         /// suggest word completions
-        public static let completion = ContentHint(rawValue: 1)
+        public static let completion = ContentHint(rawValue: 0x1)
 
         /// suggest word corrections
-        public static let spellcheck = ContentHint(rawValue: 2)
+        public static let spellcheck = ContentHint(rawValue: 0x2)
 
         /// switch to uppercase letters at the start of a sentence
-        public static let autoCapitalization = ContentHint(rawValue: 4)
+        public static let autoCapitalization = ContentHint(rawValue: 0x4)
 
         /// prefer lowercase letters
-        public static let lowercase = ContentHint(rawValue: 8)
+        public static let lowercase = ContentHint(rawValue: 0x8)
 
         /// prefer uppercase letters
-        public static let uppercase = ContentHint(rawValue: 16)
+        public static let uppercase = ContentHint(rawValue: 0x10)
 
         /// prefer casing for titles and headings (can be language dependent)
-        public static let titlecase = ContentHint(rawValue: 32)
+        public static let titlecase = ContentHint(rawValue: 0x20)
 
         /// characters should be hidden
-        public static let hiddenText = ContentHint(rawValue: 64)
+        public static let hiddenText = ContentHint(rawValue: 0x40)
 
         /// typed text should not be stored
-        public static let sensitiveData = ContentHint(rawValue: 128)
+        public static let sensitiveData = ContentHint(rawValue: 0x80)
 
         /// just Latin characters should be entered
-        public static let latin = ContentHint(rawValue: 256)
+        public static let latin = ContentHint(rawValue: 0x100)
 
         /// the text input is multiline
-        public static let multiline = ContentHint(rawValue: 512)
+        public static let multiline = ContentHint(rawValue: 0x200)
 
         /// an on-screen way to fill in the input is already provided by the client
-        public static let onScreenInputProvided = ContentHint(rawValue: 1024)
+        public static let onScreenInputProvided = ContentHint(rawValue: 0x400)
 
         /// prefer not offering emoji support
-        public static let noEmoji = ContentHint(rawValue: 2048)
+        public static let noEmoji = ContentHint(rawValue: 0x800)
 
         /// the text input will display preedit text in place
-        public static let preeditShown = ContentHint(rawValue: 4096)
+        public static let preeditShown = ContentHint(rawValue: 0x1000)
     }
 
     public enum ContentPurpose: UInt32 {

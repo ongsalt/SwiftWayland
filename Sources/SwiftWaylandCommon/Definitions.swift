@@ -118,19 +118,6 @@ public struct EnumEntry: Codable, Sendable {
         self.summary = summary
         self.description = description
     }
-
-    // TODO: remove this
-    public var intValue: UInt32 {
-        if value.contains("0x"), let value = UInt32(value.trim("0x", nil), radix: 16) {
-            return value
-        }
-
-        if let value = UInt32(value) {
-            return value
-        }
-
-        fatalError("Cant decode \(value) name: \(name), summary: \(summary ?? "-")")
-    }
 }
 
 public struct Message: Codable, Sendable {
