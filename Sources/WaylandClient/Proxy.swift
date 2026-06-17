@@ -31,6 +31,10 @@ extension Proxy {
             return $0.interfaces[self.interface.name]!
         }
     }
+
+    public static func destroy(_ proxy: any Proxy) {
+        proxy.connection.destroy(proxy)
+    }
 }
 
 // for codegen conveneince
