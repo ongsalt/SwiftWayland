@@ -54,10 +54,10 @@ struct CArgumentReader: ArgumentReader {
             return nil
         }
 
-        return Unmanaged<AnyObject>
+        return (Unmanaged<AnyObject>
             .fromOpaque(wl_proxy_get_user_data(arg.o!))
             .takeUnretainedValue()
-            as! (any Proxy)?
+            as! (any Proxy))
     }
 
     mutating func object<P>(type: P.Type) -> P? where P: Proxy {

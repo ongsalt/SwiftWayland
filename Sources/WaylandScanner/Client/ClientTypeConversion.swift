@@ -5,7 +5,11 @@ struct TypeConversion {
         -> String
     {
         if argument.interface == "wl_callback" {
-            return "\(escaping ? "@escaping " : "")(UInt32) -> Void"
+            if escaping {
+                return "@escaping (UInt32) -> Void"
+            } else {
+                return "WlCallback"
+            }
         }
 
         let ty =
@@ -68,11 +72,7 @@ struct TypeConversion {
 
         switch argument.type {
         case .newId:
-            if argument.interface == "wl_callback" {
-                expression = ".object(\(swiftName))"
-            } else {
-                expression = ".newId"
-            }
+            expression = ".newId"
         case .uint:
             let rawValueString = argument.enum != nil ? ".rawValue" : ""
             expression = ".uint(\(swiftName)\(rawValueString))"

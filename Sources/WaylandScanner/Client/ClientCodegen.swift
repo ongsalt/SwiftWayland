@@ -94,10 +94,19 @@ extension MethodDeclaration: Code {
             gen.add(docc: lines.joined(separator: "\n"))
         }
 
+        let outNode: ArgumentDeclaration? =
+            if !self.returns.isEmpty {
+                self.returns[0]
+            } else if !self.callbacks.isEmpty {
+                self.callbacks[0]
+            } else {
+                nil
+            }
+
         // returns docc
         // TODO: multipl return value docc
-        if !self.returns.isEmpty {
-            if let summary = self.returns[0].arg.summary {
+        if let outNode {
+            if let summary = outNode.arg.summary {
                 gen.add(docc: "")
                 gen.add(docc: "- Returns: \(summary)")
             }
@@ -130,7 +139,7 @@ extension MethodDeclaration: Code {
                 "\(externalName)\(arg.name.gravedIfNeeded): \(ty)\(defaultValueString)"
         }
 
-        if !returns.isEmpty || !callbacks.isEmpty {
+        if outNode != nil {
             params.append("queue \(QUEUE_INNER_NAME): EventQueue? = nil")
         }
 
@@ -168,24 +177,17 @@ extension MethodDeclaration: Code {
             // currently returns.count will not be > 1
             // create any thing involving newId (infer from returns)
 
-            // // create callbacks
-            for callbacks in self.callbacks {
-                gen.add(
-                    """
-                    let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME))
-                    """
-                )
-            }
-
             if !self.returns.isEmpty {
-                gen << "let \(self.returns[0].name) = "
+                gen << "let \(self.returns[0].name.gravedIfNeeded) = "
+            } else if !self.callbacks.isEmpty {
+                gen << "let _\(self.callbacks[0].name) = "
             }
 
             let callStatement =
-                if self.returns.isEmpty {
-                    "connection.send"
-                } else {
+                if outNode != nil {
                     "connection.sendConstructor"
+                } else {
+                    "connection.send"
                 }
 
             var args = [
@@ -193,11 +195,12 @@ extension MethodDeclaration: Code {
                 "\(self.requestId)",
             ]
 
-            if !self.returns.isEmpty {
-                let r = self.returns[0]
-                let ty = TypeConversion.swiftType(of: r.arg, forceOptional: false)
+            if let outNode {
+                let ty = TypeConversion.swiftType(of: outNode.arg, forceOptional: false)
                 args.append("\(ty).self")
-                args.append("version")
+                // if !self.returns.isEmpty {
+                    args.append("version")
+                // }
                 args.append(QUEUE_INNER_NAME)
             }
 
@@ -213,6 +216,11 @@ extension MethodDeclaration: Code {
                         gen << "\(expr),"
                     }
                 }
+            }
+
+            for callback in self.callbacks {
+                gen
+                    << "_\(callback.name).register(\(callback.name.gravedIfNeeded))"
             }
 
             if self.isDestructor {

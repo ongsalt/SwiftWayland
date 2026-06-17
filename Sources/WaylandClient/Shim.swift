@@ -7,7 +7,7 @@ extension WlRegistry {
     where T: Proxy {
         connection.sendConstructor(
             self, 0,
-            interface, 
+            interface,
             version,
             queue,
             [
@@ -17,5 +17,18 @@ extension WlRegistry {
                 .newId,
             ]
         )
+    }
+}
+
+extension WlCallback {
+    public func register(_ callback: @escaping (UInt32) -> Void) {
+        let ref = Unmanaged.passRetained(self)
+        self.onEvent = { event in
+            switch event {
+            case .done(let callbackData):
+                callback(callbackData)
+                ref.release()
+            }
+        }
     }
 }

@@ -128,7 +128,7 @@ public final class HexGridWindow {
                 try! self.xdgSurface!.ackConfigure(serial: serial)
                 try! self.surface!.setOpaqueRegion(region: nil)
                 let (w, h) = self.pendingSize
-                if w > 0, h > 0, (self.contentBuffer == nil || w != self.width || h != self.height) {
+                if w > 0, h > 0, self.contentBuffer == nil || w != self.width || h != self.height {
                     self.contentBuffer = ShmBuffer(shm: shm, width: w, height: h, format: .argb8888)
                 }
                 self.frameCallbackPending = false
@@ -148,6 +148,7 @@ public final class HexGridWindow {
         guard let contentBuffer else { return }
         redraw()
         try! surface!.frame { [weak self] _ in
+            print(self)
             guard let self else { return }
             self.frameCallbackPending = false
             if self.needsRedraw {

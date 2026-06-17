@@ -136,7 +136,7 @@ public class Connection {
             connection: self
         )
 
-        wl_proxy_add_dispatcher(raw, dispatchFn, Unmanaged.passUnretained(instance).toOpaque(), nil)
+        wl_proxy_add_dispatcher(raw, dispatchFn, nil, Unmanaged.passUnretained(instance).toOpaque())
         return instance
     }
 
@@ -170,25 +170,6 @@ public class Connection {
         }
 
         return ret
-    }
-
-    public func createCallback(
-        fn: @escaping (UInt32) -> Void,
-        queue: EventQueue?
-    ) -> WlCallback {
-        withRawProxy(of: display, on: queue) { parent in
-            let ptr = wl_proxy_create(parent, WlCallback.ensureLoaded())!
-            let callback = self.createSwiftObject(from: ptr, type: WlCallback.self)
-
-            callback.onEvent = { event in
-                switch event {
-                case .done(let callbackData):
-                    fn(callbackData)
-                }
-            }
-
-            return callback
-        }
     }
 
     public func createEventQueue(name: String? = nil) -> EventQueue {
@@ -323,9 +304,10 @@ extension Array {
 }
 
 // TODO: userData maybe
-public let dispatchFn: wl_dispatcher_func_t = { userData, target, opcode, _, args in
+public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
     guard
-        let userData = UnsafeRawPointer(userData),
+        let target = OpaquePointer(target),
+        let userData = wl_proxy_get_user_data(target),
         let proxy =
             Unmanaged<AnyObject>.fromOpaque(userData).takeUnretainedValue()
             as? (any Proxy)
@@ -342,14 +324,12 @@ public let dispatchFn: wl_dispatcher_func_t = { userData, target, opcode, _, arg
 extension Proxy {
     fileprivate func dispatch(opcode: UInt32, args: UnsafePointer<wl_argument>) -> Bool {
         do {
-            if !self.isAlive {
-                return false
-            }
             var reader = CArgumentReader(args, parent: self)
             let event = try Self.Event(from: &reader, opcode: opcode)
             if event.isDestructor {
                 self.connection.destroy(self)
             }
+            // print("\(Self.interface.name) \(event)")
             self.onEvent?(event)
             return true
         } catch {

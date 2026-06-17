@@ -85,12 +85,15 @@ public final class WlDisplay: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - callback: callback object for the sync request
+    /// 
+    /// - Returns: callback object for the sync request
     public func sync(callback: @escaping (UInt32) -> Void, queue _queue: EventQueue? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createCallback(fn: callback, queue: _queue)
-        connection.send(self, 0, [
-            .object(callback),
+        let _callback = 
+        connection.sendConstructor(self, 0, WlCallback.self, version, _queue, [
+            .newId,
         ])
+        _callback.register(callback)
     }
 
     /// Get Global Registry Object
@@ -344,6 +347,7 @@ public final class WlCallback: BaseProxy, Proxy {
     }
 
     deinit {
+        print("Dropped")
         if self.isAlive {
             connection.destroy(self)
         }
@@ -3284,12 +3288,15 @@ public final class WlSurface: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - callback: callback object for the frame request
+    /// 
+    /// - Returns: callback object for the frame request
     public func frame(callback: @escaping (UInt32) -> Void, queue _queue: EventQueue? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createCallback(fn: callback, queue: _queue)
-        connection.send(self, 3, [
-            .object(callback),
+        let _callback = 
+        connection.sendConstructor(self, 3, WlCallback.self, version, _queue, [
+            .newId,
         ])
+        _callback.register(callback)
     }
 
     /// Set Opaque Region
