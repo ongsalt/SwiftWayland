@@ -1,6 +1,6 @@
 import Foundation
-import SwiftWayland
-import WaylandProtocols
+import WaylandClient
+import WaylandClientProtocols
 
 public final class HexGridWindow {
     public let connection: Connection

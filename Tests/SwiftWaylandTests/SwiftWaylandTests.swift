@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import SwiftWayland
+@testable import WaylandClient
 import WaylandProtocols
 
 @Test func `It must at least run`() async throws {

@@ -1,6 +1,6 @@
 import Foundation
-import SwiftWayland
-import WaylandProtocols
+import WaylandClient
+import WaylandClientProtocols
 
 // Demonstrates fd passing in both directions:
 //   Send:    compositor calls wl_data_source.send → we write to the fd

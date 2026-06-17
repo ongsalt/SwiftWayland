@@ -1,5 +1,4 @@
-import SwiftWayland
-import WaylandProtocols
+import WaylandClient
 import Foundation
 
 let connection = Connection()

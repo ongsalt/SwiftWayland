@@ -1,6 +1,5 @@
 import Foundation
-import SwiftWayland
-import WaylandProtocols
+import WaylandClient
 
 let connection = Connection()
 let w = HexGridWindow(connection: connection)

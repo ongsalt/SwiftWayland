@@ -1,5 +1,5 @@
 import Foundation
-import SwiftWayland
+import WaylandClient
 
 final class ShmBuffer {
     let buffer: WlBuffer
