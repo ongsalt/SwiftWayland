@@ -185,7 +185,7 @@ extension MethodDeclaration: Code {
             for callbacks in self.callbacks {
                 gen.add(
                     """
-                    let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME) ?? self.queue)
+                    let \(callbacks.name.gravedIfNeeded) = connection.createCallback(fn: \(callbacks.name.gravedIfNeeded), queue: \(QUEUE_INNER_NAME))
                     """
                 )
             }

@@ -7,7 +7,8 @@ extension WlRegistry {
     where T: Proxy {
         connection.sendConstructor(
             self, 0,
-            interface, version,
+            interface, 
+            version,
             queue,
             [
                 .uint(name),

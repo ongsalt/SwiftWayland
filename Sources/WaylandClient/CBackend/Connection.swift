@@ -114,7 +114,7 @@ public class Connection {
 
         return withRawProxy(of: proxy, on: queue) { parent in
             wl_proxy_marshal_array_flags(
-                parent, opcode, interfacePtr, version, UInt32(WL_MARSHAL_FLAG_DESTROY), &arguments)
+                parent, opcode, interfacePtr, version, 0, &arguments)
         }
     }
 
@@ -136,14 +136,14 @@ public class Connection {
         of parent: any Proxy, on queue: EventQueue? = nil, body: (OpaquePointer) -> T
     ) -> T {
         var sender = parent.raw
-        if let queue, queue !== self.mainQueue {
+        if let queue {
             sender = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(sender)))
             wl_proxy_set_queue(sender, queue.raw)
         }
 
         let ret = body(sender)
 
-        if queue != nil && queue !== self.mainQueue {
+        if queue != nil {
             wl_proxy_destroy(sender)
         }
 

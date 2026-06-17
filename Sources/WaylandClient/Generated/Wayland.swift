@@ -87,7 +87,7 @@ public final class WlDisplay: BaseProxy, Proxy {
     ///   - callback: callback object for the sync request
     public func sync(callback: @escaping (UInt32) -> Void, queue _queue: EventQueue? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createCallback(fn: callback, queue: _queue ?? self.queue)
+        let callback = connection.createCallback(fn: callback, queue: _queue)
         connection.send(self, 0, [
             .object(callback),
         ])
@@ -3290,7 +3290,7 @@ public final class WlSurface: BaseProxy, Proxy {
     ///   - callback: callback object for the frame request
     public func frame(callback: @escaping (UInt32) -> Void, queue _queue: EventQueue? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        let callback = connection.createCallback(fn: callback, queue: _queue ?? self.queue)
+        let callback = connection.createCallback(fn: callback, queue: _queue)
         connection.send(self, 3, [
             .object(callback),
         ])

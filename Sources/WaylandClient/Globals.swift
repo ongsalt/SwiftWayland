@@ -40,7 +40,6 @@ public class Globals {
     public func bind<T>(to type: T.Type, version: ClosedRange<UInt32>, on queue: EventQueue? = nil)
         throws(BindError) -> T
     where T: Proxy {
-        let queue = queue ?? connection.mainQueue
         if version.upperBound > type.interface.version {
             // This is a fatalError because it's a compile-time programmer error, not a runtime error.
             fatalError(
@@ -49,10 +48,12 @@ public class Globals {
         }
 
         // mutex???
-        guard let global = self.globals.first(where: { type.interface.name == $0.interfaceName }) else {
+        guard let global = self.globals.first(where: { type.interface.name == $0.interfaceName })
+        else {
             if globals.count == 0 {
-                print("Please call connection.roundtrip() at least once after initializing a Globals")
-            } 
+                print(
+                    "Please call connection.roundtrip() at least once after initializing a Globals")
+            }
             throw .notPresent(requestedProtocol: type.interface.name)
         }
 
