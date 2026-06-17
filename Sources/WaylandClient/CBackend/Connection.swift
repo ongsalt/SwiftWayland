@@ -147,7 +147,7 @@ public class Connection {
             }
         }
 
-        if queue != nil {
+        if queue != nil && queue !== self.mainQueue {
             wl_proxy_destroy(rawParent)
         }
 
