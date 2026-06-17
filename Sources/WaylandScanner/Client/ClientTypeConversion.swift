@@ -74,7 +74,7 @@ struct TypeConversion {
             expression = ".uint(\(swiftName)\(rawValueString))"
         case .array:
             wrapping = Closure(
-                begin: "\(swiftName).withUnsafeBufferPointer { _\(swiftName) in",
+                begin: "\(swiftName).withUnsafeBytes { _\(swiftName) in",
                 end: "}"
             )
             expression = ".array(_\(swiftName))"

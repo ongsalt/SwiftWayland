@@ -6813,9 +6813,9 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func colorcurves(outputdevice: OrgKdeKwinOutputdevice, red: RawSpan, green: RawSpan, blue: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        red.withUnsafeBufferPointer { _red in
-            green.withUnsafeBufferPointer { _green in
-                blue.withUnsafeBufferPointer { _blue in
+        red.withUnsafeBytes { _red in
+            green.withUnsafeBytes { _green in
+                blue.withUnsafeBytes { _blue in
                     connection.send(self, 7, [
                         .object(outputdevice),
                         .array(_red),
@@ -10055,7 +10055,7 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
     /// - Parameters:
     public func updateGenericProperty(name: String, value: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        value.withUnsafeBufferPointer { _value in
+        value.withUnsafeBytes { _value in
             connection.send(self, 0, [
                 .string(name),
                 .array(_value),
@@ -12065,7 +12065,7 @@ public final class WlEglstreamController: BaseProxy, Proxy {
     public func attachEglstreamConsumerAttribs(wlSurface: WlSurface, wlResource: WlBuffer, attribs: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        attribs.withUnsafeBufferPointer { _attribs in
+        attribs.withUnsafeBytes { _attribs in
             connection.send(self, 1, [
                 .object(wlSurface),
                 .object(wlResource),

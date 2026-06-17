@@ -4973,7 +4973,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
     /// - Parameters:
     public func modifiersMap(map: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        map.withUnsafeBufferPointer { _map in
+        map.withUnsafeBytes { _map in
             connection.send(self, 7, [
                 .array(_map),
             ])
@@ -6431,7 +6431,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     public func setSamplingDevice(device: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 6 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 6) }
-        device.withUnsafeBufferPointer { _device in
+        device.withUnsafeBytes { _device in
             connection.send(self, 4, [
                 .array(_device),
             ])
@@ -14497,7 +14497,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     public func setAvailableActions(_ availableActions: RawSpan) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
-        availableActions.withUnsafeBufferPointer { _availableActions in
+        availableActions.withUnsafeBytes { _availableActions in
             connection.send(self, 8, [
                 .array(_availableActions),
             ])
