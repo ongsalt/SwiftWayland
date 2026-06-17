@@ -1,6 +1,6 @@
 import Foundation
-import SwiftWayland
-import WaylandProtocols
+import WaylandClient
+import WaylandClientProtocols
 
 public final class Window {
     public let connection: Connection
@@ -8,12 +8,12 @@ public final class Window {
     private var compositor: WlCompositor?
     private var shm: WlShm?
     private var xdgWmBase: XdgWmBase?
-    private var decorationManager: KdeServerDecorationManager?
+    // private var decorationManager: KdeServerDecorationManager?
 
     private var surface: WlSurface?
     private var xdgSurface: XdgSurface?
     private var toplevel: XdgToplevel?
-    private var decoration: KdeServerDecoration?
+    // private var decoration: KdeServerDecoration?
 
     private var shmPool: WlShmPool?
     private var buffer: WlBuffer?
@@ -40,7 +40,7 @@ public final class Window {
             }
         }
 
-        decorationManager = try? globals.bind(to: KdeServerDecorationManager.self, version: 1...1)
+        // decorationManager = try? globals.bind(to: KdeServerDecorationManager.self, version: 1...1)
 
         guard let compositor, let xdgWmBase, let shm else {
             fatalError("Missing required globals")
@@ -51,10 +51,10 @@ public final class Window {
         toplevel = try xdgSurface!.getToplevel()
         try toplevel!.setTitle("SwiftWayland")
 
-        if let decorationManager {
-            decoration = try decorationManager.create(surface: surface!)
-            try decoration!.requestMode(mode: KdeServerDecorationManager.Mode.server.rawValue)
-        }
+        // if let decorationManager {
+        //     decoration = try decorationManager.create(surface: surface!)
+        //     try decoration!.requestMode(mode: KdeServerDecorationManager.Mode.server.rawValue)
+        // }
  
         let initialWidth = 480
         let initialHeight = 320

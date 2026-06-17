@@ -12,19 +12,19 @@ let package = Package(
         .executableTarget(
             name: "Window",
             dependencies: [
-                .product(name: "SwiftWayland", package: "SwiftWayland"),
+                .product(name: "WaylandClient", package: "SwiftWayland"),
             ],
         ),
         .executableTarget(
             name: "HexGrid",
             dependencies: [
-                .product(name: "SwiftWayland", package: "SwiftWayland"),
+                .product(name: "WaylandClient", package: "SwiftWayland"),
             ],
         ),
         .executableTarget(
             name: "Clipboard",
             dependencies: [
-                .product(name: "SwiftWayland", package: "SwiftWayland"),
+                .product(name: "WaylandClient", package: "SwiftWayland"),
             ],
         ),
     ],

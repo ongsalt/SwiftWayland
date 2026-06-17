@@ -103,15 +103,12 @@ public class Connection {
             wl_proxy_set_queue(sender, queue.raw)
         }
 
-        let interface = interface?.ensureLoaded()
-        let flags: UInt32 = if interface != nil { UInt32(WL_MARSHAL_FLAG_DESTROY) } else { 0 }
-
-        let returnValue = wl_proxy_marshal_array_flags(
-            sender, opcode, interface, version, flags, &arguments)
-
-        if queue != nil {
-            wl_proxy_destroy(sender)
+        let interfacePtr = interface?.ensureLoaded()
+        if interface != nil && interfacePtr == nil {
+            fatalError("Failed to load wl_interface for \(interface?.interface.name)")
         }
+        let flags: UInt32 = if queue != nil && queue !== self.mainQueue { UInt32(WL_MARSHAL_FLAG_DESTROY) } else { 0 }
+        let returnValue = wl_proxy_marshal_array_flags(sender, opcode, interfacePtr, version, flags, &arguments)        
 
         return returnValue
     }
@@ -126,6 +123,7 @@ public class Connection {
         )
 
         wl_proxy_add_dispatcher(raw, dispatchFn, nil, Unmanaged.passUnretained(instance).toOpaque())
+        knownProxies[instance.id] = instance
         return instance
     }
 

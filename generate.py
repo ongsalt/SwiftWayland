@@ -122,7 +122,7 @@ def generate_group(
     if prefix_map is None:
         prefix_map = []
         
-    args = ["client", "--input-files"] + protocols + ["--output-file", output_file]
+    args = ["client", "--input-files"] + protocols + ["--output-file", output_file, "--import", "WaylandClient"]
     
     if namespace:
         args += ["--namespace", namespace]

@@ -1,4 +1,5 @@
 import Foundation
+import WaylandClient
 
 #if WLR
 /// Manager To Control Data Devices

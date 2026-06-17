@@ -1,4 +1,5 @@
 import Foundation
+import WaylandClient
 
 #if KDE
 /// Appmenu Dbus Address Interface

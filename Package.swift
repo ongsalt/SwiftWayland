@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SwiftWayland",
     products: [
-        .library(name: "WaylandClient", targets: ["WaylandClient"]),
+        .library(name: "WaylandClient", targets: ["WaylandClient", "WaylandClientProtocols"]),
         // .library(name: "WaylandServer", targets: ["WaylandServer"]),
         .executable(name: "WaylandScannerCLI", targets: ["WaylandScannerCLI"]),
     ],
@@ -45,12 +45,12 @@ let package = Package(
             ],
         ),
 
-        // .target(
-        //     name: "WaylandClientProtocols",
-        //     dependencies: [
-        //         "WaylandClient",
-        //     ],
-        // ),
+        .target(
+            name: "WaylandClientProtocols",
+            dependencies: [
+                "WaylandClient",
+            ],
+        ),
 
         .target(
             name: "WaylandScanner",

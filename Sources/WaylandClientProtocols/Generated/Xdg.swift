@@ -1,4 +1,5 @@
 import Foundation
+import WaylandClient
 
 #if XDG
 /// Window Decoration Manager

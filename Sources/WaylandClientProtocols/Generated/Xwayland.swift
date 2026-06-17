@@ -1,4 +1,5 @@
 import Foundation
+import WaylandClient
 
 #if XWAYLAND
 /// Context Object For Xwayland Shell
