@@ -65,8 +65,8 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     public func getSurfaceContentType(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpContentTypeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpContentTypeV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -421,8 +421,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func getOutput(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementOutputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpColorManagementOutputV1.self, version, _queue, [
-            .newId(1001),
-            .object(output.id),
+            .newId,
+            .object(output),
         ])
         return id
     }
@@ -439,8 +439,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 2, WpColorManagementSurfaceV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -456,8 +456,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func getSurfaceFeedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorManagementSurfaceFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 3, WpColorManagementSurfaceFeedbackV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -476,7 +476,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func createIccCreator(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionCreatorIccV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let obj = connection.sendConstructor(self, 4, WpImageDescriptionCreatorIccV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return obj
     }
@@ -495,7 +495,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func createParametricCreator(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionCreatorParamsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let obj = connection.sendConstructor(self, 5, WpImageDescriptionCreatorParamsV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return obj
     }
@@ -540,7 +540,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
     public func createWindowsScrgb(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.sendConstructor(self, 6, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return imageDescription
     }
@@ -556,8 +556,8 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let imageDescription = connection.sendConstructor(self, 7, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
-            .object(reference.id),
+            .newId,
+            .object(reference),
         ])
         return imageDescription
     }
@@ -586,7 +586,7 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let imageDescription = connection.sendConstructor(self, 8, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return imageDescription
     }
@@ -860,7 +860,7 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
     public func getImageDescription(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.sendConstructor(self, 1, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return imageDescription
     }
@@ -1000,7 +1000,7 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     public func setImageDescription(_ imageDescription: WpImageDescriptionV1, renderIntent: WpColorManagerV1.RenderIntent) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(imageDescription.id),
+            .object(imageDescription),
             .uint(renderIntent.rawValue),
         ])
     }
@@ -1168,7 +1168,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     public func getPreferred(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.sendConstructor(self, 1, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return imageDescription
     }
@@ -1183,7 +1183,7 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
     public func getPreferredParametric(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let imageDescription = connection.sendConstructor(self, 2, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return imageDescription
     }
@@ -1333,7 +1333,7 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         self.markDead()
         let imageDescription = connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return imageDescription
     }
@@ -1680,7 +1680,7 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         self.markDead()
         let imageDescription = connection.sendConstructor(self, 0, WpImageDescriptionV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return imageDescription
     }
@@ -2119,7 +2119,7 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
     public func getInformation(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpImageDescriptionInfoV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let information = connection.sendConstructor(self, 1, WpImageDescriptionInfoV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return information
     }
@@ -2776,8 +2776,8 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpColorRepresentationSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpColorRepresentationSurfaceV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -3195,7 +3195,7 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
     public func createLeaseRequest(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpDrmLeaseRequestV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WpDrmLeaseRequestV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -3516,7 +3516,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     public func requestConnector(connector: WpDrmLeaseConnectorV1) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(connector.id),
+            .object(connector),
         ])
     }
 
@@ -3533,7 +3533,7 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         self.markDead()
         let id = connection.sendConstructor(self, 1, WpDrmLeaseV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -3756,8 +3756,8 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     public func getTearingControl(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpTearingControlV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpTearingControlV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -3950,8 +3950,8 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     public func getFractionalScale(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpFractionalScaleV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpFractionalScaleV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -4222,9 +4222,9 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     public func presentSurface(surface: WlSurface? = nil, method: PresentMethod, output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface?.id ?? 0),
+            .object(surface),
             .uint(method.rawValue),
-            .object(output?.id ?? 0),
+            .object(output),
         ])
     }
 
@@ -4269,10 +4269,10 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpFullscreenShellModeFeedbackV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let feedback = connection.sendConstructor(self, 2, ZwpFullscreenShellModeFeedbackV1.self, version, _queue, [
-            .object(surface.id),
-            .object(output.id),
+            .object(surface),
+            .object(output),
             .int(framerate),
-            .newId(1001),
+            .newId,
         ])
         return feedback
     }
@@ -4506,8 +4506,8 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     public func createInhibitor(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpIdleInhibitorV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpIdleInhibitorV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -5084,7 +5084,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
 
     /// 
     /// - Parameters:
-    public func modifiersMap(map: Data) throws(WaylandProxyError) {
+    public func modifiersMap(map: UnsafeRawBufferPointer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 7, [
             .array(map),
@@ -5120,7 +5120,7 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
     public func grabKeyboard(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlKeyboard {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let keyboard = connection.sendConstructor(self, 9, WlKeyboard.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return keyboard
     }
@@ -5357,8 +5357,8 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
     public func getInputPanelSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputPanelSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, ZwpInputPanelSurfaceV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -5410,7 +5410,7 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
     public func setToplevel(output: WlOutput, position: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(output.id),
+            .object(output),
             .uint(position),
         ])
     }
@@ -5548,8 +5548,8 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     public func getKeyboardTimestamps(keyboard: WlKeyboard, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpInputTimestampsV1.self, version, _queue, [
-            .newId(1001),
-            .object(keyboard.id),
+            .newId,
+            .object(keyboard),
         ])
         return id
     }
@@ -5569,8 +5569,8 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     public func getPointerTimestamps(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 2, ZwpInputTimestampsV1.self, version, _queue, [
-            .newId(1001),
-            .object(pointer.id),
+            .newId,
+            .object(pointer),
         ])
         return id
     }
@@ -5590,8 +5590,8 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     public func getTouchTimestamps(touch: WlTouch, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpInputTimestampsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 3, ZwpInputTimestampsV1.self, version, _queue, [
-            .newId(1001),
-            .object(touch.id),
+            .newId,
+            .object(touch),
         ])
         return id
     }
@@ -5794,9 +5794,9 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     public func inhibitShortcuts(surface: WlSurface, seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpKeyboardShortcutsInhibitorV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpKeyboardShortcutsInhibitorV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
-            .object(seat.id),
+            .newId,
+            .object(surface),
+            .object(seat),
         ])
         return id
     }
@@ -6125,7 +6125,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
     public func createParams(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxBufferParamsV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let paramsId = connection.sendConstructor(self, 1, ZwpLinuxBufferParamsV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return paramsId
     }
@@ -6140,7 +6140,7 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         let id = connection.sendConstructor(self, 2, ZwpLinuxDmabufFeedbackV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -6158,8 +6158,8 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         let id = connection.sendConstructor(self, 3, ZwpLinuxDmabufFeedbackV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -6541,7 +6541,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let bufferId = connection.sendConstructor(self, 3, WlBuffer.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .int(width),
             .int(height),
             .uint(format),
@@ -6565,7 +6565,7 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - device: device dev_t value
-    public func setSamplingDevice(device: Data) throws(WaylandProxyError) {
+    public func setSamplingDevice(device: UnsafeRawBufferPointer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 6 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 6) }
         connection.send(self, 4, [
@@ -6869,7 +6869,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         /// must force the buffer to have a linear layout.
         /// With version 6 and above, this event is no longer sent. Clients should
         /// use a device with the sampling flag in the tranches instead.
-        case mainDevice(device: Data)
+        case mainDevice(device: UnsafeRawBufferPointer)
 
         /// A Preference Tranche Has Been Sent
         /// 
@@ -6902,7 +6902,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         /// particular node type. Clients cannot check two devices for equality by
         /// comparing the dev_t value.
         /// This event is tied to a preference tranche, see the tranche_done event.
-        case trancheTargetDevice(device: Data)
+        case trancheTargetDevice(device: UnsafeRawBufferPointer)
 
         /// Supported Buffer Format Modifiers
         /// 
@@ -6924,7 +6924,7 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
         /// This event is tied to a preference tranche, see the tranche_done event.
         /// For the definition of the format and modifier codes, see the
         /// zwp_linux_buffer_params_v1.create request.
-        case trancheFormats(indices: Data)
+        case trancheFormats(indices: UnsafeRawBufferPointer)
 
         /// Tranche Flags
         /// 
@@ -7048,8 +7048,8 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     public func getSynchronization(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxSurfaceSynchronizationV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpLinuxSurfaceSynchronizationV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -7210,7 +7210,7 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     public func getRelease(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLinuxBufferReleaseV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let release = connection.sendConstructor(self, 2, ZwpLinuxBufferReleaseV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return release
     }
@@ -7442,8 +7442,8 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpLinuxDrmSyncobjSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpLinuxDrmSyncobjSurfaceV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -7458,7 +7458,7 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     public func importTimeline(fd: FileHandle, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpLinuxDrmSyncobjTimelineV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 2, WpLinuxDrmSyncobjTimelineV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .fd(fd),
         ])
         return id
@@ -7668,7 +7668,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     public func setAcquirePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(timeline.id),
+            .object(timeline),
             .uint(pointHi),
             .uint(pointLo),
         ])
@@ -7718,7 +7718,7 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     public func setReleasePoint(timeline: WpLinuxDrmSyncobjTimelineV1, pointHi: UInt32, pointLo: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(timeline.id),
+            .object(timeline),
             .uint(pointHi),
             .uint(pointLo),
         ])
@@ -7926,10 +7926,10 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     public func lockPointer(surface: WlSurface, pointer: WlPointer, region: WlRegion? = nil, lifetime: Lifetime, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpLockedPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpLockedPointerV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
-            .object(pointer.id),
-            .object(region?.id ?? 0),
+            .newId,
+            .object(surface),
+            .object(pointer),
+            .object(region),
             .uint(lifetime.rawValue),
         ])
         return id
@@ -7961,10 +7961,10 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     public func confinePointer(surface: WlSurface, pointer: WlPointer, region: WlRegion? = nil, lifetime: Lifetime, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpConfinedPointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 2, ZwpConfinedPointerV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
-            .object(pointer.id),
-            .object(region?.id ?? 0),
+            .newId,
+            .object(surface),
+            .object(pointer),
+            .object(region),
             .uint(lifetime.rawValue),
         ])
         return id
@@ -8124,7 +8124,7 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
     public func setRegion(_ region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(region?.id ?? 0),
+            .object(region),
         ])
     }
 
@@ -8262,7 +8262,7 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
     public func setRegion(_ region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(region?.id ?? 0),
+            .object(region),
         ])
     }
 
@@ -8421,8 +8421,8 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     public func getSwipeGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGestureSwipeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, ZwpPointerGestureSwipeV1.self, version, _queue, [
-            .newId(1001),
-            .object(pointer.id),
+            .newId,
+            .object(pointer),
         ])
         return id
     }
@@ -8436,8 +8436,8 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     public func getPinchGesture(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPointerGesturePinchV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpPointerGesturePinchV1.self, version, _queue, [
-            .newId(1001),
-            .object(pointer.id),
+            .newId,
+            .object(pointer),
         ])
         return id
     }
@@ -8464,8 +8464,8 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let id = connection.sendConstructor(self, 3, ZwpPointerGestureHoldV1.self, version, _queue, [
-            .newId(1001),
-            .object(pointer.id),
+            .newId,
+            .object(pointer),
         ])
         return id
     }
@@ -9095,8 +9095,8 @@ public final class WpPresentation: BaseProxy, Proxy {
     public func feedback(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpPresentationFeedback {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.sendConstructor(self, 1, WpPresentationFeedback.self, version, _queue, [
-            .object(surface.id),
-            .newId(1001),
+            .object(surface),
+            .newId,
         ])
         return callback
     }
@@ -9416,7 +9416,7 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     public func createSource(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPrimarySelectionSourceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, ZwpPrimarySelectionSourceV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -9429,8 +9429,8 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     public func getDevice(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpPrimarySelectionDeviceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpPrimarySelectionDeviceV1.self, version, _queue, [
-            .newId(1001),
-            .object(seat.id),
+            .newId,
+            .object(seat),
         ])
         return id
     }
@@ -9538,7 +9538,7 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
     public func setSelection(source: ZwpPrimarySelectionSourceV1? = nil, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(source?.id ?? 0),
+            .object(source),
             .uint(serial),
         ])
     }
@@ -9919,8 +9919,8 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     public func getRelativePointer(pointer: WlPointer, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpRelativePointerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpRelativePointerV1.self, version, _queue, [
-            .newId(1001),
-            .object(pointer.id),
+            .newId,
+            .object(pointer),
         ])
         return id
     }
@@ -10168,7 +10168,7 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     public func createU32RgbaBuffer(r: UInt32, g: UInt32, b: UInt32, a: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WlBuffer.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .uint(r),
             .uint(g),
             .uint(b),
@@ -10255,8 +10255,8 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
     public func getTabletSeat(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTabletSeatV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let tabletSeat = connection.sendConstructor(self, 0, ZwpTabletSeatV1.self, version, _queue, [
-            .newId(1001),
-            .object(seat.id),
+            .newId,
+            .object(seat),
         ])
         return tabletSeat
     }
@@ -10738,7 +10738,7 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .uint(serial),
-            .object(surface?.id ?? 0),
+            .object(surface),
             .int(hotspotX),
             .int(hotspotY),
         ])
@@ -11307,8 +11307,8 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     public func getTabletSeat(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTabletSeatV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let tabletSeat = connection.sendConstructor(self, 0, ZwpTabletSeatV2.self, version, _queue, [
-            .newId(1001),
-            .object(seat.id),
+            .newId,
+            .object(seat),
         ])
         return tabletSeat
     }
@@ -11815,7 +11815,7 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .uint(serial),
-            .object(surface?.id ?? 0),
+            .object(surface),
             .int(hotspotX),
             .int(hotspotY),
         ])
@@ -12956,7 +12956,7 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
         /// event in the case of changes to the mapping of these reserved buttons.
         /// If the compositor happens to reserve all buttons in a group, this event
         /// will be sent with an empty array.
-        case buttons(buttons: Data)
+        case buttons(buttons: UnsafeRawBufferPointer)
 
         /// Ring Announced
         /// 
@@ -13957,8 +13957,8 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
     public func activate(seat: WlSeat, surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(seat.id),
-            .object(surface.id),
+            .object(seat),
+            .object(surface),
         ])
     }
 
@@ -13972,7 +13972,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
     public func deactivate(seat: WlSeat) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(seat.id),
+            .object(seat),
         ])
     }
 
@@ -14230,7 +14230,7 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
         /// Transfer an array of 0-terminated modifier names. The position in
         /// the array is the index of the modifier as used in the modifiers
         /// bitmask in the keysym event.
-        case modifiersMap(map: Data)
+        case modifiersMap(map: UnsafeRawBufferPointer)
 
         /// State Of The Input Panel
         /// 
@@ -14382,7 +14382,7 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
     public func createTextInput(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, ZwpTextInputV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -14903,7 +14903,7 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
     /// 
     /// - Parameters:
     ///   - _: available actions
-    public func setAvailableActions(_ availableActions: Data) throws(WaylandProxyError) {
+    public func setAvailableActions(_ availableActions: UnsafeRawBufferPointer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 8, [
@@ -15305,8 +15305,8 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     public func getTextInput(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV3 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpTextInputV3.self, version, _queue, [
-            .newId(1001),
-            .object(seat.id),
+            .newId,
+            .object(seat),
         ])
         return id
     }
@@ -15409,8 +15409,8 @@ public final class WpViewporter: BaseProxy, Proxy {
     public func getViewport(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpViewport {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpViewport.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -15736,7 +15736,7 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     public func createListener(listenFd: FileHandle, closeFd: FileHandle, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpSecurityContextV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpSecurityContextV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .fd(listenFd),
             .fd(closeFd),
         ])
@@ -16027,8 +16027,8 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpAlphaModifierSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpAlphaModifierSurfaceV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -16233,8 +16233,8 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     public func getFifo(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpFifoV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpFifoV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -16462,8 +16462,8 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     public func getTimer(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WpCommitTimerV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WpCommitTimerV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -16703,8 +16703,8 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     public func warpPointer(surface: WlSurface, pointer: WlPointer, x: Double, y: Double, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
-            .object(pointer.id),
+            .object(surface),
+            .object(pointer),
             .fixed(x),
             .fixed(y),
             .uint(serial),
@@ -16792,7 +16792,7 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     public func lock(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ExtSessionLockV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ExtSessionLockV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -16953,9 +16953,9 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
     public func getLockSurface(surface: WlSurface, output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ExtSessionLockSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ExtSessionLockSurfaceV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
-            .object(output.id),
+            .newId,
+            .object(surface),
+            .object(output),
         ])
         return id
     }

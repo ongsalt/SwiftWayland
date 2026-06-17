@@ -33,7 +33,7 @@ public class Connection {
         _ interface: Output.Type,
         _ version: UInt32,
         _ queue: EventQueue?,
-        _ args: [Arg],
+        _ args: borrowing [Arg],
     ) -> Output {
         let proxy = _send2(
             proxy, opcode,
@@ -48,7 +48,7 @@ public class Connection {
     public func send(
         _ proxy: any Proxy,
         _ opcode: UInt32,
-        _ args: [Arg],
+        _ args: borrowing [Arg],
     ) {
         _ = _send2(proxy, opcode, args: args)
     }
@@ -61,10 +61,10 @@ public class Connection {
         on queue: EventQueue? = nil,
         args: [Arg],
     ) -> OpaquePointer? {  // return an wl_proxy if existed
-        var freeList: [UnsafeMutableRawPointer] = []
+        var defered: [() -> Void] = []
         defer {
-            for p in freeList {
-                p.deallocate()
+            for fn in defered {
+                fn()
             }
         }
 
@@ -75,9 +75,17 @@ public class Connection {
                 arguments.append(wl_argument(i: i))
             case .enum(let u):
                 arguments.append(wl_argument(u: u))
-            case .array(let data):
-                let arr = data.toWlArrayPtr()
-                freeList.append(arr)
+            case .array(let buffer):
+                let arr = UnsafeMutablePointer<wl_array>.allocate(capacity: 1)
+                arr.initialize(
+                    to: wl_array(
+                        size: buffer.count,
+                        alloc: buffer.count,
+                        data: UnsafeMutableRawPointer(mutating: buffer.baseAddress),
+                    ))
+                defered.append {
+                    arr.deallocate()
+                }
                 arguments.append(wl_argument(a: arr))
             case .fd(let fd):
                 arguments.append(wl_argument(h: fd.fileDescriptor))
@@ -86,11 +94,14 @@ public class Connection {
             case .uint(let u):
                 arguments.append(wl_argument(u: u))
             case .string(let s):
-                arguments.append(wl_argument(s: s.cString(using: .utf8)!.toBuffer().baseAddress))
-            case .object(let id):
-                arguments.append(wl_argument(o: id == 0 ? nil : knownProxies[id]?.raw))
-            // if we have a newId, create it, then make it a .object instead, we create an object before calling send anyway, sooo sammeeee
-            case .newId(_):
+                let buffer = s?.cString(using: .utf8)!.toBuffer()
+                defered.append {
+                    buffer?.deallocate()
+                }
+                arguments.append(wl_argument(s: buffer?.baseAddress))
+            case .object(let proxy):
+                arguments.append(wl_argument(o: proxy?.raw))
+            case .newId:
                 // gonna be ignored anyway
                 arguments.append(wl_argument())
             }
@@ -107,8 +118,12 @@ public class Connection {
         if interface != nil && interfacePtr == nil {
             fatalError("Failed to load wl_interface for \(interface?.interface.name)")
         }
-        let flags: UInt32 = if queue != nil && queue !== self.mainQueue { UInt32(WL_MARSHAL_FLAG_DESTROY) } else { 0 }
-        let returnValue = wl_proxy_marshal_array_flags(sender, opcode, interfacePtr, version, flags, &arguments)        
+        let flags: UInt32 =
+            if queue != nil && queue !== self.mainQueue { UInt32(WL_MARSHAL_FLAG_DESTROY) } else {
+                0
+            }
+        let returnValue = wl_proxy_marshal_array_flags(
+            sender, opcode, interfacePtr, version, flags, &arguments)
 
         return returnValue
     }
@@ -283,27 +298,8 @@ public class Connection {
     }
 }
 
-extension Data {
-    fileprivate func toWlArray() -> wl_array {
-        let buffer = UnsafeMutableRawBufferPointer.allocate(
-            byteCount: self.count, alignment: MemoryLayout<Int8>.alignment)
-        self.copyBytes(to: buffer)
-        return wl_array(
-            size: buffer.count,
-            alloc: buffer.count,
-            data: buffer.baseAddress
-        )
-    }
-
-    fileprivate func toWlArrayPtr() -> UnsafeMutablePointer<wl_array> {
-        let ptr = UnsafeMutablePointer<wl_array>.allocate(capacity: 1)
-        ptr.initialize(to: self.toWlArray())
-        return ptr
-    }
-}
-
 extension Array {
-    fileprivate func toBuffer() -> UnsafeBufferPointer<Element> {
+    fileprivate consuming func toBuffer() -> UnsafeBufferPointer<Element> {
         let buffer = UnsafeMutableBufferPointer<Element>.allocate(capacity: self.count)
         _ = buffer.initialize(from: self)
         return UnsafeBufferPointer(buffer)

@@ -59,6 +59,8 @@ dnf install wayland-devel
 ```
 
 # Todos
+- Less copying once we have borrowing sequence
+- use span instead of raw pointer?
 - spi export
 - think about raii
 - dynamically link libwayland

@@ -76,8 +76,8 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     public func getXwaylandSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> XwaylandSurfaceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, XwaylandSurfaceV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -306,9 +306,9 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     public func grabKeyboard(surface: WlSurface, seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpXwaylandKeyboardGrabV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpXwaylandKeyboardGrabV1.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
-            .object(seat.id),
+            .newId,
+            .object(surface),
+            .object(seat),
         ])
         return id
     }

@@ -13,8 +13,7 @@ extension WlRegistry {
                 .uint(name),
                 .string(interface.interface.name),
                 .uint(version),
-                // this ignored
-                .newId(1001),
+                .newId,
             ]
         )
     }

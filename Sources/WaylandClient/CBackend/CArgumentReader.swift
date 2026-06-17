@@ -28,13 +28,11 @@ struct CArgumentReader: ArgumentReader {
         FileHandle(fileDescriptor: consume().h)
     }
 
-    mutating func array() -> Data {
+    mutating func array() -> UnsafeRawBufferPointer {
         let array = consume().a!
-
-        return Data(
-            bytesNoCopy: array.pointee.data,
-            count: array.pointee.size,
-            deallocator: .none
+        return UnsafeRawBufferPointer(
+            start: array.pointee.data, 
+            count: array.pointee.size
         )
     }
 

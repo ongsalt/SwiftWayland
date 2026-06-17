@@ -80,11 +80,13 @@ extension MessageProtocol {
     public var isDestructor: Bool { false }
 }
 
+// only wire type
 public protocol ArgumentReader {
     mutating func int() -> Int32
     mutating func uint() -> UInt32
     mutating func fd() -> FileHandle
-    mutating func array() -> Data
+    // NON OWNING, do not free this
+    mutating func array() -> UnsafeRawBufferPointer 
     mutating func string() -> String
     
     mutating func object() -> any Proxy

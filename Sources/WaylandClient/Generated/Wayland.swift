@@ -89,7 +89,7 @@ public final class WlDisplay: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue ?? self.queue)
         connection.send(self, 0, [
-            .object(callback.id),
+            .object(callback),
         ])
     }
 
@@ -108,7 +108,7 @@ public final class WlDisplay: BaseProxy, Proxy {
     public func getRegistry(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlRegistry {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let registry = connection.sendConstructor(self, 1, WlRegistry.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return registry
     }
@@ -377,7 +377,7 @@ public final class WlCompositor: BaseProxy, Proxy {
     public func createSurface(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WlSurface.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -390,7 +390,7 @@ public final class WlCompositor: BaseProxy, Proxy {
     public func createRegion(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlRegion {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WlRegion.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -497,7 +497,7 @@ public final class WlShmPool: BaseProxy, Proxy {
     public func createBuffer(offset: Int32, width: Int32, height: Int32, stride: Int32, format: WlShm.Format, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlBuffer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WlBuffer.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .int(offset),
             .int(width),
             .int(height),
@@ -638,7 +638,7 @@ public final class WlShm: BaseProxy, Proxy {
     public func createPool(fd: FileHandle, size: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlShmPool {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WlShmPool.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .fd(fd),
             .int(size),
         ])
@@ -1302,7 +1302,7 @@ public final class WlDataOffer: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .uint(serial),
-            .string(mimeType ?? ""),
+            .string(mimeType),
         ])
     }
 
@@ -1982,9 +1982,9 @@ public final class WlDataDevice: BaseProxy, Proxy {
     public func startDrag(source: WlDataSource? = nil, origin: WlSurface, icon: WlSurface? = nil, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(source?.id ?? 0),
-            .object(origin.id),
-            .object(icon?.id ?? 0),
+            .object(source),
+            .object(origin),
+            .object(icon),
             .uint(serial),
         ])
     }
@@ -2004,7 +2004,7 @@ public final class WlDataDevice: BaseProxy, Proxy {
     public func setSelection(source: WlDataSource? = nil, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(source?.id ?? 0),
+            .object(source),
             .uint(serial),
         ])
     }
@@ -2191,7 +2191,7 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     public func createDataSource(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlDataSource {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WlDataSource.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -2207,8 +2207,8 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     public func getDataDevice(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlDataDevice {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WlDataDevice.self, version, _queue, [
-            .newId(1001),
-            .object(seat.id),
+            .newId,
+            .object(seat),
         ])
         return id
     }
@@ -2288,8 +2288,8 @@ public final class WlShell: BaseProxy, Proxy {
     public func getShellSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlShellSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WlShellSurface.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -2571,7 +2571,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
     public func move(seat: WlSeat, serial: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(seat.id),
+            .object(seat),
             .uint(serial),
         ])
     }
@@ -2590,7 +2590,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
     public func resize(seat: WlSeat, serial: UInt32, edges: Resize) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(seat.id),
+            .object(seat),
             .uint(serial),
             .uint(edges.rawValue),
         ])
@@ -2622,7 +2622,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
     public func setTransient(parent: WlSurface, x: Int32, y: Int32, flags: Transient) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .object(parent.id),
+            .object(parent),
             .int(x),
             .int(y),
             .uint(flags.rawValue),
@@ -2668,7 +2668,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
         connection.send(self, 5, [
             .uint(method.rawValue),
             .uint(framerate),
-            .object(output?.id ?? 0),
+            .object(output),
         ])
     }
 
@@ -2700,9 +2700,9 @@ public final class WlShellSurface: BaseProxy, Proxy {
     public func setPopup(seat: WlSeat, serial: UInt32, parent: WlSurface, x: Int32, y: Int32, flags: Transient) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 6, [
-            .object(seat.id),
+            .object(seat),
             .uint(serial),
-            .object(parent.id),
+            .object(parent),
             .int(x),
             .int(y),
             .uint(flags.rawValue),
@@ -2731,7 +2731,7 @@ public final class WlShellSurface: BaseProxy, Proxy {
     public func setMaximized(output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 7, [
-            .object(output?.id ?? 0),
+            .object(output),
         ])
     }
 
@@ -3217,7 +3217,7 @@ public final class WlSurface: BaseProxy, Proxy {
     public func attach(buffer: WlBuffer? = nil, x: Int32, y: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(buffer?.id ?? 0),
+            .object(buffer),
             .int(x),
             .int(y),
         ])
@@ -3292,7 +3292,7 @@ public final class WlSurface: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue ?? self.queue)
         connection.send(self, 3, [
-            .object(callback.id),
+            .object(callback),
         ])
     }
 
@@ -3322,7 +3322,7 @@ public final class WlSurface: BaseProxy, Proxy {
     public func setOpaqueRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .object(region?.id ?? 0),
+            .object(region),
         ])
     }
 
@@ -3351,7 +3351,7 @@ public final class WlSurface: BaseProxy, Proxy {
     public func setInputRegion(region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
-            .object(region?.id ?? 0),
+            .object(region),
         ])
     }
 
@@ -3712,7 +3712,7 @@ public final class WlSeat: BaseProxy, Proxy {
     public func getPointer(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlPointer {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WlPointer.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -3731,7 +3731,7 @@ public final class WlSeat: BaseProxy, Proxy {
     public func getKeyboard(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlKeyboard {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WlKeyboard.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -3750,7 +3750,7 @@ public final class WlSeat: BaseProxy, Proxy {
     public func getTouch(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlTouch {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 2, WlTouch.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -4155,7 +4155,7 @@ public final class WlPointer: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .uint(serial),
-            .object(surface?.id ?? 0),
+            .object(surface),
             .int(hotspotX),
             .int(hotspotY),
         ])
@@ -4711,7 +4711,7 @@ public final class WlKeyboard: BaseProxy, Proxy {
         /// wl_keyboard already had an active surface immediately before this event.
         /// Clients should not use the list of pressed keys to emulate key-press
         /// events. The order of keys in the list is unspecified.
-        case enter(serial: UInt32, surface: WlSurface, keys: Data)
+        case enter(serial: UInt32, surface: WlSurface, keys: UnsafeRawBufferPointer)
 
         /// Leave Event
         /// 
@@ -5712,9 +5712,9 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     public func getSubsurface(surface: WlSurface, parent: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlSubsurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, WlSubsurface.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
-            .object(parent.id),
+            .newId,
+            .object(surface),
+            .object(parent),
         ])
         return id
     }
@@ -5918,7 +5918,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
     public func placeAbove(sibling: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(sibling.id),
+            .object(sibling),
         ])
     }
 
@@ -5932,7 +5932,7 @@ public final class WlSubsurface: BaseProxy, Proxy {
     public func placeBelow(sibling: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .object(sibling.id),
+            .object(sibling),
         ])
     }
 
@@ -6061,7 +6061,7 @@ public final class WlFixes: BaseProxy, Proxy {
     public func destroyRegistry(registry: WlRegistry) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(registry.id),
+            .object(registry),
         ])
     }
 

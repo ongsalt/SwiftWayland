@@ -217,24 +217,16 @@ extension MethodDeclaration: Code {
             gen.block("\(letDecl)connection.\(sendMethod)(\(argString), [", endWith: "])") {
                 for arg in self.messageArguments {
                     switch arg.arg.type {
-                    case .object, .newId: // newId gonna get ignore anyway
+                    case .object, .newId:  // newId gonna get ignore anyway
                         let name = arg.name.gravedIfNeeded
-                        if !self.returns.isEmpty && name == self.returns[0].name  {
-                            gen << ".newId(1001),"
-                        } else if arg.arg.nullable {
-                            gen << ".object(\(name)?.id ?? 0),"
+                        if !self.returns.isEmpty && name == self.returns[0].name {
+                            gen << ".newId,"
                         } else {
-                            gen << ".object(\(name).id),"
-                        }
-                    case .string:
-                        if arg.arg.nullable {
-                            gen << ".string(\(arg.name.gravedIfNeeded) ?? \"\"),"
-                        } else {
-                            gen << ".string(\(arg.name.gravedIfNeeded)),"
+                            gen << ".object(\(name)),"
                         }
                     case .uint:
                         let rawValueString = arg.arg.enum != nil ? ".rawValue" : ""
-                        gen << ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)\(rawValueString)),"
+                        gen << ".uint(\(arg.name.gravedIfNeeded)\(rawValueString)),"
                     default:
                         gen << ".\(arg.arg.type)(\(arg.name.gravedIfNeeded)),"
                     }
@@ -249,7 +241,7 @@ extension MethodDeclaration: Code {
                 gen.add("return \(self.returns[0].name)")
             default:
                 fatalError("Cannot return more than 1 value at: \(self.requestName)")
-                // gen.add("return (\(self.returns.map(\.name).joined(separator: ", ")))")
+            // gen.add("return (\(self.returns.map(\.name).joined(separator: ", ")))")
             }
         }
         gen.add("}")

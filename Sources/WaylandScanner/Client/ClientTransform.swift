@@ -145,7 +145,9 @@ public func transform(
         description: p.description,
         protocol: p,
         classes: p.interfaces.map {
-            transform(interface: $0, trim: transformName, protocolName: p.name.camel, prefixMap: prefixMap)
+            transform(
+                interface: $0, trim: transformName, protocolName: p.name.camel, prefixMap: prefixMap
+            )
         }
     )
 }
@@ -156,16 +158,17 @@ extension Argument {
         case .string:
             return "String"
         case .array:
-            return "Data"
+            return "UnsafeRawBufferPointer"
         case .fd:
             return "FileHandle"
         case .int:
             return "Int32"
         case .uint:
-            if let e = self.enum {
-                return parseEnumName(e)
+            return if let e = self.enum {
+                parseEnumName(e)
+            } else {
+                "UInt32"
             }
-            return "UInt32"
         case .fixed:
             return "Double"
 
@@ -173,15 +176,11 @@ extension Argument {
         case .enum:
             fatalError("there should not be an enum here")
         case .object:
-            if isEvent {
-                return self.interface.map { remapName($0, prefixMap: prefixMap).camel } ?? "any Proxy"
-            } else {
-                return remapName(self.interface!, prefixMap: prefixMap).camel
-            }
+            // self.interface must not be nil if its an in parameter (shuold be fine tho)
+            return self.interface.map { remapName($0, prefixMap: prefixMap).camel } ?? "any Proxy"
         case .newId:
             return remapName(self.interface!, prefixMap: prefixMap).camel  // dynamic newId in wl_registry.bind is excluded
         }
-
     }
 }
 

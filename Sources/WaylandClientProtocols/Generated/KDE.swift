@@ -46,8 +46,8 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinAppmenu {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinAppmenu.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -219,8 +219,8 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinBlur {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinBlur.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -230,7 +230,7 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     public func unset(surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
+            .object(surface),
         ])
     }
 
@@ -286,7 +286,7 @@ public final class OrgKdeKwinBlur: BaseProxy, Proxy {
     public func setRegion(_ region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(region?.id ?? 0),
+            .object(region),
         ])
     }
 
@@ -374,8 +374,8 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinContrast {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinContrast.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -385,7 +385,7 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     public func unset(surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
+            .object(surface),
         ])
     }
 
@@ -508,7 +508,7 @@ public final class OrgKdeKwinContrast: BaseProxy, Proxy {
     public func setRegion(_ region: WlRegion? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(region?.id ?? 0),
+            .object(region),
         ])
     }
 
@@ -656,8 +656,8 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
     public func `get`(output: WlOutput, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinDpms {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinDpms.self, version, _queue, [
-            .newId(1001),
-            .object(output.id),
+            .newId,
+            .object(output),
         ])
         return id
     }
@@ -1382,9 +1382,9 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
     public func presentSurface(surface: WlSurface? = nil, method: UInt32, output: WlOutput? = nil) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface?.id ?? 0),
+            .object(surface),
             .uint(method),
-            .object(output?.id ?? 0),
+            .object(output),
         ])
     }
 
@@ -1426,10 +1426,10 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
     public func presentSurfaceForMode(surface: WlSurface, output: WlOutput, framerate: Int32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> _WlFullscreenShellModeFeedback {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let feedback = connection.sendConstructor(self, 2, _WlFullscreenShellModeFeedback.self, version, _queue, [
-            .object(surface.id),
-            .object(output.id),
+            .object(surface),
+            .object(output),
             .int(framerate),
-            .newId(1001),
+            .newId,
         ])
         return feedback
     }
@@ -1633,8 +1633,8 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     public func getIdleTimeout(seat: WlSeat, timeout: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinIdleTimeout {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinIdleTimeout.self, version, _queue, [
-            .newId(1001),
-            .object(seat.id),
+            .newId,
+            .object(seat),
             .uint(timeout),
         ])
         return id
@@ -1802,7 +1802,7 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     public func createBrightnessControl(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeExternalBrightnessDeviceV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, KdeExternalBrightnessDeviceV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -2108,7 +2108,7 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
     public func allow(surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(surface.id),
+            .object(surface),
         ])
     }
 
@@ -3559,7 +3559,7 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeOutputConfigurationV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, KdeOutputConfigurationV2.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -3571,7 +3571,7 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     public func createModeList(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeModeListV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, KdeModeListV2.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -4214,7 +4214,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func enable(outputdevice: KdeOutputDeviceV2, enable: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(enable),
         ])
     }
@@ -4229,8 +4229,8 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func mode(outputdevice: KdeOutputDeviceV2, mode: KdeOutputDeviceModeV2) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(outputdevice.id),
-            .object(mode.id),
+            .object(outputdevice),
+            .object(mode),
         ])
     }
 
@@ -4244,7 +4244,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func transform(outputdevice: KdeOutputDeviceV2, transform: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(transform),
         ])
     }
@@ -4265,7 +4265,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func position(outputdevice: KdeOutputDeviceV2, x: Int32, y: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(x),
             .int(y),
         ])
@@ -4281,7 +4281,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func scale(outputdevice: KdeOutputDeviceV2, scale: Double) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .fixed(scale),
         ])
     }
@@ -4318,7 +4318,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func overscan(outputdevice: KdeOutputDeviceV2, overscan: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 7, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(overscan),
         ])
     }
@@ -4334,7 +4334,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func setVrrPolicy(outputdevice: KdeOutputDeviceV2, policy: VrrPolicy) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 8, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(policy.rawValue),
         ])
     }
@@ -4348,7 +4348,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
     public func setRgbRange(outputdevice: KdeOutputDeviceV2, rgbRange: RgbRange) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 9, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(rgbRange.rawValue),
         ])
     }
@@ -4362,7 +4362,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 10, [
-            .object(output.id),
+            .object(output),
         ])
     }
 
@@ -4383,7 +4383,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 11, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(priority),
         ])
     }
@@ -4399,7 +4399,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         connection.send(self, 12, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(enableHdr),
         ])
     }
@@ -4415,7 +4415,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         connection.send(self, 13, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(sdrBrightness),
         ])
     }
@@ -4431,7 +4431,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         connection.send(self, 14, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(enableWcg),
         ])
     }
@@ -4446,7 +4446,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 5 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 5) }
         connection.send(self, 15, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(policy.rawValue),
         ])
     }
@@ -4461,7 +4461,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 6 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 6) }
         connection.send(self, 16, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .string(profilePath),
         ])
     }
@@ -4479,7 +4479,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 7 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 7) }
         connection.send(self, 17, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(maxPeakBrightness),
             .int(maxFrameAverageBrightness),
             .int(minBrightness),
@@ -4498,7 +4498,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 7 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 7) }
         connection.send(self, 18, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(gamutWideness),
         ])
     }
@@ -4514,7 +4514,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 8 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 8) }
         connection.send(self, 19, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(colorProfileSource.rawValue),
         ])
     }
@@ -4537,7 +4537,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 9 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 9) }
         connection.send(self, 20, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(brightness),
         ])
     }
@@ -4552,7 +4552,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 10 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 10) }
         connection.send(self, 21, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(preference.rawValue),
         ])
     }
@@ -4575,7 +4575,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 11 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 11) }
         connection.send(self, 22, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(multiplier),
         ])
     }
@@ -4592,7 +4592,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 13 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 13) }
         connection.send(self, 23, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .string(source),
         ])
     }
@@ -4608,7 +4608,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 14 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 14) }
         connection.send(self, 24, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(allowed),
         ])
     }
@@ -4624,7 +4624,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 15 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 15) }
         connection.send(self, 25, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(maxBpc),
         ])
     }
@@ -4643,7 +4643,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 16 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 16) }
         connection.send(self, 26, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(policy.rawValue),
         ])
     }
@@ -4660,7 +4660,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 17 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 17) }
         connection.send(self, 27, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(sharpness),
         ])
     }
@@ -4683,8 +4683,8 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 18 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 18) }
         connection.send(self, 28, [
-            .object(outputdevice.id),
-            .object(modes.id),
+            .object(outputdevice),
+            .object(modes),
         ])
     }
 
@@ -4699,7 +4699,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 19 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 19) }
         connection.send(self, 29, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(enabled),
         ])
     }
@@ -4714,7 +4714,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 20 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 20) }
         connection.send(self, 30, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .string(profilePath),
         ])
     }
@@ -4730,7 +4730,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 20 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 20) }
         connection.send(self, 31, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(colorProfileSource.rawValue),
         ])
     }
@@ -4747,7 +4747,7 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 21 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 21) }
         connection.send(self, 32, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(level),
         ])
     }
@@ -5298,9 +5298,9 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     public func getAutoHideScreenEdge(border: Border, surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> KdeAutoHideScreenEdgeV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, KdeAutoHideScreenEdgeV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .uint(border.rawValue),
-            .object(surface.id),
+            .object(surface),
         ])
         return id
     }
@@ -5694,7 +5694,7 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
     public func getVirtualDesktop(desktopId: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaVirtualDesktop {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdePlasmaVirtualDesktop.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .string(desktopId),
         ])
         return id
@@ -6407,7 +6407,7 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
         /// The array contains all color ramp values of the output.
         /// For example on 8bit screens there are 256 of them.
         /// The array elements are unsigned 16bit integers.
-        case colorcurves(red: Data, green: Data, blue: Data)
+        case colorcurves(red: UnsafeRawBufferPointer, green: UnsafeRawBufferPointer, blue: UnsafeRawBufferPointer)
 
         /// Serial Number
         /// 
@@ -6544,7 +6544,7 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
     public func createConfiguration(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinOutputconfiguration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinOutputconfiguration.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -6786,7 +6786,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func enable(outputdevice: OrgKdeKwinOutputdevice, enable: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(enable),
         ])
     }
@@ -6801,7 +6801,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func mode(outputdevice: OrgKdeKwinOutputdevice, modeId: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(modeId),
         ])
     }
@@ -6816,7 +6816,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func transform(outputdevice: OrgKdeKwinOutputdevice, transform: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(transform),
         ])
     }
@@ -6837,7 +6837,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func position(outputdevice: OrgKdeKwinOutputdevice, x: Int32, y: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(x),
             .int(y),
         ])
@@ -6853,7 +6853,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     public func scale(outputdevice: OrgKdeKwinOutputdevice, scale: Int32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .int(scale),
         ])
     }
@@ -6880,7 +6880,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 6, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .fixed(scale),
         ])
     }
@@ -6897,11 +6897,11 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
     ///   - red: red color ramp
     ///   - green: green color ramp
     ///   - blue: blue color ramp
-    public func colorcurves(outputdevice: OrgKdeKwinOutputdevice, red: Data, green: Data, blue: Data) throws(WaylandProxyError) {
+    public func colorcurves(outputdevice: OrgKdeKwinOutputdevice, red: UnsafeRawBufferPointer, green: UnsafeRawBufferPointer, blue: UnsafeRawBufferPointer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 7, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .array(red),
             .array(green),
             .array(blue),
@@ -6930,7 +6930,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 9, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(overscan),
         ])
     }
@@ -6947,7 +6947,7 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         connection.send(self, 10, [
-            .object(outputdevice.id),
+            .object(outputdevice),
             .uint(policy.rawValue),
         ])
     }
@@ -7057,8 +7057,8 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     public func getSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdePlasmaSurface.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -7242,7 +7242,7 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
     public func setOutput(_ output: WlOutput) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(output.id),
+            .object(output),
         ])
     }
 
@@ -7528,6 +7528,7 @@ OrgKdePlasmaSurface.interface
 /// an event every time a window is created so that the client can
 /// use it to manage the window.
 /// Only one client can bind this interface at a time.
+/// This global must be bound with a version at least 17.
 /// Warning! The protocol described in this file is a desktop environment
 /// implementation detail. Regular clients must not use this protocol.
 /// Backward incompatible changes may be added without bumping the major
@@ -7582,7 +7583,6 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 12
                 )
                 ,
                 Message(
@@ -7595,7 +7595,6 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 17
                 )
                 ,
             ],
@@ -7631,7 +7630,6 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 11
                 )
                 ,
                 Message(
@@ -7643,7 +7641,6 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 12
                 )
                 ,
                 Message(
@@ -7660,14 +7657,12 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 13
                 )
                 ,
                 Message(
                     name: "stacking_order_changed_2",
                     arguments: [
                     ],
-                    since: 17
                 )
                 ,
             ],
@@ -7694,7 +7689,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     public func getWindow(internalWindowId: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaWindow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, OrgKdePlasmaWindow.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .uint(internalWindowId),
         ])
         return id
@@ -7705,9 +7700,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     ///   - internalWindowUuid: The internal window uuiid of the window to create
     public func getWindowByUuid(internalWindowUuid: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaWindow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 12 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 12) }
         let id = connection.sendConstructor(self, 2, OrgKdePlasmaWindow.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .string(internalWindowUuid),
         ])
         return id
@@ -7718,9 +7712,8 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     /// 
     public func getStackingOrder(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaStackingOrder {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 17 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 17) }
         let stackingOrder = connection.sendConstructor(self, 3, OrgKdePlasmaStackingOrder.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return stackingOrder
     }
@@ -7797,7 +7790,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
         /// 
         /// This event will be sent when stacking order changed and on bind.
         /// With version 17 this event is deprecated and will no longer be sent.
-        case stackingOrderChanged(ids: Data)
+        case stackingOrderChanged(ids: UnsafeRawBufferPointer)
 
         /// Notify The Client When Stacking Order Changed
         /// 
@@ -7928,14 +7921,12 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     name: "request_move",
                     arguments: [
                     ],
-                    since: 3
                 )
                 ,
                 Message(
                     name: "request_resize",
                     arguments: [
                     ],
-                    since: 3
                 )
                 ,
                 Message(
@@ -7943,7 +7934,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     type: .destructor,
                     arguments: [
                     ],
-                    since: 4
                 )
                 ,
                 Message(
@@ -7955,7 +7945,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 7
                 )
                 ,
                 Message(
@@ -7967,14 +7956,12 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 8
                 )
                 ,
                 Message(
                     name: "request_enter_new_virtual_desktop",
                     arguments: [
                     ],
-                    since: 8
                 )
                 ,
                 Message(
@@ -7986,7 +7973,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 8
                 )
                 ,
                 Message(
@@ -7998,7 +7984,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 14
                 )
                 ,
                 Message(
@@ -8010,7 +7995,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 14
                 )
                 ,
                 Message(
@@ -8023,7 +8007,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 15
                 )
                 ,
             ],
@@ -8093,7 +8076,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     name: "initial_state",
                     arguments: [
                     ],
-                    since: 4
                 )
                 ,
                 Message(
@@ -8107,7 +8089,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 5
                 )
                 ,
                 Message(
@@ -8134,14 +8115,12 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 6
                 )
                 ,
                 Message(
                     name: "icon_changed",
                     arguments: [
                     ],
-                    since: 7
                 )
                 ,
                 Message(
@@ -8164,7 +8143,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 8
                 )
                 ,
                 Message(
@@ -8176,7 +8154,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 8
                 )
                 ,
                 Message(
@@ -8193,7 +8170,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 10
                 )
                 ,
                 Message(
@@ -8205,7 +8181,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 14
                 )
                 ,
                 Message(
@@ -8217,7 +8192,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 14
                 )
                 ,
                 Message(
@@ -8229,7 +8203,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
-                    since: 16
                 )
                 ,
                 Message(
@@ -8305,7 +8278,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     public func setMinimizedGeometry(panel: WlSurface, x: UInt32, y: UInt32, width: UInt32, height: UInt32) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(panel.id),
+            .object(panel),
             .uint(x),
             .uint(y),
             .uint(width),
@@ -8321,7 +8294,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     public func unsetMinimizedGeometry(panel: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .object(panel.id),
+            .object(panel),
         ])
     }
 
@@ -8339,7 +8312,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Request an interactive move for this window.
     public func requestMove() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 5, [
         ])
     }
@@ -8349,7 +8321,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Request an interactive resize for this window.
     public func requestResize() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 6, [
         ])
     }
@@ -8359,7 +8330,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Removes the resource bound for this org_kde_plasma_window.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         self.markDead()
         connection.send(self, 7, [
         ])
@@ -8374,7 +8344,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - fd: file descriptor for the icon
     public func getIcon(fd: FileHandle) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 7 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 7) }
         connection.send(self, 8, [
             .fd(fd),
         ])
@@ -8389,7 +8358,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: desktop id
     public func requestEnterVirtualDesktop(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 8 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 8) }
         connection.send(self, 9, [
             .string(id),
         ])
@@ -8402,7 +8370,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// it will create a new virtual desktop and assign the window to it.
     public func requestEnterNewVirtualDesktop() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 8 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 8) }
         connection.send(self, 10, [
         ])
     }
@@ -8415,7 +8382,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: desktop id
     public func requestLeaveVirtualDesktop(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 8 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 8) }
         connection.send(self, 11, [
             .string(id),
         ])
@@ -8429,7 +8395,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: activity id
     public func requestEnterActivity(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 14 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 14) }
         connection.send(self, 12, [
             .string(id),
         ])
@@ -8443,7 +8408,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: activity id
     public func requestLeaveActivity(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 14 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 14) }
         connection.send(self, 13, [
             .string(id),
         ])
@@ -8456,9 +8420,8 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// - Parameters:
     public func sendToOutput(output: WlOutput) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
-        guard self.version >= 15 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 15) }
         connection.send(self, 14, [
-            .object(output.id),
+            .object(output),
         ])
     }
 
@@ -8953,7 +8916,7 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
         let buffer = connection.sendConstructor(self, 0, OrgKdeKwinRemoteBuffer.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .int(internalBufferId),
         ])
         return buffer
@@ -9148,8 +9111,8 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecorationPalette {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinServerDecorationPalette.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -9309,8 +9272,8 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinServerDecoration {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinServerDecoration.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -9530,8 +9493,8 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinShadow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinShadow.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -9541,7 +9504,7 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     public func unset(surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
+            .object(surface),
         ])
     }
 
@@ -9751,7 +9714,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachLeft(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9760,7 +9723,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachTopLeft(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9769,7 +9732,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachTop(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 3, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9778,7 +9741,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachTopRight(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 4, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9787,7 +9750,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachRight(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 5, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9796,7 +9759,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachBottomRight(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 6, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9805,7 +9768,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachBottom(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 7, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9814,7 +9777,7 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public func attachBottomLeft(buffer: WlBuffer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 8, [
-            .object(buffer.id),
+            .object(buffer),
         ])
     }
 
@@ -9942,8 +9905,8 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
     public func create(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdeKwinSlide {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, OrgKdeKwinSlide.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -9953,7 +9916,7 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
     public func unset(surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
+            .object(surface),
         ])
     }
 
@@ -10119,8 +10082,8 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     public func getExtendedSurface(surface: WlSurface, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> QtExtendedSurface {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, QtExtendedSurface.self, version, _queue, [
-            .newId(1001),
-            .object(surface.id),
+            .newId,
+            .object(surface),
         ])
         return id
     }
@@ -10227,7 +10190,7 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
         )
     /// 
     /// - Parameters:
-    public func updateGenericProperty(name: String, value: Data) throws(WaylandProxyError) {
+    public func updateGenericProperty(name: String, value: UnsafeRawBufferPointer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
             .string(name),
@@ -10291,7 +10254,7 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
     public enum Event: MessageProtocol {
         case onscreenVisibility(visible: Int32)
 
-        case setGenericProperty(name: String, value: Data)
+        case setGenericProperty(name: String, value: UnsafeRawBufferPointer)
 
         case close
 
@@ -10754,7 +10717,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
     public func enable(surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(surface.id),
+            .object(surface),
         ])
     }
 
@@ -10767,7 +10730,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
     public func disable(surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 2, [
-            .object(surface.id),
+            .object(surface),
         ])
     }
 
@@ -11147,7 +11110,7 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
         /// Transfer an array of 0-terminated modifiers names. The position in
         /// the array is the index of the modifier as used in the modifiers
         /// bitmask in the keysym event.
-        case modifiersMap(map: Data)
+        case modifiersMap(map: UnsafeRawBufferPointer)
 
         /// Keysym
         /// 
@@ -11282,8 +11245,8 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     public func getTextInput(seat: WlSeat, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZwpTextInputV2 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 1, ZwpTextInputV2.self, version, _queue, [
-            .newId(1001),
-            .object(seat.id),
+            .newId,
+            .object(seat),
         ])
         return id
     }
@@ -11714,8 +11677,8 @@ public final class WlTextInput: BaseProxy, Proxy {
     public func activate(seat: WlSeat, surface: WlSurface) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 0, [
-            .object(seat.id),
-            .object(surface.id),
+            .object(seat),
+            .object(surface),
         ])
     }
 
@@ -11729,7 +11692,7 @@ public final class WlTextInput: BaseProxy, Proxy {
     public func deactivate(seat: WlSeat) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         connection.send(self, 1, [
-            .object(seat.id),
+            .object(seat),
         ])
     }
 
@@ -11982,7 +11945,7 @@ public final class WlTextInput: BaseProxy, Proxy {
         /// Transfer an array of 0-terminated modifiers names. The position in
         /// the array is the index of the modifier as used in the modifiers
         /// bitmask in the keysym event.
-        case modifiersMap(map: Data)
+        case modifiersMap(map: UnsafeRawBufferPointer)
 
         /// State Of The Input Panel
         /// 
@@ -12134,7 +12097,7 @@ public final class WlTextInputManager: BaseProxy, Proxy {
     public func createTextInput(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> WlTextInput {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let id = connection.sendConstructor(self, 0, WlTextInput.self, version, _queue, [
-            .newId(1001),
+            .newId,
         ])
         return id
     }
@@ -12218,8 +12181,8 @@ public final class WlEglstreamController: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 1 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 1) }
         connection.send(self, 0, [
-            .object(wlSurface.id),
-            .object(wlResource.id),
+            .object(wlSurface),
+            .object(wlResource),
         ])
     }
 
@@ -12232,12 +12195,12 @@ public final class WlEglstreamController: BaseProxy, Proxy {
     ///   - wlSurface: wl_surface corresponds to the client surface associated with         newly created eglstream
     ///   - wlResource: wl_resource corresponding to an EGLStream
     ///   - attribs: Stream consumer attachment attribs
-    public func attachEglstreamConsumerAttribs(wlSurface: WlSurface, wlResource: WlBuffer, attribs: Data) throws(WaylandProxyError) {
+    public func attachEglstreamConsumerAttribs(wlSurface: WlSurface, wlResource: WlBuffer, attribs: UnsafeRawBufferPointer) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         connection.send(self, 1, [
-            .object(wlSurface.id),
-            .object(wlResource.id),
+            .object(wlSurface),
+            .object(wlResource),
             .array(attribs),
         ])
     }
@@ -12475,8 +12438,8 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamOutput(output: WlOutput, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let stream = connection.sendConstructor(self, 0, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
-            .newId(1001),
-            .object(output.id),
+            .newId,
+            .object(output),
             .uint(pointer),
         ])
         return stream
@@ -12492,7 +12455,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     public func streamWindow(windowUuid: String, pointer: UInt32, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> ZkdeScreencastStreamUnstableV1 {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let stream = connection.sendConstructor(self, 1, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .string(windowUuid),
             .uint(pointer),
         ])
@@ -12523,7 +12486,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 2 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 2) }
         let stream = connection.sendConstructor(self, 3, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .string(name),
             .int(width),
             .int(height),
@@ -12549,7 +12512,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         let stream = connection.sendConstructor(self, 4, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .int(x),
             .int(y),
             .uint(width),
@@ -12575,7 +12538,7 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         let stream = connection.sendConstructor(self, 5, ZkdeScreencastStreamUnstableV1.self, version, _queue, [
-            .newId(1001),
+            .newId,
             .string(name),
             .string(description),
             .int(width),
