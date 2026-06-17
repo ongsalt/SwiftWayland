@@ -19,7 +19,7 @@ struct TypeConversion {
                 }
             case .fixed: "Double"
             case .string: "String"
-            case .array: 
+            case .array:
                 // TODO: fix lifetime problem when 6.4 landed
                 if escaping {
                     "RawSpan"
@@ -67,8 +67,12 @@ struct TypeConversion {
         var wrapping: Closure?
 
         switch argument.type {
-        case .newId where argument.interface != "wl_interface":
-            expression = ".newId"
+        case .newId:
+            if argument.interface == "wl_callback" {
+                expression = ".object(\(swiftName))"
+            } else {
+                expression = ".newId"
+            }
         case .uint:
             let rawValueString = argument.enum != nil ? ".rawValue" : ""
             expression = ".uint(\(swiftName)\(rawValueString))"

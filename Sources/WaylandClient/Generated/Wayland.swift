@@ -89,7 +89,7 @@ public final class WlDisplay: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue)
         connection.send(self, 0, [
-            .newId,
+            .object(callback),
         ])
     }
 
@@ -3288,7 +3288,7 @@ public final class WlSurface: BaseProxy, Proxy {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
         let callback = connection.createCallback(fn: callback, queue: _queue)
         connection.send(self, 3, [
-            .newId,
+            .object(callback),
         ])
     }
 
