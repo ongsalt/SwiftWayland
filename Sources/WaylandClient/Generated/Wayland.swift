@@ -347,7 +347,6 @@ public final class WlCallback: BaseProxy, Proxy {
     }
 
     deinit {
-        print("Dropped")
         if self.isAlive {
             connection.destroy(self)
         }
