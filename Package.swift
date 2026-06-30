@@ -37,12 +37,19 @@ let package = Package(
             pkgConfig: "wayland-client",
         ),
 
+        .plugin(
+            name: "WaylandScannerPlugin",
+            capability: .buildTool(),
+            dependencies: ["WaylandScannerCLI"]
+        ),
+
         .target(
             name: "WaylandClient",
             dependencies: [
                 "SwiftWaylandCommon",
                 "CWayland",
             ],
+            plugins: ["WaylandScannerPlugin"]
         ),
 
         .target(
@@ -50,6 +57,7 @@ let package = Package(
             dependencies: [
                 "WaylandClient",
             ],
+            plugins: ["WaylandScannerPlugin"]
         ),
 
         .target(

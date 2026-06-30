@@ -60,9 +60,7 @@ dnf install wayland-devel
 ```
 
 # Todos
-- Less copying once we have borrowing sequence
+- Less copying once we have ~`BorrowingSequence`~ `Iterable`
 - spi export
 - dynamically link libwayland
 - server support
-- switch back to build tool plugin later
-- stop hijacking object_data

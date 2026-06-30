@@ -33,8 +33,8 @@ struct GenerateClientCode: AsyncParsableCommand {
     @Option(name: .shortAndLong, help: "Output directory", completion: .file(extensions: ["swift"]))
     var outputFile: String
 
-    @Option(name: .long, help: "import name")
-    var `import`: String? = nil
+    @Flag(name: .long, help: "Do not generate `import WaylandClient`")
+    var `noImport`: Bool = false
 
     @Option(
         name: .long,
@@ -53,7 +53,6 @@ struct GenerateClientCode: AsyncParsableCommand {
 
     mutating func run() async throws {
         let outputFile = URL(filePath: outputFile)
-        let importName = self.import
         let parsedPrefixMap: [(from: String, to: String)] = prefixMap.compactMap { entry in
             let parts = entry.split(separator: ":", maxSplits: 1)
             guard parts.count == 2 else { return nil }
@@ -62,7 +61,7 @@ struct GenerateClientCode: AsyncParsableCommand {
 
         let options = Options(
             namespace: namespace,
-            importName: importName,
+            noImport: self.noImport,
             traits: traits,
             prefixMap: parsedPrefixMap
         )
@@ -94,8 +93,8 @@ public func write<Output: TextOutputStream>(
     into gen: Generator<Output>, protocols: [ProtocolDeclaration], options: Options
 ) throws {
     gen << "import Foundation"
-    if let importName = options.importName {
-        gen << "import \(importName)"
+    if !options.noImport {
+        gen << "import WaylandClient"
     }
     gen.add()
 

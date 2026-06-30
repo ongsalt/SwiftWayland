@@ -5,17 +5,17 @@ import XMLCoder
 public struct Options: Sendable {
     public var trim: Bool = false
     public var namespace: String?
-    public var importName: String?
+    public var noImport: Bool
     public var traits: String?
     public var prefixMap: [(from: String, to: String)] = []
 
     public init(
-        trim: Bool = false, namespace: String? = nil, importName: String? = nil,
+        trim: Bool = false, namespace: String? = nil, noImport: Bool = false,
         traits: String? = nil, prefixMap: [(from: String, to: String)] = []
     ) {
         self.trim = trim
         self.namespace = namespace
-        self.importName = importName
+        self.noImport = noImport
         self.traits = traits
         self.prefixMap = prefixMap
     }
