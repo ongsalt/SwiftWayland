@@ -48,6 +48,7 @@ struct GenerateClientCode: AsyncParsableCommand {
 
     @Option(
         name: .long,
+        parsing: .upToNextOption,
         help: "Prefix remapping in 'old_prefix:NewPrefix' format (repeatable)")
     var prefixMap: [String] = []
 
@@ -59,17 +60,11 @@ struct GenerateClientCode: AsyncParsableCommand {
             return (from: String(parts[0]), to: String(parts[1]))
         }
 
-        let options = Options(
-            namespace: namespace,
-            noImport: self.noImport,
-            traits: traits,
-            prefixMap: parsedPrefixMap
-        )
-
         var protocols: [ProtocolDeclaration] = []
         for inputFile in inputFiles {
             let url = URL(filePath: inputFile)
-            let p = try WaylandScanner.parse(String(contentsOf: url, encoding: .utf8))
+            let p = try WaylandScanner.parse(
+                String(contentsOf: url, encoding: .utf8), prefixMap: parsedPrefixMap)
             protocols.append(p)
         }
 
@@ -84,25 +79,34 @@ struct GenerateClientCode: AsyncParsableCommand {
 
         let generator = Generator(outputStream: writer)
 
-        try write(into: generator, protocols: protocols, options: options)
+        try write(
+            into: generator, protocols: protocols,
+            namespace: namespace,
+            noImport: noImport,
+            traits: traits,
+        )
 
     }
 }
 
 public func write<Output: TextOutputStream>(
-    into gen: Generator<Output>, protocols: [ProtocolDeclaration], options: Options
+    into gen: Generator<Output>,
+    protocols: [ProtocolDeclaration],
+    namespace: String?,
+    noImport: Bool = false,
+    traits: String?,
 ) throws {
     gen << "import Foundation"
-    if !options.noImport {
+    if !noImport {
         gen << "import WaylandClient"
     }
     gen.add()
 
-    if let traits = options.traits {
+    if let traits {
         gen.add("#if \(traits)")
     }
 
-    if let namespace = options.namespace {
+    if let namespace {
         gen.add("extension \(namespace) {")
         gen.indentLevel += 4
     }
@@ -112,12 +116,12 @@ public func write<Output: TextOutputStream>(
         gen.add()
     }
 
-    if options.namespace != nil {
+    if namespace != nil {
         gen.indentLevel -= 4
         gen.add("}")
     }
 
-    if options.traits != nil {
+    if traits != nil {
         gen.add("#endif")
     }
 }

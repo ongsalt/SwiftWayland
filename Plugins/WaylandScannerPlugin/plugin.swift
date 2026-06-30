@@ -49,8 +49,12 @@ struct WaylandScannerPlugin: BuildToolPlugin {
                     "--output-file", outputURL.path(percentEncoded: false),
                     "--traits", trait,
                 ]
-            for (old, new) in prefixMaps {
-                args += ["--prefix-map", "\(old):\(new)"]
+
+            if !prefixMaps.isEmpty {
+                args.append("--prefix-map")
+                for (old, new) in prefixMaps {
+                    args.append("\(old):\(new)")
+                }
             }
             return .buildCommand(
                 displayName: "WaylandScanner: \(name) protocols",
@@ -67,7 +71,7 @@ struct WaylandScannerPlugin: BuildToolPlugin {
             cmd("WP", output: "wp.swift", inputs: wpProtocols, trait: "WP"),
             cmd(
                 "KDE", output: "kde.swift", inputs: kdeProtocols, trait: "KDE",
-                prefixMaps: ["org_kde_kwin": "KDE"]
+                prefixMaps: ["org_kde_kwin": "Kde"]
             ),
             cmd("WLR", output: "wlr.swift", inputs: wlrProtocols, trait: "WLR"),
         ]
