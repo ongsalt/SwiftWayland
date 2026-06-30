@@ -103,12 +103,6 @@ public final class ZxdgDecorationManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgDecorationUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Decoration Object For A Toplevel Surface
@@ -261,12 +255,6 @@ public final class ZxdgToplevelDecorationV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -355,12 +343,6 @@ public final class ZxdgExporterV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Interface For Importing Surfaces
@@ -438,12 +420,6 @@ public final class ZxdgImporterV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgForeignUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// An Exported Surface Handle
@@ -512,12 +488,6 @@ public final class ZxdgExportedV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -610,12 +580,6 @@ public final class ZxdgImportedV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -714,12 +678,6 @@ public final class ZxdgExporterV2: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Interface For Importing Surfaces
@@ -797,12 +755,6 @@ public final class ZxdgImporterV2: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgForeignUnstableV2Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// An Exported Surface Handle
@@ -871,12 +823,6 @@ public final class ZxdgExportedV2: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -977,12 +923,6 @@ public final class ZxdgImportedV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1064,12 +1004,6 @@ public final class ZxdgOutputManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgOutputUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Compositor Logical Output Region
@@ -1278,12 +1212,6 @@ public final class ZxdgOutputV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1487,12 +1415,6 @@ public final class XdgWmBase: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -1917,12 +1839,6 @@ public final class XdgPositioner: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Desktop User Interface Surface Base Interface
@@ -2255,12 +2171,6 @@ public final class XdgSurface: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -3066,12 +2976,6 @@ public final class XdgToplevel: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Short-Lived, Popup Surfaces For Menus
@@ -3339,12 +3243,6 @@ public final class XdgPopup: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3467,12 +3365,6 @@ public final class XdgToplevelDragManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Object Representing A Toplevel Move During A Drag
@@ -3569,12 +3461,6 @@ public final class XdgToplevelDragV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3669,12 +3555,6 @@ public final class XdgWmDialogV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Dialog Object
@@ -3758,12 +3638,6 @@ public final class XdgDialogV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgDialogV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3933,12 +3807,6 @@ public final class XdgToplevelIconManagerV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Toplevel Window Icon
@@ -4075,12 +3943,6 @@ public final class XdgToplevelIconV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -4214,12 +4076,6 @@ public final class XdgToplevelTagManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgToplevelTagV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -4300,12 +4156,6 @@ public final class XdgSystemBellV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XdgSystemBellV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 

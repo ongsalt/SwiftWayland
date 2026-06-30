@@ -119,25 +119,3 @@ public enum WaylandProxyError: Error {
     case destroyed
     case unsupportedVersion(current: UInt32, required: UInt32)
 }
-
-class _Proxy1: BaseProxy, Proxy {
-    required init(
-        id: UInt32, version: UInt32, queue: EventQueue, raw: OpaquePointer, connection: Connection
-    ) {
-        fatalError()
-    }
-
-    static var interface: SwiftWaylandCommon.Interface { fatalError() }
-    static var `protocol`: SwiftWaylandCommon.`Protocol` { fatalError() }
-
-    let onEvent: ((NoEvent) -> Void)?
-
-    func destructor1() {
-
-    }
-
-    // backing libwayland object gone WHEN
-    // - call its destructor
-    // - got destructor message
-    // - deinit
-}

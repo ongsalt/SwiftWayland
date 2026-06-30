@@ -81,12 +81,6 @@ public final class WpContentTypeManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Content Type Object For A Surface
@@ -168,12 +162,6 @@ public final class WpContentTypeV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -749,12 +737,6 @@ public final class WpColorManagerV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Output Color Properties
@@ -869,12 +851,6 @@ public final class WpColorManagementOutputV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -1007,12 +983,6 @@ public final class WpColorManagementSurfaceV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Color Management Extension To A Surface
@@ -1202,12 +1172,6 @@ public final class WpColorManagementSurfaceFeedbackV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Holder Of Image Description Icc Information
@@ -1365,12 +1329,6 @@ public final class WpImageDescriptionCreatorIccV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Holder Of Image Description Parameters
@@ -1965,12 +1923,6 @@ public final class WpImageDescriptionCreatorParamsV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Colorimetric Image Description
@@ -2182,12 +2134,6 @@ public final class WpImageDescriptionV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -2569,12 +2515,6 @@ public final class WpImageDescriptionInfoV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Reference To An Image Description
@@ -2615,12 +2555,6 @@ public final class WpImageDescriptionReferenceV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ColorManagementV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -2787,12 +2721,6 @@ public final class WpColorRepresentationManagerV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -3023,12 +2951,6 @@ public final class WpColorRepresentationSurfaceV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3231,12 +3153,6 @@ public final class WpDrmLeaseDeviceV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Leasable Drm Connector
@@ -3394,12 +3310,6 @@ public final class WpDrmLeaseConnectorV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Drm Lease Request
@@ -3496,12 +3406,6 @@ public final class WpDrmLeaseRequestV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Drm Lease
@@ -3605,12 +3509,6 @@ public final class WpDrmLeaseV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3712,12 +3610,6 @@ public final class WpTearingControlManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Per-Surface Tearing Control Interface
@@ -3793,12 +3685,6 @@ public final class WpTearingControlV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3889,12 +3775,6 @@ public final class WpFractionalScaleManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Fractional Scale Interface To A Wl_Surface
@@ -3959,12 +3839,6 @@ public final class WpFractionalScaleV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -4241,12 +4115,6 @@ public final class ZwpFullscreenShellV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
@@ -4325,12 +4193,6 @@ public final class ZwpFullscreenShellModeFeedbackV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -4421,12 +4283,6 @@ public final class ZwpIdleInhibitManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Context Object For Inhibiting Idle Behavior
@@ -4472,12 +4328,6 @@ public final class ZwpIdleInhibitorV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = IdleInhibitUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -5126,12 +4976,6 @@ public final class ZwpInputMethodContextV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Input Method
@@ -5201,12 +5045,6 @@ public final class ZwpInputMethodV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Interface For Implementing Keyboards
@@ -5255,12 +5093,6 @@ public final class ZwpInputPanelV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = InputMethodUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
@@ -5328,12 +5160,6 @@ public final class ZwpInputPanelSurfaceV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -5503,12 +5329,6 @@ public final class ZwpInputTimestampsManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = InputTimestampsUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Context Object For Input Timestamps
@@ -5594,12 +5414,6 @@ public final class ZwpInputTimestampsV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -5696,12 +5510,6 @@ public final class ZwpKeyboardShortcutsInhibitManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Context Object For Keyboard Shortcuts Inhibitor
@@ -5806,12 +5614,6 @@ public final class ZwpKeyboardShortcutsInhibitorV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -6084,12 +5886,6 @@ public final class ZwpLinuxDmabufV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -6515,12 +6311,6 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Dmabuf Feedback
@@ -6548,6 +6338,10 @@ public final class ZwpLinuxBufferParamsV1: BaseProxy, Proxy {
 /// events and then a tranche_done event), then one done event.
 /// With version 6 and above, the compositor must always advertise at least
 /// one tranche with the sampling flag set.
+/// The compositor sends a format_table event at least once for each dmabuf
+/// parameters feedback object, before any tranche events. Unless the format
+/// table contents change later, the compositor is free not to send another
+/// format_table event for the same dmabuf parameters feedback object.
 public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
     public var onEvent: ((Event) -> Void)?
     public static let interface: Interface =
@@ -6796,12 +6590,6 @@ public final class ZwpLinuxDmabufFeedbackV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -6911,12 +6699,6 @@ public final class ZwpLinuxExplicitSynchronizationV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Per-Surface Explicit Synchronization Support
@@ -7079,12 +6861,6 @@ public final class ZwpLinuxSurfaceSynchronizationV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Buffer Release Explicit Synchronization
@@ -7173,12 +6949,6 @@ public final class ZwpLinuxBufferReleaseV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -7315,12 +7085,6 @@ public final class WpLinuxDrmSyncobjManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Synchronization Object Timeline
@@ -7359,12 +7123,6 @@ public final class WpLinuxDrmSyncobjTimelineV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = LinuxDrmSyncobjV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Per-Surface Explicit Synchronization
@@ -7569,12 +7327,6 @@ public final class WpLinuxDrmSyncobjSurfaceV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -7799,12 +7551,6 @@ public final class ZwpPointerConstraintsV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Receive Relative Pointer Motion Events
@@ -7963,12 +7709,6 @@ public final class ZwpLockedPointerV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Confined Pointer Object
@@ -8091,12 +7831,6 @@ public final class ZwpConfinedPointerV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -8264,12 +7998,6 @@ public final class ZwpPointerGesturesV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = PointerGesturesUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Swipe Gesture Object
@@ -8423,12 +8151,6 @@ public final class ZwpPointerGestureSwipeV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -8601,12 +8323,6 @@ public final class ZwpPointerGesturePinchV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Hold Gesture Object
@@ -8735,12 +8451,6 @@ public final class ZwpPointerGestureHoldV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -8902,12 +8612,6 @@ public final class WpPresentation: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -9093,12 +8797,6 @@ public final class WpPresentationFeedback: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9203,12 +8901,6 @@ public final class ZwpPrimarySelectionDeviceManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WpPrimarySelectionUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
@@ -9334,12 +9026,6 @@ public final class ZwpPrimarySelectionDeviceV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Offer To Transfer Primary Selection Contents
@@ -9443,12 +9129,6 @@ public final class ZwpPrimarySelectionOfferV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -9560,12 +9240,6 @@ public final class ZwpPrimarySelectionSourceV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9648,12 +9322,6 @@ public final class ZwpRelativePointerManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = RelativePointerUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Relative Pointer Object
@@ -9768,12 +9436,6 @@ public final class ZwpRelativePointerV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9883,12 +9545,6 @@ public final class WpSinglePixelBufferManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = SinglePixelBufferV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9970,12 +9626,6 @@ public final class ZwpTabletManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = TabletUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Controller Object For Graphic Tablet Devices Of A Seat
@@ -10065,12 +9715,6 @@ public final class ZwpTabletSeatV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -10738,12 +10382,6 @@ public final class ZwpTabletToolV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Graphics Tablet Device
@@ -10897,12 +10535,6 @@ public final class ZwpTabletV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -10987,12 +10619,6 @@ public final class ZwpTabletManagerV2: BaseProxy, Proxy {
     public static let `protocol`: Protocol = TabletV2Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Controller Object For Graphic Tablet Devices Of A Seat
@@ -11109,12 +10735,6 @@ public final class ZwpTabletSeatV2: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -11780,12 +11400,6 @@ public final class ZwpTabletToolV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Graphics Tablet Device
@@ -11989,12 +11603,6 @@ public final class ZwpTabletV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Pad Ring
@@ -12185,12 +11793,6 @@ public final class ZwpTabletPadRingV2: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -12385,12 +11987,6 @@ public final class ZwpTabletPadStripV2: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -12639,12 +12235,6 @@ public final class ZwpTabletPadGroupV2: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -12958,12 +12548,6 @@ public final class ZwpTabletPadV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Pad Dial
@@ -13105,12 +12689,6 @@ public final class ZwpTabletPadDialV2: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -13928,12 +13506,6 @@ public final class ZwpTextInputV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Text Input Manager
@@ -13976,12 +13548,6 @@ public final class ZwpTextInputManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = TextInputUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -14826,12 +14392,6 @@ public final class ZwpTextInputV3: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Text Input Manager
@@ -14900,12 +14460,6 @@ public final class ZwpTextInputManagerV3: BaseProxy, Proxy {
     public static let `protocol`: Protocol = TextInputUnstableV3Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -15001,12 +14555,6 @@ public final class WpViewporter: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Crop And Scale Interface To A Wl_Surface
@@ -15192,12 +14740,6 @@ public final class WpViewport: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -15315,12 +14857,6 @@ public final class WpSecurityContextManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Client Security Context
@@ -15488,12 +15024,6 @@ public final class WpSecurityContextV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -15585,12 +15115,6 @@ public final class WpAlphaModifierV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Alpha Modifier Object For A Surface
@@ -15670,12 +15194,6 @@ public final class WpAlphaModifierSurfaceV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -15774,12 +15292,6 @@ public final class WpFifoManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Fifo Interface
@@ -15878,12 +15390,6 @@ public final class WpFifoV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -15986,12 +15492,6 @@ public final class WpCommitTimingManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Surface Commit Timer
@@ -16087,12 +15587,6 @@ public final class WpCommitTimerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -16206,12 +15700,6 @@ public final class WpPointerWarpV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = PointerWarpV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -16284,12 +15772,6 @@ public final class ExtSessionLockManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ExtSessionLockV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Manage Lock State And Create Lock Surfaces
@@ -16528,12 +16010,6 @@ public final class ExtSessionLockV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Surface Displayed While The Session Is Locked
@@ -16682,12 +16158,6 @@ public final class ExtSessionLockSurfaceV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }

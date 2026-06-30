@@ -96,12 +96,6 @@ public final class ZwlrDataControlManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WlrDataControlUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Manage A Data Device For A Seat
@@ -318,12 +312,6 @@ public final class ZwlrDataControlDeviceV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Offer To Transfer Data
@@ -442,12 +430,6 @@ public final class ZwlrDataControlSourceV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Offer To Transfer Data
@@ -552,12 +534,6 @@ public final class ZwlrDataControlOfferV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -645,12 +621,6 @@ public final class ZwlrExportDmabufManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WlrExportDmabufUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Dma-Buf Frame
@@ -897,12 +867,6 @@ public final class ZwlrExportDmabufFrameV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1009,12 +973,6 @@ public final class ZwlrForeignToplevelManagerV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -1453,12 +1411,6 @@ public final class ZwlrForeignToplevelHandleV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1539,12 +1491,6 @@ public final class ZwlrGammaControlManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WlrGammaControlUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Adjust Gamma Tables For An Output
@@ -1669,12 +1615,6 @@ public final class ZwlrGammaControlV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1737,12 +1677,6 @@ public final class ZwlrInputInhibitManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Inhibits Input To Other Clients
@@ -1785,12 +1719,6 @@ public final class ZwlrInputInhibitorV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WlrInputInhibitUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1937,12 +1865,6 @@ public final class ZwlrLayerShellV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Layer Metadata Interface
@@ -2411,12 +2333,6 @@ public final class ZwlrLayerSurfaceV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -2595,12 +2511,6 @@ public final class ZwlrOutputManagerV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -3013,12 +2923,6 @@ public final class ZwlrOutputHeadV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Output Mode
@@ -3142,12 +3046,6 @@ public final class ZwlrOutputModeV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -3372,12 +3270,6 @@ public final class ZwlrOutputConfigurationV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Head Configuration
@@ -3585,12 +3477,6 @@ public final class ZwlrOutputConfigurationHeadV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3674,12 +3560,6 @@ public final class ZwlrOutputPowerManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WlrOutputPowerManagementUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Adjust Power Management Mode For An Output
@@ -3805,12 +3685,6 @@ public final class ZwlrOutputPowerV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -3966,12 +3840,6 @@ public final class ZwlrScreencopyManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WlrScreencopyUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Frame Ready For Copy
@@ -4290,12 +4158,6 @@ public final class ZwlrScreencopyFrameV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -4639,12 +4501,6 @@ public final class ZwlrVirtualPointerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Virtual Pointer Manager
@@ -4764,12 +4620,6 @@ public final class ZwlrVirtualPointerManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WlrVirtualPointerUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 

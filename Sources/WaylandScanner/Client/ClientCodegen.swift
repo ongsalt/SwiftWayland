@@ -63,14 +63,6 @@ extension ClassDeclaration: Code {
             } else {
                 gen.walk(node: self.events)
             }
-
-            gen.add()
-            gen.block("deinit {", endWith: "}") {
-                gen.block("if self.isAlive {", endWith: "}") {
-                    gen << "connection.destroy(self)"
-                }
-            }
-
         }
     }
 }

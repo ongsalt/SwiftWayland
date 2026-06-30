@@ -92,12 +92,6 @@ public final class XwaylandShellV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Interface For Associating Xwayland Windows To Wl_Surfaces
@@ -194,12 +188,6 @@ public final class XwaylandSurfaceV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -301,12 +289,6 @@ public final class ZwpXwaylandKeyboardGrabManagerV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Interface For Grabbing The Keyboard
@@ -343,12 +325,6 @@ public final class ZwpXwaylandKeyboardGrabV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = XwaylandKeyboardGrabUnstableV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 

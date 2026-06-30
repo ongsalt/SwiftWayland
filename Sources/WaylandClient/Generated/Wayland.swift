@@ -166,12 +166,6 @@ public final class WlDisplay: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Global Registry Object
@@ -288,12 +282,6 @@ public final class WlRegistry: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Callback Object
@@ -343,12 +331,6 @@ public final class WlCallback: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -423,12 +405,6 @@ public final class WlCompositor: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WaylandProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A Shared Memory Pool
@@ -576,12 +552,6 @@ public final class WlShmPool: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WaylandProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Shared Memory Support
@@ -1071,12 +1041,6 @@ public final class WlShm: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Content For A Wl_Surface
@@ -1157,12 +1121,6 @@ public final class WlBuffer: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -1486,12 +1444,6 @@ public final class WlDataOffer: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Offer To Transfer Data
@@ -1758,12 +1710,6 @@ public final class WlDataSource: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -2103,12 +2049,6 @@ public final class WlDataDevice: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Data Transfer Interface
@@ -2216,12 +2156,6 @@ public final class WlDataDeviceManager: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Create Desktop-Style Surfaces
@@ -2290,12 +2224,6 @@ public final class WlShell: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Desktop-Style Metadata Interface
@@ -2865,12 +2793,6 @@ public final class WlShellSurface: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -3599,12 +3521,6 @@ public final class WlSurface: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Group Of Input Devices
@@ -3838,12 +3754,6 @@ public final class WlSeat: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -4447,12 +4357,6 @@ public final class WlPointer: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Keyboard Input Device
@@ -4758,12 +4662,6 @@ public final class WlKeyboard: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Touchscreen Input Device
@@ -5053,12 +4951,6 @@ public final class WlTouch: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -5417,12 +5309,6 @@ public final class WlOutput: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Region Interface
@@ -5550,12 +5436,6 @@ public final class WlRegion: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WaylandProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Sub-Surface Compositing
@@ -5674,12 +5554,6 @@ public final class WlSubcompositor: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Sub-Surface Interface To A Wl_Surface
@@ -5921,12 +5795,6 @@ public final class WlSubsurface: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Wayland Protocol Fixes
@@ -5994,12 +5862,6 @@ public final class WlFixes: BaseProxy, Proxy {
     public static let `protocol`: Protocol = WaylandProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 

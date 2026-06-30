@@ -68,12 +68,6 @@ public final class OrgKdeKwinAppmenuManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = AppmenuProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Appmenu Dbus Address Interface
@@ -141,12 +135,6 @@ public final class OrgKdeKwinAppmenu: BaseProxy, Proxy {
     public static let `protocol`: Protocol = AppmenuProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -222,12 +210,6 @@ public final class OrgKdeKwinBlurManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = BlurProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class OrgKdeKwinBlur: BaseProxy, Proxy {
@@ -294,12 +276,6 @@ public final class OrgKdeKwinBlur: BaseProxy, Proxy {
     public static let `protocol`: Protocol = BlurProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -375,12 +351,6 @@ public final class OrgKdeKwinContrastManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ContrastProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class OrgKdeKwinContrast: BaseProxy, Proxy {
@@ -572,12 +542,6 @@ public final class OrgKdeKwinContrast: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ContrastProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -646,12 +610,6 @@ public final class OrgKdeKwinDpmsManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = DpmsProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Dpms For A Wl_Output
@@ -793,12 +751,6 @@ public final class OrgKdeKwinDpms: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -1195,12 +1147,6 @@ public final class OrgKdeKwinFakeInput: BaseProxy, Proxy {
     public static let `protocol`: Protocol = FakeInputProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1457,12 +1403,6 @@ public final class _WlFullscreenShell: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class _WlFullscreenShellModeFeedback: BaseProxy, Proxy {
@@ -1536,12 +1476,6 @@ public final class _WlFullscreenShellModeFeedback: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1611,12 +1545,6 @@ public final class OrgKdeKwinIdle: BaseProxy, Proxy {
     public static let `protocol`: Protocol = IdleProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
@@ -1699,12 +1627,6 @@ public final class OrgKdeKwinIdleTimeout: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -1776,12 +1698,6 @@ public final class KdeExternalBrightnessV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = KdeExternalBrightnessV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Brightness Control Device
@@ -1994,12 +1910,6 @@ public final class KdeExternalBrightnessDeviceV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -2078,12 +1988,6 @@ public final class KdeLockscreenOverlayV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -2191,12 +2095,6 @@ public final class KdeOutputDeviceRegistryV2: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -3271,12 +3169,6 @@ public final class KdeOutputDeviceV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Output Mode
@@ -3405,12 +3297,6 @@ public final class KdeOutputDeviceModeV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -3523,12 +3409,6 @@ public final class KdeOutputManagementV2: BaseProxy, Proxy {
     public static let `protocol`: Protocol = KdeOutputManagementV2Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Configure Single Output Devices
@@ -4786,12 +4666,6 @@ public final class KdeOutputConfigurationV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// A List Of Custom Modes
@@ -4934,12 +4808,6 @@ public final class KdeModeListV2: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -5030,12 +4898,6 @@ public final class KdeOutputOrderV1: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -5111,12 +4973,6 @@ public final class KdePrimaryOutputV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -5248,12 +5104,6 @@ public final class KdeScreenEdgeManagerV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Auto Hide Screen Edge
@@ -5331,12 +5181,6 @@ public final class KdeAutoHideScreenEdgeV1: BaseProxy, Proxy {
     public static let `protocol`: Protocol = KdeScreenEdgeV1Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -5450,12 +5294,6 @@ public final class OrgKdeKwinKeystate: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -5658,12 +5496,6 @@ public final class OrgKdePlasmaVirtualDesktopManagement: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
@@ -5862,12 +5694,6 @@ public final class OrgKdePlasmaVirtualDesktop: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -6372,12 +6198,6 @@ public final class OrgKdeKwinOutputdevice: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -6460,12 +6280,6 @@ public final class OrgKdeKwinOutputmanagement: BaseProxy, Proxy {
     public static let `protocol`: Protocol = OutputmanagementProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Configure Single Output Devices
@@ -6905,12 +6719,6 @@ public final class OrgKdeKwinOutputconfiguration: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -6978,12 +6786,6 @@ public final class OrgKdePlasmaShell: BaseProxy, Proxy {
     public static let `protocol`: Protocol = PlasmaShellProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Metadata Interface
@@ -7412,12 +7214,6 @@ public final class OrgKdePlasmaSurface: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -7491,6 +7287,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 12
                 )
                 ,
                 Message(
@@ -7503,6 +7300,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 17
                 )
                 ,
             ],
@@ -7538,6 +7336,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 11
                 )
                 ,
                 Message(
@@ -7549,6 +7348,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 12
                 )
                 ,
                 Message(
@@ -7565,12 +7365,14 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 13
                 )
                 ,
                 Message(
                     name: "stacking_order_changed_2",
                     arguments: [
                     ],
+                    since: 17
                 )
                 ,
             ],
@@ -7609,6 +7411,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     ///   - internalWindowUuid: The internal window uuiid of the window to create
     public func getWindowByUuid(internalWindowUuid: String, queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaWindow {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 12 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 12) }
         let id = 
         connection.sendConstructor(self, 2, OrgKdePlasmaWindow.self, version, _queue, [
             .newId,
@@ -7622,6 +7425,7 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
     /// 
     public func getStackingOrder(queue _queue: EventQueue? = nil) throws(WaylandProxyError) -> OrgKdePlasmaStackingOrder {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 17 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 17) }
         let stackingOrder = 
         connection.sendConstructor(self, 3, OrgKdePlasmaStackingOrder.self, version, _queue, [
             .newId,
@@ -7738,12 +7542,6 @@ public final class OrgKdePlasmaWindowManagement: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Interface To Control Application Windows
@@ -7838,12 +7636,14 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     name: "request_move",
                     arguments: [
                     ],
+                    since: 3
                 )
                 ,
                 Message(
                     name: "request_resize",
                     arguments: [
                     ],
+                    since: 3
                 )
                 ,
                 Message(
@@ -7851,6 +7651,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     type: .destructor,
                     arguments: [
                     ],
+                    since: 4
                 )
                 ,
                 Message(
@@ -7862,6 +7663,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 7
                 )
                 ,
                 Message(
@@ -7873,12 +7675,14 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 8
                 )
                 ,
                 Message(
                     name: "request_enter_new_virtual_desktop",
                     arguments: [
                     ],
+                    since: 8
                 )
                 ,
                 Message(
@@ -7890,6 +7694,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 8
                 )
                 ,
                 Message(
@@ -7901,6 +7706,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 14
                 )
                 ,
                 Message(
@@ -7912,6 +7718,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 14
                 )
                 ,
                 Message(
@@ -7924,6 +7731,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 15
                 )
                 ,
             ],
@@ -7993,6 +7801,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                     name: "initial_state",
                     arguments: [
                     ],
+                    since: 4
                 )
                 ,
                 Message(
@@ -8006,6 +7815,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 5
                 )
                 ,
                 Message(
@@ -8032,12 +7842,14 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 6
                 )
                 ,
                 Message(
                     name: "icon_changed",
                     arguments: [
                     ],
+                    since: 7
                 )
                 ,
                 Message(
@@ -8049,6 +7861,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 8
                 )
                 ,
                 Message(
@@ -8060,6 +7873,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 8
                 )
                 ,
                 Message(
@@ -8071,6 +7885,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 8
                 )
                 ,
                 Message(
@@ -8087,6 +7902,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 10
                 )
                 ,
                 Message(
@@ -8098,6 +7914,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 14
                 )
                 ,
                 Message(
@@ -8109,6 +7926,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 14
                 )
                 ,
                 Message(
@@ -8120,6 +7938,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
                         )
                         ,
                     ],
+                    since: 16
                 )
                 ,
                 Message(
@@ -8229,6 +8048,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Request an interactive move for this window.
     public func requestMove() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 5, [
         ])
     }
@@ -8238,6 +8058,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Request an interactive resize for this window.
     public func requestResize() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 3 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 3) }
         connection.send(self, 6, [
         ])
     }
@@ -8247,6 +8068,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// Removes the resource bound for this org_kde_plasma_window.
     public func destroy() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 4 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 4) }
         connection.send(self, 7, [
         ])
         connection.destroy(self)
@@ -8261,6 +8083,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - fd: file descriptor for the icon
     public func getIcon(fd: FileHandle) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 7 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 7) }
         connection.send(self, 8, [
             .fd(fd),
         ])
@@ -8275,6 +8098,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: desktop id
     public func requestEnterVirtualDesktop(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 8 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 8) }
         connection.send(self, 9, [
             .string(id),
         ])
@@ -8287,6 +8111,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// it will create a new virtual desktop and assign the window to it.
     public func requestEnterNewVirtualDesktop() throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 8 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 8) }
         connection.send(self, 10, [
         ])
     }
@@ -8299,6 +8124,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: desktop id
     public func requestLeaveVirtualDesktop(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 8 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 8) }
         connection.send(self, 11, [
             .string(id),
         ])
@@ -8312,6 +8138,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: activity id
     public func requestEnterActivity(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 14 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 14) }
         connection.send(self, 12, [
             .string(id),
         ])
@@ -8325,6 +8152,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     ///   - id: activity id
     public func requestLeaveActivity(id: String) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 14 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 14) }
         connection.send(self, 13, [
             .string(id),
         ])
@@ -8337,6 +8165,7 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
     /// - Parameters:
     public func sendToOutput(output: WlOutput) throws(WaylandProxyError) {
         guard self.isAlive else { throw WaylandProxyError.destroyed }
+        guard self.version >= 15 else { throw WaylandProxyError.unsupportedVersion(current: self.version, required: 15) }
         connection.send(self, 14, [
             .object(output),
         ])
@@ -8499,12 +8328,6 @@ public final class OrgKdePlasmaWindow: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Activation Feedback
@@ -8570,12 +8393,6 @@ public final class OrgKdePlasmaActivationFeedback: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -8651,12 +8468,6 @@ public final class OrgKdePlasmaActivation: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Helper Object For Sending The Stacking Order
@@ -8723,12 +8534,6 @@ public final class OrgKdePlasmaStackingOrder: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -8847,12 +8652,6 @@ public final class OrgKdeKwinRemoteAccessManager: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// This Interface Allows Finer Control Of Remote Buffer Lifecycle
@@ -8938,12 +8737,6 @@ public final class OrgKdeKwinRemoteBuffer: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9001,12 +8794,6 @@ public final class OrgKdeKwinServerDecorationPaletteManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ServerDecorationPaletteProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Server Side Decoration Palette Interface
@@ -9068,12 +8855,6 @@ public final class OrgKdeKwinServerDecorationPalette: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ServerDecorationPaletteProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9189,12 +8970,6 @@ public final class OrgKdeKwinServerDecorationManager: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
@@ -9299,12 +9074,6 @@ public final class OrgKdeKwinServerDecoration: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9399,12 +9168,6 @@ public final class OrgKdeKwinShadowManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ShadowProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class OrgKdeKwinShadow: BaseProxy, Proxy {
@@ -9702,12 +9465,6 @@ public final class OrgKdeKwinShadow: BaseProxy, Proxy {
     public static let `protocol`: Protocol = ShadowProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9783,12 +9540,6 @@ public final class OrgKdeKwinSlideManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = SlideProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Slide A Surface From A Location To Another
@@ -9889,12 +9640,6 @@ public final class OrgKdeKwinSlide: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -9949,12 +9694,6 @@ public final class QtSurfaceExtension: BaseProxy, Proxy {
     public static let `protocol`: Protocol = SurfaceExtensionProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class QtExtendedSurface: BaseProxy, Proxy {
@@ -10134,12 +9873,6 @@ public final class QtExtendedSurface: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
@@ -11044,12 +10777,6 @@ public final class ZwpTextInputV2: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Text Input Manager
@@ -11118,12 +10845,6 @@ public final class ZwpTextInputManagerV2: BaseProxy, Proxy {
     public static let `protocol`: Protocol = TextInputUnstableV2Protocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -11919,12 +11640,6 @@ public final class WlTextInput: BaseProxy, Proxy {
             }
         }
     }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 /// Text Input Manager
@@ -11967,12 +11682,6 @@ public final class WlTextInputManager: BaseProxy, Proxy {
     public static let `protocol`: Protocol = TextProtocol
     
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -12097,12 +11806,6 @@ public final class WlEglstreamController: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 
@@ -12444,12 +12147,6 @@ public final class ZkdeScreencastUnstableV1: BaseProxy, Proxy {
     }
 
     public typealias Event = NoEvent
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
-        }
-    }
 }
 
 public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
@@ -12563,12 +12260,6 @@ public final class ZkdeScreencastStreamUnstableV1: BaseProxy, Proxy {
             default:
                 throw DecodingError.badMessage(opcode: opcode)
             }
-        }
-    }
-
-    deinit {
-        if self.isAlive {
-            connection.destroy(self)
         }
     }
 }
