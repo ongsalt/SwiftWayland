@@ -65,4 +65,4 @@ dnf install wayland-devel
 - spi export
 - dynamically link libwayland
 - server support
-- fix prefix map bug.
+- fix prefix map bug. Also redesign it
