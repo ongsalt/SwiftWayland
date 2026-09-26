@@ -1,5 +1,7 @@
 // This file is ported version of https://github.com/Smithay/wayland-rs/blob/master/wayland-client/src/globals.rs
 
+import Foundation
+
 public struct Global {
     let name: UInt32
     let interfaceName: String
@@ -9,6 +11,10 @@ public struct Global {
 public enum BindError: Error {
     case unsupportedVersion(requested: ClosedRange<UInt32>, presented: UInt32)
     case notPresent(requestedProtocol: String)
+}
+
+public enum GlobalsError: Error {
+    case roundtripFailed(errno: Int32)
 }
 
 public class Globals {
@@ -33,8 +39,8 @@ public class Globals {
             }
         }
 
-        if roundtrip {
-            connection.roundtrip()
+        if roundtrip && connection.roundtrip() < 0 {
+            throw GlobalsError.roundtripFailed(errno: errno)
         }
     }
 
