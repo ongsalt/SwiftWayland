@@ -62,7 +62,13 @@ public final class CRuntimeInfo {
                     }
 
                     guard let name = arg.interface else {
-                        // dynamic newId
+                        // Every wire argument needs a types slot. A dynamic new_id
+                        // expands to interface name, version, and object ID (sun).
+                        if arg.type == .newId {
+                            typeArray.append(contentsOf: [nil, nil, nil])
+                        } else {
+                            typeArray.append(nil)
+                        }
                         continue
                     }
 
