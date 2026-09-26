@@ -38,7 +38,7 @@ See the `Examples` target for more.
 # Features
 
 ## Proxy Lifetime
-No automatic destruction are performed. call `Proxy.destroy(_:)` or a request with `type="destructor"` to destroy the handle. Object referenced from an incoming message are always nullable in case that it was already destroyed.
+No automatic destruction are performed. call `Proxy.destroy(_:)` or a make a request with `type="destructor"` to destroy the handle. Object referenced from an incoming message are always nullable in case that it was already destroyed.
 
 ## Name Translation
 Some signatures are transformed into more idiomatic Swift — for example, `setMode(mode:)` becomes `setMode(_:)`.
@@ -60,7 +60,9 @@ dnf install wayland-devel
 ```
 
 # Todos
+- Switch back from committed generated sources to the SwiftPM build tool plugin with Swift 6.4, after verifying that the plugin issues are resolved.
 - Less copying once we have ~`BorrowingSequence`~ `Iterable`
 - spi export
 - dynamically link libwayland
 - server support
+- fix prefix map bug.

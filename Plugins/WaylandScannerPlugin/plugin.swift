@@ -71,7 +71,7 @@ struct WaylandScannerPlugin: BuildToolPlugin {
             cmd("WP", output: "wp.swift", inputs: wpProtocols, trait: "WP"),
             cmd(
                 "KDE", output: "kde.swift", inputs: kdeProtocols, trait: "KDE",
-                prefixMaps: ["org_kde_kwin": "Kde"]
+                // prefixMaps: ["org_kde_kwin": "Kde"]
             ),
             cmd("WLR", output: "wlr.swift", inputs: wlrProtocols, trait: "WLR"),
         ]
