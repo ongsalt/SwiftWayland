@@ -11,8 +11,16 @@ public class Connection {
         wl_display_get_fd(rawDisplay)
     }
 
-    public private(set) lazy var display: WlDisplay = WlDisplay(
-        id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
+    // Proxies retain their connection, so the display cache must not retain its proxy.
+    private weak var cachedDisplay: WlDisplay?
+
+    public var display: WlDisplay {
+        if let cachedDisplay { return cachedDisplay }
+        let display = WlDisplay(
+            id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
+        cachedDisplay = display
+        return display
+    }
 
     public init(rawDisplay: OpaquePointer) {
         self.rawDisplay = rawDisplay

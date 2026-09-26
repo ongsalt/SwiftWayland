@@ -20,7 +20,8 @@ public class Globals {
 
     public init(connection: Connection, roundtrip: Bool = true) throws {
         self.registry = try connection.display.getRegistry()
-        registry.onEvent = { event in
+        registry.onEvent = { [weak self] event in
+            guard let self else { return }
             switch event {
             case .global(let name, let interfaceName, let version):
                 self.globals.append(
@@ -34,6 +35,12 @@ public class Globals {
 
         if roundtrip {
             connection.roundtrip()
+        }
+    }
+
+    deinit {
+        if registry.isAlive {
+            connection.destroy(registry)
         }
     }
 
