@@ -23,7 +23,7 @@ extension ProtocolDeclaration: Code {
     }
 }
 
-extension ClassDeclaration: Code {
+extension ProxyDeclaration: Code {
     func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         if let docc = self.description?.docc {
             gen.add(docc: docc)

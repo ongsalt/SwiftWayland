@@ -6,10 +6,10 @@ public struct ProtocolDeclaration: Sendable {
     var copyright: String?
     var description: Description?
     var `protocol`: Protocol
-    var classes: [ClassDeclaration]
+    var classes: [ProxyDeclaration]
 }
 
-public struct ClassDeclaration: Sendable {
+public struct ProxyDeclaration: Sendable {
     var name: String
     var interface: Interface
     var interfaceName: String { interface.name }
@@ -21,6 +21,7 @@ public struct ClassDeclaration: Sendable {
     var events: [EventDeclaration] = []
 }
 
+// outgoing message
 struct MethodDeclaration: Sendable {
     var name: String
     var requestName: String

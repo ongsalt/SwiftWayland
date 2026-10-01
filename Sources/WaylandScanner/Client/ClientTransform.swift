@@ -18,10 +18,10 @@ public func transform(
     trim transformName: Bool,
     protocolName: String,
     prefixMap: [(from: String, to: String)] = []
-) -> ClassDeclaration {
+) -> ProxyDeclaration {
     let name = remapName(interface.name, prefixMap: prefixMap).camel
 
-    return ClassDeclaration(
+    return ProxyDeclaration(
         name: name,
         interface: interface,
         protocolName: protocolName,
