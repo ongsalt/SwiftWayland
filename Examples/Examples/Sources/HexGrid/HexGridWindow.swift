@@ -148,7 +148,6 @@ public final class HexGridWindow {
         guard let contentBuffer else { return }
         redraw()
         try! surface!.frame { [weak self] _ in
-            print(self)
             guard let self else { return }
             self.frameCallbackPending = false
             if self.needsRedraw {

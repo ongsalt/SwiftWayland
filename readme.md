@@ -38,7 +38,11 @@ See the `Examples` target for more.
 # Features
 
 ## Proxy Lifetime
-No automatic destruction are performed. call `Proxy.destroy(_:)` or a make a request with `type="destructor"` to destroy the handle. Object referenced from an incoming message are always nullable in case that it was already destroyed.
+Dropping a proxy just evict its from client side list. It wont make any request with `type="destructor"` to the compositor. Object referenced through an incoming message is always nullable in the case that it was already destroyed.
+
+## Ownership
+- This mean object will be alive unless explicitly destroyed.
+- `Connection` keep strong a reference to every `Proxy`. And `Proxy` also have a weak ref back. It will be mark dead when Connection is dropped.
 
 ## Name Translation
 Some signatures are transformed into more idiomatic Swift — for example, `setMode(mode:)` becomes `setMode(_:)`.

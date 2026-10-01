@@ -14,6 +14,7 @@ public class Connection {
     // Proxies retain their connection, so the display cache must not retain its proxy.
     private weak var cachedDisplay: WlDisplay?
 
+    /// Recreate once in a while is fine. we cant hook its `onEvent` anyway 
     public var display: WlDisplay {
         if let cachedDisplay { return cachedDisplay }
         let display = WlDisplay(
@@ -191,15 +192,13 @@ public class Connection {
         return EventQueue(raw: handle!, display: rawDisplay)
     }
 
-    /// Actually calling wl_proxy_destroy
     public func destroy(_ proxy: any Proxy) {
-        // This cause bad pointer deref
-        wl_proxy_set_user_data(proxy.raw, nil)
-        wl_proxy_destroy(proxy.raw)
         if let p = proxy as? BaseProxy {
-            if p.isAlive { return }
+            if !p.isAlive { return }
             p.isAlive = false
         }
+        wl_proxy_set_user_data(proxy.raw, nil)
+        wl_proxy_destroy(proxy.raw)
     }
 
     @discardableResult

@@ -59,6 +59,12 @@ open class BaseProxy {
         self.raw = raw
         self.connection = connection
     }
+
+    deinit {
+        if let p = self as? any Proxy {
+            connection.destroy(p)
+        }
+    }
 }
 
 public struct NoEvent: MessageProtocol {
@@ -80,7 +86,7 @@ extension MessageProtocol {
 }
 
 // only wire type
-public protocol ArgumentReader {
+public protocol ArgumentReader: ~Copyable, ~Escapable {
     mutating func int() -> Int32
     mutating func uint() -> UInt32
     mutating func fd() -> FileHandle
