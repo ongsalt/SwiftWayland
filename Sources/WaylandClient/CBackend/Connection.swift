@@ -2,7 +2,7 @@ import CWayland
 import Foundation
 import SwiftWaylandCommon
 
-public class Connection {
+public final class Connection {
     let rawDisplay: OpaquePointer
     public private(set) var mainQueue: EventQueue
     var knownQueues: [OpaquePointer: EventQueue] = [:]

@@ -2,7 +2,7 @@ import CoreFoundation
 import Foundation
 
 // TODO: actully getting CFRunLoop from a RunLoop
-class RunLoopObserver {
+final class RunLoopObserver {
     let observer: CFRunLoopObserver
     let runLoop: CFRunLoop
 

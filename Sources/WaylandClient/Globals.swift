@@ -17,7 +17,7 @@ public enum GlobalsError: Error {
     case roundtripFailed(errno: Int32)
 }
 
-public class Globals {
+public final class Globals {
     public let registry: WlRegistry
     private var connection: Connection {
         registry.connection

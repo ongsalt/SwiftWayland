@@ -2,7 +2,7 @@ import CWayland
 import Foundation
 import SwiftWaylandCommon
 
-public class EventQueue {
+public final class EventQueue {
     var raw: OpaquePointer
     let rawDisplay: OpaquePointer
 
