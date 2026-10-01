@@ -60,9 +60,15 @@ dnf install wayland-devel
 ```
 
 # Todos
-- Switch back from committed generated sources to the SwiftPM build tool plugin with Swift 6.4, after verifying that the plugin issues are resolved.
+- rethink `Proxy` and `BaseProxy`
 - Less copying once we have ~`BorrowingSequence`~ `Iterable`
+- replacing `CRuntimeInfo` with c source file
+- less Foundation dependencies
+
+# Later
+- fix prefix map bug. Also redesign it
+- lifetime problem
 - spi export
 - dynamically link libwayland
 - server support
-- fix prefix map bug. Also redesign it
+

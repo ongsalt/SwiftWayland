@@ -193,9 +193,11 @@ public class Connection {
 
     /// Actually calling wl_proxy_destroy
     public func destroy(_ proxy: any Proxy) {
+        // This cause bad pointer deref
         wl_proxy_set_user_data(proxy.raw, nil)
         wl_proxy_destroy(proxy.raw)
         if let p = proxy as? BaseProxy {
+            if p.isAlive { return }
             p.isAlive = false
         }
     }
