@@ -17,7 +17,7 @@ struct TypeConversion {
             case .int: "Int32"
             case .uint:
                 if let e = argument.enum {
-                    e.camel
+                    parseEnumName(e)
                 } else {
                     "UInt32"
                 }

@@ -1,4 +1,3 @@
-import Foundation
 @_exported import SwiftWaylandCommon
 
 extension WlRegistry {

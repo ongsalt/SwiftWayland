@@ -1,6 +1,5 @@
 // This file is ported version of https://github.com/Smithay/wayland-rs/blob/master/wayland-client/src/globals.rs
-
-import Foundation
+import Glibc
 
 public struct Global {
     let name: UInt32

@@ -1,5 +1,4 @@
 import CWayland
-import Foundation
 import SwiftWaylandCommon
 
 public final class Connection {
@@ -44,7 +43,7 @@ public final class Connection {
         destructor: Bool = false,
         _ args: borrowing [Arg],
     ) -> Output {
-        let proxy = _send2(
+        let proxy = send(
             proxy, opcode,
             returning: interface,
             version: version,
@@ -61,10 +60,10 @@ public final class Connection {
         _ args: borrowing [Arg],
         destructor: Bool = false,
     ) {
-        _ = _send2(proxy, opcode, destructor: destructor, args: args)
+        _ = send(proxy, opcode, destructor: destructor, args: args)
     }
 
-    private func _send2(
+    private func send(
         _ proxy: any Proxy,
         _ opcode: UInt32,
         returning interface: (any Proxy.Type)? = nil,
@@ -149,20 +148,6 @@ public final class Connection {
         return instance
     }
 
-    func createDeadSwiftObject<T: Proxy>(id: UInt32, type: T.Type) -> T {
-        let instance = T(
-            id: id,
-            version: 0,
-            queue: self.mainQueue,
-            raw: OpaquePointer(bitPattern: 1001)!,
-            connection: self
-        )
-        if let s = instance as? BaseProxy {
-            s.isAlive = false
-        }
-        return instance
-    }
-
     func withRawProxy<T>(
         of parent: any Proxy, on queue: EventQueue? = nil, body: (OpaquePointer) -> T
     ) -> T {
@@ -239,64 +224,6 @@ public final class Connection {
 
     public func disconnect() {
         wl_display_disconnect(self.rawDisplay)
-    }
-
-    public func makeReadSource(queue: DispatchQueue = .main) -> any DispatchSourceRead {
-        DispatchSource.makeReadSource(fileDescriptor: fd, queue: queue)
-    }
-
-    @MainActor
-    public func attach() -> Watch {
-        var prepared = false
-
-        func preparePoll() {
-            while !self.prepareRead() {
-                self.dispatchPending()
-            }
-            prepared = true
-            self.flush()
-        }
-
-        let source = makeReadSource(queue: .main)
-        source.setEventHandler {
-            self.readEvents()
-            prepared = false
-            self.dispatchPending()
-
-            if wl_display_get_error(self.rawDisplay) != 0 {
-                source.cancel()
-                return
-            }
-
-            preparePoll()
-        }
-
-        source.setCancelHandler {
-            if prepared {
-                self.cancelRead()
-                prepared = false
-            }
-        }
-
-        let observer = RunLoopObserver(on: [.beforeWaiting], runLoop: .main) { [weak self] _ in
-            self?.flush()
-        }
-
-        preparePoll()
-        source.resume()
-        observer.start()
-
-        return Watch {
-            observer.stop()
-            source.cancel()
-        }
-    }
-
-    @MainActor
-    public func run() {
-        let watch = self.attach()
-        RunLoop.main.run()
-        _ = watch
     }
 
     deinit {

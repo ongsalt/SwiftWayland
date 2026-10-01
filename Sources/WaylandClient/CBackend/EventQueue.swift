@@ -1,5 +1,5 @@
 import CWayland
-import Foundation
+import Glibc
 import SwiftWaylandCommon
 
 public final class EventQueue {

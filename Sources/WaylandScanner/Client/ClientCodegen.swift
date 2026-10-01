@@ -300,6 +300,8 @@ extension EnumCaseDeclaration: Code {
     }
 }
 
+// oh my god what did i write
+// TODO: refactor
 extension Array: Code where Element == EventDeclaration {
     func generate<Output: TextOutputStream>(_ gen: Generator<Output>) {
         gen.block("public enum Event: MessageProtocol {") {
@@ -308,6 +310,7 @@ extension Array: Code where Element == EventDeclaration {
                 gen.add()
             }
 
+            // isDestructor
             let destructors = self.filter { e in e.isDestructor }
             if !destructors.isEmpty {
                 gen.block("public var isDestructor: Bool {") {

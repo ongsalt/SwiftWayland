@@ -66,8 +66,8 @@ dnf install wayland-devel
 # Todos
 - rethink `Proxy` and `BaseProxy`
 - Less copying once we have ~`BorrowingSequence`~ `Iterable`
-- replacing `CRuntimeInfo` with c source file
 - less Foundation dependencies
+- unfuck codegen type conversion
 
 # Later
 - fix prefix map bug. Also redesign it

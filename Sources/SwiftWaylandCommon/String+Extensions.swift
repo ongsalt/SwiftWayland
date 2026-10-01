@@ -1,41 +1,46 @@
-import Foundation
-
 extension String {
+    private func trimmingWhitespace() -> Substring {
+        guard let first = firstIndex(where: { !$0.isWhitespace }) else {
+            return self[endIndex...]
+        }
+
+        let last = lastIndex(where: { !$0.isWhitespace })!
+        return self[first...last]
+    }
+
+    private func uppercasingFirst() -> String {
+        guard let first else { return self }
+        return first.uppercased() + dropFirst()
+    }
+
     public func snakeToLowerCamel() -> String {
-        let parts =
-            self
-            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let parts = trimmingWhitespace()
             .split(separator: "_", omittingEmptySubsequences: true)
 
         guard let first = parts.first else { return "" }
 
         let head = first.lowercased()
-        let tail = parts.dropFirst().map { $0.lowercased().capitalized }
+        let tail = parts.dropFirst().map {
+            $0.lowercased().uppercasingFirst()
+        }
 
-        return ([head] + tail).joined()
+        return head + tail.joined()
     }
 
     public func snakeToCamel() -> String {
-        let prefix = if self.starts(with: "_") {
-            "_"
-        } else {
-            ""
-        }
+        let prefix = starts(with: "_") ? "_" : ""
 
         let camel = snakeToLowerCamel()
         guard let first = camel.first else { return "" }
 
-        return prefix + String(first).uppercased() + camel.dropFirst()
+        return prefix + first.uppercased() + camel.dropFirst()
     }
 
     public func camelToSnake() -> String {
-        let pattern = "([a-z0-9])([A-Z])"
-        let regex = try! NSRegularExpression(pattern: pattern, options: [])
-        let range = NSRange(location: 0, length: self.utf16.count)
-
-        let snakeCase = regex.stringByReplacingMatches(
-            in: self, options: [], range: range, withTemplate: "$1_$2")
-        return snakeCase.lowercased()
+        replacing(/([a-z0-9])([A-Z])/) { match in
+            "\(match.1)_\(match.2)"
+        }
+        .lowercased()
     }
 
     public var snake: String {
@@ -51,13 +56,11 @@ extension String {
     }
 
     public func indent(space: Int) -> String {
-        self.indent(String(repeating: " ", count: space))
+        indent(String(repeating: " ", count: space))
     }
 
     public func indent(_ indentation: String) -> String {
-        return
-            self
-            .split(separator: "\n", omittingEmptySubsequences: false)
+        split(separator: "\n", omittingEmptySubsequences: false)
             .map { indentation + $0 }
             .joined(separator: "\n")
     }
@@ -71,37 +74,35 @@ extension String {
     }
 
     public var gravedIfNeeded: String {
-        if swiftKeyword.contains(self) || self.first?.isNumber == true {
-            self.graved
+        if swiftKeyword.contains(self) || first?.isNumber == true {
+            graved
         } else {
             self
         }
     }
 
     public var trimmed: String {
-        self
-            .split(separator: "\n")
-            .map { $0.trimmingCharacters(in: .whitespaces) }
+        split(separator: "\n")
+            .map { String($0).trimmingWhitespace() }
             .joined(separator: "\n")
     }
 
     public func withoutPrefix(_ prefix: String?) -> String {
         if let prefix {
-            String(self.trimmingPrefix(prefix))
+            String(trimmingPrefix(prefix))
         } else {
             self
         }
     }
 
     public func trimmingSuffix(_ suffix: String) -> String {
-        guard self.hasSuffix(suffix) else { return self }
-        return String(self.dropLast(suffix.count))
+        guard hasSuffix(suffix) else { return self }
+        return String(dropLast(suffix.count))
     }
 
     public func trim(_ prefix: String?, _ suffix: String?) -> String {
         String(
-            self
-                .trimmingSuffix(suffix ?? "")
+            trimmingSuffix(suffix ?? "")
                 .trimmingPrefix(prefix ?? "")
         )
     }

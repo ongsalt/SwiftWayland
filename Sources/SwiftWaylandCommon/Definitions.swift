@@ -1,5 +1,3 @@
-import Foundation
-
 public struct Protocol: Codable, Sendable {
     public let name: String
     public let copyright: String?
@@ -66,7 +64,7 @@ public struct Description: Codable, Sendable {
 
     public var docc: String {
         """
-        \(self.summary.capitalized)
+        \(self.summary)
 
         \(self.value.trimmed)
         """
