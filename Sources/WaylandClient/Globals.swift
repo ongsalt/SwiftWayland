@@ -44,12 +44,6 @@ public class Globals {
         }
     }
 
-    deinit {
-        if registry.isAlive {
-            connection.destroy(registry)
-        }
-    }
-
     public func bind<T>(to type: T.Type, version: ClosedRange<UInt32>, on queue: EventQueue? = nil)
         throws(BindError) -> T
     where T: Proxy {
