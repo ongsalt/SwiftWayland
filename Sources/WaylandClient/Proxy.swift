@@ -61,6 +61,7 @@ open class BaseProxy {
     }
 
     deinit {
+        if self is WlDisplay { return }
         if let p = self as? any Proxy {
             connection.destroy(p)
         }
