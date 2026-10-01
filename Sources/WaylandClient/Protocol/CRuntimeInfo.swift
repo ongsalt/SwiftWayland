@@ -2,20 +2,17 @@ import CWayland
 import SwiftWaylandCommon
 import Synchronization
 
-public final class CRuntimeInfo {
-    public static let shared = Mutex(CRuntimeInfo())
+final class CRuntimeInfo {
+    static let shared = Mutex(CRuntimeInfo())
 
-    // why did i do this
     var protocolMap: [String: UnsafeMutableBufferPointer<wl_interface>] = [:]
     // this is used in wl_proxy_create, wl_proxy_marshal_constructor_versioned (array ver. tho)
     public private(set) var interfaces: [String: UnsafePointer<wl_interface>] = [:]
 
-    init() {
-        // add(protocolName: "__Wayland", interfaces: [wl_display_interface, wl_registry_interface])
-    }
+    // no deinit
 
     @discardableResult
-    public func addIfNotExists(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
+    func addIfNotExists(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
         if let existed = protocolMap[p.name] {
             return UnsafeBufferPointer(existed)
         }
@@ -25,7 +22,7 @@ public final class CRuntimeInfo {
 
     @discardableResult
     // special handling for wl_display and wl_registry
-    public func add(protocolName: String, interfaces: [wl_interface]) -> UnsafeBufferPointer<
+    func add(protocolName: String, interfaces: [wl_interface]) -> UnsafeBufferPointer<
         wl_interface
     > {
         if let existed = protocolMap[protocolName] {
@@ -42,7 +39,7 @@ public final class CRuntimeInfo {
         return UnsafeBufferPointer(buffer)
     }
 
-    public func add(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
+    func add(protocol p: Protocol) -> UnsafeBufferPointer<wl_interface> {
         let pInterfaces = UnsafeMutableBufferPointer<wl_interface>.allocate(
             capacity: p.interfaces.count)
         // now we have stable pointer to `wl_interface`s in a protocol
@@ -157,13 +154,7 @@ extension Message {
                 out += "s"
             case .uint:
                 out += "u"
-            default:
-                break
             }
-        }
-
-        if self.name == "bind" {
-            // print("[debug] \(self.name) - \(out)")
         }
 
         return out

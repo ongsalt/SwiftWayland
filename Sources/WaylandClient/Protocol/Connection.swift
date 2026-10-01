@@ -13,7 +13,7 @@ public final class Connection {
     // Proxies retain their connection, so the display cache must not retain its proxy.
     private weak var cachedDisplay: WlDisplay?
 
-    /// Recreate once in a while is fine. we cant hook its `onEvent` anyway 
+    /// Recreate once in a while is fine. we cant hook its `onEvent` anyway
     public var display: WlDisplay {
         if let cachedDisplay { return cachedDisplay }
         let display = WlDisplay(
@@ -94,9 +94,7 @@ public final class Connection {
                         alloc: buffer.count,
                         data: UnsafeMutableRawPointer(mutating: buffer.baseAddress),
                     ))
-                defered.append {
-                    arr.deallocate()
-                }
+                defered.append { arr.deallocate() }
                 arguments.append(wl_argument(a: arr))
             case .fd(let fd):
                 arguments.append(wl_argument(h: fd.fileDescriptor))
@@ -106,9 +104,7 @@ public final class Connection {
                 arguments.append(wl_argument(u: u))
             case .string(let s):
                 let buffer = s?.cString(using: .utf8)!.toBuffer()
-                defered.append {
-                    buffer?.deallocate()
-                }
+                defered.append { buffer?.deallocate() }
                 arguments.append(wl_argument(s: buffer?.baseAddress))
             case .object(let proxy):
                 arguments.append(wl_argument(o: proxy?.raw))
@@ -119,8 +115,8 @@ public final class Connection {
         }
 
         let interfacePtr = interface?.ensureLoaded()
-        if interface != nil && interfacePtr == nil {
-            fatalError("Failed to load wl_interface for \(interface?.interface.name)")
+        if let interface, interfacePtr == nil {
+            fatalError("Failed to load wl_interface for \(interface.interface.name)")
         }
         let flags: UInt32 =
             if destructor {
@@ -130,8 +126,7 @@ public final class Connection {
             }
 
         return withRawProxy(of: proxy, on: queue) { parent in
-            wl_proxy_marshal_array_flags(
-                parent, opcode, interfacePtr, version, flags, &arguments)
+            wl_proxy_marshal_array_flags(parent, opcode, interfacePtr, version, flags, &arguments)
         }
     }
 
@@ -144,7 +139,8 @@ public final class Connection {
             connection: self
         )
 
-        wl_proxy_add_dispatcher(raw, dispatchFn, nil, Unmanaged.passUnretained(instance).toOpaque())
+        wl_proxy_add_dispatcher(
+            raw, dispatcherFunction, nil, Unmanaged.passUnretained(instance).toOpaque())
         return instance
     }
 
@@ -240,7 +236,7 @@ extension Array {
 }
 
 // TODO: userData maybe
-public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
+public let dispatcherFunction: wl_dispatcher_func_t = { _, target, opcode, _, args in
     guard
         let target = OpaquePointer(target),
         let userData = wl_proxy_get_user_data(target),
@@ -252,7 +248,7 @@ public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
     }
 
     let ok = proxy.dispatch(opcode: opcode, args: args!)
-    return if ok { 0 } else { -1 }  // or -1 on failure
+    return if ok { 0 } else { -1 }
 }
 
 extension Proxy {

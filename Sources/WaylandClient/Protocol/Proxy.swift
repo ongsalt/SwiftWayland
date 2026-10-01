@@ -31,14 +31,9 @@ extension Proxy {
             return $0.interfaces[self.interface.name]!
         }
     }
-
-    public static func destroy(_ proxy: any Proxy) {
-        proxy.connection.destroy(proxy)
-    }
 }
 
-// for codegen conveneince
-// TODO: make this spi
+/// This class is for codegen convenience. Please dont extends it.
 open class BaseProxy {
     public let raw: OpaquePointer
     public let connection: Connection
