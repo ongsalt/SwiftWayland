@@ -110,8 +110,6 @@ public func transform(
                 name: event.name.lowerCamel,
                 description: event.description,
                 arguments: event.arguments.map { arg in
-                    let swiftType = arg.getSwiftType(isEvent: true, prefixMap: prefixMap)
-
                     return ArgumentDeclaration(
                         name: arg.name.lowerCamel,
                         arg: arg,
@@ -141,49 +139,3 @@ public func transform(
     )
 }
 
-extension Argument {
-    func getSwiftType(isEvent: Bool, prefixMap: [(from: String, to: String)] = []) -> String {
-        switch self.type {
-        case .string:
-            return if self.nullable {
-                "String?"
-            } else {
-                "String"
-            }
-        case .array:
-            return "UnsafeRawBufferPointer"
-        case .fd:
-            return "FileHandle"
-        case .int:
-            return "Int32"
-        case .uint:
-            return if let e = self.enum {
-                parseEnumName(e)
-            } else {
-                "UInt32"
-            }
-        case .fixed:
-            return "Double"
-
-        // Object received MAY actually be already destroyed at the time we receive the message, so this is always nullable
-        case .object:
-            // self.interface must not be nil if its an in parameter (shuold be fine tho)
-            var name =
-                self.interface.map { remapName($0, prefixMap: prefixMap).camel } ?? "any Proxy"
-            if self.nullable || isEvent {
-                if self.interface != nil {
-                    name += "?"
-                } else {
-                    name = "(\(name))?"
-                }
-            }
-            return name
-        case .newId:
-            return remapName(self.interface!, prefixMap: prefixMap).camel  // dynamic newId in wl_registry.bind is excluded
-        }
-    }
-}
-
-func parseEnumName(_ name: String) -> String {
-    name.split(separator: ".").map { String($0).camel }.joined(separator: ".")
-}

@@ -69,9 +69,8 @@ dnf install wayland-devel
 - less Foundation dependencies
 - unfuck codegen type conversion
 
-# Later
+## Later
 - fix prefix map bug. Also redesign it
-- lifetime problem
 - spi export
 - dynamically link libwayland
 - server support

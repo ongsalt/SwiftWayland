@@ -1,11 +1,11 @@
 import SwiftWaylandCommon
 
 struct TypeConversion {
-    static func swiftType(of argument: Argument, forceOptional: Bool? = nil, escaping: Bool = false)
+    static func swiftType(of argument: Argument, forceOptional: Bool? = nil, isInput: Bool = false)
         -> String
     {
         if argument.interface == "wl_callback" {
-            if escaping {
+            if isInput {
                 return "@escaping (UInt32) -> Void"
             } else {
                 return "WlCallback"
@@ -25,7 +25,7 @@ struct TypeConversion {
             case .string: "String"
             case .array:
                 // TODO: fix lifetime problem when 6.4 landed
-                if escaping {
+                if isInput {
                     "RawSpan"
                 } else {
                     "UnsafeRawBufferPointer"
@@ -72,18 +72,18 @@ struct TypeConversion {
 
         switch argument.type {
         case .newId:
-            expression = ".newId"
+            expression = "Arg.newId"
         case .uint:
             let rawValueString = argument.enum != nil ? ".rawValue" : ""
-            expression = ".uint(\(swiftName)\(rawValueString))"
+            expression = "Arg.uint(\(swiftName)\(rawValueString))"
         case .array:
             wrapping = Closure(
                 begin: "\(swiftName).withUnsafeBytes { _\(swiftName) in",
                 end: "}"
             )
-            expression = ".array(_\(swiftName))"
+            expression = "Arg.array(_\(swiftName))"
         default:
-            expression = ".\(argument.type)(\(swiftName))"
+            expression = "Arg.\(argument.type)(\(swiftName))"
         }
 
         return (expression, wrapping)
@@ -124,7 +124,12 @@ struct Closure {
     let end: String
 }
 
+func parseEnumName(_ name: String) -> String {
+    name.split(separator: ".").map { String($0).camel }.joined(separator: ".")
+}
+
 /// definition | wire type | swift type | input event
 /// uint (enum)| uint
 
 // SwiftWaylandCommon.Argument -
+

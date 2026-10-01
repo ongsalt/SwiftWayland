@@ -126,7 +126,7 @@ extension MethodDeclaration: Code {
                     ""
                 }
 
-            let ty = TypeConversion.swiftType(of: arg.arg, escaping: true)
+            let ty = TypeConversion.swiftType(of: arg.arg, isInput: true)
             return
                 "\(externalName)\(arg.name.gravedIfNeeded): \(ty)\(defaultValueString)"
         }
@@ -166,21 +166,21 @@ extension MethodDeclaration: Code {
                 )
             }
 
-            // currently returns.count will not be > 1
-            // create any thing involving newId (infer from returns)
-
-            if !self.returns.isEmpty {
-                gen << "let \(self.returns[0].name.gravedIfNeeded) = "
-            } else if !self.callbacks.isEmpty {
-                gen << "let _\(self.callbacks[0].name) = "
-            }
-
-            let callStatement =
+            var callStatement =
                 if outNode != nil {
                     "connection.sendConstructor"
                 } else {
                     "connection.send"
                 }
+
+            // returns.count will not be > 1
+            // create anything involving newId (infer from returns)
+
+            if !self.returns.isEmpty {
+                callStatement = "let \(self.returns[0].name.gravedIfNeeded) = \(callStatement)"
+            } else if !self.callbacks.isEmpty {
+                callStatement = "let _\(self.callbacks[0].name) = \(callStatement)"
+            }
 
             var args = [
                 "self",
@@ -191,7 +191,7 @@ extension MethodDeclaration: Code {
                 let ty = TypeConversion.swiftType(of: outNode.arg, forceOptional: false)
                 args.append("\(ty).self")
                 // if !self.returns.isEmpty {
-                    args.append("version")
+                args.append("version")
                 // }
                 args.append(QUEUE_INNER_NAME)
             }
