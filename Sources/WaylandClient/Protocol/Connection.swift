@@ -1,0 +1,273 @@
+import CWayland
+import SwiftWaylandCommon
+
+public final class Connection {
+    let rawDisplay: OpaquePointer
+    public private(set) var mainQueue: EventQueue
+    var knownQueues: [OpaquePointer: EventQueue] = [:]
+
+    var fd: Int32 {
+        wl_display_get_fd(rawDisplay)
+    }
+
+    // Proxies retain their connection, so the display cache must not retain its proxy.
+    private weak var cachedDisplay: WlDisplay?
+
+    /// Recreate once in a while is fine. we cant hook its `onEvent` anyway 
+    public var display: WlDisplay {
+        if let cachedDisplay { return cachedDisplay }
+        let display = WlDisplay(
+            id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
+        cachedDisplay = display
+        return display
+    }
+
+    public init(rawDisplay: OpaquePointer) {
+        self.rawDisplay = rawDisplay
+        let rawQueue = wl_proxy_get_queue(rawDisplay)!
+        self.mainQueue = EventQueue(raw: rawQueue, display: rawDisplay)
+        knownQueues[rawQueue] = mainQueue
+    }
+
+    public convenience init() {
+        self.init(rawDisplay: wl_display_connect(nil))
+    }
+
+    // spi?
+    public func sendConstructor<Output: Proxy>(
+        _ proxy: any Proxy,
+        _ opcode: UInt32,
+        _ interface: Output.Type,
+        _ version: UInt32,
+        _ queue: EventQueue?,
+        destructor: Bool = false,
+        _ args: borrowing [Arg],
+    ) -> Output {
+        let proxy = send(
+            proxy, opcode,
+            returning: interface,
+            version: version,
+            on: queue,
+            destructor: destructor,
+            args: args
+        )!
+        return self.createSwiftObject(from: proxy, type: interface)
+    }
+
+    public func send(
+        _ proxy: any Proxy,
+        _ opcode: UInt32,
+        _ args: borrowing [Arg],
+        destructor: Bool = false,
+    ) {
+        _ = send(proxy, opcode, destructor: destructor, args: args)
+    }
+
+    private func send(
+        _ proxy: any Proxy,
+        _ opcode: UInt32,
+        returning interface: (any Proxy.Type)? = nil,
+        version: UInt32 = 0,
+        on queue: EventQueue? = nil,
+        destructor: Bool = false,
+        args: [Arg],
+    ) -> OpaquePointer? {  // return an wl_proxy if existed
+        var defered: [() -> Void] = []
+        defer {
+            for fn in defered {
+                fn()
+            }
+        }
+
+        var arguments: [wl_argument] = []
+        for arg in args {
+            switch arg {
+            case .int(let i):
+                arguments.append(wl_argument(i: i))
+            case .enum(let u):
+                arguments.append(wl_argument(u: u))
+            case .array(let buffer):
+                let arr = UnsafeMutablePointer<wl_array>.allocate(capacity: 1)
+                arr.initialize(
+                    to: wl_array(
+                        size: buffer.count,
+                        alloc: buffer.count,
+                        data: UnsafeMutableRawPointer(mutating: buffer.baseAddress),
+                    ))
+                defered.append {
+                    arr.deallocate()
+                }
+                arguments.append(wl_argument(a: arr))
+            case .fd(let fd):
+                arguments.append(wl_argument(h: fd.fileDescriptor))
+            case .fixed(let d):
+                arguments.append(wl_argument(f: Int32(d * 256)))
+            case .uint(let u):
+                arguments.append(wl_argument(u: u))
+            case .string(let s):
+                let buffer = s?.cString(using: .utf8)!.toBuffer()
+                defered.append {
+                    buffer?.deallocate()
+                }
+                arguments.append(wl_argument(s: buffer?.baseAddress))
+            case .object(let proxy):
+                arguments.append(wl_argument(o: proxy?.raw))
+            case .newId:
+                // gonna be ignored anyway
+                arguments.append(wl_argument())
+            }
+        }
+
+        let interfacePtr = interface?.ensureLoaded()
+        if interface != nil && interfacePtr == nil {
+            fatalError("Failed to load wl_interface for \(interface?.interface.name)")
+        }
+        let flags: UInt32 =
+            if destructor {
+                UInt32(WL_MARSHAL_FLAG_DESTROY)
+            } else {
+                0
+            }
+
+        return withRawProxy(of: proxy, on: queue) { parent in
+            wl_proxy_marshal_array_flags(
+                parent, opcode, interfacePtr, version, flags, &arguments)
+        }
+    }
+
+    func createSwiftObject<T: Proxy>(from raw: OpaquePointer, type: T.Type) -> T {
+        let instance = T(
+            id: wl_proxy_get_id(raw),
+            version: wl_proxy_get_version(raw),
+            queue: self.knownQueues[wl_proxy_get_queue(raw)]!,
+            raw: raw,
+            connection: self
+        )
+
+        wl_proxy_add_dispatcher(raw, dispatchFn, nil, Unmanaged.passUnretained(instance).toOpaque())
+        return instance
+    }
+
+    func withRawProxy<T>(
+        of parent: any Proxy, on queue: EventQueue? = nil, body: (OpaquePointer) -> T
+    ) -> T {
+        var sender = parent.raw
+        if let queue {
+            sender = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(sender)))
+            wl_proxy_set_queue(sender, queue.raw)
+        }
+
+        let ret = body(sender)
+
+        if queue != nil {
+            wl_proxy_destroy(sender)
+        }
+
+        return ret
+    }
+
+    public func createEventQueue(name: String? = nil) -> EventQueue {
+        let handle =
+            if let name {
+                wl_display_create_queue_with_name(rawDisplay, name)
+            } else {
+                wl_display_create_queue(rawDisplay)
+            }
+
+        return EventQueue(raw: handle!, display: rawDisplay)
+    }
+
+    public func destroy(_ proxy: any Proxy) {
+        if let p = proxy as? BaseProxy {
+            if !p.isAlive { return }
+            p.isAlive = false
+        }
+        wl_proxy_set_user_data(proxy.raw, nil)
+        wl_proxy_destroy(proxy.raw)
+    }
+
+    @discardableResult
+    public func flush() -> Int32 {
+        wl_display_flush(rawDisplay)
+    }
+
+    @discardableResult
+    public func dispatchPending() -> Int32 {
+        wl_display_dispatch_pending(rawDisplay)
+    }
+
+    @discardableResult
+    public func dispatch() -> Int32 {
+        wl_display_dispatch(rawDisplay)
+    }
+
+    @discardableResult
+    public func roundtrip() -> Int32 {
+        wl_display_roundtrip(rawDisplay)
+    }
+
+    @discardableResult
+    public func prepareRead() -> Bool {
+        wl_display_prepare_read(rawDisplay) == 0
+    }
+
+    /// Call if the poll returned an error or you decide not to read.
+    public func cancelRead() {
+        wl_display_cancel_read(rawDisplay)
+    }
+
+    /// Call when the fd is readable (after a successful prepareRead).
+    /// Reads events from the socket into the queue without dispatching them.
+    public func readEvents() {
+        wl_display_read_events(rawDisplay)
+    }
+
+    public func disconnect() {
+        wl_display_disconnect(self.rawDisplay)
+    }
+
+    deinit {
+        disconnect()
+    }
+}
+
+extension Array {
+    fileprivate consuming func toBuffer() -> UnsafeBufferPointer<Element> {
+        let buffer = UnsafeMutableBufferPointer<Element>.allocate(capacity: self.count)
+        _ = buffer.initialize(from: self)
+        return UnsafeBufferPointer(buffer)
+    }
+}
+
+// TODO: userData maybe
+public let dispatchFn: wl_dispatcher_func_t = { _, target, opcode, _, args in
+    guard
+        let target = OpaquePointer(target),
+        let userData = wl_proxy_get_user_data(target),
+        let proxy =
+            Unmanaged<AnyObject>.fromOpaque(userData).takeUnretainedValue()
+            as? (any Proxy)
+    else {
+        return -1
+    }
+
+    let ok = proxy.dispatch(opcode: opcode, args: args!)
+    return if ok { 0 } else { -1 }  // or -1 on failure
+}
+
+extension Proxy {
+    fileprivate func dispatch(opcode: UInt32, args: UnsafePointer<wl_argument>) -> Bool {
+        do {
+            var reader = CArgumentReader(args, parent: self)
+            let event = try Self.Event(from: &reader, opcode: opcode)
+            self.onEvent?(event)
+            if event.isDestructor {
+                self.connection.destroy(self)
+            }
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+}
