@@ -30,7 +30,7 @@ struct TypeConversion {
                 } else {
                     "UnsafeRawBufferPointer"
                 }
-            case .fd: "FileHandle"
+            case .fd: "Int32"
             case .object:
                 if let interface = argument.interface {
                     interface.camel

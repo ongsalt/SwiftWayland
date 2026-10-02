@@ -12,7 +12,7 @@ final class ShmBuffer {
         let stride = width * 4
         let size = stride * height
         let file = ShmBuffer.makeFile(size: size)
-        let pool = try! shm.createPool(fd: file, size: Int32(size))
+        let pool = try! shm.createPool(fd: file.fileDescriptor, size: Int32(size))
         self.buffer = try! pool.createBuffer(
             offset: 0, width: Int32(width), height: Int32(height),
             stride: Int32(stride), format: format

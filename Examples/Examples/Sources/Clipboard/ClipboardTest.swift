@@ -129,10 +129,12 @@ final class ClipboardTest {
             case .send(let requestedMime, let fd):
                 // Compositor (or another app) is requesting the data.
                 // We write our content to the provided fd — this is fd SENDING.
-                print("[Send] Compositor requested '\(requestedMime)' via fd \(fd.fileDescriptor)")
+                print("[Send] Compositor requested '\(requestedMime)' via fd \(fd)")
                 let bytes = self.content.data(using: .utf8)!
-                fd.write(bytes)
-                try? fd.close()
+                bytes.withUnsafeBytes { bytes in
+                    _ = write(fd, bytes.baseAddress, bytes.count)
+                }
+                close(fd)
                 print("[Send] Wrote \(bytes.count) bytes: \"\(self.content)\"")
             case .cancelled:
                 print("[Send] Selection cancelled (another app took the clipboard)")
@@ -165,7 +167,7 @@ final class ClipboardTest {
 
         // This is fd RECEIVING — we hand the write end to the compositor.
         print("[Receive] Requesting '\(targetMime)' via pipe write-fd \(writeEnd.fileDescriptor)")
-        try! offer.receive(mimeType: targetMime, fd: writeEnd)
+        try! offer.receive(mimeType: targetMime, fd: writeEnd.fileDescriptor)
 
         // Close our copy of the write end so we'll see EOF after the compositor closes its copy.
         try? writeEnd.close()
@@ -192,7 +194,7 @@ final class ClipboardTest {
         data = mmap(nil, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0)
         data?.storeBytes(of: UInt32(0xFF_00_00_00), as: UInt32.self)
         let file = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
-        let pool = try shm.createPool(fd: file, size: Int32(size))
+        let pool = try shm.createPool(fd: file.fileDescriptor, size: Int32(size))
         return try pool.createBuffer(offset: 0, width: 1, height: 1, stride: 4, format: .xrgb8888)
     }
 }

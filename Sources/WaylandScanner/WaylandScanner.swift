@@ -1,7 +1,5 @@
-import Foundation
 import SwiftWaylandCommon
 import XMLCoder
-
 
 public func parse(
     _ xml: String,

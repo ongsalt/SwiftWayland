@@ -1,24 +1,15 @@
 import Testing
 import Foundation
 @testable import WaylandClient
-import WaylandProtocols
+import WaylandClientProtocols
 
 @Test func `It must at least run`() async throws {
-    let connection = try! Connection.fromEnv()
+    let connection = Connection()
 
-    let display = connection.display!
-    let registry = try display.getRegistry()
+    let display = connection.display
 
-    await confirmation { confirm in
-        registry.onEvent = { event in
-            switch event {
-            case .global(_, let interface, _) where interface == WlDisplay.name:
-                confirm()
-            default:
-                break
-            }
-        }
-        try! connection.roundtrip()
+    try await confirmation { confirm in
+        let registry = try Globals(connection: connection, roundtrip: true)
     }
 }
 

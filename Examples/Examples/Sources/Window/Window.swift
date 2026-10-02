@@ -90,7 +90,7 @@ public final class Window {
         let size = stride * height
 
         let file = createShmFile(size: size)
-        let pool = try! shm.createPool(fd: file, size: Int32(size))
+        let pool = try! shm.createPool(fd: file.fileDescriptor, size: Int32(size))
         let buffer = try! pool.createBuffer(
             offset: 0,
             width: Int32(width),

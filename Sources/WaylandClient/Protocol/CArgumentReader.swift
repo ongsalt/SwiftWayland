@@ -1,5 +1,4 @@
 import CWayland
-import Foundation
 
 struct CArgumentReader: ArgumentReader {
     var current: UnsafePointer<wl_argument>
@@ -24,8 +23,8 @@ struct CArgumentReader: ArgumentReader {
         consume().u
     }
 
-    mutating func fd() -> FileHandle {
-        FileHandle(fileDescriptor: consume().h)
+    mutating func fd() -> Int32 {
+        consume().h
     }
 
     mutating func array() -> UnsafeRawBufferPointer {

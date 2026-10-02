@@ -97,7 +97,7 @@ public final class Connection {
                 defered.append { arr.deallocate() }
                 arguments.append(wl_argument(a: arr))
             case .fd(let fd):
-                arguments.append(wl_argument(h: fd.fileDescriptor))
+                arguments.append(wl_argument(h: fd))
             case .fixed(let d):
                 arguments.append(wl_argument(f: Int32(d * 256)))
             case .uint(let u):

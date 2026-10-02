@@ -11,14 +11,6 @@ do {
 }
 connection.flush()
 
-let source = connection.makeReadSource()
-source.setEventHandler {
-    if connection.prepareRead() {
-        connection.readEvents()
-    }
-    connection.dispatchPending()
-    connection.flush()
-}
-source.resume()
+let source = connection.attach()
 
 RunLoop.main.run()

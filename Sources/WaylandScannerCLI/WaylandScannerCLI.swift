@@ -96,7 +96,6 @@ public func write<Output: TextOutputStream>(
     noImport: Bool = false,
     traits: String?,
 ) throws {
-    gen << "import Foundation"
     if !noImport {
         gen << "import WaylandClient"
     }

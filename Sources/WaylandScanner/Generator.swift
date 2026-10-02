@@ -1,5 +1,3 @@
-import Foundation
-
 public final class Generator<Output: TextOutputStream> {
     var indentation: Int = 4
     public var indentLevel: Int = 0

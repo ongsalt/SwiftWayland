@@ -1,5 +1,4 @@
 import CWayland
-import Foundation
 
 public protocol Proxy: AnyObject, Identifiable {
     associatedtype Event: MessageProtocol = NoEvent
@@ -85,7 +84,7 @@ extension MessageProtocol {
 public protocol ArgumentReader: ~Copyable, ~Escapable {
     mutating func int() -> Int32
     mutating func uint() -> UInt32
-    mutating func fd() -> FileHandle
+    mutating func fd() -> Int32
     // NON OWNING, do not free this
     mutating func array() -> UnsafeRawBufferPointer
 
