@@ -1,7 +1,7 @@
 # SwiftWayland
 A Wayland client library for Swift.
 
-> Experimental — use at your own risk.
+> Experimental - use at your own risk.
 
 
 # Usage
@@ -9,17 +9,17 @@ A Wayland client library for Swift.
 - Register an `onEvent` callback to handle events from the server.
 
 ```swift
-let connection = try! Connection()
+let connection = Connection()
 let display = connection.display
 
 try display.sync { print($0) }
 
 let globals = try Globals(connection: connection)
-try connection.roundtrip()
+connection.roundtrip()
 
 let compositor = try globals.bind(to: WlCompositor.self, version: 1...6)
 let surface = try compositor.createSurface()
-try connection.roundtrip()
+connection.roundtrip()
 
 let xdgWmBase = try globals.bind(to: XdgWmBase.self, version: 6...6)
 xdgWmBase.onEvent = {
@@ -28,24 +28,22 @@ xdgWmBase.onEvent = {
         try? xdgWmBase.pong(serial: serial)
     }
 }
-try connection.roundtrip()
+connection.roundtrip()
 ```
 
-`array` argument will be transformed into a non owning UnsafeRawBufferPointer, so DO NOT FREE THIS. (might make it `RawSpan` later)
+Incoming `array` argument will be transformed into a borrowed `UnsafeRawBufferPointer`, so dont free it. (might make it `RawSpan` later but it will make the generated message enum non escapable)
 
-See the `Examples` target for more.
+See the `Examples` for more.
 
 # Features
 
 ## Proxy Lifetime
-Dropping a proxy just evict its from client side list. It wont make any request with `type="destructor"` to the compositor. Object referenced through an incoming message is always nullable in the case that it was already destroyed.
+You own your proxies; `Connection` does not keep them alive. Dropping the last reference destroys the proxy on the client side only. It won't send any request with `type="destructor"` to the compositor, so call the destructor request yourself if the compositor needs to know. Each proxy keeps a strong reference to its `Connection`.
 
-## Ownership
-- This mean object will be alive unless explicitly destroyed.
-- `Connection` keep strong a reference to every `Proxy`. And `Proxy` also have a weak ref back. It will be mark dead when Connection is dropped.
+Objects referenced in incoming messages are always nullable, because the object may already have been destroyed.
 
 ## Name Translation
-Some signatures are transformed into more idiomatic Swift — for example, `setMode(mode:)` becomes `setMode(_:)`.
+Some signatures are transformed into more idiomatic Swift - for example, `setMode(mode:)` becomes `setMode(_:)`.
 
 # Code Generation
 Code generation is handled by a build tool plugin using protocol definitions from [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols).
@@ -63,15 +61,13 @@ Install the Wayland development headers from your package manager.
 dnf install wayland-devel
 ```
 
-# Todos
-- rethink `Proxy` and `BaseProxy`
-- Less copying once we have ~`BorrowingSequence`~ `Iterable`
-- less Foundation dependencies
-- unfuck codegen type conversion
+## Debian/Ubuntu
+```bash
+apt install libwayland-dev
+```
 
-## Later
-- fix prefix map bug. Also redesign it
+# Todos
+- fix prefix map. may redesign it
 - spi export
-- dynamically link libwayland
-- server support
+- dynamically link libwayland??
 
