@@ -147,19 +147,14 @@ public final class Connection {
     func withRawProxy<T>(
         of parent: any Proxy, on queue: EventQueue? = nil, body: (OpaquePointer) -> T
     ) -> T {
-        var sender = parent.raw
-        if let queue {
-            sender = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(sender)))
-            wl_proxy_set_queue(sender, queue.raw)
-        }
+        guard let queue else { return body(parent.raw) }
 
-        let ret = body(sender)
+        // Proxies created through a wrapper are assigned to the wrapper's queue
+        let wrapper = OpaquePointer(wl_proxy_create_wrapper(UnsafeMutableRawPointer(parent.raw)))!
+        wl_proxy_set_queue(wrapper, queue.raw)
+        defer { wl_proxy_wrapper_destroy(UnsafeMutableRawPointer(wrapper)) }
 
-        if queue != nil {
-            wl_proxy_destroy(sender)
-        }
-
-        return ret
+        return body(wrapper)
     }
 
     public func createEventQueue(name: String? = nil) -> EventQueue {
@@ -170,7 +165,9 @@ public final class Connection {
                 wl_display_create_queue(rawDisplay)
             }
 
-        return EventQueue(raw: handle!, display: rawDisplay)
+        let queue = EventQueue(raw: handle!, display: rawDisplay)
+        knownQueues[handle!] = queue
+        return queue
     }
 
     public func destroy(_ proxy: any Proxy) {
