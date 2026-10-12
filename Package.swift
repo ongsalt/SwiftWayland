@@ -7,7 +7,6 @@ let package = Package(
     name: "SwiftWayland",
     products: [
         .library(name: "WaylandClient", targets: ["WaylandClient", "WaylandClientProtocols"]),
-        // .library(name: "WaylandServer", targets: ["WaylandServer"]),
         .executable(name: "WaylandScannerCLI", targets: ["WaylandScannerCLI"]),
     ],
     traits: [
@@ -78,7 +77,7 @@ let package = Package(
 
         .testTarget(
             name: "SwiftWaylandTests",
-            dependencies: ["WaylandClient"]
+            dependencies: ["WaylandClient", "WaylandClientProtocols"]
         ),
     ],
     swiftLanguageModes: [.v6],
