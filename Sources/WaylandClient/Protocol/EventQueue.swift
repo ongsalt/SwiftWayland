@@ -42,10 +42,10 @@ public final class EventQueue {
         wl_display_roundtrip_queue(rawDisplay, raw)
     }
 
-    /// Prepares to read events into this queue. Returns false if the queue is non-empty (EAGAIN).
-    @discardableResult
-    public func prepareRead() -> Bool {
-        wl_display_prepare_read_queue(rawDisplay, raw) == 0
+    /// Prepares to read events into this queue. Returns nil if the queue is non-empty (EAGAIN).
+    public func prepareRead() -> ReadGuard? {
+        guard wl_display_prepare_read_queue(rawDisplay, raw) == 0 else { return nil }
+        return ReadGuard(display: rawDisplay)
     }
 
     public func destroy() {

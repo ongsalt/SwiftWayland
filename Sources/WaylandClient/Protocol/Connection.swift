@@ -199,20 +199,11 @@ public final class Connection {
         wl_display_roundtrip(rawDisplay)
     }
 
-    @discardableResult
-    public func prepareRead() -> Bool {
-        wl_display_prepare_read(rawDisplay) == 0
-    }
-
-    /// Call if the poll returned an error or you decide not to read.
-    public func cancelRead() {
-        wl_display_cancel_read(rawDisplay)
-    }
-
-    /// Call when the fd is readable (after a successful prepareRead).
-    /// Reads events from the socket into the queue without dispatching them.
-    public func readEvents() {
-        wl_display_read_events(rawDisplay)
+    /// Announces an intention to read from the socket, for the default queue.
+    /// Returns nil if the queue still has events; dispatch them and try again.
+    public func prepareRead() -> ReadGuard? {
+        guard wl_display_prepare_read(rawDisplay) == 0 else { return nil }
+        return ReadGuard(display: rawDisplay)
     }
 
     public func disconnect() {
@@ -221,6 +212,30 @@ public final class Connection {
 
     deinit {
         disconnect()
+    }
+}
+
+// stolen from wayland-rs
+/// A prepared read. libwayland's `read_events` waits for every prepared reader,
+/// so hold one only while waiting for the socket, then `read()` or drop it (cancels).
+public struct ReadGuard: ~Copyable {
+    private let display: OpaquePointer
+
+    init(display: OpaquePointer) {
+        self.display = display
+    }
+
+    /// Reads events from the socket into their queues without dispatching them.
+    /// Blocks while other threads still hold a prepared read.
+    @discardableResult
+    public consuming func read() -> Int32 {
+        let result = wl_display_read_events(display)
+        discard self
+        return result
+    }
+
+    deinit {
+        wl_display_cancel_read(display)
     }
 }
 

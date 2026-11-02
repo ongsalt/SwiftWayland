@@ -20,7 +20,7 @@ import CWayland
         /// queue that another thread reads always arrive through the main thread's own read.
         @MainActor
         public func attach() -> Watch {
-            var prepared = false
+            var pendingRead: ReadGuard?
             var stopped = false
             var observer: RunLoopObserver?
             // Only wakes the run loop; the observer does the reading.
@@ -30,10 +30,7 @@ import CWayland
             func stop() {
                 if stopped { return }
                 stopped = true
-                if prepared {
-                    self.cancelRead()
-                    prepared = false
-                }
+                pendingRead = nil
                 observer?.stop()
                 source.cancel()
             }
@@ -44,25 +41,26 @@ import CWayland
             }
 
             func beforeWaiting() {
-                if prepared { return }
-                while !self.prepareRead() {
+                if pendingRead != nil { return }
+                while true {
+                    if let read = self.prepareRead() {
+                        pendingRead = consume read
+                        break
+                    }
                     if self.dispatchPending() < 0 {
                         fail()
                         return
                     }
                 }
-                prepared = true
                 self.flush()
             }
 
             func afterWaiting() {
-                guard prepared else { return }
-                prepared = false
+                guard let read = pendingRead.take() else { return }
                 if self.hasPendingInput {
-                    self.readEvents()
-                } else {
-                    self.cancelRead()
+                    read.read()
                 }
+                // Otherwise dropping `read` cancels it.
                 if self.dispatchPending() < 0 || wl_display_get_error(self.rawDisplay) != 0 {
                     fail()
                 }
@@ -98,7 +96,7 @@ import CWayland
         }
 
         /// Non-blocking check for socket input; errors and hangups count, so
-        /// `readEvents()` gets to report them.
+        /// `ReadGuard.read()` gets to report them.
         private var hasPendingInput: Bool {
             var pfd = pollfd(fd: fd, events: Int16(POLLIN), revents: 0)
             return poll(&pfd, 1, 0) > 0
