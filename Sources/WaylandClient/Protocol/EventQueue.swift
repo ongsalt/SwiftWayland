@@ -2,8 +2,9 @@ import CWayland
 import Glibc
 import SwiftWaylandCommon
 
-public final class EventQueue {
-    var raw: OpaquePointer
+// Immutable; libwayland's queue functions are thread-safe.
+public final class EventQueue: @unchecked Sendable {
+    let raw: OpaquePointer
     // Keeps the display connected until this queue is destroyed.
     let connection: Connection
 

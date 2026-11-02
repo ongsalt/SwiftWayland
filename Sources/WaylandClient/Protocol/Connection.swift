@@ -1,37 +1,47 @@
 import CWayland
 import SwiftWaylandCommon
+import Synchronization
 
-public final class Connection {
+// The raw pointers are immutable and libwayland's display is thread-safe;
+// everything mutable lives in `state`.
+public final class Connection: @unchecked Sendable {
     let rawDisplay: OpaquePointer
     let rawMainQueue: OpaquePointer
+
+    private struct State {
+        // Proxies and queues retain their connection, so these caches must not retain them.
+        weak var display: WlDisplay?
+        weak var mainQueue: EventQueue?
+        // Keyed by the wl_event_queue address.
+        var createdQueues: [UInt: WeakQueue] = [:]
+    }
+
+    private let state = Mutex(State())
 
     var fd: Int32 {
         wl_display_get_fd(rawDisplay)
     }
 
-    // Proxies retain their connection, so the display cache must not retain its proxy.
-    private weak var cachedDisplay: WlDisplay?
-
     /// Recreate once in a while is fine. we cant hook its `onEvent` anyway
     public var display: WlDisplay {
-        if let cachedDisplay { return cachedDisplay }
-        let display = WlDisplay(
-            id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
-        cachedDisplay = display
-        return display
+        let mainQueue = self.mainQueue
+        return state.withLock { state in
+            if let display = state.display { return display }
+            let display = WlDisplay(
+                id: 1, version: 1, queue: mainQueue, raw: rawDisplay, connection: self)
+            state.display = display
+            return display
+        }
     }
-
-    // Queues retain their connection, so the connection must not retain its queues.
-    private weak var cachedMainQueue: EventQueue?
-
-    private var createdQueues: [OpaquePointer: WeakQueue] = [:]
 
     /// The display's default queue. Recreated when no proxy holds it, like `display`.
     public var mainQueue: EventQueue {
-        if let cachedMainQueue { return cachedMainQueue }
-        let queue = EventQueue(raw: rawMainQueue, connection: self)
-        cachedMainQueue = queue
-        return queue
+        state.withLock { state in
+            if let queue = state.mainQueue { return queue }
+            let queue = EventQueue(raw: rawMainQueue, connection: self)
+            state.mainQueue = queue
+            return queue
+        }
     }
 
     public init(rawDisplay: OpaquePointer) {
@@ -176,14 +186,16 @@ public final class Connection {
             }
 
         let queue = EventQueue(raw: handle!, connection: self)
-        createdQueues = createdQueues.filter { $0.value.queue != nil }
-        createdQueues[handle!] = WeakQueue(queue: queue)
+        state.withLock { state in
+            state.createdQueues = state.createdQueues.filter { $0.value.queue != nil }
+            state.createdQueues[UInt(bitPattern: handle)] = WeakQueue(queue: queue)
+        }
         return queue
     }
 
     private func queue(for raw: OpaquePointer) -> EventQueue {
         if raw == rawMainQueue { return mainQueue }
-        guard let queue = createdQueues[raw]?.queue else {
+        guard let queue = state.withLock({ $0.createdQueues[UInt(bitPattern: raw)]?.queue }) else {
             fatalError("Proxy belongs to an event queue that was already released")
         }
         return queue
@@ -255,7 +267,7 @@ public struct ReadGuard: ~Copyable {
     }
 }
 
-private struct WeakQueue {
+private struct WeakQueue: Sendable {
     weak var queue: EventQueue?
 }
 
