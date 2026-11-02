@@ -69,4 +69,28 @@ struct EventQueueTests {
         queue.dispatchPending()
         #expect(onQueue)
     }
+
+    @Test("a queue is destroyed once it and its proxies are released")
+    func queueReleasedWithProxies() throws {
+        let connection = Connection()
+        weak var weakQueue: EventQueue?
+        do {
+            let queue = connection.createEventQueue()
+            weakQueue = queue
+            var done = false
+            try connection.display.sync(callback: { _ in done = true }, queue: queue)
+            let registry = try connection.display.getRegistry(queue: queue)
+            queue.roundtrip()
+            #expect(done)
+            _ = registry
+        }
+        #expect(weakQueue == nil)
+
+        // The connection keeps working, and a new queue can reuse the freed address.
+        let queue = connection.createEventQueue()
+        var done = false
+        try connection.display.sync(callback: { _ in done = true }, queue: queue)
+        queue.roundtrip()
+        #expect(done)
+    }
 }

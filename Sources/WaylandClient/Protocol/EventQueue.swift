@@ -4,11 +4,14 @@ import SwiftWaylandCommon
 
 public final class EventQueue {
     var raw: OpaquePointer
-    let rawDisplay: OpaquePointer
+    // Keeps the display connected until this queue is destroyed.
+    let connection: Connection
 
-    init(raw: OpaquePointer, display: OpaquePointer) {
+    var rawDisplay: OpaquePointer { connection.rawDisplay }
+
+    init(raw: OpaquePointer, connection: Connection) {
         self.raw = raw
-        self.rawDisplay = display
+        self.connection = connection
     }
 
     public var name: String? {
@@ -48,7 +51,11 @@ public final class EventQueue {
         return ReadGuard(display: rawDisplay)
     }
 
-    public func destroy() {
-        wl_event_queue_destroy(raw)
+    // Proxies retain their queue, so by now every proxy on it has been destroyed.
+    // The default queue belongs to the display, which frees it on disconnect.
+    deinit {
+        if raw != connection.rawMainQueue {
+            wl_event_queue_destroy(raw)
+        }
     }
 }

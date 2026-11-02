@@ -3,8 +3,7 @@ import SwiftWaylandCommon
 
 public final class Connection {
     let rawDisplay: OpaquePointer
-    public private(set) var mainQueue: EventQueue
-    var knownQueues: [OpaquePointer: EventQueue] = [:]
+    let rawMainQueue: OpaquePointer
 
     var fd: Int32 {
         wl_display_get_fd(rawDisplay)
@@ -22,11 +21,22 @@ public final class Connection {
         return display
     }
 
+    // Queues retain their connection, so the connection must not retain its queues.
+    private weak var cachedMainQueue: EventQueue?
+
+    private var createdQueues: [OpaquePointer: WeakQueue] = [:]
+
+    /// The display's default queue. Recreated when no proxy holds it, like `display`.
+    public var mainQueue: EventQueue {
+        if let cachedMainQueue { return cachedMainQueue }
+        let queue = EventQueue(raw: rawMainQueue, connection: self)
+        cachedMainQueue = queue
+        return queue
+    }
+
     public init(rawDisplay: OpaquePointer) {
         self.rawDisplay = rawDisplay
-        let rawQueue = wl_proxy_get_queue(rawDisplay)!
-        self.mainQueue = EventQueue(raw: rawQueue, display: rawDisplay)
-        knownQueues[rawQueue] = mainQueue
+        self.rawMainQueue = wl_proxy_get_queue(rawDisplay)!
     }
 
     public convenience init() {
@@ -134,7 +144,7 @@ public final class Connection {
         let instance = T(
             id: wl_proxy_get_id(raw),
             version: wl_proxy_get_version(raw),
-            queue: self.knownQueues[wl_proxy_get_queue(raw)]!,
+            queue: self.queue(for: wl_proxy_get_queue(raw)),
             raw: raw,
             connection: self
         )
@@ -165,8 +175,17 @@ public final class Connection {
                 wl_display_create_queue(rawDisplay)
             }
 
-        let queue = EventQueue(raw: handle!, display: rawDisplay)
-        knownQueues[handle!] = queue
+        let queue = EventQueue(raw: handle!, connection: self)
+        createdQueues = createdQueues.filter { $0.value.queue != nil }
+        createdQueues[handle!] = WeakQueue(queue: queue)
+        return queue
+    }
+
+    private func queue(for raw: OpaquePointer) -> EventQueue {
+        if raw == rawMainQueue { return mainQueue }
+        guard let queue = createdQueues[raw]?.queue else {
+            fatalError("Proxy belongs to an event queue that was already released")
+        }
         return queue
     }
 
@@ -237,6 +256,10 @@ public struct ReadGuard: ~Copyable {
     deinit {
         wl_display_cancel_read(display)
     }
+}
+
+private struct WeakQueue {
+    weak var queue: EventQueue?
 }
 
 extension Array {
