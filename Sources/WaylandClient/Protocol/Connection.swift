@@ -190,10 +190,7 @@ public final class Connection {
     }
 
     public func destroy(_ proxy: any Proxy) {
-        if let p = proxy as? BaseProxy {
-            if !p.isAlive { return }
-            p.isAlive = false
-        }
+        if let p = proxy as? BaseProxy, !p.markDead() { return }
         wl_proxy_set_user_data(proxy.raw, nil)
         wl_proxy_destroy(proxy.raw)
     }

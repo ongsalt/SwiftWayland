@@ -1,4 +1,5 @@
 import CWayland
+import Synchronization
 
 public protocol Proxy: AnyObject, Identifiable {
     associatedtype Event: MessageProtocol = NoEvent
@@ -40,7 +41,17 @@ open class BaseProxy {
     public let id: UInt32
     public let version: UInt32
 
-    public package(set) var isAlive: Bool = true
+    // Only guarantees a single destroy
+    // Ordering against the C proxy comes from libwayland's display mutex.
+    private let _isAlive = Atomic<Bool>(true)
+
+    public var isAlive: Bool {
+        _isAlive.load(ordering: .relaxed)
+    }
+
+    package func markDead() -> Bool {
+        _isAlive.exchange(false, ordering: .relaxed)
+    }
 
     public typealias Event = NoEvent
 
