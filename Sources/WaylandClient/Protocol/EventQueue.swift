@@ -23,7 +23,8 @@ public final class EventQueue: @unchecked Sendable {
     /// Blocks until events arrive, then dispatches all pending events on this queue.
     @discardableResult
     public func dispatch() -> Int32 {
-        wl_display_dispatch_queue(rawDisplay, raw)
+        defer { connection.notifyActivity() }
+        return wl_display_dispatch_queue(rawDisplay, raw)
     }
 
     /// Dispatches pending events on this queue without reading from the socket.
@@ -37,13 +38,15 @@ public final class EventQueue: @unchecked Sendable {
     public func dispatch(timeout: Duration) -> Int32 {
         let (seconds, attoseconds) = timeout.components
         var ts = timespec(tv_sec: Int(seconds), tv_nsec: Int(attoseconds / 1_000_000_000))
+        defer { connection.notifyActivity() }
         return wl_display_dispatch_queue_timeout(rawDisplay, raw, &ts)
     }
 
     /// Blocks until the server has processed all pending requests, dispatching on this queue.
     @discardableResult
     public func roundtrip() -> Int32 {
-        wl_display_roundtrip_queue(rawDisplay, raw)
+        defer { connection.notifyActivity() }
+        return wl_display_roundtrip_queue(rawDisplay, raw)
     }
 
     /// Prepares to read events into this queue. Returns nil if the queue is non-empty (EAGAIN).

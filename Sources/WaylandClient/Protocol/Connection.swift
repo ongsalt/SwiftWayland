@@ -14,6 +14,7 @@ public final class Connection: @unchecked Sendable {
         weak var mainQueue: EventQueue?
         // Keyed by the wl_event_queue address.
         var createdQueues: [UInt: WeakQueue] = [:]
+        var onActivity: (@Sendable () -> Void)?
     }
 
     private let state = Mutex(State())
@@ -123,7 +124,7 @@ public final class Connection: @unchecked Sendable {
             case .uint(let u):
                 arguments.append(wl_argument(u: u))
             case .string(let s):
-                let buffer = s?.cString(using: .utf8)!.toBuffer()
+                let buffer = s.map { Array($0.utf8CString).toBuffer() }
                 defered.append { buffer?.deallocate() }
                 arguments.append(wl_argument(s: buffer?.baseAddress))
             case .object(let proxy):
@@ -145,9 +146,21 @@ public final class Connection: @unchecked Sendable {
                 0
             }
 
-        return withRawProxy(of: proxy, on: queue) { parent in
+        let result = withRawProxy(of: proxy, on: queue) { parent in
             wl_proxy_marshal_array_flags(parent, opcode, interfacePtr, version, flags, &arguments)
         }
+        notifyActivity()
+        return result
+    }
+
+    /// Called after requests are queued and after blocking calls that may have read
+    /// events, so an event loop knows to flush and dispatch. One observer at a time.
+    package func setActivityHandler(_ handler: (@Sendable () -> Void)?) {
+        state.withLock { $0.onActivity = handler }
+    }
+
+    package func notifyActivity() {
+        state.withLock { $0.onActivity }?()
     }
 
     func createSwiftObject<T: Proxy>(from raw: OpaquePointer, type: T.Type) -> T {
@@ -219,12 +232,14 @@ public final class Connection: @unchecked Sendable {
 
     @discardableResult
     public func dispatch() -> Int32 {
-        wl_display_dispatch(rawDisplay)
+        defer { notifyActivity() }
+        return wl_display_dispatch(rawDisplay)
     }
 
     @discardableResult
     public func roundtrip() -> Int32 {
-        wl_display_roundtrip(rawDisplay)
+        defer { notifyActivity() }
+        return wl_display_roundtrip(rawDisplay)
     }
 
     /// Announces an intention to read from the socket, for the default queue.

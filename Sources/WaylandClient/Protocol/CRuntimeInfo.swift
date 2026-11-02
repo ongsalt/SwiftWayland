@@ -114,7 +114,7 @@ final class CRuntimeInfo {
     }
 
     private func alloc(string: String) -> UnsafePointer<CChar> {
-        let bytes = string.cString(using: .utf8)!
+        let bytes = string.utf8CString
         let buffer = UnsafeMutableBufferPointer<CChar>.allocate(capacity: bytes.count)
         _ = buffer.initialize(from: bytes)
         return UnsafePointer(buffer.baseAddress!)
