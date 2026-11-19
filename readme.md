@@ -69,5 +69,5 @@ apt install libwayland-dev
 # Todos
 - fix prefix map. may redesign it
 - spi export
-- dynamically link libwayland??
+- dlopen libwayland??
 

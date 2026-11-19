@@ -18,7 +18,8 @@ public final class Connection: @unchecked Sendable {
 
     private let state = Mutex(State())
 
-    var fd: Int32 {
+    @_spi(Internal)
+    public var fd: Int32 {
         wl_display_get_fd(rawDisplay)
     }
 
